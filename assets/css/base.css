@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "Gemunu Libre";
+  src: url("../font-family/Gemunu_Libre/GemunuLibre-VariableFont_wght.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../font-family/Inter/Inter-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+}
+:root {
+  --white-color: #fff;
+  --black-color: #000;
+  --primary-color: rgb(246, 241, 235);
+  --second-color: rgb(164, 109, 14);
+  --footer-color: #8c6e59;
+  --bottom_footer-color: #a07c62;
+  --cursor-color: rgba(255, 255, 255, 0.7);
+}
+
+* {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%; /* hack 1rem = 10px */
+  line-height: 1.6rem;
+  font-family: "Gemunu Libre", "Inter", sans-serif;
+  background-color: var(--primary-color);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.grid{
+  width: 1350px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.grid_footer {
+    width: 1350px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+.grid__full-width {
+  width: 100%;
+}
+
+.grid__row{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+
