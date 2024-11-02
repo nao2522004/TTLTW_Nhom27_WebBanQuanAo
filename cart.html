@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/header-footer.css">
+    <link rel="stylesheet" href="./assets/css/cart.css">
+    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
+</head>
+
+<body>
+        <header id="header"></header>
+
+        <!-- Shopping Cart -->
+        <div id="card">
+            <div class="row">
+                <div class="col-md-8 cart">
+                    <div class="title">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h4>Giỏ Hàng</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row border-top-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="./assets/imgs/Cart/T-shirt1.jpg"></div>
+                            <div class="col">
+                                <div class="row text-muted">Áo Thun</div>
+                                <div class="row">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <div class="quantity-controls">
+                                    <button class="btn-decrease">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="btn-increase">+</button>
+                                </div>
+                            </div>
+                            <div class="col"> 100.000 đồng<span class="close">&#10005;</span></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="./assets/imgs/Cart/T-shirt2.jpg"></div>
+                            <div class="col">
+                                <div class="row text-muted">Áo Thun</div>
+                                <div class="row">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <div class="quantity-controls">
+                                    <button class="btn-decrease">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="btn-increase">+</button>
+                                </div>
+                            </div>
+                            <div class="col">100.000 đồng <span class="close">&#10005;</span></div>
+                        </div>
+                    </div>
+                    <div class="row border-top-bottom">
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img class="img-fluid" src="./assets/imgs/Cart/T-shirt3.webp"></div>
+                            <div class="col">
+                                <div class="row text-muted">Áo Thun</div>
+                                <div class="row">Cotton T-shirt</div>
+                            </div>
+                            <div class="col">
+                                <div class="quantity-controls">
+                                    <button class="btn-decrease">-</button>
+                                    <span class="quantity">1</span>
+                                    <button class="btn-increase">+</button>
+                                </div>
+                            </div>
+                            <div class="col">100.000 đồng <span class="close">&#10005;</span></div>
+                        </div>
+                    </div>
+                    <div class="back-to-shop text-muted"><a href="index.html">&leftarrow; Trở về trang chủ</a>
+                    </div>
+                </div>
+                <div class="col-md-4 summary">
+                    <div>
+                        <h5>Hóa Đơn</h5>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col" style="padding-left:0;">3 SẢN PHẨM</div>
+                        <div class="col text-right">300.000 đồng</div>
+                    </div>
+                    <form>
+                        <p>VẬN CHUYỂN</p>
+                        <select>
+                            <option class="text-muted">Giao Hàng- 30.000 đồng</option>
+                        </select>
+                        <p>MÃ GIẢM GIÁ</p>
+                        <input id="code" placeholder="Nhập mã">
+                    </form>
+                    <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                        <div class="col">
+                            <p>TỔNG TIỀN:</p>
+                        </div>
+                        <div class="col text-right">
+                            <p>300.000 đồng</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg">THANH TOÁN</button>
+                </div>
+            </div>
+        </div>
+        <!-- END: Shopping Cart -->
+
+        <footer id="footer"></footer>
+
+ 
+
+
+    <script>
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+    </script>
+
+    <script>
+        const decreaseBtn = document.querySelector('.btn-decrease');
+        const increaseBtn = document.querySelector('.btn-increase');
+        const quantityDisplay = document.querySelector('.quantity');
+
+        let quantity = 1;
+
+        decreaseBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityDisplay.textContent = quantity;
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            quantity++;
+            quantityDisplay.textContent = quantity;
+        });
+
+    </script>
+</body>
+
+</html>
