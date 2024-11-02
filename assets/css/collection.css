@@ -1,0 +1,262 @@
+/*====================== Css collect_intro ====================*/
+.collect{
+  position: relative;
+  top: 12rem;
+}
+
+.collect_intro {
+  display: flex;
+  justify-content: space-between;
+}
+
+.collect_intro-left {
+  margin-top: 3rem;
+}
+
+.collect-title {
+  font-size: 7rem;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--second-color);
+}
+
+.collect_title-small {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.collect-text {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.collect_intro-right {
+  padding: 5rem 0;
+}
+
+.collect_intro-img {
+  height: 40rem;
+  width: 65rem;
+  border-radius: 2rem;
+}
+
+/*====================== End collect_intro ====================*/
+
+/*====================== Start collect_marquee ====================*/
+.collect_marquee {
+  background-color: var(--primary-color);
+  padding: 1rem 0;
+  color: var(--second-color);
+}
+
+.collect_marquee-logo {
+  position: relative;
+  font-size: 3rem;
+  left: 1rem;
+  top: 1.9rem;
+  text-shadow: 4px 4px 4px var(--second-color); /* Bóng trắng */
+}
+
+.collect_marquee-text {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 110rem;
+  margin: 0 auto;
+  position: relative;
+  bottom: 1.5rem;
+}
+
+.collect_marquee-text p span {
+  padding: 0 4rem;
+}
+
+.collect_marquee-text p {
+  color: var(--second-color);
+  font-size: 2rem;
+  display: inline-block;
+  padding-left: 100%; /* Bắt đầu bên ngoài khung nhìn */
+  animation: marquee 10s linear infinite; /* Tốc độ chạy và lặp vô hạn */
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/*====================== End collect_marquee ====================*/
+
+/*====================== Start collect running clothes ====================*/
+
+.running-clothes__title {
+  font-size: 3rem;
+  margin-top: 6rem;
+  font-weight: bold;
+  color: var(--second-color);
+}
+
+.running_product-btns {
+  display: flex;
+  gap: 2rem;
+  margin: 3rem;
+  color: var(--second-color);
+  cursor: pointer;
+}
+
+.running_product-btn {
+  padding: 1.5rem 4rem;
+  border-radius: 2.5rem;
+  font-size: 1.5rem;
+  border: 0.5rem solid var(--primary-color);
+  background-color: var(--primary-color);
+}
+
+.running_product-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.running_product-items {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  width: 27rem;
+  height: 40rem;
+  background-color: rgba(192, 192, 192, 0.5);
+  top: 0;
+  border-radius: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.running_clothes-size {
+  position: absolute;
+  width: 20rem;
+  background-color: rgba(192, 192, 192, 1);
+  height: 7rem;
+  bottom: 8rem;
+  left: 3.5rem;
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.running_clothes-size p {
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.running_clothes-size .btn-size {
+  font-size: 1.5rem;
+  background-color: var(--white-color);
+  margin-top: 0.7rem;
+  margin-left: 0.6rem;
+}
+
+.running_product-items:hover .overlay
+/* .running_product-items:hover .running_clothes-size  */ {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.running_product-items img {
+  width: 27rem;
+  height: 40rem;
+  border-radius: 1rem;
+}
+
+.running_product-decrip {
+  padding-left: 1rem;
+}
+
+.running_product-decrip p {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.running_product-decrip div {
+  font-size: 1.5rem;
+}
+
+/*====================== End collect running clothes ====================*/
+
+/*====================== Start running-polivy__list ====================*/
+
+.collect_running-policy {
+  background-color: var(--black-color);
+  margin: 6rem 0;
+}
+
+.collect_running-lists {
+  display: flex;
+}
+
+.running_policy-items {
+  width: 50rem;
+  height: 40rem;
+  overflow: hidden;
+  position: relative;
+  padding: 3.5rem 3rem;
+}
+
+.collect_running-lists .policy_items {
+  border-right: 0.1rem solid var(--white-color);
+  border-left: 0.1rem solid var(--white-color);
+}
+
+.running_policy-items img {
+  width: 50rem;
+  height: 45rem;
+  padding-right: 7.5rem;
+}
+
+.running_policy-orverlay {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 43.5rem;
+  height: 45rem;
+  top: 31rem;
+  color: var(--white-color);
+  transition: top 0.25s ease;
+}
+
+.running_policy-items:hover .running_policy-orverlay {
+  top: 3.5rem;
+}
+
+.running_policy-items:hover img {
+  display: none;
+}
+
+.running_policy-orverlay .top {
+  flex: 1;
+  border-bottom: 0.3rem solid var(--white-color);
+  padding-bottom: 1rem;
+}
+
+.running_policy-orverlay .bottom {
+  flex: 9;
+  padding-top: 2rem;
+}
+
+.running_policy-orverlay p,
+.running_policy-orverlay h4 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/*====================== End running-polivy__list ====================*/
