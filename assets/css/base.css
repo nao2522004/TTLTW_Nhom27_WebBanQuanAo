@@ -16,6 +16,9 @@
   --footer-color: #8c6e59;
   --bottom_footer-color: #a07c62;
   --cursor-color: rgba(255, 255, 255, 0.7);
+  --bg-color: #F5F5F5;
+
+  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.3);;
 }
 
 * {
@@ -33,13 +36,13 @@ html {
 }
 
 .grid{
-  width: 1350px;
+  width: 1200px !important;
   max-width: 100%;
   margin: 0 auto;
 }
 
-.grid_footer {
-    width: 1350px;
+.grid_footer{
+    width: 1500px!important;
     max-width: 100%;
     margin: 0 auto;
   }
@@ -55,6 +58,10 @@ html {
 
 a {
   text-decoration: none;
+}
+
+body{
+background-color: var(--bg-color);
 }
 
 

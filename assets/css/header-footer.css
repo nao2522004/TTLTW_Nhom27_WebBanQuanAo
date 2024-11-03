@@ -75,6 +75,10 @@ footer{
   border-top: 0.1rem solid var(--black-color);
 }
 
+.container-footer{
+  padding: 0 8rem;
+}
+
 .footer-contact,
 .footer-links,
 .footer-social {
