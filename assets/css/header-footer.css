@@ -191,6 +191,5 @@ footer{
 }
 
 a:hover{
-  color: var(--cursor-color) !important;
   text-decoration: none !important;
 }

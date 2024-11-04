@@ -3,6 +3,7 @@
   padding-bottom: 3rem;
   background-color: var(--white-color);
   border-radius: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .title-sidebar {
@@ -30,9 +31,18 @@
   margin-bottom: 10rem;
 }
 
+.blog-post-image{
+  overflow: hidden;
+}
+
 .blog-post-image img {
   height: 25rem;
   width: 35rem;
+  transition: transform 0.5s ease;
+}
+
+.blog-post-image img:hover {
+  transform: scale(105%);
 }
 
 .title-article-side a {
