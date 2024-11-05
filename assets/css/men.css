@@ -1,0 +1,34 @@
+/* ========================== For class ========================== */
+.container {
+    max-width: 1305px;
+}
+
+/* ========================== Section Banner ========================== */
+#section_banner {
+    margin-top: 2rem;
+}
+#section_banner img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ========================== Section Featured ========================== */
+#section_featured {
+    margin-top: 15rem;
+}
+#section_featured .container-fluid {
+    margin: 0;
+    padding: 0;
+}
+#section_featured h2, h4 {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+#section_featured h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+#section_featured img {
+    max-width: 100%;
+    height: auto;
+}
