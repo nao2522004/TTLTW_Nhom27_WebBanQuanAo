@@ -202,7 +202,7 @@
 
 .collect_running-lists {
   display: flex;
-  justify-content: space-arround;
+  justify-content: space-around;
 }
 
 .running_policy-items {
