@@ -1,88 +1,134 @@
 /* Thiết kế phần sidebar */
-.vertical-nav {
-    border-right: 1px solid #ddd;
-  }
-  
-  .admin-logo{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .admin-logo p, .vertical-nav a{
-     font-size: 1.5rem;
-    }
-  
-  .admin-logo img {
-    width: 25rem;
-    height: 20rem;
-  }
-  .vertical-nav .bg-light {
-    background-color: var(--white-color);
-  }
-  
-  .vertical-nav .nav-item {
-    margin: 0.5rem 0;
-  }
-  
-  .vertical-nav .nav-link {
-    color: #333;
-    transition: all 0.3s;
-  }
-  
-  .vertical-nav .nav-link:hover {
-    background-color: var(--primary-color);
-    color: var(--second-color);
-  }
-  
-  /* Thiết kế cho các tiêu đề */
-  .admin_page h4 {
-    color: var(--second-color);
-    font-weight: 600;
-  }
-  
-  /* Thiết kế cho các nút trong form quản lý sản phẩm */
-  #actbutton button {
-    width: 15rem;
-    margin: 0.5rem;
-    border-radius: 25px;
-  }
-  
-  .btn-outline-info {
-    color: var(--second-color);
-    border-color: var(--second-color);
-  }
-  
-  .btn-outline-info:hover {
-    background-color: var(--second-color);
-    color: #fff;
-  }
-  
-  /* Thiết kế cho bảng */
-  .table-bordered th,
-  .table-bordered td {
-    vertical-align: middle;
-  }
-  
-  thead.thead-dark th {
-    background-color: var(--second-color);
-    color: #fff;
-  }
-  
-  .table {
-    margin-bottom: 2rem;
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-  
-  /* Thiết kế cho form quản lý sản phẩm */
-  .product-manager .form-group label {
-    font-weight: 500;
-    color: var(--second-color);
-  }
-  
-  .form-control {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-  }
-  
+.vertical-nav,
+.admin-main {
+  border-right: 1px solid #ddd;
+  height: 100vh;
+}
+
+.admin-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.admin-logo p,
+.vertical-nav a {
+  font-size: 1.5rem;
+}
+
+.admin-logo img {
+  width: 25rem;
+  height: 20rem;
+}
+.vertical-nav .bg-light {
+  background-color: var(--white-color);
+}
+
+.vertical-nav .nav-item {
+  margin: 0.5rem 0;
+}
+
+.vertical-nav .nav-link {
+  color: #333;
+  transition: all 0.3s;
+}
+
+.vertical-nav .nav-link:hover {
+  background-color: var(--primary-color);
+  color: var(--second-color);
+}
+
+/* Thiết kế cho các tiêu đề */
+.admin_page h4 {
+  color: var(--second-color);
+  font-weight: 600;
+}
+
+/* Thiết kế cho các nút trong form quản lý sản phẩm */
+#actbutton button {
+  width: 15rem;
+  margin: 0.5rem;
+  padding: 1.5rem;
+  border-radius: 25px;
+}
+
+.btn-outline-info {
+  color: var(--second-color);
+  border-color: var(--second-color);
+}
+
+.btn-outline-info:hover {
+  background-color: var(--second-color);
+  color: #fff;
+}
+
+/* Thiết kế cho bảng */
+.table-bordered th,
+.table-bordered td {
+  vertical-align: middle;
+}
+
+thead.thead-dark th {
+  background-color: var(--second-color);
+  color: #fff;
+}
+
+.table {
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Thiết kế cho form quản lý sản phẩm */
+.product-manager .form-group label {
+  font-weight: 500;
+  color: var(--second-color);
+  font-size: 2rem;
+}
+
+.product-manager .form-group input,
+.product-manager .form-group select {
+  font-size: 2rem;
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.product-manager-title h4,
+.order-manager h4,
+.user-manager h4 {
+  font-size: 3rem;
+}
+
+.thead_product-manager {
+  background-color: var(--second-color);
+  color: var(--white-color);
+}
+
+.product_manager-search {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 50rem;
+  background-color: var(--white-color);
+}
+.thead_product-manager tr th {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.product_manager-search input {
+  padding: 1rem;
+  width: 85vh;
+  border: none;
+  outline: none;
+  border-radius: 50rem;
+  font-size: 1.5rem;
+}
+
+.product_manager-search i {
+  font-size: 3rem;
+}
