@@ -1,5 +1,4 @@
 /* Cart Page */
-
 #card {
     margin: auto;
     max-width: 950px;
@@ -7,7 +6,6 @@
     box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 1rem;
     border: transparent;
-    font-family: "Gemunu Libre", "Inter", sans-serif;
     position: relative;
     margin-bottom: 20px;
     top: 15rem;
@@ -124,7 +122,6 @@
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    
 }
 
 #card .cart .close {
