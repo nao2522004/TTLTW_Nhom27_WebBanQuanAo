@@ -31,6 +31,10 @@
     color: var(--black-color);
     cursor: pointer;
 }
+.btn:hover {
+    background-color: #303134 !important;
+    cursor: pointer;
+}
 @media (max-width: 768px) {
     .container {
         padding: 15px;
