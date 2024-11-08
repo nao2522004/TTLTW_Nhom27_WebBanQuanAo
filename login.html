@@ -24,7 +24,7 @@
     </div>
    
 
-    <div class="container no-padding">
+    <div class="container active no-padding">
         <!-- Login -->
         <div class="form-box login">
             <form action="">
@@ -88,6 +88,13 @@
                 <p>Bạn vẫn chưa có tài khoản?</p>
                 <button class="btn register-btn btn-primary btn-lg">Đăng ký</button>
             </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>LASMANATE</h1>
+                <p>Chào Mừng Bạn Đến Với Lasmanate</p>
+                <p>Bạn đã có tài khoản?</p>
+                <button class="btn login-btn btn-primary btn-lg">Đăng nhập</button>
+            </div>
         </div>
     </div>
 
@@ -101,6 +108,8 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
+
+    <script src="./assets/js/login.js"></script>
 </body>
 
 </html>
