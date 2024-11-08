@@ -32,3 +32,95 @@
     max-width: 100%;
     height: auto;
 }
+
+/* ========================== All products ========================== */
+#section_all_products {
+    margin-top: 15rem;
+}
+
+/* Top */
+#section_all_products .top {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+#section_all_products .top .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+#section_all_products .top .filter .custom_icon {
+    font-size: 1.6rem;
+}
+#section_all_products .top h1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+#section_all_products .top .sort {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+}
+#section_all_products .top .sort label {
+    width: 12rem;
+}
+#section_all_products .top .sort select {
+    font-size: 1.2rem;
+    width: 20rem;
+}
+
+/* Bottom */
+
+/* Left */
+.filter-section {
+    width: 300px;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.filter-category, .filter-size, .filter-color, .filter-price, 
+.filter-brand, .filter-material, .filter-style, .filter-promotion, .filter-rating {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.filter-category h4, .filter-size h4, .filter-color h4, .filter-price h4, 
+.filter-brand h4, .filter-material h4, .filter-style h4, .filter-promotion h4, .filter-rating h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    margin: 0;
+}
+
+.filter-content {
+    display: none;
+    padding-top: 5px;
+}
+
+/* Style for down arrow */
+.arrow {
+    transition: transform 0.3s;
+}
+
+.arrow.active {
+    transform: rotate(180deg);
+}
+
+.filter-button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
