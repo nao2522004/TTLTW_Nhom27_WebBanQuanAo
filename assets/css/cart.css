@@ -51,8 +51,8 @@
     .summary {
         border-top-right-radius: unset;
         border-bottom-left-radius: 1rem;
-        width: 100%; 
-        padding: 2vh; 
+        width: 100%;
+        padding: 2vh;
     }
 }
 
@@ -103,6 +103,7 @@
 #card .cart .col {
     font-size: 1.6rem;
 }
+
 #card .cart .text-muted {
     color: gray;
     font-size: 1.5rem;
@@ -110,7 +111,7 @@
 
 #card .cart .title {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -119,9 +120,9 @@
     padding: 2vh 0;
     width: 100%;
     margin-bottom: 1rem;
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #card .cart .close {
@@ -141,20 +142,25 @@
     margin-top: 4vh;
     font-size: 2rem;
 }
+
 #card .cart h4 {
     font-size: 2rem;
 }
+
 #card .summary p {
-    font-size: 1.5rem; 
-    font-weight: bold; 
+    font-size: 1.5rem;
+    font-weight: bold;
 }
+
 #card hr {
     margin-top: 1.0rem
 }
+
 .border-top-bottom {
-    border-top: 1px solid var(--black-color); 
-    border-bottom: 1px solid var(--black-color); 
+    border-top: 1px solid var(--black-color);
+    border-bottom: 1px solid var(--black-color);
 }
+
 #cardform {
     padding: 2vh 0;
 }
@@ -198,7 +204,7 @@
 }
 
 #card .btn:hover {
-    color: white;
+    background-color: #303134 !important;
     cursor: pointer;
 }
 
@@ -221,19 +227,19 @@
 }
 
 #card .quantity-controls {
-    display: flex; 
+    display: flex;
     align-items: center;
 }
 
 #card .quantity-controls button {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
     border: 1px solid #ccc;
-    color: #333; 
+    color: #333;
     padding: 0.5rem 1rem;
-    font-size: 1rem; 
-    cursor: pointer; 
+    font-size: 1rem;
+    cursor: pointer;
     margin: 0 0.5rem;
-    border-radius: 5px; 
+    border-radius: 5px;
     transition: background-color 0.3s;
 }
 
@@ -243,18 +249,19 @@
 
 #card .quantity {
     font-size: 1rem;
-    min-width: 2rem; 
-    text-align: center; 
+    min-width: 2rem;
+    text-align: center;
 }
 
 .img-fluid {
-    max-width: 100%; 
+    max-width: 100%;
     height: auto;
 }
 
 .col:last-child {
-    color: #333; 
-    display: flex; 
-    align-items: center; 
+    color: #333;
+    display: flex;
+    align-items: center;
 }
+
 /* Cart Page */
