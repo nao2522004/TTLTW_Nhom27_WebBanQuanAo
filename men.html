@@ -56,8 +56,8 @@
 
     <!-- All products -->
     <section id="section_all_products">
-        <div class="container-fluid">
-            <!-- Top -->
+        <!-- Top -->
+        <div class="container-fluid" style="border-bottom: solid 1px #000;">
             <div class="top">
                 <div class="filter">
                     <h2>Lọc sản phẩm</h2>
@@ -76,13 +76,17 @@
                     </select>
                 </div>
             </div>
-            <!-- Bottom -->
+        </div>
+        <!-- Bottom -->
+        <div class="container-fluid">
             <div class="bottom">
-                <!-- Left -->
-                <div class="left">
+                <!-- Filter -->
+                <div class="filter">
                     <!-- Product Category -->
-                    <div class="filter-category">
-                        <h4>Product Category <span class="arrow">&#9660;</span></h4>
+                    <div id="filter-category">
+                        <h4>Product Category <span class="arrow"><i
+                                    class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        </h4>
                         <div class="filter-content">
                             <label><input type="checkbox" name="category" value="Shirts"> Shirts</label>
                             <label><input type="checkbox" name="category" value="Pants"> Pants</label>
@@ -93,8 +97,8 @@
                     </div>
 
                     <!-- Size -->
-                    <div class="filter-size">
-                        <h4>Size <span class="arrow">&#9660;</span></h4>
+                    <div id="filter-size">
+                        <h4>Size <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
                             <label><input type="checkbox" name="size" value="S"> S</label>
                             <label><input type="checkbox" name="size" value="M"> M</label>
@@ -105,8 +109,8 @@
                     </div>
 
                     <!-- Color -->
-                    <div class="filter-color">
-                        <h4>Color <span class="arrow">&#9660;</span></h4>
+                    <div id="filter-color">
+                        <h4>Color <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
                             <label><input type="checkbox" name="color" value="Black"> Black</label>
                             <label><input type="checkbox" name="color" value="White"> White</label>
@@ -116,8 +120,8 @@
                     </div>
 
                     <!-- Price -->
-                    <div class="filter-price">
-                        <h4>Price <span class="arrow">&#9660;</span></h4>
+                    <div id="filter-price">
+                        <h4>Price <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
                             <input type="number" name="price-min" placeholder="Min Price">
                             <input type="number" name="price-max" placeholder="Max Price">
@@ -127,10 +131,83 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- Brand -->
+                    <div id="filter-brand">
+                        <h4>Brand <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <div class="filter-content">
+                            <label><input type="checkbox" name="brand" value="Gucci"> Gucci</label>
+                            <label><input type="checkbox" name="brand" value="Louis"> Louis Vuitton</label>
+                            <label><input type="checkbox" name="brand" value="Balenciaga"> Balenciaga</label>
+                            <label><input type="checkbox" name="brand" value="Dior"> Dior</label>
+                            <label><input type="checkbox" name="brand" value="Chanel"> Chanel</label>
+                        </div>
+                    </div>
+
+                    <!-- Material -->
+                    <div id="filter-material">
+                        <h4>Material <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        </h4>
+                        <div class="filter-content">
+                            <label><input type="checkbox" name="brand" value="Cotton"> Cotton</label>
+                            <label><input type="checkbox" name="brand" value="Wool"> Wool</label>
+                            <label><input type="checkbox" name="brand" value="Leather"> Leather</label>
+                            <label><input type="checkbox" name="brand" value="Polyester"> Polyester</label>
+                        </div>
+                    </div>
+
+                    <!-- Style -->
+                    <div id="filter-style">
+                        <h4>Style <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <div class="filter-content">
+                            <label><input type="checkbox" name="brand" value="Sporty"> Sporty</label>
+                            <label><input type="checkbox" name="brand" value="Business"> Business</label>
+                            <label><input type="checkbox" name="brand" value="Casual"> Casual</label>
+                            <label><input type="checkbox" name="brand" value="High-fashion"> High-fashion</label>
+                        </div>
+                    </div>
                 </div>
                 <!-- Right -->
-                <div class="right">
-
+                <div class="list_products">
+                    <div class="container mt-2">
+                        <div class="row">
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="https://via.placeholder.com/200" alt="Product 1" class="product-image img-fluid">
+                                    <div class="product-title">Product 1</div>
+                                    <div class="product-price">$29.99</div>
+                                </div>
+                            </div>
+                    
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="https://via.placeholder.com/200" alt="Product 2" class="product-image img-fluid">
+                                    <div class="product-title">Product 2</div>
+                                    <div class="product-price">$39.99</div>
+                                </div>
+                            </div>
+                    
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="https://via.placeholder.com/200" alt="Product 3" class="product-image img-fluid">
+                                    <div class="product-title">Product 3</div>
+                                    <div class="product-price">$49.99</div>
+                                </div>
+                            </div>
+                    
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="https://via.placeholder.com/200" alt="Product 4" class="product-image img-fluid">
+                                    <div class="product-title">Product 4</div>
+                                    <div class="product-price">$59.99</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -153,13 +230,13 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const filterHeaders = document.querySelectorAll("#section_all_products .bottom .left h4");
-    
+
             filterHeaders.forEach(header => {
                 header.addEventListener("click", function () {
                     // Toggle the visibility of filter content
                     const filterContent = header.nextElementSibling;
                     filterContent.style.display = filterContent.style.display === "block" ? "none" : "block";
-    
+
                     // Toggle the arrow direction
                     const arrow = header.querySelector(".arrow");
                     arrow.classList.toggle("active");
