@@ -32,3 +32,49 @@
     max-width: 100%;
     height: auto;
 }
+
+/* ========================== All products ========================== */
+#section_all_products {
+    margin-top: 15rem;
+}
+
+/* Top */
+#section_all_products .top {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+#section_all_products .top .filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+#section_all_products .top .filter .custom_icon {
+    font-size: 1.6rem;
+}
+#section_all_products .top h1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+#section_all_products .top .sort {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+}
+#section_all_products .top .sort label {
+    width: 12rem;
+}
+#section_all_products .top .sort select {
+    font-size: 1.2rem;
+    width: 20rem;
+}
+
+/* Bottom */
+#section_all_products .bottom {
+
+}
