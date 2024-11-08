@@ -18,23 +18,28 @@ body {
     background: #fff;
     border-radius: 30px;
     box-shadow: 0 0 30px rgba(0,0,0,2);
-    margin-top: 25rem;
-    gap: 1.5em;
+    margin-top: 23rem;
+    overflow: hidden;
 }
-
+.no-padding {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
 .form-box {
     position: absolute;
     right: 0;
     width: 50%;
     height: 100%;
-    
     display: flex;
     align-items: center;
     color: #333;
     text-align: center;
     padding: 40px;
+    z-index: 1;
 }
-
+.form-box.register {
+    visibility: hidden;
+}
 form {
    width: 100%;
 }
@@ -79,15 +84,15 @@ form {
 
 .forgot-link a {
     font-size: 14.5px;
-    color: #333;
+    color: #333 ;
     text-decoration: none;
 }
 
 .btn {
     width: 100%;
     height: 48px;
-    background-color: #000;
     border-radius: 8px;
+    background-color: #a07c62 !important;
     border: none;
     font-size: 16px;
     color: #fff;
@@ -96,8 +101,8 @@ form {
 }
 
 .btn:hover {
-    background-color: #18191b; 
-    cursor: pointer; 
+    background-color: #8b7260 !important;
+    cursor: pointer;
 }
 
 .container p {
@@ -114,4 +119,45 @@ form {
     color: #333;
     text-decoration: none;
     margin: 0 8px;
+}
+
+.toggle-box {
+    position: absolute;
+    width: 100%;
+    height:100%;
+}
+.toggle-box::before {
+    content: '';
+    position: absolute;
+    left: -250%;
+    width: 300%;
+    height: 100%;
+    background-color: #a07c62;
+    border-radius: 150px;
+    z-index: 2;
+}
+
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.toggle-panel p {
+    margin-bottom: 20px ;
+}
+
+.toggle-panel .btn {
+    width: 160px;
+    height: 46px;
+    background: transparent !important;
+    border: 2px solid #fff;
+    box-shadow: none;
 }
