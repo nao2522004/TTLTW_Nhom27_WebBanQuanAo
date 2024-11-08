@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./assets/imgs/Logo/favicon-32x32.png" type="image/png">
     <!-- Frameworks -->
     <!-- Reset CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -55,15 +57,16 @@
     <!-- All products -->
     <section id="section_all_products">
         <div class="container-fluid">
+            <!-- Top -->
             <div class="top">
                 <div class="filter">
-                    <h2>Filter</h2>
-                    <i class="fa-solid fa-filter"></i>
+                    <h2>Lọc sản phẩm</h2>
+                    <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
                 <h1>All Products For Men</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
-                    <select id="sortBy" class="custom-select" onchange="sortProducts(this.value)">
+                    <select id="sortBy" class="custom-select">
                         <option value="default">Chọn tiêu chí sắp xếp</option>
                         <option value="priceAsc">Giá: Thấp đến Cao</option>
                         <option value="priceDesc">Giá: Cao đến Thấp</option>
@@ -73,6 +76,7 @@
                     </select>
                 </div>
             </div>
+            <!-- Bottom -->
             <div class="bottom">
                 <div class="left">
 
