@@ -81,11 +81,20 @@ p {
     unicode-bidi: isolate;
 }
 
+b,
+strong {
+    font-weight: 600;
+}
+
+.content_first_letter .wp-caption-text {
+    text-align: center;
+}
+
 .content_first_letter {
     margin-top: 10px;
 }
 
-.content_first_letter p::first-letter {
+.content_first_letter .first-char::first-letter {
     font-size: 3em;
     font-weight: bold;
     float: left;
@@ -218,28 +227,9 @@ div#ez-toc-container .ez-toc-title {
     margin-left: 1.5em;
 }
 
-#ez-toc-container .ez-toc-list li {
-    font-size: 1em; 
-    line-height: 1.8; 
-}
-
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-2,
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-3,
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-4,
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-5,
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-6,
-#ez-toc-container .ez-toc-list .ez-toc-heading-level-7 {
-    font-size: 1em;  
-}
-
-
-#ez-toc-container .ez-toc-title {
-    font-size: 1em;  
-}
-
 .eztoc-toggle-hide-by-default {
     display: none;
-    transition: 0.3s ease-in-out; 
+    transition: 0.3s ease-in-out;
 }
 
 .eztoc-toggle-show {
@@ -249,7 +239,7 @@ div#ez-toc-container .ez-toc-title {
 }
 
 #ez-toc-container.eztoc-open .ez-toc-js-icon-con {
-    transform: translateX(180px); 
+    transform: translateX(250px);
 }
 
 #ez-toc-container.eztoc-closed .ez-toc-js-icon-con {
@@ -257,10 +247,17 @@ div#ez-toc-container .ez-toc-title {
 }
 
 .eztoc-icon-toggle-span svg {
-    transition: transform 0.3s ease; 
+    transition: transform 0.3s ease;
 }
 
 #ez-toc-container .ez-toc-list {
     overflow: hidden;
-    transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out; 
+    transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.ez-toc-list {
+    display: none;
+    height: 0;
+    opacity: 0;
+    transition: height 0.3s ease, opacity 0.3s ease;
 }
