@@ -47,9 +47,9 @@
     <!-- Featured -->
     <section id="section_featured">
         <div class="container-fluid">
-            <h2>Featured</h2>
-            <h4>Carefully curated featured products, offering the best in quality and style from our shop. Discover
-                customer favorites now.</h4>
+            <h2>Đặc biệt</h2>
+            <h4>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản
+                phẩm được yêu thích nhất hiện giờ.</h4>
             <img src="./assets/imgs/men/featured/1.png" alt="">
         </div>
     </section>
@@ -57,13 +57,13 @@
     <!-- All products -->
     <section id="section_all_products">
         <!-- Top -->
-        <div class="container-fluid" style="border-bottom: solid 1px #000;">
+        <div class="container-fluid" style="border-bottom: solid 1px #000;    height: 5rem;">
             <div class="top">
                 <div class="filter">
                     <h2>Lọc sản phẩm</h2>
                     <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
-                <h1>All Products For Men</h1>
+                <h1>Tất cả sản phẩm cho đàn ông</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
                     <select id="sortBy" class="custom-select">
@@ -82,23 +82,23 @@
             <div class="bottom">
                 <!-- Filter -->
                 <div class="filter">
-                    <!-- Product Category -->
+                    <!-- Loại Sản Phẩm -->
                     <div id="filter-category">
-                        <h4>Product Category <span class="arrow"><i
-                                    class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
+                        <h4>Loại Sản Phẩm <span class="arrow"><i
+                                    class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
-                            <label><input type="checkbox" name="category" value="Shirts"> Shirts</label>
-                            <label><input type="checkbox" name="category" value="Pants"> Pants</label>
-                            <label><input type="checkbox" name="category" value="Jackets"> Jackets</label>
-                            <label><input type="checkbox" name="category" value="Accessories"> Accessories</label>
-                            <label><input type="checkbox" name="category" value="Shoes"> Shoes</label>
+                            <label><input type="checkbox" name="category" value="Shirts"> Áo</label>
+                            <label><input type="checkbox" name="category" value="Pants"> Quần</label>
+                            <label><input type="checkbox" name="category" value="Jackets"> Áo khoác</label>
+                            <label><input type="checkbox" name="category" value="Accessories"> Phụ kiện</label>
+                            <label><input type="checkbox" name="category" value="Shoes"> Giày</label>
                         </div>
                     </div>
 
-                    <!-- Size -->
+                    <!-- Kích Thước -->
                     <div id="filter-size">
-                        <h4>Size <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <h4>Kích Thước <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        </h4>
                         <div class="filter-content">
                             <label><input type="checkbox" name="size" value="S"> S</label>
                             <label><input type="checkbox" name="size" value="M"> M</label>
@@ -108,33 +108,34 @@
                         </div>
                     </div>
 
-                    <!-- Color -->
+                    <!-- Màu Sắc -->
                     <div id="filter-color">
-                        <h4>Color <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <h4>Màu Sắc <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
-                            <label><input type="checkbox" name="color" value="Black"> Black</label>
-                            <label><input type="checkbox" name="color" value="White"> White</label>
-                            <label><input type="checkbox" name="color" value="Blue"> Blue</label>
-                            <label><input type="checkbox" name="color" value="Gray"> Gray</label>
+                            <label><input type="checkbox" name="color" value="Black"> Đen</label>
+                            <label><input type="checkbox" name="color" value="White"> Trắng</label>
+                            <label><input type="checkbox" name="color" value="Blue"> Xanh</label>
+                            <label><input type="checkbox" name="color" value="Gray"> Xám</label>
                         </div>
                     </div>
 
-                    <!-- Price -->
+                    <!-- Giá -->
                     <div id="filter-price">
-                        <h4>Price <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <h4>Giá <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
-                            <input type="number" name="price-min" placeholder="Min Price">
-                            <input type="number" name="price-max" placeholder="Max Price">
+                            <input type="number" name="price-min" placeholder="Giá tối thiểu">
+                            <input type="number" name="price-max" placeholder="Giá tối đa">
                             <select name="price-sort">
-                                <option value="low-to-high">Low to High</option>
-                                <option value="high-to-low">High to Low</option>
+                                <option value="low-to-high">Thấp đến cao</option>
+                                <option value="high-to-low">Cao đến thấp</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Brand -->
+                    <!-- Thương Hiệu -->
                     <div id="filter-brand">
-                        <h4>Brand <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <h4>Thương Hiệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        </h4>
                         <div class="filter-content">
                             <label><input type="checkbox" name="brand" value="Gucci"> Gucci</label>
                             <label><input type="checkbox" name="brand" value="Louis"> Louis Vuitton</label>
@@ -144,26 +145,27 @@
                         </div>
                     </div>
 
-                    <!-- Material -->
+                    <!-- Chất Liệu -->
                     <div id="filter-material">
-                        <h4>Material <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        <h4>Chất Liệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
                         </h4>
                         <div class="filter-content">
-                            <label><input type="checkbox" name="brand" value="Cotton"> Cotton</label>
-                            <label><input type="checkbox" name="brand" value="Wool"> Wool</label>
-                            <label><input type="checkbox" name="brand" value="Leather"> Leather</label>
-                            <label><input type="checkbox" name="brand" value="Polyester"> Polyester</label>
+                            <label><input type="checkbox" name="material" value="Cotton"> Cotton</label>
+                            <label><input type="checkbox" name="material" value="Wool"> Len</label>
+                            <label><input type="checkbox" name="material" value="Leather"> Da</label>
+                            <label><input type="checkbox" name="material" value="Polyester"> Polyester</label>
                         </div>
                     </div>
 
-                    <!-- Style -->
+                    <!-- Phong Cách -->
                     <div id="filter-style">
-                        <h4>Style <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
+                        <h4>Phong Cách <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
+                        </h4>
                         <div class="filter-content">
-                            <label><input type="checkbox" name="brand" value="Sporty"> Sporty</label>
-                            <label><input type="checkbox" name="brand" value="Business"> Business</label>
-                            <label><input type="checkbox" name="brand" value="Casual"> Casual</label>
-                            <label><input type="checkbox" name="brand" value="High-fashion"> High-fashion</label>
+                            <label><input type="checkbox" name="style" value="Sporty"> Thể thao</label>
+                            <label><input type="checkbox" name="style" value="Business"> Công sở</label>
+                            <label><input type="checkbox" name="style" value="Casual"> Thường ngày</label>
+                            <label><input type="checkbox" name="style" value="High-fashion"> Thời trang cao cấp</label>
                         </div>
                     </div>
                 </div>
@@ -174,36 +176,40 @@
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1" class="product-image img-fluid">
-                                    <div class="product-title">Product 1</div>
-                                    <div class="product-price">$29.99</div>
+                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
+                                        class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
                             </div>
-                    
+
                             <!-- Product Card 2 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2" class="product-image img-fluid">
-                                    <div class="product-title">Product 2</div>
-                                    <div class="product-price">$39.99</div>
+                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2"
+                                        class="product-image img-fluid">
+                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
-                    
+
                             <!-- Product Card 3 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3" class="product-image img-fluid">
-                                    <div class="product-title">Product 3</div>
-                                    <div class="product-price">$49.99</div>
+                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3"
+                                        class="product-image img-fluid">
+                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
                             </div>
-                    
+
                             <!-- Product Card 4 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4" class="product-image img-fluid">
-                                    <div class="product-title">Product 4</div>
-                                    <div class="product-price">$59.99</div>
+                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4"
+                                        class="product-image img-fluid">
+                                    <div class="product-title">Quần baggy nam túi hộp chất kaki</div>
+                                    <div class="product-price" data-price="185000"></div>
                                 </div>
                             </div>
                         </div>
@@ -227,9 +233,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+    <!-- Filter -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const filterHeaders = document.querySelectorAll("#section_all_products .bottom .left h4");
+            const filterHeaders = document.querySelectorAll("#section_all_products .filter h4");
 
             filterHeaders.forEach(header => {
                 header.addEventListener("click", function () {
@@ -241,6 +248,23 @@
                     const arrow = header.querySelector(".arrow");
                     arrow.classList.toggle("active");
                 });
+            });
+        });
+    </script>
+    <!-- Currency Format -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const priceElements = document.querySelectorAll('#section_all_products .list_products .product-price');
+
+            priceElements.forEach(el => {
+                const price = Number(el.getAttribute('data-price'));
+
+                const formattedPrice = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(price);
+
+                el.textContent = formattedPrice;
             });
         });
     </script>
