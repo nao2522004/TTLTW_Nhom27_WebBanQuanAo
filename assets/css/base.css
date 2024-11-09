@@ -29,6 +29,7 @@ html {
   font-size: 62.5%; /* hack 1rem = 10px */
   line-height: 1.6rem;
   font-family: "Gemunu Libre", "Inter", sans-serif;
+  background-color: var(--primary-color);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
