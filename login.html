@@ -24,23 +24,24 @@
     </div>
    
 
-    <div class="container">
+    <div class="container active no-padding">
+        <!-- Login -->
         <div class="form-box login">
             <form action="">
                 <h1>Đăng Nhập</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="Tên Người Dùng" required>
-                    <i class="fa-solid fa-user" style="color: #a46d0e;"></i>
+                    <input type="email" placeholder="Email" required>
+                    <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div class="input-box">
                     <input type="password" placeholder="Mật Khẩu" required>
-                    <i class="fa-solid fa-lock" style="color: #a46d0e;"></i>
+                    <i class="fa-solid fa-lock"></i>
                 </div>
                 <div class="forgot-link">
                     <a href="#">Quên mật khẩu?</a>
                 </div>
-                <button type="submit" class="btn btn-primary">Đăng Nhập</button>
-                <p>hoặc đăng nhập bằng tài khoản  mạng xã hội</p>
+               <button type="submit" class="btn btn-primary btn-lg">Đăng Nhập</button>
+                <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-google"></i></a>
@@ -48,6 +49,52 @@
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </form>
+        </div>
+        <!-- END: Login -->
+
+
+        <!-- Register -->
+        <div class="form-box register">
+            <form action="">
+                <h1>Đăng Ký</h1>
+                <div class="input-box">
+                    <input type="text" placeholder="Họ và Tên" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="email" placeholder="Email" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="Mật Khẩu" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+               <button type="submit" class="btn btn-primary btn-lg">Đăng Ký</button>
+                <p>hoặc đăng ký bằng tài khoản mạng xã hội</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </form>
+        </div>
+        <!-- END: Register -->
+
+        <div class="toggle-box">
+            <div class="toggle-panel toggle-left">
+                <h1>LASMANATE</h1>
+                <p>Chào Mừng Bạn Trở Lại</p>
+                <p>Bạn vẫn chưa có tài khoản?</p>
+                <button class="btn register-btn btn-primary btn-lg">Đăng ký</button>
+            </div>
+
+            <div class="toggle-panel toggle-right">
+                <h1>LASMANATE</h1>
+                <p>Chào Mừng Bạn Đến Với Lasmanate</p>
+                <p>Bạn đã có tài khoản?</p>
+                <button class="btn login-btn btn-primary btn-lg">Đăng nhập</button>
+            </div>
         </div>
     </div>
 
@@ -61,6 +108,8 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
+
+    <script src="./assets/js/login.js"></script>
 </body>
 
 </html>
