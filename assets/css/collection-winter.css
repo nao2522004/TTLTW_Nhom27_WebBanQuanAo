@@ -8,6 +8,7 @@
   display: flex;
   justify-content: space-between;
   padding: 2rem 5rem;
+  text-align: center;
 }
 
 .collect_intro-left {
@@ -16,11 +17,10 @@
 
 .collect-title {
   font-size: 7rem;
-  padding: 2rem 0;
+  padding-top: 4rem;
   display: flex;
   flex-direction: column;
   font-weight: 600;
-  font-style: italic;
   color: var(--second-color);
 }
 
@@ -30,8 +30,10 @@
 }
 
 .collect-text {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 2rem;
+  font-weight: 450;
+  color: var(--lighter-second-color);
 }
 
 .collect_intro-right {
