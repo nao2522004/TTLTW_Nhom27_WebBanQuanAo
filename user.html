@@ -19,31 +19,38 @@
 
     <!-- CSS native -->
     <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/admin.css">
+    <link rel="stylesheet" href="./assets/css/user.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
 </head>
 
 <body>
     <header id="header"></header>
 
+    <div style="height: 19rem;"></div>
+
     <div class="container-fluid">
-        <div class="row">
+        <div class="row d-flex user_main">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-                <div class="d-flex flex-column">
-                    <a href="#" class="nav-link">Thông tin tài khoản</a>
-                    <a href="#" class="nav-link">Lịch sử đơn hàng</a>
-                    <a href="#" class="nav-link">Lịch sử CoolCash</a>
-                    <a href="#" class="nav-link">Ví Voucher</a>
-                    <a href="#" class="nav-link">Sổ địa chỉ</a>
-                    <a href="#" class="nav-link">Đánh giá và phản hồi</a>
-                    <a href="#" class="nav-link">Chính sách & Câu hỏi thường gặp</a>
-                    <a href="#" class="nav-link">Đăng xuất</a>
-                </div>
+            <nav class="col-md-3 col-lg-3 d-md-block sidebar">
+                <ul>
+                    <li> <a href="#" class="nav-link">Thông tin tài khoản </a> <i class="fa-solid fa-arrow-right"></i>
+                    </li>
+                    <li><a href="#" class="nav-link">Lịch sử đơn hàng </a> <i class="fa-solid fa-arrow-right"></i>
+                    </li>
+                    <li> <a href="#" class="nav-link">Ví Voucher </a> <i class="fa-solid fa-arrow-right"></i></li>
+                    <li> <a href="#" class="nav-link">Sổ địa chỉ</a> <i class="fa-solid fa-arrow-right"></i></li>
+                    <li> <a href="#" class="nav-link">Đánh giá và phản hồi </a> <i class="fa-solid fa-arrow-right"></i>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">Chính sách & Câu hỏi thường gặp </a> <i
+                            class="fa-solid fa-arrow-right"></i>
+                    </li>
+                    <li> <a href="#" class="nav-link">Đăng xuất </a><i class="fa-solid fa-arrow-right"></i></li>
+                </ul>
             </nav>
 
             <!-- Main content -->
-            <main class="col-md-9 col-lg-10 content">
+            <main class="col-md-9 col-lg-7 user_main-content ">
                 <div class="profile-info">
                     <h5>Thông tin tài khoản</h5>
                     <form>
