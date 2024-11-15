@@ -35,12 +35,18 @@ header .part1 .group_icons .custom_size {
 header .part1 .group_icons a {
   color: inherit;
 }
-header .part1 .group_icons a:hover{
+header .part1 .group_icons a:hover {
   transform: scale(1.2);
   transition: transform 0.2s;
 }
 
 /* Part 2 */
+.part2 {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
 header .part2 ul {
   margin-bottom: 1.5rem;
   list-style: none;
@@ -53,12 +59,78 @@ header .part2 ul {
   align-items: center;
 }
 header .part2 ul li a {
-  color: var(--second-color);
+  color: var(--lighter1-second-color);
   text-decoration: none;
+  position: relative;
+  font-weight: 700;
 }
-header .part2 ul li a:hover {
-  text-decoration: underline;
-  text-underline-offset: 6px;
+
+header .part2 ul li a:before {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  color: var(--second-color);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 0.5s ease-in-out;
+}
+
+header .part2 ul:hover li a:before {
+  width: 0%;
+}
+
+header .part2 ul li:hover a:before {
+  width: 100%;
+}
+
+.menu-toggle {
+  color: var(--second-color);
+  font-size: 3rem;
+  cursor: pointer;
+  bottom: 1rem;
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  header .part1 .group_icons {
+    display: none;
+  }
+
+  header .part2 ul {
+    /* display: none; */
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    left: -100%;
+    background-color: var(--primary-color);
+    transition: 0.5s;
+    padding: 0;
+  }
+
+  header .part2 ul {
+    display: block;
+    text-align: center;
+  }
+
+  header .part2 ul li{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  header .part1 a {
+    position: absolute;
+    top: 3.82rem;
+    left: 15rem;
+  }
+
+  .menu-toggle {
+    position: absolute;
+    right: 2rem; /* Căn chỉnh toggle sang bên phải */
+    bottom: 1.66rem;
+  }
 }
 
 /* ================================= END HEADER ================================= */
@@ -66,7 +138,7 @@ header .part2 ul li a:hover {
 /* ================================= FOOTER ================================= */
 
 /* ================================= FOOTER ================================= */
-footer{
+footer {
   background-color: var(--footer-color);
   color: var(--white-color);
   font-size: 1.5rem;
@@ -75,7 +147,7 @@ footer{
   border-top: 0.1rem solid var(--black-color);
 }
 
-.container-footer{
+.container-footer {
   padding: 0 8rem;
 }
 
@@ -85,8 +157,6 @@ footer{
   flex: 1;
   padding: 3rem;
 }
-
-
 
 .footer-title {
   font-size: 3rem;
@@ -149,7 +219,6 @@ footer{
   justify-self: end;
   font-size: 3rem;
   padding-right: 1.2rem;
-
 }
 
 .footer-social .social-icon {
@@ -160,12 +229,11 @@ footer{
   text-align: center;
   line-height: 2rem;
   color: var(--while-color);
-  
 }
 
-.footer-social .social-icon:hover{
-    cursor: pointer;
-    color: var(--cursor-color);
+.footer-social .social-icon:hover {
+  cursor: pointer;
+  color: var(--cursor-color);
 }
 
 .footer-bottom {
@@ -192,6 +260,6 @@ footer{
   padding: 0 3rem;
 }
 
-a:hover{
+a:hover {
   text-decoration: none !important;
 }
