@@ -1,4 +1,16 @@
 /* Thiết kế phần sidebar. */
+.admin-page {
+  position: relative;
+}
+
+.vertical-nav {
+  width: 20%;
+}
+
+.admin-main {
+  width: 80%;
+}
+
 .vertical-nav,
 .admin-main {
   border-right: 1px solid #ddd;
@@ -116,12 +128,24 @@ thead.thead-dark th {
   color: var(--white-color);
 }
 
+.product_manager-table {
+  position: relative;
+}
+
 .product_manager-search {
   display: flex;
   align-items: center;
   border: 1px solid black;
   border-radius: 50rem;
   background-color: var(--white-color);
+
+  width: 85vh;
+}
+
+.product_manager-search i {
+  font-size: 2.5rem;
+  position: absolute;
+  right: 1rem;
 }
 .thead_product-manager tr th {
   padding: 1.5rem;
@@ -137,13 +161,9 @@ thead.thead-dark th {
   font-size: 1.5rem;
 }
 
-.product_manager-search i {
-  font-size: 3rem;
-}
-
 /* css addproduct */
- /* Ẩn input file mặc định */
- .custom-file-inputt {
+/* Ẩn input file mặc định */
+.custom-file-inputt {
   display: none;
 }
 
@@ -172,3 +192,178 @@ thead.thead-dark th {
   outline: none;
   box-shadow: 0 0 5px rgba(181, 137, 0, 0.5);
 }
+
+/* Đối với màn hình có độ rộng từ 991px trở lên (desktop) */
+@media (max-width: 991px) {
+  .admin-page {
+    display: flex;
+    justify-content: center;
+  }
+
+  .vertical-nav {
+    position: absolute;
+    left: -25%;
+  }
+
+  .admin-main {
+    width: 100%;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    right: 0;
+    padding: 0 2rem;
+  }
+
+  .admin-logo img {
+    width: 25rem;
+    height: 20rem;
+  }
+
+  /* Điều chỉnh cỡ chữ và padding cho các phần tử */
+  .admin-logo p,
+  .vertical-nav a {
+    font-size: 1.5rem;
+  }
+
+  .admin-page h4 {
+    font-size: 2rem;
+  }
+
+  .product-manager .form-group input,
+  .product-manager .form-group select {
+    font-size: 1.6rem;
+  }
+
+  .product-manager-title h4 {
+    font-size: 3rem;
+  }
+
+  .thead_product-manager tr th {
+    font-size: 1.3rem;
+  }
+}
+
+/* 
+@media screen and (max-width: 991px) and (min-width: 768px) {
+  .vertical-nav {
+    width: 25%;
+  }
+
+  .admin-main {
+    width: 75%;
+  }
+
+  .admin-logo img {
+    width: 20rem;
+    height: 15rem;
+  }
+
+  .admin-logo p,
+  .vertical-nav a {
+    font-size: 1.3rem;
+  }
+
+  .product-manager .form-group input,
+  .product-manager .form-group select {
+    font-size: 1.5rem;
+  }
+
+  .product-manager-title h4 {
+    font-size: 2.5rem;
+  }
+
+
+  .table {
+    width: 100%;
+  }
+
+  .thead_product-manager tr th {
+    font-size: 1.3rem;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .vertical-nav {
+    display: none; 
+  }
+
+  .admin-main {
+    width: 100%; 
+  }
+
+  .admin-logo img {
+    width: 15rem;
+    height: 12rem;
+  }
+
+  .admin-logo p,
+  .vertical-nav a {
+    font-size: 1.2rem;
+  }
+
+  .product-manager .form-group input,
+  .product-manager .form-group select {
+    font-size: 1.4rem;
+  }
+
+  .product-manager-title h4 {
+    font-size: 2rem;
+  }
+
+ 
+  .table {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+
+  .product_manager-search input {
+    font-size: 1.2rem;
+  }
+
+
+  #actbutton button {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  
+  .product-manager .form-group {
+    margin-bottom: 1rem;
+  }
+
+  
+  .custom-file-labell {
+    font-size: 14px;
+  }
+}
+
+
+@media screen and (max-width: 400px) {
+  .admin-logo img {
+    width: 10rem;
+    height: 8rem;
+  }
+
+  .product-manager-title h4 {
+    font-size: 1.5rem;
+  }
+
+  .product-manager .form-group input,
+  .product-manager .form-group select {
+    font-size: 1.2rem;
+  }
+
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .product_manager-search input {
+    font-size: 1.1rem;
+  }
+
+  #actbutton button {
+    padding: 0.8rem;
+  }
+} */
