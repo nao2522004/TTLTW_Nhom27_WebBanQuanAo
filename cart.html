@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./assets/css/cart.css">
     <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
 </head>
+
 <body>
     <header id="header"></header>
 
@@ -136,27 +137,31 @@
         const quantityDisplays = document.querySelectorAll('.quantity');
 
         decreaseBtns.forEach((btn, index) => {
-            let quantity = 1; 
+            let quantity = 1;
 
             btn.addEventListener('click', () => {
                 if (quantity > 1) {
                     quantity--;
-                    quantityDisplays[index].textContent = quantity; 
+                    quantityDisplays[index].textContent = quantity;
                 }
             });
         });
 
         increaseBtns.forEach((btn, index) => {
-            let quantity = 1; 
+            let quantity = 1;
 
             btn.addEventListener('click', () => {
                 quantity++;
-                quantityDisplays[index].textContent = quantity; 
+                quantityDisplays[index].textContent = quantity;
             });
         });
 
 
     </script>
+
+
+    <!-- base js -->
+    <script src="./assets/js/base.js"></script>
 </body>
 
 </html>

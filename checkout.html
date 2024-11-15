@@ -78,11 +78,11 @@
                     <form class="needs-validation" novalidate>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="firstName"><i class="fa-solid fa-id-card"></i>  Họ</label>
+                                <label for="firstName"><i class="fa-solid fa-id-card"></i> Họ</label>
                                 <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="lastName" class="label-text"><i class="fa-solid fa-id-card"></i>  Tên</label>
+                                <label for="lastName" class="label-text"><i class="fa-solid fa-id-card"></i> Tên</label>
                                 <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="email"><i class="fa-solid fa-envelope"></i>  Email <span
+                            <label for="email"><i class="fa-solid fa-envelope"></i> Email <span
                                     class="text-muted"></span></label>
                             <input type="email" class="form-control" id="email" placeholder="">
                             <div class="invalid-feedback">
@@ -109,7 +109,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="address"><i class="fa-solid fa-location-dot"></i>  Địa chỉ</label>
+                            <label for="address"><i class="fa-solid fa-location-dot"></i> Địa chỉ</label>
                             <input type="text" class="form-control" id="address" placeholder="" required>
                             <div class="invalid-feedback">
                                 Vui lòng nhập địa chỉ của bạn
@@ -292,6 +292,9 @@
             fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
         </script>
 
+
+        <!-- base js -->
+        <script src="./assets/js/base.js"></script>
 </body>
 
 </html>
