@@ -8,6 +8,7 @@
   src: url("../font-family/Inter/Inter-VariableFont_opsz\,wght.ttf")
     format("truetype");
 }
+
 :root {
   --white-color: #fff;
   --black-color: #000;
@@ -23,12 +24,12 @@
 
 * {
   box-sizing: inherit;
+  font-family: "Gemunu Libre", "Inter", sans-serif;
 }
 
 html {
   font-size: 62.5%; /* hack 1rem = 10px */
   line-height: 1.6rem;
-  font-family: "Gemunu Libre", "Inter", sans-serif;
   background-color: var(--primary-color);
   box-sizing: border-box;
   margin: 0;
