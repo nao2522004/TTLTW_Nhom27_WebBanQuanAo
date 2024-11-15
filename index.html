@@ -28,7 +28,7 @@
 <body>
     <header id="header"></header>
     <!-- Make a space to split the other out of header -->
-    <div style="height: 12.7rem;"></div>
+    <div style="height: 15rem;"></div>
 
     <!-- Carousel -->
     <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -204,6 +204,9 @@
         const footer = document.getElementById('footer');
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+
+        // Transition for Header
+        
     </script>
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
