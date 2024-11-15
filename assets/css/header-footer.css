@@ -8,11 +8,13 @@ header {
   width: 100vw;
   z-index: 100000;
 }
+
 /* Part 1 */
 header .part1 {
   position: relative;
   height: 7.5rem;
 }
+
 header .part1 img {
   position: absolute;
   left: 50%;
@@ -20,6 +22,7 @@ header .part1 img {
   transform: translate(-50%, -50%);
   height: 3.75rem;
 }
+
 header .part1 .group_icons {
   position: absolute;
   right: 6rem;
@@ -28,6 +31,7 @@ header .part1 .group_icons {
   display: flex;
   gap: 1.5rem;
 }
+
 header .part1 .group_icons .custom_size {
   font-size: 1.5rem;
   font-size: 2rem;
@@ -36,7 +40,8 @@ header .part1 .group_icons .custom_size {
 header .part1 .group_icons a {
   color: inherit;
 }
-header .part1 .group_icons a:hover{
+
+header .part1 .group_icons a:hover {
   transform: scale(1.2);
   transition: transform 0.2s;
 }
@@ -53,19 +58,67 @@ header .part2 ul {
   justify-content: center;
   align-items: center;
 }
+
 header .part2 ul li a {
   color: var(--second-color);
   text-decoration: none;
 }
-header .part2 ul li a:hover {
+
+header .part2 ul li:hover a {
   text-decoration: underline;
   text-underline-offset: 6px;
 }
 
+/* Hasn't been Scrolled */
+header .part2 .logo {
+  height: 3rem;
+  display: none;
+}
+header .part2 .group_icons {
+  display: none;
+}
+
+/* Scrolled */
+header.scrolled {
+  padding: 0 2.5rem;
+}
+header.scrolled .part1 {
+  display: none;
+}
+header.scrolled .part2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5.5rem;
+}
+header.scrolled .part2 ul {
+  padding: 0;
+  margin: 0;
+}
+header.scrolled .part2 .logo {
+  display: block;
+}
+header.scrolled .part2 .group_icons {
+  display: flex;
+  gap: 1.5rem;
+}
+header.scrolled .part2 .group_icons .custom_size {
+  font-size: 1.5rem;
+  font-size: 2rem;
+}
+header.scrolled .part2 .group_icons a {
+  color: inherit;
+}
+header.scrolled .part2 .group_icons a:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s;
+}
+
+
 /* ================================= END HEADER ================================= */
 
 /* ================================= FOOTER ================================= */
-footer{
+footer {
   background-color: var(--footer-color);
   color: var(--white-color);
   font-size: 1.5rem;
@@ -74,7 +127,7 @@ footer{
   border-top: 0.1rem solid var(--black-color);
 }
 
-.container-footer{
+.container-footer {
   padding: 0 8rem;
 }
 
@@ -108,6 +161,7 @@ footer{
   text-decoration: none;
   font-weight: bold;
 }
+
 .footer-links {
   display: flex;
   justify-content: space-evenly;
@@ -135,6 +189,7 @@ footer{
   margin-top: 1.8rem;
   text-align: end;
 }
+
 .footer-social .social-title {
   font-size: 2rem;
   padding-left: 6rem;
@@ -157,12 +212,12 @@ footer{
   text-align: center;
   line-height: 2rem;
   color: var(--while-color);
-  
+
 }
 
-.footer-social .social-icon:hover{
-    cursor: pointer;
-    color: var(--cursor-color);
+.footer-social .social-icon:hover {
+  cursor: pointer;
+  color: var(--cursor-color);
 }
 
 .footer-bottom {
@@ -189,6 +244,6 @@ footer{
   padding: 0 3rem;
 }
 
-a:hover{
+a:hover {
   text-decoration: none !important;
 }
