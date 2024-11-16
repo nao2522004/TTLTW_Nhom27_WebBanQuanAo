@@ -135,29 +135,31 @@ thead.thead-dark th {
 .product_manager-search {
   display: flex;
   align-items: center;
-  border: 1px solid black;
-  border-radius: 50rem;
-  background-color: var(--white-color);
-
-  width: 85vh;
+  justify-content: end;
 }
 
-.product_manager-search i {
-  font-size: 2.5rem;
-  position: absolute;
-  right: 1rem;
-}
-.thead_product-manager tr th {
-  padding: 1.5rem;
-  font-size: 1.5rem;
-}
-
-.product_manager-search input {
+.product_manager-search .search {
   padding: 1rem;
-  width: 85vh;
+  width: 50vh;
   border: none;
   outline: none;
   border-radius: 50rem;
+  font-size: 1.5rem;
+  border: 1px solid var(--second-color);
+}
+
+.product_manager-search::after {
+  content: "\f002";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 2rem;
+  position: absolute;
+  right: 2.7rem;
+  color: black;
+}
+
+.thead_product-manager tr th {
+  padding: 1.5rem;
   font-size: 1.5rem;
 }
 
@@ -243,127 +245,14 @@ thead.thead-dark th {
   }
 }
 
-/* 
-@media screen and (max-width: 991px) and (min-width: 768px) {
-  .vertical-nav {
-    width: 25%;
-  }
 
-  .admin-main {
-    width: 75%;
-  }
-
-  .admin-logo img {
-    width: 20rem;
-    height: 15rem;
-  }
-
-  .admin-logo p,
-  .vertical-nav a {
-    font-size: 1.3rem;
-  }
-
-  .product-manager .form-group input,
-  .product-manager .form-group select {
-    font-size: 1.5rem;
-  }
-
-  .product-manager-title h4 {
-    font-size: 2.5rem;
-  }
-
-
-  .table {
-    width: 100%;
-  }
-
+@media screen and (max-width: 526px){
   .thead_product-manager tr th {
-    font-size: 1.3rem;
-  }
-}
-
-
-@media screen and (max-width: 768px) {
-  .vertical-nav {
-    display: none; 
-  }
-
-  .admin-main {
-    width: 100%; 
-  }
-
-  .admin-logo img {
-    width: 15rem;
-    height: 12rem;
-  }
-
-  .admin-logo p,
-  .vertical-nav a {
-    font-size: 1.2rem;
-  }
-
-  .product-manager .form-group input,
-  .product-manager .form-group select {
-    font-size: 1.4rem;
-  }
-
-  .product-manager-title h4 {
-    font-size: 2rem;
-  }
-
- 
-  .table {
-    width: 100%;
-    font-size: 1rem;
-  }
-
-
-  .product_manager-search input {
-    font-size: 1.2rem;
-  }
-
-
-  #actbutton button {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  
-  .product-manager .form-group {
-    margin-bottom: 1rem;
-  }
-
-  
-  .custom-file-labell {
-    font-size: 14px;
-  }
-}
-
-
-@media screen and (max-width: 400px) {
-  .admin-logo img {
-    width: 10rem;
-    height: 8rem;
-  }
-
-  .product-manager-title h4 {
-    font-size: 1.5rem;
-  }
-
-  .product-manager .form-group input,
-  .product-manager .form-group select {
-    font-size: 1.2rem;
-  }
-
-  .table {
     font-size: 0.9rem;
+    font-weight: bolder;
+    text-align: center;
   }
+}
 
-  .product_manager-search input {
-    font-size: 1.1rem;
-  }
 
-  #actbutton button {
-    padding: 0.8rem;
-  }
-} */
+
