@@ -29,7 +29,7 @@
     <div class=" admin_page row d-flex">
 
         <!-- Vertical navbar -->
-        <div class="vertical-nav bg-white container-fluid" id="sidebar">
+        <div class="vertical-nav active bg-white container-fluid" id="sidebar">
             <div class="bg-light text-center admin-logo">
                 <img src="./assets/imgs/admin/logoadmin.jpg" alt="..."
                     class="mr-3 rounded-circle img-thumbnail shadow-sm">
@@ -43,26 +43,26 @@
 
             <ul class="nav flex-column bg-white mb-0 ml-1">
                 <li class="nav-item" id="s_product">
-                    <a href="#" class="nav-link text-dark font-italic bg-light"
+                    <a href="#" class="nav-link text-dark bg-light"
                         onclick="showSection('product-manager')">
                         <i class="fa fa-th-large mr-1 fa-fw"></i>
                         Sản Phẩm
                     </a>
                 </li>
                 <li class="nav-item" id="s_user">
-                    <a href="#" class="nav-link text-dark font-italic bg-light" onclick="showSection('user-manager')">
+                    <a href="#" class="nav-link text-dark bg-light" onclick="showSection('user-manager')">
                         <i class="fa fa-address-card mr-1 fa-fw"></i>
                         Khách Hàng
                     </a>
                 </li>
                 <li class="nav-item" id="s_order">
-                    <a href="#" class="nav-link text-dark font-italic bg-light" onclick="showSection('order-manager')">
+                    <a href="#" class="nav-link text-dark bg-light" onclick="showSection('order-manager')">
                         <i class="fa fa-cubes mr-1 fa-fw"></i>
                         Đơn Hàng
                     </a>
                 </li>
                 <li class="nav-item" id="s_order">
-                    <a href="index.html" class="nav-link text-dark font-italic bg-light">
+                    <a href="index.html" class="nav-link text-dark bg-light">
                         <i class="fa-solid fa-house"></i>
                         Trang Chủ
                     </a>
@@ -70,6 +70,8 @@
             </ul>
         </div>
         <!-- End vertical navbar -->
+
+        <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
 
         <div class="admin-main container-fluid">
 
@@ -289,11 +291,22 @@
             fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
             fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
         </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelector('.menu-toggle').addEventListener('click', function () {
+                    document.querySelector('.vertical-nav').classList.toggle('active');
+                });
+            });
+        </script>
+
+
         <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
         <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
         <script src="./assets/js/admin.js"></script>
+
 
         <!-- base js -->
         <script src="./assets/js/base.js"></script>

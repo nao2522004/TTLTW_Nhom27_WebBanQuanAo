@@ -195,25 +195,50 @@ thead.thead-dark th {
   box-shadow: 0 0 5px rgba(181, 137, 0, 0.5);
 }
 
+.menu-toggle {
+  position: relative;
+  left: 1rem;
+  top: 0;
+  z-index: 1000;
+}
+
 /* Đối với màn hình có độ rộng từ 991px trở lên (desktop) */
 @media (max-width: 991px) {
   .admin-page {
     display: flex;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
   }
 
   .vertical-nav {
     position: absolute;
-    left: -25%;
+    left: -100%;
+    width: 100%;
+    height: 120rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+    z-index: 100;
+  }
+
+  .vertical-nav ul li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .vertical-nav.active {
+    left: 0;
   }
 
   .admin-main {
-    width: 100%;
     position: absolute;
     padding: 0;
     margin: 0;
     right: 0;
+    width: 95%;
     padding: 0 2rem;
+    z-index: 10;
   }
 
   .admin-logo img {
@@ -245,14 +270,10 @@ thead.thead-dark th {
   }
 }
 
-
-@media screen and (max-width: 526px){
+@media screen and (max-width: 526px) {
   .thead_product-manager tr th {
     font-size: 0.9rem;
     font-weight: bolder;
     text-align: center;
   }
 }
-
-
-
