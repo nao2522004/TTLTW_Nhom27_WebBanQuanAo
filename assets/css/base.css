@@ -8,29 +8,29 @@
   src: url("../font-family/Inter/Inter-VariableFont_opsz\,wght.ttf")
     format("truetype");
 }
-
 :root {
   --white-color: #fff;
   --black-color: #000;
   --primary-color: rgb(246, 241, 235);
   --second-color: rgb(164, 109, 14);
+  --lighter-second-color: rgb(200, 140, 25);
+  --lighter1-second-color: rgb(224, 184, 104);
   --footer-color: #8c6e59;
   --bottom_footer-color: #a07c62;
   --cursor-color: rgba(255, 255, 255, 0.7);
   --bg-color: #F5F5F5;
-
-  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.3);;
+  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 * {
   box-sizing: inherit;
-  font-family: "Gemunu Libre", "Inter", sans-serif;
 }
 
 html {
   font-size: 62.5%; /* hack 1rem = 10px */
   line-height: 1.6rem;
-  background-color: var(--primary-color);
+  font-family: "Gemunu Libre", "Inter", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -62,8 +62,5 @@ a {
 }
 
 body{
-background-color: var(--bg-color);
+background-color: var(--primary-color);
 }
-
-
-
