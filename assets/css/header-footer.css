@@ -1,58 +1,45 @@
 /* ================================= HEADER ================================= */
-.white_space {
-  height: 19rem;
-}
-
 header {
-  border-bottom: solid 1px #000;
+  border-bottom: solid 1px #ccc;
   background-color: var(--primary-color);
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
-  z-index: 100000;
+  height: 12rem;
+  z-index: 100;
+  transition: .7s ease;
 }
-/* Part 1 */
-header .part1 {
-  position: relative;
-  height: 7.5rem;
-}
-header .part1 img {
+
+/* Logo */
+header .logo {
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 1.8rem;
+  transform: translateX(-50%);
+  transition: .3s ease-in-out;
+}
+
+header .logo img {
   height: 3.75rem;
 }
-header .part1 .group_icons {
+
+/* Navigation */
+header nav {
   position: absolute;
-  right: 6rem;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
   display: flex;
-  gap: 1.5rem;
-}
-header .part1 .group_icons .custom_size {
-  font-size: 1.5rem;
-  font-size: 2rem;
-}
-
-header .part1 .group_icons a {
-  color: inherit;
-}
-header .part1 .group_icons a:hover {
-  transform: scale(1.2);
-  transition: transform 0.2s;
-}
-
-/* Part 2 */
-.part2 {
-  display: flex;
-  position: relative;
   justify-content: center;
+  align-items: center;
+  transition: .7s ease-in-out;
 }
 
-header .part2 ul {
-  margin-bottom: 1.5rem;
+header nav ul {
+  width: 100rem;
+  padding: 0;
+  margin: 0;
   list-style: none;
   gap: 6rem;
   text-transform: capitalize;
@@ -62,14 +49,15 @@ header .part2 ul {
   justify-content: center;
   align-items: center;
 }
-header .part2 ul li a {
+
+header nav ul li a {
   color: var(--lighter1-second-color);
   text-decoration: none;
   position: relative;
   font-weight: 700;
 }
 
-header .part2 ul li a:before {
+header nav ul li a:before {
   content: attr(data-text);
   position: absolute;
   width: 100%;
@@ -79,77 +67,142 @@ header .part2 ul li a:before {
   transition: 0.5s ease-in-out;
 }
 
-header .part2 ul:hover li a:before {
+header nav ul:hover li a:before {
   width: 0%;
 }
 
-header .part2 ul li:hover a:before {
+header nav ul li:hover a:before {
   width: 100%;
 }
 
+header nav ul li a:hover {
+  color: var(--second-color);
+  text-decoration: none;
+}
+
+/* Group icons */
+header .group_icons {
+  position: absolute;
+  right: 3rem;
+  top: 3rem;
+  display: flex;
+  gap: 1.5rem;
+  transition: .3s ease-in-out;
+}
+
+header .group_icons .custom_size {
+  font-size: 1.5rem;
+  font-size: 2rem;
+}
+
+header .group_icons a {
+  color: inherit;
+}
+
+header .group_icons a:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s;
+}
+
+/* Transition for Header */
+header.scrolled {
+  height: 10rem;
+}
+
+header.scrolled .logo {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+header.scrolled nav {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+header.scrolled .group_icons {
+  position: absolute;
+  right: 5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Menu toggle */
 .menu-toggle {
+  position: absolute;
   color: var(--second-color);
   font-size: 3rem;
   cursor: pointer;
-  bottom: 1rem;
+  top: 50%;
+  left: 5rem;
+  transform: translateY(-50%);
   display: none;
+  z-index: 200;
+  padding: 1rem;
 }
 
 @media (max-width: 991px) {
+
+  /* Group icons */
+  header .group_icons {
+      display: none;
+  }
+
+  /* Navigation */
+  header nav ul {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      top: 0.2rem;
+      left: -100%;
+      background-color: var(--primary-color);
+      transition: 0.5s;
+      padding: 0;
+  }
+
+  header nav ul {
+      display: block;
+      text-align: center;
+  }
+
+  header nav ul li {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  header nav ul.active {
+      left: 0;
+  }
+
+  /* Logo */
+  header .logo {
+      position: absolute;
+      top: 3.82rem;
+      left: 15rem;
+  }
+
+  /* Menu toggle */
   .menu-toggle {
-    display: block;
-  }
-
-  header .part1 .group_icons {
-    display: none;
-  }
-
-  header .part2 ul {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    top: 0.2rem;
-    left: -100%;
-    background-color: var(--primary-color);
-    transition: 0.5s;
-    padding: 0;
-  }
-
-  header .part2 ul {
-    display: block;
-    text-align: center;
-  }
-
-  header .part2 ul li {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  }
-
-  header .part1 a {
-    position: absolute;
-    top: 3.82rem;
-    left: 15rem;
-  }
-
-  header .part2 ul.active {
-    left: 0%;
-  }
-
-  .menu-toggle {
-    position: absolute;
-    right: 2rem; /* Căn chỉnh toggle sang bên phải */
-    bottom: 1.66rem;
+      display: block;
+      position: absolute;
+      left: auto;
+      right: 2rem;
   }
 
   .white_space {
-    height: 6rem;
+      height: 6rem;
   }
 }
 
 @media (max-width: 320px) {
-  header .part1 a img {
-    width: 23rem;
-    left: -2rem;
+  header .logo img {
+      width: 23rem;
+      left: -2rem;
   }
 }
 
