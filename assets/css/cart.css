@@ -3,14 +3,16 @@
     margin: auto;
     max-width: 950px;
     width: 90%;
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 0 30px rgba(0,0,0,2);
     border-radius: 1rem;
     border: transparent;
     position: relative;
     margin-bottom: 20px;
     top: 15rem;
 }
-
+body{
+    background-color: rgb(246, 241, 235) !important;
+}
 #card .cart,
 #card .summary {
     font-size: 1.6rem;
@@ -39,7 +41,7 @@
 }
 
 #card .summary {
-    background-color: #ddd;
+    background-color: #c4b6a6;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding: 4vh;
@@ -171,7 +173,7 @@
     margin-bottom: 4vh;
     outline: none;
     width: 100%;
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(246, 241, 235);
 }
 
 #card input {
@@ -180,7 +182,7 @@
     margin-bottom: 4vh;
     outline: none;
     width: 100%;
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(246, 241, 235);
 }
 
 
