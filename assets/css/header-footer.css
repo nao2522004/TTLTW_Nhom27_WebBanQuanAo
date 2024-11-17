@@ -116,6 +116,10 @@ header .part2 ul li:hover a:before {
     padding: 0;
   }
 
+  header .part2 ul.active {
+    left: 0%;
+  }
+
   header .part2 ul {
     display: block;
     text-align: center;
@@ -131,9 +135,6 @@ header .part2 ul li:hover a:before {
     left: 15rem;
   }
 
-  header .part2 ul.active {
-    left: 0%;
-  }
 
   .menu-toggle {
     position: absolute;
