@@ -62,25 +62,19 @@
 /*====================== Start collect_marquee ====================*/
 .collect_marquee {
   background-color: var(--primary-color);
-  padding: 1rem 0;
+  padding: 1rem 2rem;
   color: var(--second-color);
 }
 
 .collect_marquee-logo {
-  position: relative;
-  font-size: 3rem;
-  left: 1rem;
-  top: 1.9rem;
+  font-size: 4rem;
   text-shadow: 4px 4px 4px var(--second-color); /* Bóng trắng */
 }
 
 .collect_marquee-text {
   overflow: hidden;
   white-space: nowrap;
-  width: 65vw;
   margin: 0 auto;
-  position: relative;
-  bottom: 1.5rem;
 }
 
 .collect_marquee-text p span {
@@ -547,7 +541,8 @@
   }
 
   .product-items {
-    width: 46%;
+    width: 47%;
+    height: 33rem;
     padding: 1rem;
     transition: all 0.3s ease-in-out;
   }
@@ -587,10 +582,6 @@
     line-height: 5rem;
   }
 
-  .collect_marquee-text {
-    width: 45vw;
-  }
-
   .collect_marquee-text p {
     font-size: 1.5rem;
     margin-top: 0.5rem;
@@ -605,22 +596,3 @@
   }
 }
 
-@media (max-width: 320px) {
-  .collect_marquee-text {
-    width: 50vw;
-  }
-
-  .collect_marquee {
-    padding: 0;
-  }
-
-  .collect_marquee-text p {
-    font-size: 1rem;
-    margin-top: 1.65rem;
-  }
-
-  .collect_marquee-logo {
-    font-size: 1.5rem;
-    font-weight: bolder;
-  }
-}
