@@ -37,11 +37,7 @@
                         phong cách thời trang hiện đại. Lấy cảm hứng từ sắc màu rực rỡ và không khí phóng khoáng của mùa
                         hè,
                         bộ sưu tập mang đến các thiết kế với gam màu tươi sáng, chất liệu thoáng mát, giúp người mặc cảm
-                        nhận sự thoải mái và tự tin trong từng chuyển động. Mỗi sản phẩm đều được chế tác tỉ mỉ, thể
-                        hiện sự
-                        sáng tạo và tinh tế trong từng chi tiết. LASMANATE mong muốn cùng bạn tạo nên phong cách nổi
-                        bật,
-                        sẵn sàng tỏa sáng trong những ngày hè đầy năng lượng.
+                        nhận sự thoải mái và tự tin trong từng chuyển động.
                     </p>
                 </div>
             </div>
@@ -80,12 +76,21 @@
                     <div class="sort">
                         <label for="sortBy">Sắp xếp theo:</label>
                         <select id="sortBy" class="custom-select">
-                            <option value="default">Chọn tiêu chí sắp xếp</option>
+                            <option value="default">Chọn tiêu chí</option>
                             <option value="priceAsc">Giá: Thấp đến Cao</option>
                             <option value="priceDesc">Giá: Cao đến Thấp</option>
                             <option value="newest">Sản Phẩm Mới Nhất</option>
                             <option value="bestSeller">Bán Chạy Nhất</option>
                             <option value="highestRated">Đánh Giá Cao Nhất</option>
+                        </select>
+                    </div>
+                    <div class="sort-mobile">
+                        <label for="sortBy-mobile">Bộ lọc:</label>
+                        <select id="sortBy-mobile" class="custom-select-mobile">
+                            <option value="default">Áo</option>
+                            <option value="priceAsc">Quần dài</option>
+                            <option value="priceDesc">Áo dài tay</option>
+                            <option value="newest">Sơ mi</option>
                         </select>
                     </div>
                 </div>
@@ -186,10 +191,10 @@
                 <!-- Right -->
                 <div class="list_products">
                     <div class="container" style="margin: 0; padding: 0;">
-                        <div class="product-list">
+                        <div class="product-list" style="display: flex; justify-content: center; align-items: center;">
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img1.webp" alt="">
-                                <div class="clothes-size">
+                                <!-- <div class="clothes-size">
                                     <p>Thêm nhanh vào giỏ hàng.</p>
                                     <div>
                                         <div class="btn-size btn btn-outline-dark">S</div>
@@ -198,7 +203,7 @@
                                         <div class="btn-size btn btn-outline-dark">XL</div>
                                         <div class="btn-size btn btn-outline-dark">XXL</div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="product-decrip">
                                     <p>Bộ Sơ Mi Cộc Form Rộng Dáng Màu Xám.</p>
                                     <div data-price="250000"></div>
@@ -208,16 +213,6 @@
 
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img2.webp" alt="">
-                                <div class="clothes-size">
-                                    <p>Thêm nhanh vào giỏ hàng.</p>
-                                    <div>
-                                        <div class="btn-size btn btn-outline-dark">S</div>
-                                        <div class="btn-size btn btn-outline-dark">M</div>
-                                        <div class="btn-size btn btn-outline-dark">L</div>
-                                        <div class="btn-size btn btn-outline-dark">XL</div>
-                                        <div class="btn-size btn btn-outline-dark">XXL</div>
-                                    </div>
-                                </div>
                                 <div class="product-decrip">
                                     <p>Bộ Sơ Mi Cộc Form Rộng Dáng Màu Xanh.</p>
                                     <div data-price="250000"></div>
@@ -226,16 +221,6 @@
 
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img3.webp" alt="">
-                                <div class="clothes-size">
-                                    <p>Thêm nhanh vào giỏ hàng.</p>
-                                    <div>
-                                        <div class="btn-size btn btn-outline-dark">S</div>
-                                        <div class="btn-size btn btn-outline-dark">M</div>
-                                        <div class="btn-size btn btn-outline-dark">L</div>
-                                        <div class="btn-size btn btn-outline-dark">XL</div>
-                                        <div class="btn-size btn btn-outline-dark">XXL</div>
-                                    </div>
-                                </div>
                                 <div class="product-decrip">
                                     <p>Áo Thun Ngắn Tay Nam Màu Đen.</p>
                                     <div data-price="200000"></div>
@@ -258,16 +243,7 @@
                             </div>
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img6.webp" alt="">
-                                <div class="clothes-size">
-                                    <p>Thêm nhanh vào giỏ hàng.</p>
-                                    <div>
-                                        <div class="btn-size btn btn-outline-dark">S</div>
-                                        <div class="btn-size btn btn-outline-dark">M</div>
-                                        <div class="btn-size btn btn-outline-dark">L</div>
-                                        <div class="btn-size btn btn-outline-dark">XL</div>
-                                        <div class="btn-size btn btn-outline-dark">XXL</div>
-                                    </div>
-                                </div>
+
                                 <div class="product-decrip">
                                     <p>Áo thể thao Nam Trắng.</p>
                                     <div data-price="200000"> </div>
@@ -275,16 +251,7 @@
                             </div>
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img7.webp" alt="">
-                                <div class="clothes-size">
-                                    <p>Thêm nhanh vào giỏ hàng.</p>
-                                    <div>
-                                        <div class="btn-size btn btn-outline-dark">S</div>
-                                        <div class="btn-size btn btn-outline-dark">M</div>
-                                        <div class="btn-size btn btn-outline-dark">L</div>
-                                        <div class="btn-size btn btn-outline-dark">XL</div>
-                                        <div class="btn-size btn btn-outline-dark">XXL</div>
-                                    </div>
-                                </div>
+
                                 <div class="product-decrip">
                                     <p>Bộ Đồ Cổ Tròn Tay Cộc.</p>
                                     <div data-price="150000"></div>
@@ -292,16 +259,7 @@
                             </div>
                             <div class="product-items">
                                 <img src="./assets/imgs/Collection-summer/img8.webp" alt="">
-                                <div class="clothes-size">
-                                    <p>Thêm nhanh vào giỏ hàng.</p>
-                                    <div>
-                                        <div class="btn-size btn btn-outline-dark">S</div>
-                                        <div class="btn-size btn btn-outline-dark">M</div>
-                                        <div class="btn-size btn btn-outline-dark">L</div>
-                                        <div class="btn-size btn btn-outline-dark">XL</div>
-                                        <div class="btn-size btn btn-outline-dark">XXL</div>
-                                    </div>
-                                </div>
+
                                 <div class="product-decrip">
                                     <p>Bộ Đồ Cổ Tròn Tay Cộc.</p>
                                     <div data-price="150000"></div>
@@ -313,40 +271,70 @@
 
 
                 </div>
-                </section>
-                <!-- End collect running policy -->
+        </section>
+        <!-- End collect running policy -->
 
 
-            </div>
-
-
-
-            <footer id="footer"></footer>
-
-
-            <script>
-                const header = document.getElementById('header');
-                const footer = document.getElementById('footer');
-                fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-                fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+    </div>
 
 
 
-                document.addEventListener("DOMContentLoaded", () => {
-                    const priceElements = document.querySelectorAll('.product-decrip div');
+    <footer id="footer"></footer>
 
-                    priceElements.forEach(el => {
-                        const price = Number(el.getAttribute('data-price'));
 
-                        const formattedPrice = new Intl.NumberFormat('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND'
-                        }).format(price);
+    <script>
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
 
-                        el.textContent = formattedPrice;
-                    });
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const priceElements = document.querySelectorAll('.product-decrip div');
+
+            priceElements.forEach(el => {
+                const price = Number(el.getAttribute('data-price'));
+
+                const formattedPrice = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(price);
+
+                el.textContent = formattedPrice;
+            });
+        });
+    </script>
+
+    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
+    <!-- Filter -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterHeaders = document.querySelectorAll("#section_all_products .filter h4");
+
+            filterHeaders.forEach(header => {
+                header.addEventListener("click", function () {
+                    // Toggle the visibility of filter content
+                    const filterContent = header.nextElementSibling;
+                    // filterContent.style.display = filterContent.style.display === "block" ? "none" : "block";
+                    if (filterContent.classList.contains("active")) {
+                        filterContent.classList.remove("active");
+                    } else {
+                        filterContent.classList.add("active");
+                    }
+
+                    // Toggle the arrow direction
+                    const arrow = header.querySelector(".arrow");
+                    arrow.classList.toggle("active");
                 });
-            </script>
+            });
+        });
+    </script>
+    <!-- base js -->
 
             <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
