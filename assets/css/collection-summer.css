@@ -238,7 +238,8 @@
   transform: translate(-50%, -50%);
 }
 
-#section_all_products .top .sort {
+#section_all_products .top .sort,
+#section_all_products .top .sort-mobile {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,14 +247,21 @@
   font-size: 2rem;
 }
 
-#section_all_products .top .sort label {
-  width: 12rem;
-  margin: 0;
+#section_all_products .top .sort-mobile {
+  display: none;
 }
 
-#section_all_products .top .sort select {
-  font-size: 1.2rem;
-  width: 20rem;
+#section_all_products .top .sort label,
+#section_all_products .top .sort-mobile label {
+  width: 20vw;
+  margin: 0;
+  text-align: center;
+}
+
+#section_all_products .top .sort select,
+#section_all_products .top .sort-mobile select {
+  font-size: 1.7rem;
+  width: 20vw;
 }
 
 /* Bottom */
@@ -401,7 +409,7 @@
   box-shadow: var(--box-shadow-light);
 }
 
-.clothes-size {
+/* .clothes-size {
   position: absolute;
   width: 20rem;
   background-color: rgba(192, 192, 192, 1);
@@ -425,10 +433,10 @@
   background-color: var(--white-color);
   margin-top: 0.7rem;
   margin-left: 0.6rem;
-}
+} */
 
 .product-items img {
-  width: 24rem;
+  width: 100%;
   height: 30rem;
   border-radius: 1rem;
 }
@@ -473,36 +481,146 @@
   }
 }
 
-@media (max-width: 706px) {
+@media (max-width: 768px) {
   .collect_intro .collect-title {
     font-size: 7rem;
   }
 
-  #section_all_products .top .filter {
-    width: 30%;
-    display: flex;
-    justify-content: flex-start;
-  }
-
+  #section_all_products .top .sort,
+  #section_all_products .top .filter,
+  #section_all_products .top h1,
   #section_all_products .bottom .filter {
     display: none;
   }
 
-  .list_products,
-  .list_products .container,
-  .list_products .container .product-list {
-    width: 100% !important;
+  #section_all_products .top {
+    display: flex;
+    justify-content: end;
+    height: 4rem;
   }
 
-  #section_all_products .top h1 {
-    width: 30%;
+  #section_all_products .top .sort-mobile {
+    display: block;
+    height: max-content;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+  }
+
+  #section_all_products .top .sort-mobile select {
+    border-radius: 2rem;
+    width: 20vw;
+    padding: 0.2rem;
+  }
+
+  #section_all_products .top .sort-mobile label {
+    font-size: 1.8rem;
+    text-align: end;
+  }
+
+  #section_all_products .bottom {
+    display: flex;
+    justify-content: center;
+    border: none;
+  }
+
+  .list_products,
+  .list_products .container,
+  .product-list {
+    width: 100% !important;
   }
 
   .collect_intro-img {
     width: 100%;
     height: auto;
     border-radius: 1rem;
+  }
+}
+
+@media (max-width: 571px) {
+  #section_all_products .bottom {
+    padding: 0;
+  }
+
+  .list_products {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-items {
+    width: 46%;
+    padding: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+  .product-items img {
+    width: 100%; /* Hình ảnh chiếm hết chiều rộng của container */
+    height: 70%;
+    object-fit: cover;
+  }
+
+  .product-decrip {
+    padding-top: 1rem;
+  }
+
+  .product-decrip p {
+    font-size: 3.5vw;
+    margin-bottom: 0;
+  }
+
+  .product-decrip div {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .running-clothes__title {
+    font-size: 2.3rem;
+    margin: 3rem;
+    font-weight: bold;
+    color: var(--lighter-second-color);
+  }
+
+  .collect-text {
+    font-size: 1.5rem;
+  }
+
+  .collect_intro .collect-title {
+    font-size: 5rem;
+    line-height: 5rem;
+  }
+
+  .collect_marquee-text {
+    width: 45vw;
+  }
+
+  .collect_marquee-text p {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .collect_marquee-logo {
+    font-size: 2.5rem;
+  }
+
+  .collect_intro-right {
+    padding: 0;
+  }
+}
+
+@media (max-width: 320px) {
+  .collect_marquee-text {
+    width: 50vw;
+  }
+
+  .collect_marquee {
+    padding: 0;
+  }
+
+  .collect_marquee-text p {
+    font-size: 1rem;
+    margin-top: 1.65rem;
+  }
+
+  .collect_marquee-logo {
+    font-size: 1.5rem;
+    font-weight: bolder;
   }
 }
