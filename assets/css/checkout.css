@@ -1,7 +1,8 @@
 /* Check Out  */
-
+body{
+    background-color: #f6f1eb !important;
+}
 #check-out{
-    font-family: "Gemunu Libre", "Inter", sans-serif;
     margin-top: 120px;
     font-weight: bold;
 }
@@ -34,6 +35,10 @@
 .btn:hover {
     background-color: #303134 !important;
     cursor: pointer;
+}
+
+.text-custom {
+    color: #8c6e59 !important
 }
 @media (max-width: 768px) {
     .container {
@@ -81,10 +86,10 @@
 }
 
 #check-out .btn {
-    background-color: var(--black-color); 
-    color: white;
-    border: none; 
+    color: #fff;
+    background-color: #18191b;
     border-radius: 5px; 
+    border: none;
     padding: 10px 20px; 
     font-size: 16px; 
     transition: background-color 0.3s;
@@ -96,5 +101,8 @@
     cursor: pointer; 
 }
 
+
+
+ 
 
 /* Check Out  */
