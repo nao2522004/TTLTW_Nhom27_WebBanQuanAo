@@ -8,7 +8,7 @@ header {
   width: 100vw;
   height: 12rem;
   z-index: 100;
-  transition: .7s ease;
+  transition: .2s ease;
 }
 
 /* Logo */
