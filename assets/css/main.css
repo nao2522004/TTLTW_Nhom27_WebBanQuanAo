@@ -1,3 +1,6 @@
+body {
+    background-color: var(--primary-color);
+}
 /* ========================== For class ========================== */
 .container {
     max-width: 1200px;
