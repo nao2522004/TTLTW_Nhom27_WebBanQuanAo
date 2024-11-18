@@ -24,10 +24,13 @@
 
     <div class="collect">
 
+        <div class="collect_title-logo">
+            <img src="./assets/imgs/Collection-running/logo1.webp" alt="">
+        </div>
         <!-- Start Collect intro -->
         <div class="collect_intro grid">
             <div class="collect_intro-left">
-                <div class="collect-title">LASMANATE <span> FOR RUNNING</span></div>
+                <div class="collect-title">LASMANATE <span> CHẠY BỘ</span></div>
                 <div class="collect_title-small">Nguồn cảm hứng</div>
                 <p class="collect-text">Thấu hiểu sâu sắc những vấn đề các runners gặp phải trên đường chạy,
                     <br> LASMANATE FOR RUNNING với những công nghệ mới nhất #ChafeFree <br>#QuickDry #Ultralight,
@@ -42,6 +45,15 @@
         </div>
         <!-- End collect intro -->
 
+
+        <!-- Start collect marquee -->
+        <div class="collect_marquee">
+            <div class="collect_marquee-logo">LASMANATE</div>
+            <div class="collect_marquee-text">
+                <p>LASMANATE XUÂN HÈ<span> KHÁM PHÁ SỰ TƯƠI TẮN CỦA LASMANATE MÙA XUÂN HÈ </span> LASMANATE XUÂN HÈ</p>
+            </div>
+        </div>
+        <!-- End collect marquee -->
 
         <!-- All products -->
         <section id="section_all_products">
@@ -329,22 +341,6 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
 
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const priceElements = document.querySelectorAll('.product-decrip div');
-
-            priceElements.forEach(el => {
-                const price = Number(el.getAttribute('data-price'));
-
-                const formattedPrice = new Intl.NumberFormat('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).format(price);
-
-                el.textContent = formattedPrice;
-            });
-        });
     </script>
 
     <!-- base js -->

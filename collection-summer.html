@@ -287,23 +287,6 @@
         const footer = document.getElementById('footer');
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const priceElements = document.querySelectorAll('.product-decrip div');
-
-            priceElements.forEach(el => {
-                const price = Number(el.getAttribute('data-price'));
-
-                const formattedPrice = new Intl.NumberFormat('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).format(price);
-
-                el.textContent = formattedPrice;
-            });
-        });
     </script>
 
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
@@ -311,29 +294,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
 
-    <!-- Filter -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const filterHeaders = document.querySelectorAll("#section_all_products .filter h4");
-
-            filterHeaders.forEach(header => {
-                header.addEventListener("click", function () {
-                    // Toggle the visibility of filter content
-                    const filterContent = header.nextElementSibling;
-                    // filterContent.style.display = filterContent.style.display === "block" ? "none" : "block";
-                    if (filterContent.classList.contains("active")) {
-                        filterContent.classList.remove("active");
-                    } else {
-                        filterContent.classList.add("active");
-                    }
-
-                    // Toggle the arrow direction
-                    const arrow = header.querySelector(".arrow");
-                    arrow.classList.toggle("active");
-                });
-            });
-        });
-    </script>
     <!-- base js -->
 
     <script src="./assets/js/base.js"></script>
