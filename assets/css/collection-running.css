@@ -4,6 +4,17 @@
   top: 12rem;
 }
 
+.collect_title-logo {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.collect_title-logo img {
+  width: 90%;
+  height: 80vh;
+}
+
 .collect_intro {
   display: flex;
   justify-content: space-between;

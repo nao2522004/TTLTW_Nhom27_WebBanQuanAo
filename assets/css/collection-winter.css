@@ -4,20 +4,31 @@
   top: 12rem;
 }
 
+.collect_title-logo {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.collect_title-logo img {
+  width: 90%;
+  height: 80vh;
+}
 .collect_intro {
   display: flex;
-  justify-content: space-between;
-  padding: 2rem 5rem;
+  justify-content: space-around;
+  flex-wrap: wrap;
   text-align: center;
 }
 
 .collect_intro-left {
   margin-top: 3rem;
+  width: 50rem;
 }
 
 .collect-title {
   font-size: 7rem;
-  padding-top: 4rem;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   font-weight: 600;
@@ -32,7 +43,6 @@
 .collect-text {
   font-size: 2rem;
   line-height: 2rem;
-  font-weight: 450;
   color: var(--lighter-second-color);
 }
 
@@ -41,7 +51,7 @@
 }
 
 .collect_intro-img {
-  height: 40rem;
+  height: 50rem;
   width: 80rem;
   border-radius: 2rem;
 }
@@ -51,25 +61,19 @@
 /*====================== Start collect_marquee ====================*/
 .collect_marquee {
   background-color: var(--primary-color);
-  padding: 1rem 0;
+  padding: 1rem 2rem;
   color: var(--second-color);
 }
 
 .collect_marquee-logo {
-  position: relative;
-  font-size: 3rem;
-  left: 1rem;
-  top: 1.9rem;
+  font-size: 4rem;
   text-shadow: 4px 4px 4px var(--second-color); /* Bóng trắng */
 }
 
 .collect_marquee-text {
   overflow: hidden;
   white-space: nowrap;
-  width: 110rem;
   margin: 0 auto;
-  position: relative;
-  bottom: 1.5rem;
 }
 
 .collect_marquee-text p span {
@@ -93,36 +97,45 @@
   }
 }
 
-/*====================== End collect_marquee ====================*/
-
 /*====================== Start collect running clothes ====================*/
 
-.running-clothes__title {
-  font-size: 3rem;
-  margin-top: 6rem;
-  font-weight: bold;
-  color: var(--second-color);
-}
-
-.running_product-btns {
-  display: flex;
-  gap: 2rem;
-  margin: 3rem;
-  color: var(--second-color);
-  cursor: pointer;
-}
-
-.running_product-btn {
-  padding: 1.5rem 4rem;
-  border-radius: 2.5rem;
-  font-size: 1.5rem;
-  border: 1px solid var(--second-color);
+/*====================== Start collect running clothes ====================*/
+.collect_marquee {
   background-color: var(--primary-color);
+  padding: 1rem 2rem;
+  color: var(--second-color);
 }
 
-.running_product-btn:hover {
-  background-color: var(--second-color);
-  color: var(--white-color);
+.collect_marquee-logo {
+  font-size: 4rem;
+  text-shadow: 4px 4px 4px var(--second-color); /* Bóng trắng */
+}
+
+.collect_marquee-text {
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0 auto;
+}
+
+.collect_marquee-text p span {
+  padding: 0 4rem;
+}
+
+.collect_marquee-text p {
+  color: var(--second-color);
+  font-size: 2rem;
+  display: inline-block;
+  padding-left: 100%; /* Bắt đầu bên ngoài khung nhìn */
+  animation: marquee 10s linear infinite; /* Tốc độ chạy và lặp vô hạn */
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 /*====================== End collect running clothes ====================*/
@@ -205,6 +218,7 @@
 #section_all_products .top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
 }
 
@@ -226,7 +240,8 @@
   transform: translate(-50%, -50%);
 }
 
-#section_all_products .top .sort {
+#section_all_products .top .sort,
+#section_all_products .top .sort-mobile {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -234,13 +249,21 @@
   font-size: 2rem;
 }
 
-#section_all_products .top .sort label {
-  width: 12rem;
+#section_all_products .top .sort-mobile {
+  display: none;
 }
 
-#section_all_products .top .sort select {
-  font-size: 1.2rem;
-  width: 20rem;
+#section_all_products .top .sort label,
+#section_all_products .top .sort-mobile label {
+  width: 20vw;
+  margin: 0;
+  text-align: center;
+}
+
+#section_all_products .top .sort select,
+#section_all_products .top .sort-mobile select {
+  font-size: 1.7rem;
+  width: 20vw;
 }
 
 /* Bottom */
@@ -314,6 +337,8 @@
   width: 80%;
   border-left: solid 1px #000;
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
 /* Pagination */
@@ -366,4 +391,215 @@
 #pagination_numbers {
   display: flex;
   align-items: center;
+}
+
+/* ===============Css list product============== */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-items {
+  position: relative;
+  padding: 1.5rem 1.5rem;
+  border-radius: 8px;
+  width: 27rem;
+}
+
+.product-items:hover {
+  box-shadow: var(--box-shadow-light);
+}
+
+/* .clothes-size {
+  position: absolute;
+  width: 20rem;
+  background-color: rgba(192, 192, 192, 1);
+  height: 7rem;
+  bottom: 8rem;
+  left: 3.5rem;
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.clothes-size p {
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.clothes-size .btn-size {
+  font-size: 1.5rem;
+  background-color: var(--white-color);
+  margin-top: 0.7rem;
+  margin-left: 0.6rem;
+} */
+
+.product-items img {
+  width: 100%;
+  height: 30rem;
+  border-radius: 1rem;
+}
+
+.product-decrip {
+  padding-top: 1rem;
+}
+
+.product-decrip p {
+  font-size: 1.8rem;
+  margin-bottom: 0;
+}
+
+.product-decrip div {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* ===============end Css list product============== */
+
+@media (max-width: 833px) {
+  .collect_intro .collect-title {
+    font-size: 7rem;
+  }
+
+  #section_all_products .top .filter {
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  #section_all_products .top h1 {
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .collect_intro-img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .collect_intro .collect-title {
+    font-size: 7rem;
+  }
+
+  #section_all_products .top .sort,
+  #section_all_products .top .filter,
+  #section_all_products .top h1,
+  #section_all_products .bottom .filter {
+    display: none;
+  }
+
+  #section_all_products .top {
+    display: flex;
+    justify-content: end;
+    height: 4rem;
+  }
+
+  #section_all_products .top .sort-mobile {
+    display: block;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+  }
+
+  #section_all_products .top .sort-mobile select {
+    border-radius: 2rem;
+    width: 20vw;
+    padding: 0.2rem;
+  }
+
+  #section_all_products .top .sort-mobile label {
+    font-size: 1.8rem;
+    text-align: end;
+  }
+
+  #section_all_products .bottom {
+    display: flex;
+    justify-content: center;
+    border: none;
+  }
+
+  .list_products,
+  .list_products .container,
+  .product-list {
+    width: 100% !important;
+  }
+
+  .collect_intro-img {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 571px) {
+  #section_all_products .bottom {
+    padding: 0;
+  }
+
+  .list_products {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-items {
+    width: 47%;
+    height: 33rem;
+    padding: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+  .product-items img {
+    width: 100%; /* Hình ảnh chiếm hết chiều rộng của container */
+    height: 70%;
+    object-fit: cover;
+  }
+
+  .product-decrip {
+    padding-top: 1rem;
+  }
+
+  .product-decrip p {
+    font-size: 3.5vw;
+    margin-bottom: 0;
+  }
+
+  .product-decrip div {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .running-clothes__title {
+    font-size: 2.3rem;
+    margin: 3rem;
+    font-weight: bold;
+    color: var(--lighter-second-color);
+  }
+
+  .collect-text {
+    font-size: 1.5rem;
+  }
+
+  .collect_intro .collect-title {
+    font-size: 5rem;
+    line-height: 5rem;
+  }
+
+  .collect_marquee-text p {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .collect_marquee-logo {
+    font-size: 2.5rem;
+  }
+
+  .collect_intro-right {
+    margin: 3rem 0;
+  }
 }
