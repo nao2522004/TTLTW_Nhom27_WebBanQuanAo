@@ -32,7 +32,7 @@
         <div class="vertical-nav active bg-white container-fluid" id="sidebar">
             <div class="bg-light text-center admin-logo">
                 <img src="./assets/imgs/admin/logoadmin.jpg" alt="..."
-                    class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                    class="rounded-circle img-thumbnail shadow-sm">
                 <h4 class="m-0">Manh Dep Trai</h4>
                 <p class="font-weight-light text-muted mb-0">ADMIN</p>
                 <p class="btn btn-primary font-weight-light btn-sm py-3" id="generate">Generate Data</p>
@@ -43,8 +43,7 @@
 
             <ul class="nav flex-column bg-white mb-0 ml-1">
                 <li class="nav-item" id="s_product">
-                    <a href="#" class="nav-link text-dark bg-light"
-                        onclick="showSection('product-manager')">
+                    <a href="#" class="nav-link text-dark bg-light" onclick="showSection('product-manager')">
                         <i class="fa fa-th-large mr-1 fa-fw"></i>
                         Sản Phẩm
                     </a>
@@ -285,11 +284,28 @@
 
         <!-- <footer id="footer"></footer> -->
         <script>
-            // Header and footer
-            const header = document.getElementById('header');
-            const footer = document.getElementById('footer');
-            fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-            fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+            // // Header and footer
+            // const header = document.getElementById('header');
+            // const footer = document.getElementById('footer');
+            // fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+            // fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+
+            // Js xu ly su kien menu cua header khi khi nho man hinh
+            document.addEventListener("DOMContentLoaded", function () {
+                const menu = document.querySelector(".vertical-nav");
+
+                if (menu) {
+                    // Kiểm tra menu có tồn tại hay không
+                    menu.classList.remove("active");
+
+                    document
+                        .querySelector(".menu-toggle")
+                        .addEventListener("click", function () {
+                            menu.classList.toggle("active");
+                        });
+                }
+            });
+            // end Js xu ly su kien menu cua header khi khi nho man hinh
         </script>
 
 
@@ -297,6 +313,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
         <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
         <script src="./assets/js/admin.js"></script>
         <script src="./assets/js/base.js"></script>
 
