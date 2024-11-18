@@ -23,8 +23,7 @@
         <header id="header"></header>
     </div>
 
-
-    <div class="container active no-padding">
+    <div class="container no-padding">
         <!-- Login -->
         <div class="form-box login">
             <form action="">
@@ -35,10 +34,12 @@
                 </div>
                 <div class="input-box">
                     <input type="password" placeholder="Mật Khẩu" required>
-                    <i class="fa-solid fa-lock"></i>
+                    <button type="button" class="toggle-password" onclick="togglePassword(this)">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </div>
                 <div class="forgot-link">
-                    <a href="#">Quên mật khẩu?</a>
+                    <a href="forgot-password.html">Quên mật khẩu?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg">Đăng Nhập</button>
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
@@ -67,11 +68,12 @@
                 </div>
                 <div class="input-box">
                     <input type="password" placeholder="Mật Khẩu" required>
-                    <i class="fa-solid fa-lock"></i>
+                    <button type="button" class="toggle-password" onclick="togglePassword(this)">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                 </div>
 
                <button type="submit" class="btn btn-primary btn-lg" >Đăng Ký</button>
-
                 <p>hoặc đăng ký bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
@@ -100,6 +102,10 @@
         </div>
     </div>
 
+    <!-- Popup Notification -->
+    <div id="popup" class="popup hidden">
+        <p id="popup-message"></p>
+    </div>
 
     <div>
         <footer id="footer"></footer>

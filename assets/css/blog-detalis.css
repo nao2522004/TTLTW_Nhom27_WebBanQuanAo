@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #fff;
+    background-color: rgb(246, 241, 235) !important;
     font-family: IBMPlexSans;
     font-size: 15px;
     color: #444a59;
@@ -440,7 +440,6 @@ p.nocomments {
 }
 @media (max-width: 768px) {
     .l_layout img, 
-    .r_layout img,
     .baivietlienquan img {
         max-height: 200px; 
     }
@@ -478,3 +477,19 @@ p.nocomments {
     }
 }
 
+.sidebarnew.hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .sidebarnew {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    .sidebarnew.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
