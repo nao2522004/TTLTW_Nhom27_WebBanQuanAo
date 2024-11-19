@@ -29,19 +29,18 @@
     <div class=" admin_page row d-flex">
 
         <!-- Vertical navbar -->
-        <div class="vertical-nav active bg-white container-fluid" id="sidebar">
+        <div class="vertical-nav active bg-white" id="sidebar">
             <div class="bg-light text-center admin-logo">
-                <img src="./assets/imgs/admin/logoadmin.jpg" alt="..."
-                    class="rounded-circle img-thumbnail shadow-sm">
+                <img src="./assets/imgs/admin/logoadmin.jpg" alt="..." class="rounded-circle img-thumbnail shadow-sm">
                 <h4 class="m-0">Manh Dep Trai</h4>
                 <p class="font-weight-light text-muted mb-0">ADMIN</p>
                 <p class="btn btn-primary font-weight-light btn-sm py-3" id="generate">Generate Data</p>
             </div>
 
-            <p class="text-gray font-weight-bold text-uppercase px-3 pb-3 mb-0 ml-1 " style="font-size: 1.5rem;">
+            <p class="text-gray font-weight-bold text-uppercase px-3 pb-3 mb-0 ml-4" style="font-size: 1.5rem;">
                 Quản Lý</p>
 
-            <ul class="nav flex-column bg-white mb-0 ml-1">
+            <ul class="nav flex-column bg-white mb-0 ml-4">
                 <li class="nav-item" id="s_product">
                     <a href="#" class="nav-link text-dark bg-light" onclick="showSection('product-manager')">
                         <i class="fa fa-th-large mr-1 fa-fw"></i>
@@ -96,9 +95,10 @@
                             <div class="form-group col-md-4">
                                 <label for="category">Danh Mục: </label>
                                 <select class="form-control" id="category">
-                                    <option value="0">Giày Nam</option>
-                                    <option value="1">Giày Nữ</option>
-                                    <option value="2">Phụ Kiện</option>
+                                    <option value="0">Áo Nam</option>
+                                    <option value="1">Quần Nam</option>
+                                    <option value="2">Áo Nữ</option>
+                                    <option value="3">Quần Nữ</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
@@ -152,8 +152,9 @@
                         <thead class="thead_product-manager">
                             <tr>
                                 <th scope="col">Mã Code</th>
+                                <th scope="col">Ảnh Sản Phẩm</th>
                                 <th scope="col">Tên Sản Phẩm</th>
-                                <th scope="col">Danh Mục</th>
+                                <!-- <th scope="col">Danh Mục</th> -->
                                 <th scope="col">Giá Tiền</th>
                                 <th scope="col">Chất Liệu</th>
                                 <th scope="col">Số Lượng</th>
@@ -162,7 +163,24 @@
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                            <!-- Insert Data -->
+                            <tr>
+                                <th scope="row">H01</th>
+                                <td>
+                                    <img width="120" height="80" src="./assets/imgs/Cart/T-shirt1.jpg">
+                                </td>
+                                <td>Chevron Jogger</td>
+                                <!-- <td>Phụ Kiện</td> -->
+                                <td>1.200.000&nbsp;VND</td>
+                                <td>Cotons</td>
+                                <td>10</td>
+                                <td>2019-11-04</td>
+                                <td class="text-center">
+                                    <i class="fas fa-trash-alt text-danger" data-code="H01" id="delete"></i>
+                                    <i class="fas fa-edit text-info" data-code="H01" id="edit"></i>
+                                    <i class="fas fa-info-circle text-success" data-code="H01" id="detail"
+                                        data-toggle="modal" data-target="#productModal"></i>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -190,7 +208,14 @@
                             </tr>
                         </thead>
                         <tbody id="user_tbody">
-                            <!-- Insert Data -->
+                            <tr>
+                                <th scope="row">836-149</th>
+                                <td>Mạnh Đẹp Trai</td>
+                                <td>0011223344</td>
+                                <td>Gia Nghĩa ĐắK Nông</td>
+                                <td>admin@gmail.com</td>
+                                <td>Admin</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -214,7 +239,14 @@
                             </tr>
                         </thead>
                         <tbody id="order_tbody">
-                            <!-- Insert Data -->
+                            <tr>
+                                <th scope="row">O01</th>
+                                <td>U01</td>
+                                <td>2024-12-12</td>
+                                <td>Online</td>
+                                <td>Đã giao hàng</td>
+                                <td>hehehe</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -225,17 +257,22 @@
 
     <!-- Product Modal -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel"
-        aria-hidden="true">
+        aria-hidden="true" style="font-size: 2rem;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="productModalLabel">Chi Tiết Sản Phẩm</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="productModalLabel" style="font-size: 2rem;">Chi Tiết Sản Phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="font-size: 2rem;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body text-center" id="product-detail">
-                    <!-- Data -->
+                    <h6 style="font-size: 2rem;">Chevron Jogger</h6>
+                    <p>Code: H01 </p>
+                    <img width="220" height="180" src="./assets/imgs/Cart/T-shirt1.jpg" alt="">
+                    <div class="mt-2">Giá Tiền: 1.200.000&nbsp;VND</div>
+                    <div>Ngày Nhập Kho: 2019-11-04</div>
                 </div>
                 <div class="modal-footer">
                 </div>

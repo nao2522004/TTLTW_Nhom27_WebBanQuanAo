@@ -20,8 +20,8 @@
 .admin-logo {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1rem;
-  margin: 0;
   margin-top: 2rem;
 }
 
@@ -33,10 +33,10 @@
 .admin-logo img {
   width: 25rem;
   height: 20rem;
+  margin: 0 auto;
 }
 
 .admin-logo{
-padding-left: 1.5rem;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -107,6 +107,10 @@ thead.thead-dark th {
   margin-bottom: 2rem;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+.table tbody tr th, .table tbody tr td{
+  font-size: 1.5rem;
 }
 
 /* Thiết kế cho form quản lý sản phẩm */
