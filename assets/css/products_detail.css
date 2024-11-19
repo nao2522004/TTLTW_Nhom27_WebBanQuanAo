@@ -7,11 +7,12 @@ body {
 }
 
 /* ===================================================== Products ===================================================== */
-#products {
-    height: 600px;
+#section_products {
+    height: 60rem;
+    padding: 1rem 0;
 }
 
-#products .product-gallery {
+#section_products .product-gallery {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -19,16 +20,16 @@ body {
 }
 
 /* Thumbnail list in left side */
-#products .thumbnail-list {
+#section_products .thumbnail-list {
     flex: 1;
-    max-width: 120px;
+    max-width: 12rem;
     overflow-y: auto;
-    margin-right: 15px;
+    margin-right: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
-#products .thumbnail-list img {
+#section_products .thumbnail-list img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -36,11 +37,11 @@ body {
     transition: .1s ease-in-out;
 }
 
-#products .thumbnail-list img:not(:last-child) {
-    margin-bottom: 10px;
+#section_products .thumbnail-list img:not(:last-child) {
+    margin-bottom: 1rem;
 }
 
-#products .thumbnail-list img.active {
+#section_products .thumbnail-list img.active {
     border: 1px solid #000;
 }
 
@@ -70,96 +71,96 @@ body {
 }
 
 /* Product Info */
-#products .product-info h1 {
+#section_products .product-info h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
 
-#products .price {
+#section_products .price {
     font-size: 3rem;
     font-weight: 600;
     margin-bottom: 1rem;
 }
 
 /* Size and color options */
-#products .color-options h5,
-#products .size-options h5 {
+#section_products .color-options h5,
+#section_products .size-options h5 {
     font-size: 2rem;
 }
 
-#products .color-options span:nth-child(1) {
+#section_products .color-options span:nth-child(1) {
     background-color: rgb(196, 186, 182);
 }
 
-#products .color-options span:nth-child(2) {
+#section_products .color-options span:nth-child(2) {
     background-color: rgb(86, 85, 90);
 }
 
-#products .color-options span:nth-child(3) {
+#section_products .color-options span:nth-child(3) {
     background-color: rgb(0, 0, 0);
 }
 
-#products .color-options span,
-#products .size-options span {
+#section_products .color-options span,
+#section_products .size-options span {
     display: inline-block;
-    width: 45px;
-    height: 45px;
+    width: 4.5rem;
+    height: 4.5rem;
     background-color: #ccc;
-    margin: 0 12px 0 0;
+    margin: 0 1.2rem 0 0;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#products .color-options span:hover {
+#section_products .color-options span:hover {
     transition: .3s ease-in-out;
     transform: scale(0.95);
 }
 
-#products .size-options span:hover {
+#section_products .size-options span:hover {
     border: 1px solid #000;
 }
 
-#products .choose_size,
-#products .choose_color {
+#section_products .choose_size,
+#section_products .choose_color {
     display: flex;
     font-size: 1.6rem;
 }
 
 /* Instructions */
-#products .instructions a {
+#section_products .instructions a {
     color: #000;
     text-decoration: underline;
-    text-underline-offset: 5px;
+    text-underline-offset: 0.5rem;
     transition: .3s ease;
     font-size: 1.6rem;
 }
 
-#products .instructions a i {
+#section_products .instructions a i {
     transform: scaleX(-1);
 }
 
-#products .instructions a:hover {
+#section_products .instructions a:hover {
     text-decoration: none;
-    padding-left: 2px;
+    padding-left: 0.2rem;
 }
 
 /* Quantity */
-#products .quantity-selector {
+#section_products .quantity-selector {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
 }
 
-#products .quantity-selector h5 {
+#section_products .quantity-selector h5 {
     font-size: 2rem;
     margin: 0;
 }
 
-#products .quantity-selector button {
-    width: 20px;
-    height: 40px;
+#section_products .quantity-selector button {
+    width: 2rem;
+    height: 4rem;
     color: #000;
     font-size: 2.25rem;
     border: none;
@@ -173,69 +174,137 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-#products .quantity-selector button:hover {
+#section_products .quantity-selector button:hover {
     color: #000;
     background: none;
     transform: scale(1.3);
 }
 
-#products .quantity-selector button:active {
+#section_products .quantity-selector button:active {
     background: none !important;
     box-shadow: none !important;
     border: none !important;
     color: #000 !important;
 }
 
-#products .quantity-selector button:focus {
+#section_products .quantity-selector button:focus {
     background: none;
     box-shadow: none;
     outline: none;
     border: none;
 }
 
-#products .quantity-selector input {
+#section_products .quantity-selector input {
     text-align: center;
-    width: 30px;
-    height: 40px;
+    width: 3rem;
+    height: 4rem;
     font-size: 2.25rem;
     border: none;
     margin: 0;
     background-color: transparent;
 }
 
-#products .quantity-selector input:focus {
+#section_products .quantity-selector input:focus {
     outline: none;
 }
 
-#products .quantity-selector input[readonly] {
+#section_products .quantity-selector input[readonly] {
     background-color: transparent;
 }
 
 /* Buttons */
-#products .add_to_cart_btn,
-#products .buy_btn {
-    outline: none;
-    border: none;
+#section_products .add_to_cart_btn,
+#section_products .buy_btn {
     border: 2px solid rgb(164, 109, 14);
     font-size: 2.5rem;
-    padding: 5px 25px;
+    padding: 0.5rem 2.5rem;
     transition: .5s ease;
+    cursor: pointer;
 }
-
-#products .buy_btn {
-    margin-left: 10px;
+#section_products .add_to_cart_btn {
+    color: #000;
+}
+#section_products .buy_btn {
+    margin-left: 1rem;
     background-color: rgb(164, 109, 14);
     color: #fff;
 }
 
-#products .add_to_cart_btn:hover {
+#section_products .add_to_cart_btn:hover {
     background-color: rgb(164, 109, 14);
     color: #fff;
 }
 
-#products .buy_btn:hover {
+#section_products .buy_btn:hover {
     background: none;
     color: #000;
 }
 
 /* ===================================================== Description ===================================================== */
+#section_description {
+    margin-top: 12rem;
+}
+#section_description h1 {
+    border-bottom: 1px solid rgba(0, 0, 0, .3);
+}
+#section_description .text_content {
+    list-style: none;
+    font-size: 1.5rem;
+    line-height: 2.5;
+}
+
+/* =================================================== Section Similar =================================================== */
+#section_similar {
+    margin-top: 12rem;
+}
+.similar_container {
+    max-width: 95vw;
+    padding: 0;
+}
+
+#section_similar h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -50%;
+    width: 14%;
+    height: 0.1rem;
+    background-color: #000;
+}
+
+/* Similar Carousel */
+#carousel_similar .item img {
+    width: 100%;
+    height: 28rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#carousel_similar .item img:hover {
+    transform: scale(1.05);
+}
+
+#carousel_similar .carousel-control-prev,
+#carousel_similar .carousel-control-next {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    width: 2%;
+}
+
+#carousel_similar:hover .carousel-control-prev,
+#carousel_similar:hover .carousel-control-next {
+    opacity: 1;
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#carousel_similar .carousel-control-prev:hover,
+#carousel_similar .carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+#carousel_similar .carousel-control-prev span,
+#carousel_similar .carousel-control-next span {
+    transition: background-color 0.3s ease;
+}

@@ -31,7 +31,7 @@
     <div style="height: 12rem;"></div>
 
     <!-- Products -->
-    <section id="products" class="row container mx-auto mt-4 py-5">
+    <section id="section_products" class="row container mx-auto mt-4">
         <!-- Product Gallery -->
         <div class="col-md-6 product-gallery">
             <div class="thumbnail-list">
@@ -63,7 +63,7 @@
         <!-- Product Info -->
         <div class="col-md-6 product-info">
             <h1>This is the eo vi towel, I will take it for the price of the number... ninety million</h1>
-            <div class="price">90.000.000 đ</div>
+            <div class="price">250.000 đ</div>
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
@@ -86,15 +86,15 @@
                 <button class="btn btn-outline-secondary">+</button>
             </div>
             <div class="mt-5">
-                <button class="add_to_cart_btn">Add to cart</button>
-                <button class="buy_btn">Buy now</button>
+                <a class="add_to_cart_btn">Add to cart</a>
+                <a class="buy_btn">Buy now</a>
             </div>
         </div>
     </section>
 
     <!-- Description -->
-    <section id="description">
-        <h1>Thông tin chi tiết sản phẩm</h1>
+    <section id="section_description" class="container mx-auto">
+        <h1 class="mb-5 pb-4 text-center">Thông tin chi tiết sản phẩm</h1>
         <div class="content">
             <ul class="text_content">
                 <li>Welcome to our store</li>
@@ -108,13 +108,71 @@
                 <li>Beautiful and secure packaging, fast delivery.</li>
                 <li>In stock, best delivery time.</li>
                 <li>Product Return Policy</li>
-                <li>Conditions for returns:</li>
-                <li>Warranty Policy</li>
+                <li>Conditions for returns:
+                    <ul>
+                        <li>The item is new, with tags, and unused.</li>
+                        <li>The product is defective or damaged due to shipping or manufacturing issues.</li>
+                    </ul>
+                </li>
+                <li>Warranty Policy:
+                    <ul>
+                        <li>Products are 100% guaranteed in quality.</li>
+                        <li>Exchanges and returns are carried out according to Shopee's policies.</li>
+                        <li>Nationwide shipping, cash on delivery available.</li>
+                    </ul>
+                </li>
                 <li>Size and Model</li>
                 <li>The product's size and model are displayed in the images, please review carefully. Due to manual measurements, there may be a 1-2 cm deviation.</li>
                 <li>Due to different displays and lighting, the images may not reflect the true colors of all products. Thank you for your understanding.</li>
                 <li>If customers find any product defects or encounter rude behavior from the delivery staff, please inform our store for the best solution!! Lastly, we look forward to your five-star rating.</li>
             </ul>
+        </div>
+    </section>
+
+    <!-- Similar -->
+    <section id="section_similar" class="container similar_container">
+        <h2 class="position-relative mb-5">Sản phẩm tương tự</h2>
+        <div id="carousel_similar" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/1.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/2.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/3.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/1/4.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/1.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/2.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/3.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/2/4.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/1.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/2.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/3.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/4.png" alt=""></div>
+                        <div class="col-md-2 item"><img src="./assets/imgs/men/list products/3/4.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-target="#carousel_similar" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-target="#carousel_similar" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </button>
         </div>
     </section>
 
