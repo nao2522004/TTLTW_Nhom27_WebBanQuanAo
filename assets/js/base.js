@@ -1,28 +1,48 @@
 // Js xu ly su kien menu cua header khi khi nho man hinh
 document.addEventListener("DOMContentLoaded", function () {
+  const menu = document.querySelector("header .container-nav");
+  const menu1 = document.querySelector("header .container-nav nav");
 
-  const menu = document.querySelector("header .part2 ul");
-
-    if (menu) {
+    if (menu && menu1) {
         // Kiểm tra menu có tồn tại hay không
         menu.classList.remove("active");
+        menu1.classList.remove("active");
 
         document
             .querySelector(".menu-toggle")
             .addEventListener("click", function () {
                 menu.classList.toggle("active");
+                menu1.classList.toggle("active");
             });
     }
+
 });
 // end Js xu ly su kien menu cua header khi khi nho man hinh
 
-// Hieu ung chuyen dong cho Header khi nguoi dung cuon trang
+// Hiệu ứng chuyển động cho Header khi người dùng cuộn trang
 window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-        header.classList.add("scrolled");
-    } else {
-        header.classList.remove("scrolled");
-    }
+  const header = document.querySelector("header");
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth > 1456) {
+      if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+      } else {
+          header.classList.remove("scrolled");
+      }
+  } else {
+      header.classList.remove("scrolled"); // Loại bỏ class nếu màn hình nhỏ hơn 991px
+  }
+});
+
+// Kiểm tra và cập nhật ngay khi resize màn hình
+window.addEventListener("resize", () => {
+  const header = document.querySelector("header");
+  const windowWidth = window.innerWidth;
+
+  if (windowWidth <= 1456) {
+      header.classList.remove("scrolled"); // Đảm bảo không áp dụng hiệu ứng cho màn hình nhỏ
+  }
 });
 // end
 
