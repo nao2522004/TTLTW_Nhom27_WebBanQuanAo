@@ -117,7 +117,7 @@ a {
 
 .tab-header__item.is-active,
 .tab-header__item:hover {
-    background-color: #a07c62;
+    background-color: #335d4a;
     color: #fff;
 }
 
@@ -277,7 +277,7 @@ a {
 
 .btn {
     align-items: center;
-    background-color: #a07c62;
+    background-color: #335d4a;
     border-radius: 16px;
     color: #fff;
     cursor: pointer;
@@ -289,7 +289,7 @@ a {
 }
 
 .btn:hover {
-    background-color: #cd9f7e;
+    background-color: 4d876d;
     color: #000 !important;
 }
 

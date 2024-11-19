@@ -41,7 +41,7 @@ body{
 }
 
 #card .summary {
-    background-color: #c4b6a6;
+    background-color: #7A9489 ;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding: 4vh;
@@ -187,8 +187,7 @@ body{
 
 
 #card .btn {
-    background-color: #000;
-    border-color: #000;
+    background-color: #335d4a;
     color: var(--white-color);
     width: 100%;
     margin-top: 4vh;
@@ -206,7 +205,7 @@ body{
 }
 
 #card .btn:hover {
-    background-color: #303134 !important;
+    background-color: #4d876d !important;
     cursor: pointer;
 }
 
