@@ -12,13 +12,8 @@ header {
   width: 100vw;
   height: 12rem;
   z-index: 100;
-  transition: .2s ease;
+  transition: 0.2s ease;
 }
-
-#header header {
-  position: relative;
-}
-
 
 /* Logo */
 header .logo {
@@ -26,7 +21,7 @@ header .logo {
   left: 50%;
   top: 1.8rem;
   transform: translateX(-50%);
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 header .logo img {
@@ -198,7 +193,6 @@ header.scrolled .group_icons {
   }
 
   header .container-nav.active {
->>>>>>> HLNM
     left: 0;
   }
 
@@ -215,17 +209,15 @@ header.scrolled .group_icons {
     position: absolute;
     left: auto;
     right: 2rem;
-
   }
 
   .white_space {
-      height: 6rem;
+    height: 6rem;
   }
 }
 
 @media (max-width: 320px) {
   header .logo img {
-
     width: 23rem;
     left: -2rem;
   }
