@@ -10,19 +10,20 @@
         body {
             background-color: rgb(246, 241, 235);
         }
+
         #products {
             height: 600px;
         }
 
-        /* Product Gallery */
-        .product-gallery {
+        #products .product-gallery {
             display: flex;
             flex-direction: row;
             height: 100%;
-            border-right: 1px solid #ddd;
+            border-right: 2px solid #ddd;
         }
 
-        .thumbnail-list {
+        /* Thumbnail list in left side */
+        #products .thumbnail-list {
             flex: 1;
             max-width: 120px;
             overflow-y: auto;
@@ -31,17 +32,23 @@
             flex-direction: column;
         }
 
-        .thumbnail-list img {
+        #products .thumbnail-list img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             cursor: pointer;
+            transition: .1s ease-in-out;
         }
 
-        .thumbnail-list img:not(:last-child) {
+        #products .thumbnail-list img:not(:last-child) {
             margin-bottom: 10px;
         }
 
+        #products .thumbnail-list img.active {
+            border: 1px solid #000;
+        }
+
+        /* Carousel in right side */
         #mainCarousel {
             height: 100%;
             flex: 3;
@@ -67,57 +74,82 @@
         }
 
         /* Product Info */
-        .product-info h1 {
+        #products .product-info h1 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
 
-        .price {
+        #products .price {
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 1rem;
         }
 
-        .color-options span,
-        .size-options span {
+        /* Size and color options */
+        #products .choose_size,
+        #products .choose_color {
+            display: flex;
+        }
+
+        #products .color-options span:nth-child(1) {
+            background-color: rgb(196, 186, 182);
+        }
+
+        #products .color-options span:nth-child(2) {
+            background-color: rgb(86, 85, 90);
+        }
+
+        #products .color-options span:nth-child(3) {
+            background-color: rgb(0, 0, 0);
+        }
+
+        #products .color-options span,
+        #products .size-options span {
             display: inline-block;
-            width: 30px;
-            height: 30px;
+            width: 45px;
+            height: 45px;
             background-color: #ccc;
             margin: 0 12px 0 0;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .instructions a {
+        #products .color-options span:hover {
+            transition: .3s ease-in-out;
+            transform: scale(0.95);
+        }
+
+        #products .size-options span:hover {
+            border: 1px solid #000;
+        }
+
+        /* Instructions */
+        #products .instructions a {
             color: #000;
             text-decoration: underline;
             text-underline-offset: 5px;
             transition: .3s ease;
         }
 
-        .instructions a:hover {
+        #products .instructions a:hover {
             text-decoration: none;
             padding-left: 2px;
         }
 
-        .color-options span:hover,
-        .size-options span:hover {
-            border: 2px solid #000;
-        }
-
-        .quantity-selector {
+        /* Quantity */
+        #products .quantity-selector {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .quantity-selector h5 {
+        #products .quantity-selector h5 {
             margin: 0;
-            font-size: 1rem;
-            font-weight: 500;
         }
 
-        .quantity-selector button {
+        #products .quantity-selector button {
             width: 20px;
             height: 40px;
             color: #000;
@@ -133,27 +165,27 @@
             transition: all 0.2s ease-in-out;
         }
 
-        .quantity-selector button:hover {
+        #products .quantity-selector button:hover {
             color: #000;
             background: none;
             transform: scale(1.3);
         }
 
-        .quantity-selector button:active {
+        #products .quantity-selector button:active {
             background: none !important;
             box-shadow: none !important;
-            outline: none;
             border: none !important;
+            color: #000 !important;
         }
 
-        .quantity-selector button:focus {
+        #products .quantity-selector button:focus {
             background: none;
             box-shadow: none;
             outline: none;
             border: none;
         }
 
-        .quantity-selector input {
+        #products .quantity-selector input {
             text-align: center;
             width: 30px;
             height: 40px;
@@ -163,32 +195,61 @@
             background-color: transparent;
         }
 
-        .quantity-selector input:focus {
+        #products .quantity-selector input:focus {
             outline: none;
         }
 
-        .quantity-selector input[readonly] {
+        #products .quantity-selector input[readonly] {
             background-color: transparent;
+        }
+
+        /* Buttons */
+        #products .add_to_cart_btn,
+        #products .buy_btn {
+            outline: none;
+            border: none;
+            border: 2px solid rgb(164, 109, 14);
+            font-size: 20px;
+            padding: 5px 25px;
+            transition: .5s ease;
+        }
+
+        #products .buy_btn {
+            margin-left: 10px;
+            background-color: rgb(164, 109, 14);
+            color: #fff;
+        }
+        #products .add_to_cart_btn:hover {
+            background-color: rgb(164, 109, 14);
+            color: #fff;
+        }
+        #products .buy_btn:hover {
+            background: none;
+            color: #000;
         }
     </style>
 </head>
 
 <body>
+    <!-- Products -->
     <div id="products" class="row container mx-auto py-5">
         <!-- Product Gallery -->
         <div class="col-md-6 product-gallery">
             <div class="thumbnail-list">
-                <img src="https://via.placeholder.com/100" alt="Thumbnail">
-                <img src="https://via.placeholder.com/100" alt="Thumbnail">
-                <img src="https://via.placeholder.com/100" alt="Thumbnail">
+                <img src="./assets/imgs/men/list products/1/1.png" alt="Thumbnail">
+                <img src="./assets/imgs/men/list products/1/2.png" alt="Thumbnail">
+                <img src="./assets/imgs/men/list products/1/4.png" alt="Thumbnail">
             </div>
-            <div id="mainCarousel" class="carousel slide main-image" data-ride="carousel">
+            <div id="mainCarousel" class="carousel slide main-image">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://via.placeholder.com/400" class="d-block w-100" alt="Main Image">
+                        <img src="./assets/imgs/men/list products/1/1.png" class="d-block w-100" alt="Main Image">
                     </div>
                     <div class="carousel-item">
-                        <img src="https://via.placeholder.com/400" class="d-block w-100" alt="Main Image">
+                        <img src="./assets/imgs/men/list products/1/2.png" class="d-block w-100" alt="Main Image">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="./assets/imgs/men/list products/1/4.png" class="d-block w-100" alt="Main Image">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
@@ -206,14 +267,18 @@
             <div class="price">90.000.000 đ</div>
             <div class="color-options">
                 <h5>Choose color:</h5>
-                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <div class="choose_color">
+                    <span></span><span></span><span></span>
+                </div>
             </div>
             <div class="instructions mt-2">
                 <a href="#">How to choose the exactly size <i class="fa fa-pencil"></i></a>
             </div>
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
-                <span></span><span></span><span></span><span></span><span></span>
+                <div class="choose_size">
+                    <span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span><span>XXXL</span>
+                </div>
             </div>
             <div class="quantity-selector mt-4">
                 <h5>Quantity:</h5>
@@ -222,13 +287,53 @@
                 <button class="btn btn-outline-secondary">+</button>
             </div>
             <div class="mt-4">
-                <button class="btn btn-warning mr-2">Add to cart</button>
-                <button class="btn btn-dark">Buy</button>
+                <button class="add_to_cart_btn">Add to cart</button>
+                <button class="buy_btn">Buy now</button>
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===================================================== Products =====================================================
+        
+        $(document).ready(function () {
+            $('#mainCarousel').on('slide.bs.carousel', function (e) {
+                var activeIndex = $(e.relatedTarget).index();
+
+                $('#products .thumbnail-list img').removeClass('active');
+
+                $('#products .thumbnail-list img').eq(activeIndex).addClass('active');
+            });
+
+            $('#products .thumbnail-list img').click(function () {
+                var index = $(this).index();
+                $('#mainCarousel').carousel(index);
+            });
+
+            $(document).click(function (event) {
+                if (!$(event.target).closest('#products .thumbnail-list img').length && !$(event.target).closest('#mainCarousel img').length) {
+                    $('#products .thumbnail-list img').removeClass('active');
+                }
+            });
+
+            $('#mainCarousel').on('slid.bs.carousel', function () {
+                var currentIndex = $('#mainCarousel .carousel-item.active').index();
+                $('#products .thumbnail-list img').removeClass('active');
+                $('#products .thumbnail-list img').eq(currentIndex).addClass('active');
+            });
+        });
+
+        $('#mainCarousel').carousel({
+            interval: false
+        });
+
+        $('#products .choose_color span').click(function () {
+            var colorIndex = $(this).index();
+
+            $('#mainCarousel').carousel(colorIndex);
+        });
+    </script>
 </body>
 
 </html>
