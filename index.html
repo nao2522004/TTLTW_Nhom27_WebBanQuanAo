@@ -21,8 +21,8 @@
 
     <!-- CSS native -->
     <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
 </head>
 
 <body>
@@ -148,7 +148,7 @@
         <div class="container">
             <!-- Collection Header -->
             <div class="collection-header text-left mb-4">
-                <h2>Bộ sưu tập mùa đông</h2>
+                <h2>Bộ sưu tập thu đông</h2>
                 <h3>Sản phẩm theo mùa thời trang nhất năm 2024</h3>
                 <button class="see-more">See more</button>
             </div>
@@ -242,15 +242,6 @@
         const footer = document.getElementById('footer');
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-
-        // Transition for Header
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("scrolled");
-            } else {
-                header.classList.remove("scrolled");
-            }
-        });
     </script>
     <!-- Javascript Native -->
     <script src="./assets/js/base.js"></script>

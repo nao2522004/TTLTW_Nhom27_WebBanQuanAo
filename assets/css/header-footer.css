@@ -10,7 +10,9 @@ header {
   z-index: 100;
   transition: .2s ease;
 }
-
+#header header {
+  position: relative;
+}
 /* Logo */
 header .logo {
   position: absolute;
@@ -33,7 +35,7 @@ header nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: .7s ease-in-out;
+  transition: .3s ease-in-out;
 }
 
 header nav ul {
@@ -134,16 +136,16 @@ header.scrolled .group_icons {
 
 /* Menu toggle */
 .menu-toggle {
+  display: none;
   position: absolute;
-  color: var(--second-color);
-  font-size: 3rem;
-  cursor: pointer;
   top: 50%;
   left: 5rem;
   transform: translateY(-50%);
-  display: none;
-  z-index: 200;
+  font-size: 3rem;
+  color: var(--second-color);
   padding: 1rem;
+  cursor: pointer;
+  z-index: 200;
 }
 
 @media (max-width: 991px) {
@@ -155,7 +157,6 @@ header.scrolled .group_icons {
 
   /* Navigation */
   header nav ul {
-      display: none;
       position: absolute;
       width: 100%;
       height: 100vh;
@@ -176,7 +177,7 @@ header.scrolled .group_icons {
   }
 
   header nav ul.active {
-      left: 0;
+    left: 0;
   }
 
   /* Logo */
