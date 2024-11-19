@@ -1,26 +1,82 @@
+body {
+    background-color: var(--primary-color);
+}
 /* ========================== For class ========================== */
 .container {
     max-width: 1200px;
 }
 
 /* ========================== Carousel ========================== */
-#carousel {
-    width: 90vw;
-    margin: 0 auto;
+#customCarousel {
+    position: relative;
 }
 
-#carousel .carousel-indicators {
-    gap: 1rem;
+/* Carousel caption */
+.carousel_caption {
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-#carousel .carousel-indicators li {
-    height: 1.2rem;
-    width: 1.2rem;
-    border-radius: 100%;
+.carousel_caption h5 {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #ddd;
 }
 
-#carousel .carousel-inner .carousel-item img {
-    height: 60rem;
+.carousel_caption p {
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.carousel_caption a {
+    padding: 0;
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.carousel_caption a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Control buttons */
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1 !important;
+}
+
+.carousel-control-prev:focus:not(:hover),
+.carousel-control-next:focus:not(:hover) {
+    opacity: 0;
+    outline: none;
+}
+
+.carousel-control-prev {
+    left: 0;
+    width: 100px;
+}
+
+.carousel-control-next {
+    right: 0;
+    width: 100px;
 }
 
 /* ========================== Section 1 ========================== */
@@ -85,41 +141,73 @@
     color: #333;
 }
 
-/* ========================== Section 3 ========================== */
-#section_3 {
-    margin-top: 12rem;
+/* ========================== Section Collection ========================== */
+#section_collection {
+    margin-top: 11rem;
+    padding: 4rem 2rem;
 }
 
-#section_3 .container {
-    background: url('../imgs/HomePage/section3/3.png') no-repeat;
-    background-size: cover;
-    background-clip: content-box;
-    height: 40rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+#section_collection .collection-header h2 {
+    font-size: 1.8rem;
+    color: #555;
+    margin: 0;
 }
 
-#section_3 h2 {
-    font-size: 3rem;
+#section_collection .collection-header h3 {
+    font-size: 2.8rem;
+    color: #000;
+    margin: 0.5rem 0 2rem;
 }
 
-#section_3 p {
-    font-size: 1.5rem;
+#section_collection .see-more {
+    background-color: #ccc;
+    color: #000;
+    padding: 1rem 2rem;
+    border-radius: 2.5rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#section_3 .button {
-    padding: 1rem 3rem;
+#section_collection .see-more:hover {
+    box-shadow: 0 0.4rem 1rem -3px #474747;
+}
+
+#section_collection .product-grid .product-item {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 350px;
+}
+
+#section_collection .product-grid .product-item img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+#section_collection .product-grid .product-item:hover img {
+    transform: scale(1.1);
+}
+
+#section_collection .product-grid .price {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
     color: #fff;
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 1.5rem;
-    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 1.4rem;
+}
+
+#section_collection .product-grid .price del {
+    color: #ddd;
+    font-size: 1.2rem;
 }
 
 /* ========================== Section 4 ========================== */
