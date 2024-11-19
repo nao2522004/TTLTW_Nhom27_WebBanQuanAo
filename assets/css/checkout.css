@@ -33,12 +33,12 @@ body{
     cursor: pointer;
 }
 .btn:hover {
-    background-color: #303134 !important;
+    background-color: #4d876d !important;
     cursor: pointer;
 }
 
 .text-custom {
-    color: #8c6e59 !important
+    color: #335d4a!important
 }
 @media (max-width: 768px) {
     .container {
@@ -87,7 +87,7 @@ body{
 
 #check-out .btn {
     color: #fff;
-    background-color: #18191b;
+    background-color: #335d4a;
     border-radius: 5px; 
     border: none;
     padding: 10px 20px; 
@@ -97,7 +97,7 @@ body{
 }
 
 #check-out .btn:hover {
-    background-color: #18191b; 
+    background-color: #335d4a; 
     cursor: pointer; 
 }
 

@@ -101,7 +101,7 @@ strong {
     line-height: 0.9;
     position: relative;
     top: -2px;
-    color: #a07c62;
+    color: #365952;
 }
 
 .content_first_letter span,
@@ -114,7 +114,7 @@ em {
 }
 
 .content_first_letter a {
-    color: #a07c62 !important;
+    color: #365952 !important;
     text-decoration: none;
 }
 
@@ -329,7 +329,7 @@ p.nocomments {
 }
 
 #commentform input[type*=submit] {
-    background: #a07c62 !important;
+    background: #365952 !important;
     color: #fff;
     padding: 10px 24px;
     font-size: 14px;
