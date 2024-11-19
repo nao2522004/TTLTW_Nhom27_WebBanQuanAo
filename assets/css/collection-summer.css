@@ -18,7 +18,7 @@
 .collect-title {
   font-size: 11rem;
   font-weight: 600;
-  -webkit-text-stroke: 1px var(--accent-color); /* viền chữ màu đen */
+  -webkit-text-stroke: 1px var(--second-color); /* viền chữ màu đen */
   color: var(--white-color);
   padding-bottom: 1.5rem;
 }

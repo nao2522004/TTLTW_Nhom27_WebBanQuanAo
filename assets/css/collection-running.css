@@ -11,8 +11,11 @@
 }
 
 .collect_title-logo img {
-  width: 90%;
   height: 80vh;
+  width: 90vw;
+  border-radius: 2rem;
+  margin-top: 1rem;
+  object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
 }
 
 .collect_intro {
@@ -53,6 +56,7 @@
   height: 40rem;
   width: 65rem;
   border-radius: 2rem;
+  object-fit: cover; /* Đảm bảo hình ảnh không bị biến dạng */
 }
 
 /*====================== End collect_intro ====================*/
@@ -489,7 +493,12 @@
     width: 100%;
     height: auto;
     border-radius: 2rem;
-    object-fit: cover;
+  }
+
+  .collect_title-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 2rem;
   }
 }
 
