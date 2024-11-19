@@ -120,7 +120,7 @@ form {
     width: 100%;
     height: 48px;
     border-radius: 8px;
-    background-color: #a07c62 !important;
+    background-color: #335d4a !important;
     border: none !important;
     font-size: 16px;
     color: #fff;
@@ -129,7 +129,7 @@ form {
 }
 
 .btn:hover {
-    background-color: #8b7260 !important;
+    background-color: #4d876d !important;
     cursor: pointer;
     border: none;
 }
@@ -164,7 +164,7 @@ form {
     left: -250%;
     width: 300%;
     height: 100%;
-    background-color: #a07c62;
+    background-color: #335d4a;
     border-radius: 150px;
     z-index: 2;
     transition: 1.8s ease-in-out;

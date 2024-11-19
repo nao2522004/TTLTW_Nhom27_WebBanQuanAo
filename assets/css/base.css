@@ -12,13 +12,16 @@
   --white-color: #fff;
   --black-color: #000;
   --primary-color: rgb(246, 241, 235);
-  --second-color: rgb(164, 109, 14);
-  --footer-color: #8c6e59;
-  --bottom_footer-color: #a07c62;
+  --second-color: #2a534d;
+  --lighter-second-color: #335d4a;
+  --lighter1-second-color: #65ae8d;
+  --accent-color: #46c2a5; /* Một màu cam đào (peachy-orange) nổi bật */
+  --footer-color: rgb(16, 15, 15);
+  --bottom_footer-color: black;
   --cursor-color: rgba(255, 255, 255, 0.7);
-  --bg-color: #F5F5F5;
-
-  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.3);;
+  --bg-color: #f5f5f5;
+  --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -34,23 +37,23 @@ html {
   padding: 0;
 }
 
-.grid{
+.grid {
   width: 1200px !important;
   max-width: 100%;
   margin: 0 auto;
 }
 
-.grid_footer{
-    width: 1500px!important;
-    max-width: 100%;
-    margin: 0 auto;
-  }
+.grid_footer {
+  width: 1500px !important;
+  max-width: 100%;
+  margin: 0 auto;
+}
 
 .grid__full-width {
   width: 100%;
 }
 
-.grid__row{
+.grid__row {
   display: flex;
   flex-wrap: wrap;
 }
@@ -59,75 +62,6 @@ a {
   text-decoration: none;
 }
 
-body{
-background-color: var(--bg-color);
+body {
+  background-color: var(--bg-color);
 }
-
-
-/* ===============Css list product============== */
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-
-.product-items {
-  position: relative;
-  padding: 1.5rem 1.5rem;
-  border-radius: 8px;
-}
-
-.product-items:hover{
-  box-shadow: var(--box-shadow-light);
-}
-
-.clothes-size {
-  position: absolute;
-  width: 20rem;
-  background-color: rgba(192, 192, 192, 1);
-  height: 7rem;
-  bottom: 8rem;
-  left: 3.5rem;
-  border-radius: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.clothes-size p {
-  margin-bottom: 0;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-align: center;
-}
-
-.clothes-size .btn-size {
-  font-size: 1.5rem;
-  background-color: var(--white-color);
-  margin-top: 0.7rem;
-  margin-left: 0.6rem;
-}
-
-.product-items img {
-  width: 25rem;
-  height: 35rem;
-  border-radius: 1rem;
-}
-
-.product-decrip {
-  padding-top: 1rem;
-}
-
-.product-decrip p {
-  font-size: 1.8rem;
-  margin-bottom: 0;
-}
-
-.product-decrip div {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-/* ===============end Css list product============== */
-
-
