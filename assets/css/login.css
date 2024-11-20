@@ -294,27 +294,4 @@ form {
     }
 }
 
-.popup {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #4caf50; 
-    color: white;
-    padding: 15px 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease, top 0.3s ease;
-}
-
-.popup.hidden {
-    opacity: 0;
-    top: 10px;
-    pointer-events: none;
-}
 
