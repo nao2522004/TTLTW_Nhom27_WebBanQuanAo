@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./assets/imgs/Favicon/favicon-32x32.png" type="image/png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/header-footer.css">
+    <link rel="stylesheet" href="./assets/css/about.css">
+    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div>
+        <header id="header"></header>
+    </div>
+
+
+    <!-- Phần Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Chào mừng đến với Lasmanate</h1>
+            <p>Thời trang tinh tế, đẳng cấp, và luôn theo xu hướng.</p>
+        </div>
+    </section>
+
+    <!-- Phần Giới Thiệu 1 -->
+    <section class="intro" id="intro1">
+        <div class="intro-content">
+            <div class="intro-text">
+                <span>Est. 2024 | Thành Phố Hồ Chí Minh, Việt Nam</span>
+                <h2>Về Chúng Tôi</h2>
+                <p> Được thành lập với mục tiêu mang đến cho mọi khách hàng
+                    những sản phẩm thời trang không chỉ đẹp mắt mà còn chất lượng vượt trội, Lasmanate không ngừng
+                    phát triển và sáng tạo để đáp ứng nhu cầu ngày càng cao của thị trường.
+                </p>
+                <button class="scroll-button" onclick="scrollToContent()">Xem Thêm</button>
+                <div class="images-left">
+                    <img src="./assets/imgs/About/about-4.webp" alt="Fashion Image 4" class="image-small">
+                </div>
+            </div>
+
+            <div class="intro-images">
+                <div class="images-right">
+                    <img src="./assets/imgs/About/about-2.webp" alt="Fashion Image 2" class="image-small">
+                    <img src="./assets/imgs/About/about-3.webp" alt="Fashion Image 3" class="image-small">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Phần Giới Thiệu 2 -->
+    <section class="intro" id="intro2">
+        <div class="intro-images">
+            <img src="image3.jpg" alt="Fashion Image 3">
+            <img src="image4.jpg" alt="Fashion Image 4">
+        </div>
+        <div class="intro-text">
+            <h2>Chất Lượng Sản Phẩm</h2>
+            <p>Mỗi sản phẩm tại Lasmanate được lựa chọn kỹ lưỡng từ chất liệu vải cao cấp, thiết kế hiện đại và hoàn
+                thiện tinh tế. Chúng tôi luôn đặt chất lượng lên hàng đầu.</p>
+        </div>
+    </section>
+
+    <!-- Phần Giới Thiệu 3 -->
+    <section class="intro" id="intro3">
+        <div class="intro-text">
+            <h2>Sứ Mệnh Của Chúng Tôi</h2>
+            <p>Lasmanate mang đến cho khách hàng những bộ trang phục đẹp mắt, thoải mái và tự tin để tỏa sáng trong
+                mọi khoảnh khắc cuộc sống.</p>
+        </div>
+        <div class="intro-images">
+            <img src="image5.jpg" alt="Fashion Image 5">
+            <img src="image6.jpg" alt="Fashion Image 6">
+        </div>
+    </section>
+
+
+    <div>
+        <footer id="footer"></footer>
+     </div>
+
+    <script>
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+    </script>
+
+    <script>
+        function scrollToContent() {
+            // Tìm phần tử cần cuộn đến
+            const content = document.querySelector('.intro-images');
+
+            // Cuộn đến phần tử đó
+            content.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+
+
+
+    <!-- base js -->
+    <script src="./assets/js/base.js"></script>
+</body>
+
+</html>
