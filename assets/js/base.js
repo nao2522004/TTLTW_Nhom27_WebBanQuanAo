@@ -1,6 +1,5 @@
 // Js xu ly su kien menu cua header khi khi nho man hinh
 document.addEventListener("DOMContentLoaded", function () {
-
     const menu = document.querySelector("header .container-nav");
     const menu1 = document.querySelector("header .container-nav nav");
     if (menu && menu1) {
@@ -15,25 +14,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 menu1.classList.toggle("active");
             });
     }
-
 });
 // end Js xu ly su kien menu cua header khi khi nho man hinh
-
-// Hiệu ứng chuyển động cho Header khi người dùng cuộn trang
 window.addEventListener("scroll", () => {
-    const header = document.querySelector("header");
-    const windowWidth = window.innerWidth;
+  const header = document.querySelector("header");
+  const logo = header.querySelector(".logo");
+  const windowWidth = window.innerWidth;
 
-    if (windowWidth > 1456) {
-        if (window.scrollY > 50) {
-            header.classList.add("scrolled");
-        } else {
-            header.classList.remove("scrolled");
-        }
+  if (windowWidth > 1456) {
+    if (window.scrollY > 100) {
+      if (!header.classList.contains("scrolled")) {
+        header.classList.add("scrolled"); // Thêm trạng thái cuộn
+        logo.style.transition = "none"; // Ngắt hiệu ứng tạm thời
+        setTimeout(() => {
+          logo.classList.add("hidden"); // Ẩn logo sau khi cuộn
+          logo.style.transition = "transform 1s ease-in-out, opacity 1s ease-in-out";
+        }, 1000); // Đảm bảo thời gian trùng với transition
+      }
     } else {
-        header.classList.remove("scrolled"); // Loại bỏ class nếu màn hình nhỏ hơn 991px
+      header.classList.remove("scrolled");
+      logo.style.transition = "none"; // Ngắt hiệu ứng tạm thời
+      logo.classList.add("hidden"); // Ẩn logo ngay lập tức
+      setTimeout(() => {
+        logo.style.transition = ""; // Kích hoạt lại hiệu ứng
+        logo.classList.remove("hidden"); // Hiện lại logo mượt mà
+      }, 1000); // Đảm bảo logo di chuyển về vị trí
     }
+  } else {
+    header.classList.remove("scrolled");
+    logo.classList.remove("hidden");
+  }
 });
+
 
 // Kiểm tra và cập nhật ngay khi resize màn hình
 window.addEventListener("resize", () => {
@@ -43,6 +55,7 @@ window.addEventListener("resize", () => {
     if (windowWidth <= 1456) {
         header.classList.remove("scrolled"); // Đảm bảo không áp dụng hiệu ứng cho màn hình nhỏ
     }
+
 });
 // end
 
