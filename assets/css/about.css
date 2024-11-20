@@ -1,0 +1,120 @@
+/* Cấu hình chung */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: rgb(246, 241, 235) !important;
+}
+
+/* Phần Hero */
+.hero {
+    background-color: rgb(246, 241, 235);
+    color: #1d1b19;
+    padding: 100px 0;
+    text-align: center;
+    margin-top: 10rem;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.5em;
+}
+
+/* Phần ngày tháng */
+.intro-text span {
+  font-size: 1em; 
+  color: #cfc8c3; 
+  display: block;
+  margin-top: 10px; 
+}
+/* Phần Giới Thiệu */
+.intro {
+    padding: 80px 20px;
+    background-color: #1d1b19;
+    color: white;
+}
+
+.intro-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.intro-text {
+    flex: 1;
+    padding: 20px;
+    color: #cfc8c3;
+    padding-bottom: 0;
+}
+
+.intro-text h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.intro-text p {
+    font-size: 1.4em;
+}
+
+/* Bố cục hình ảnh */
+.intro-images {
+    display: flex;
+    justify-content: space-between;
+    flex: 2;
+    gap: 20px;
+}
+
+.images-left {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.images-left .image-small {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.images-right {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.images-right .image-small {
+    width: 48%;
+    height: 91%;
+    border-radius: 10px;
+}
+
+
+
+/* Nút button để cuộn xuống */
+.scroll-button {
+    background-color: #cfc8c3; /* Màu giống như của phần Hero */
+    color: #1d1b19; /* Màu chữ tối */
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 50px; /* Bo tròn viền */
+    cursor: pointer;
+    margin-top: 20px; /* Khoảng cách với nội dung phía trên */
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .scroll-button:hover {
+    background-color: #a8a49d; /* Màu khi hover */
+    transition: background-color 0.3s;
+  }
+  
+  .scroll-button:focus {
+    outline: none; /* Xóa outline khi nhấn */
+  }
+  
