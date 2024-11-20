@@ -45,7 +45,6 @@
                     những sản phẩm thời trang không chỉ đẹp mắt mà còn chất lượng vượt trội, Lasmanate không ngừng
                     phát triển và sáng tạo để đáp ứng nhu cầu ngày càng cao của thị trường.
                 </p>
-                <button class="scroll-button" onclick="scrollToContent()">Xem Thêm</button>
                 <div class="images-left">
                     <img src="./assets/imgs/About/about-4.webp" alt="Fashion Image 4" class="image-small">
                 </div>
@@ -65,50 +64,84 @@
 
     <!-- Phần Giới Thiệu 2 -->
     <section class="intro" id="intro2">
-        <div class="intro-images">
-            <img src="image3.jpg" alt="Fashion Image 3">
-            <img src="image4.jpg" alt="Fashion Image 4">
+        <!-- Phần Trên -->
+        <div class="intro-top">
+            <div class="intro-image-large">
+                <img src="./assets/imgs/About/5.png" alt="Fashion Image 5">
+            </div>
+            <div class="intro-text-2">
+                <h2>Chất Lượng Sản Phẩm Phù Hợp Với Người Việt Nam</h2>
+                <p>Mỗi sản phẩm đều được chăm chút tỉ mỉ, từ việc lựa chọn chất liệu vải nhẹ nhàng, thoáng mát phù hợp
+                    với khí hậu nhiệt đới của Việt Nam, đến từng đường may tinh tế mang lại sự thoải mái trong từng bước
+                    di chuyển.</p>
+            </div>
         </div>
-        <div class="intro-text">
-            <h2>Chất Lượng Sản Phẩm</h2>
-            <p>Mỗi sản phẩm tại Lasmanate được lựa chọn kỹ lưỡng từ chất liệu vải cao cấp, thiết kế hiện đại và hoàn
-                thiện tinh tế. Chúng tôi luôn đặt chất lượng lên hàng đầu.</p>
+
+        <!-- Phần Dưới -->
+        <div class="intro-bottom">
+            <img src="./assets/imgs/About/7.jpg" alt="Fashion Image 7" class="image-small">
+            <img src="./assets/imgs/About/8.jpg" alt="Fashion Image 8" class="image-small">
+            <img src="./assets/imgs/About/6.jpg" alt="Fashion Image 6" class="image-small">
         </div>
     </section>
 
-    <!-- Phần Giới Thiệu 3 -->
+    <!-- Phần Giới Thiệu 3 - Thành Viên Sáng Lập -->
     <section class="intro" id="intro3">
-        <div class="intro-text">
-            <h2>Sứ Mệnh Của Chúng Tôi</h2>
-            <p>Lasmanate mang đến cho khách hàng những bộ trang phục đẹp mắt, thoải mái và tự tin để tỏa sáng trong
-                mọi khoảnh khắc cuộc sống.</p>
-        </div>
-        <div class="intro-images">
-            <img src="image5.jpg" alt="Fashion Image 5">
-            <img src="image6.jpg" alt="Fashion Image 6">
+        <h2 class="intro-heading">Thành Viên Sáng Lập <br> Lasmanate</h2>
+        <div class="founder-cards">
+            <!-- Thành viên 1 -->
+            <div class="founder-card">
+                <div class="avatar">
+                    <img src="./assets/imgs/About/M.jpg">
+                </div>
+                <h3>Hoàng Lê Nguyên Mạnh</h3>
+                <p>22130163</p>
+            </div>
+            <!-- Thành viên 2 -->
+            <div class="founder-card">
+                <div class="avatar">
+                    <img src="./assets/imgs/About/L.jpg">
+                </div>
+                <h3>Hoàng Quốc Luật</h3>
+                <p>22130154</p>
+            </div>
+            <!-- Thành viên 3 -->
+            <div class="founder-card">
+                <div class="avatar">
+                    <img src="./assets/imgs/About/N.jpg">
+                </div>
+                <h3>Phạm Quốc Phương Nam</h3>
+                <p>22130175</p>
+            </div>
         </div>
     </section>
+
+    <!-- Phần Chốt Lại -->
+    <section class="intro" id="closing">
+        <div class="closing-content">
+            <h2>Khám Phá Cùng Lasmanate</h2>
+            <p>Với Lasmanate, chúng tôi không chỉ tạo ra thời trang mà còn mang đến phong cách và câu chuyện riêng cho
+                bạn.<br>
+                Hãy đồng hành cùng chúng tôi và tỏa sáng theo cách của bạn.</p>
+            <a href="index.html"><button class="btn-discover">Khám Phá Ngay</button></a> 
+
+            <img src="./assets/imgs/About/sign.png" alt="">
+        </div>
+    </section>
+
+
+
 
 
     <div>
         <footer id="footer"></footer>
-     </div>
+    </div>
 
     <script>
         const header = document.getElementById('header');
         const footer = document.getElementById('footer');
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
-
-    <script>
-        function scrollToContent() {
-            // Tìm phần tử cần cuộn đến
-            const content = document.querySelector('.intro-images');
-
-            // Cuộn đến phần tử đó
-            content.scrollIntoView({ behavior: 'smooth' });
-        }
     </script>
 
 
