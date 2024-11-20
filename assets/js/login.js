@@ -29,22 +29,3 @@ function togglePassword(button) {
 }
 
 
-function showPopup(message) {
-    popupMessage.textContent = message; 
-    popup.classList.remove('hidden'); 
-
-    setTimeout(() => {
-        popup.classList.add('hidden');
-    }, 3000);
-}
-
-registerBtn.addEventListener('click', () => {
-    container.classList.add('active');
-    showPopup('Đăng ký thành công!');
-});
-
-
-loginBtn.addEventListener('click', () => {
-    container.classList.remove('active');
-    showPopup('Đăng nhập thành công!');
-});
