@@ -305,7 +305,7 @@ footer {
 }
 
 .footer-links a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -318,7 +318,6 @@ footer {
 .footer-links a:hover::after {
   width: 100%; /* Gạch chân mở rộng khi hover */
 }
-
 
 .footer-social div {
   margin-top: 1.8rem;
@@ -376,7 +375,6 @@ footer {
   padding: 0 3rem;
 }
 
-
 /* Footer Location and Payment Information */
 /* .footer-location-payment {
   background-color: var(--footer-color);
@@ -398,8 +396,48 @@ footer {
   line-height: 1.8rem;
   margin-bottom: 2rem;
 } */
+.footer-buttons a {
+  display: inline-block;
+  background-color: var(--white-color);
+  color: var(--black-color);
+  padding: 1.3rem 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+}
 
+.footer-buttons a:hover {
+  transform: translateY(-5px); /* Slightly lift the button */
+}
 
+.footer-buttons a:active {
+  transform: translateY(0); /* Reset lift effect when the button is clicked */
+}
+
+.footer-information i,
+.footer-links i {
+  margin-right: 0.8rem; /* Space between icon and text */
+  font-size: 1.6rem; /* Adjust icon size */
+  color: var(
+    --white-color
+  ); /* Change icon color to white or adjust as needed */
+}
+
+.footer-links a {
+  color: var(--white-color); /* Ensure link color is correct */
+  text-decoration: none;
+}
+
+.footer-links li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-social .social-icon {
+  font-size: 2.5rem; /* Increase the size of social media icons */
+}
 
 /* For medium devices like tablets */
 @media (max-width: 1182px) {
