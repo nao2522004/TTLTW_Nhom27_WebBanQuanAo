@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
     el.textContent = formattedPrice;
   });
 });
-
 //
 
 // <!-- Filter -->
