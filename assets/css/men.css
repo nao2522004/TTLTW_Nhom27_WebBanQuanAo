@@ -7,18 +7,6 @@ body {
 }
 
 /* ========================== Section Banner ========================== */
-#section_banner {
-    margin-top: 2rem;
-}
-
-#section_banner .container {
-    max-width: 100vw;
-}
-
-#section_banner img {
-    max-width: 100%;
-    height: auto;
-}
 
 /* ========================== Section Featured ========================== */
 #section_featured {
