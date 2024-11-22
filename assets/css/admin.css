@@ -36,10 +36,10 @@
   margin: 0 auto;
 }
 
-.admin-logo{
-display: flex;
-flex-direction: column;
-justify-content: center;
+.admin-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .vertical-nav .bg-light {
@@ -66,9 +66,10 @@ justify-content: center;
   font-weight: 600;
 }
 
+
 /* Thiết kế cho các nút trong form quản lý sản phẩm */
 #actbutton button {
-  width: 15rem;
+  width: auto;
   margin: 0.5rem;
   padding: 1.5rem;
   border-radius: 5rem;
@@ -76,19 +77,22 @@ justify-content: center;
 }
 
 .btn-outline-info,
-.btn-addProduct {
+.btn-addProduct,
+.btn-updateProduct {
   color: var(--second-color);
   border-color: var(--second-color);
 }
 
 .btn-outline-info:hover,
-.btn-addProduct:hover {
+.btn-addProduct:hover,
+.btn-updateProduct:hover {
   border-color: var(--second-color);
   background-color: var(--second-color);
   color: var(--white-color);
 }
 
-.btn-addProduct:active {
+.btn-addProduct:active,
+.btn-updateProduct:active {
   transform: scale(99%);
 }
 
@@ -109,7 +113,8 @@ thead.thead-dark th {
   overflow: hidden;
 }
 
-.table tbody tr th, .table tbody tr td{
+.table tbody tr th,
+.table tbody tr td {
   font-size: 1.5rem;
 }
 
