@@ -28,29 +28,20 @@
 <body>
     <header id="header"></header>
     <!-- Make a space to split the other out of header -->
-    <div style="height: 12.7rem;"></div>
+    <div style="height: 12rem;"></div>
 
     <!-- Banner -->
-    <section id="section_banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="./assets/imgs/men/banner/1.png" alt="">
-                </div>
-                <div class="col-md-6">
-                    <img src="./assets/imgs/men/banner/2.png" alt="">
-                </div>
-            </div>
-        </div>
+    <section id="section_banner" class="container-fluid p-0">
+        <img src="./assets/imgs/men/banner/3.jpg" alt="" class="w-100">
     </section>
 
     <!-- Featured -->
-    <section id="section_featured">
-        <div class="container-fluid">
-            <h2>Đặc biệt</h2>
-            <h4>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản
-                phẩm được yêu thích nhất hiện giờ.</h4>
-            <img src="./assets/imgs/men/featured/1.png" alt="">
+    <section id="section_featured" class="container">
+        <div class="row">
+            <div class="col-md-3"><img src="./assets/imgs/men/featured/2.jpg" alt="" class="w-100"></div>
+            <div class="col-md-3"><img src="./assets/imgs/men/featured/3.jpg" alt="" class="w-100"></div>
+            <div class="col-md-3"><img src="./assets/imgs/men/featured/4.jpg" alt="" class="w-100"></div>
+            <div class="col-md-3"><img src="./assets/imgs/men/featured/5.jpg" alt="" class="w-100"></div>
         </div>
     </section>
 
@@ -63,7 +54,7 @@
                     <h2>Lọc sản phẩm</h2>
                     <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
-                <h1>Tất cả sản phẩm cho đàn ông</h1>
+                <h1>Tất cả sản phẩm</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
                     <select id="sortBy" class="custom-select">
@@ -356,50 +347,12 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
+    <!-- Javascript Native -->
+    <script src="./assets/js/base.js"></script>
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-    <!-- Filter -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const filterHeaders = document.querySelectorAll("#section_all_products .filter h4");
-
-            filterHeaders.forEach(header => {
-                header.addEventListener("click", function () {
-                    // Toggle the visibility of filter content
-                    const filterContent = header.nextElementSibling;
-                    // filterContent.style.display = filterContent.style.display === "block" ? "none" : "block";
-                    if (filterContent.classList.contains("active")) {
-                        filterContent.classList.remove("active");
-                    } else {
-                        filterContent.classList.add("active");
-                    }
-
-                    // Toggle the arrow direction
-                    const arrow = header.querySelector(".arrow");
-                    arrow.classList.toggle("active");
-                });
-            });
-        });
-    </script>
-    <!-- Currency Format -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const priceElements = document.querySelectorAll('#section_all_products .list_products .product-price');
-
-            priceElements.forEach(el => {
-                const price = Number(el.getAttribute('data-price'));
-
-                const formattedPrice = new Intl.NumberFormat('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).format(price);
-
-                el.textContent = formattedPrice;
-            });
-        });
-    </script>
     <!-- Pagination -->
     <script>
         const totalPages = 20; // Total number of pages
