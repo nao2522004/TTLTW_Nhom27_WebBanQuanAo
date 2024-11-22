@@ -22,30 +22,28 @@
     <!-- CSS native -->
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
-    <link rel="stylesheet" href="./assets/css/men.css">
+    <link rel="stylesheet" href="./assets/css/women.css">
 </head>
 
 <body>
     <header id="header"></header>
     <!-- Make a space to split the other out of header -->
-    <div style="height: 12.7rem;"></div>
+    <div style="height: 12rem;"></div>
 
     <!-- Banner -->
-    <section id="section_banner" class="container-fluid">
+    <section id="section_banner" class="container-fluid p-0">
         <img src="./assets/imgs/women/banner/1.jpg" alt="" class="w-100">
     </section>
 
     <!-- Featured -->
-    <section id="section_featured" class="container">
-        <h2>Đặc biệt</h2>
-        <h4>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản phẩm được yêu thích nhất hiện giờ.</h4>
+    <section id="section_featured" class="container text-center">
+        <h2>Phong cách và sự thoải mái trong thời trang</h2>
+        <p>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản phẩm được yêu thích nhất hiện giờ.</p>
+        <a href="">Xem thêm</a>
         <div class="row mt-5">
-            <div class="col-md-6">
-                <img src="./assets/imgs/women/banner/1.png" alt="">
-            </div>
-            <div class="col-md-6">
-                <img src="./assets/imgs/women/banner/2.png" alt="">
-            </div>
+            <div class="col-md-4"><img src="./assets/imgs/women/featured/z6055383830362_23952c1c984be2fc022c0e59a65dd401.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="./assets/imgs/women/featured/z6055383815724_271cdb9c51b42106fb22c930c2f1ef24.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="./assets/imgs/women/featured/z6055383801137_92c75292a967b448dedc42affc14e3ea.jpg" alt="" class="w-100"></div>
         </div>
     </section>
 
@@ -58,7 +56,7 @@
                     <h2>Lọc sản phẩm</h2>
                     <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
-                <h1>Quần áo phụ nữ</h1>
+                <h1>Tất cả sản phẩm</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
                     <select id="sortBy" class="custom-select">
@@ -351,50 +349,12 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
+    <!-- Javascript Native -->
+    <script src="./assets/js/base.js"></script>
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-    <!-- Filter -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const filterHeaders = document.querySelectorAll("#section_all_products .filter h4");
-
-            filterHeaders.forEach(header => {
-                header.addEventListener("click", function () {
-                    // Toggle the visibility of filter content
-                    const filterContent = header.nextElementSibling;
-                    // filterContent.style.display = filterContent.style.display === "block" ? "none" : "block";
-                    if (filterContent.classList.contains("active")) {
-                        filterContent.classList.remove("active");
-                    } else {
-                        filterContent.classList.add("active");
-                    }
-
-                    // Toggle the arrow direction
-                    const arrow = header.querySelector(".arrow");
-                    arrow.classList.toggle("active");
-                });
-            });
-        });
-    </script>
-    <!-- Currency Format -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const priceElements = document.querySelectorAll('#section_all_products .list_products .product-price');
-
-            priceElements.forEach(el => {
-                const price = Number(el.getAttribute('data-price'));
-
-                const formattedPrice = new Intl.NumberFormat('vi-VN', {
-                    style: 'currency',
-                    currency: 'VND'
-                }).format(price);
-
-                el.textContent = formattedPrice;
-            });
-        });
-    </script>
     <!-- Pagination -->
     <script>
         const totalPages = 20; // Total number of pages

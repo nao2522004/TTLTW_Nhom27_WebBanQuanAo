@@ -220,13 +220,13 @@ h4 {
 
 #pagination .pagination-btn,
 #pagination .page-number {
-    padding: 1rem;
+    padding: .4rem;
     cursor: pointer;
     color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 5rem;
+    min-width: 3.2rem;
     text-align: center;
 }
 

@@ -8,7 +8,41 @@ body {
 
 /* ========================== Section Featured ========================== */
 #section_featured {
-    
+    margin-top: 15rem;
+}
+#section_featured h2 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+#section_featured p {
+    font-size: 1.8rem;
+    color: #212529;
+}
+#section_featured a {
+    position: relative;
+    padding: 0;
+    font-size: 1.5rem;
+    color: #212529;
+    font-weight: 400;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+#section_featured a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 0.3s ease;
+}
+#section_featured a:hover::after {
+    width: 0%;
 }
 
 /* ========================== All products ========================== */
@@ -185,13 +219,13 @@ body {
 
 #pagination .pagination-btn,
 #pagination .page-number {
-    padding: 1rem;
+    padding: .4rem;
     cursor: pointer;
     color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 5rem;
+    min-width: 3.2rem;
     text-align: center;
 }
 
