@@ -11,14 +11,14 @@ body{
     font-weight: bold;
 }
 #check-out label{
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 }
 #check-out .lb-text{
-   font-size: 1.1rem;
+   font-size: 1.5rem;
    font-weight: bold 700;
 } 
 #check-out .gr-text{
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 #check-out img {
     width: 45px;
@@ -26,7 +26,7 @@ body{
 }
 #check-out .back-to-shop {
     margin-top: 30px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 #check-out .back-to-shop a {
     color: var(--black-color);
@@ -101,8 +101,50 @@ body{
     cursor: pointer; 
 }
 
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; 
+}
 
+.payment-options .custom-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    transition: all 0.3s ease;
+}
 
- 
+.payment-options .custom-control:hover {
+    background-color: #f9f9f9; 
+    border-color: #007bff; 
+}
+
+.payment-options input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.payment-options label {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+}
+
+.payment-options input[type="radio"]:checked + label {
+    font-weight: 600;
+    color: #007bff;
+}
+
+.payment-options input[type="radio"]:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
 
 /* Check Out  */

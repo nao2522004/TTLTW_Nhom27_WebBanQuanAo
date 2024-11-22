@@ -119,15 +119,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-5 mb-3">
-                                <label for="country" class="lb-text">Quốc Gia</label>
-                                <select class="custom-select d-block w-100" id="country" required>
-                                    <option value="">Việt Nam</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="state" class="lb-text">Tỉnh/Thành phố</label>
-                                <select class="custom-select d-block w-100" id="state" required>
+                                <select class="custom-select d-block w-100 " id="state" required>
                                     <option value="">Thành Phố Hồ Chí Minh</option>
                                     <option>Tỉnh An Giang</option>
                                     <option>Tỉnh Bà Rịa - Vũng Tàu</option>
@@ -194,7 +188,7 @@
                                     Vui lòng chọn Tỉnh/Thành Phố của bạn
                                 </div>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="address2" class="lb-text">Địa chỉ bổ sung <small class="text-muted">(Không
                                         bắt
                                         buộc)</small></label>
@@ -219,6 +213,7 @@
                                 <img src="./assets/imgs/CheckOut/logo_1.png" alt="">
                                 <img src="./assets/imgs/CheckOut/logo_2.png" alt="">
                                 <img src="./assets/imgs/CheckOut/logo_3.png" alt="">
+                                <img src="./assets/imgs/CheckOut/logo_6.webp" alt="">
                                 <img src="./assets/imgs/CheckOut/logo_4.png" alt="">
                                 <img src="./assets/imgs/CheckOut/logo_5.jpg" alt="">
                             </div>
@@ -235,9 +230,14 @@
                                 <label class="custom-control-label" for="debit">Thẻ ghi nợ</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input"
+                                <input id="momo" name="paymentMethod" type="radio" class="custom-control-input"
                                     required>
-                                <label class="custom-control-label" for="paypal">PayPal</label>
+                                <label class="custom-control-label" for="momo">Momo</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="zalopay" name="paymentMethod" type="radio" class="custom-control-input"
+                                    required>
+                                <label class="custom-control-label" for="zalopay">Zalo Pay</label>
                             </div>
                             <div class="custom-control custom-radio">
                                 <input id="cod" name="paymentMethod" type="radio" class="custom-control-input" required>
