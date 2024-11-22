@@ -21,7 +21,9 @@ header .logo {
   left: 50%;
   top: 1.8rem;
   transform: translateX(-50%);
-  transition: 0.3s ease-in-out;
+  opacity: 1;
+  transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 1s ease-in-out, left 1s ease-in-out, top 1s ease-in-out;
 }
 
 header .logo img {
@@ -115,6 +117,10 @@ header.scrolled {
   height: 10rem;
 }
 
+header .logo.hidden {
+  pointer-events: none;
+}
+
 header.scrolled .logo {
   position: absolute;
   left: 1rem;
@@ -150,8 +156,6 @@ header.scrolled .group_icons {
   padding: 1rem;
   cursor: pointer;
 }
-
-
 
 @media (max-width: 1456px) {
   /* Group icons */
@@ -226,8 +230,6 @@ header.scrolled .group_icons {
 /* ================================= END HEADER ================================= */
 
 /* ================================= FOOTER ================================= */
-
-/* ================================= FOOTER ================================= */
 footer {
   background-color: var(--footer-color);
   color: var(--white-color);
@@ -238,21 +240,27 @@ footer {
 }
 
 .container-footer {
-  padding: 0 8rem;
+  padding: 0 1rem;
 }
 
 .footer-contact,
 .footer-links,
+.footer-location-payment {
+  flex: 2;
+  padding: 3rem 1rem;
+}
+
 .footer-social {
-  flex: 1;
-  padding: 3rem;
+  flex: 1.5;
+  padding: 3rem 1rem;
 }
 
 .footer-title {
   font-size: 3rem;
   font-weight: 300;
-  margin: 0 auto;
+  padding-left: 2.5rem;
   margin-top: 1.3rem;
+  font-weight: 700;
 }
 
 .footer-information {
@@ -281,12 +289,18 @@ footer {
 }
 .footer-links {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+}
+
+.links-title {
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .footer-links ul {
   list-style: none;
   padding-top: 2rem;
+  padding-left: 0rem;
 }
 
 .footer-links li {
@@ -294,12 +308,29 @@ footer {
 }
 
 .footer-links a {
-  color: var(--white-color);
-  text-decoration: none;
+  color: var(--white-color); /* Màu chữ */
+  text-decoration: none; /* Bỏ gạch chân mặc định */
+  position: relative; /* Cần thiết để tạo hiệu ứng gạch chân */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển màu chữ */
 }
 
-.footer-links a:hover {
-  text-decoration: underline;
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--white-color); /* Màu gạch chân */
+  transition: width 0.3s ease; /* Hiệu ứng mở rộng gạch chân */
+}
+
+.footer-links a:hover::after {
+  width: 100%; /* Gạch chân mở rộng khi hover */
+}
+
+.footer-social {
+  margin: 0 auto;
 }
 
 .footer-social div {
@@ -308,22 +339,27 @@ footer {
 }
 .footer-social .social-title {
   font-size: 2rem;
-  padding-left: 6rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.footer-social div a {
+  border: 2px solid #fff;
+  border-radius: 1rem;
 }
 
 .footer-social .social-icons {
   display: flex;
-  gap: 3rem;
+  justify-content: center;
+  gap: 1rem;
   justify-self: end;
   font-size: 3rem;
-  padding-right: 1.2rem;
+  width: 100%;
 }
 
 .footer-social .social-icon {
-  width: 2rem;
-  height: 2rem;
+  padding: 1rem;
   display: inline-block;
-  border-radius: 50%;
   text-align: center;
   line-height: 2rem;
   color: var(--while-color);
@@ -358,12 +394,72 @@ footer {
   padding: 0 3rem;
 }
 
-a:hover {
-  text-decoration: none !important;
+/* Footer Location and Payment Information */
+.footer-location-payment {
+  background-color: var(--footer-color);
+  color: var(--white-color);
+  margin-top: 2rem;
+}
+
+.footer-location-title,
+.footer-payment-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer-location-info,
+.footer-payment-info {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  margin-bottom: 2rem;
+}
+.footer-buttons a {
+  display: inline-block;
+  background-color: var(--white-color);
+  color: var(--black-color);
+  padding: 1.3rem 1.5rem;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+}
+
+.footer-buttons a:hover {
+  transform: translateY(-5px); /* Slightly lift the button */
+}
+
+.footer-buttons a:active {
+  transform: translateY(0); /* Reset lift effect when the button is clicked */
+}
+
+.footer-information i,
+.footer-links i {
+  margin-right: 0.8rem; /* Space between icon and text */
+  font-size: 1.6rem; /* Adjust icon size */
+  color: var(
+    --white-color
+  ); /* Change icon color to white or adjust as needed */
+}
+
+.footer-links a {
+  color: var(--white-color); /* Ensure link color is correct */
+  text-decoration: none;
+}
+
+.footer-links li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-social .social-icon {
+  font-size: 2.5rem; /* Increase the size of social media icons */
 }
 
 /* For medium devices like tablets */
-@media (max-width: 1182px) {
+
+@media (max-width: 1331px) {
   .footer-buttons {
     display: flex;
     justify-content: center;
@@ -372,9 +468,7 @@ a:hover {
   .footer-buttons a {
     font-size: 1.35rem;
   }
-}
 
-@media (max-width: 991px) {
   .container-footer {
     flex-direction: column;
     padding: 0 2rem;
@@ -453,6 +547,11 @@ a:hover {
     justify-content: center;
     gap: 2rem;
   }
+
+  .footer-location-payment div h3, .footer-location-payment div {
+    text-align: center;
+  }
+
 }
 
 /* For small devices like mobile */
