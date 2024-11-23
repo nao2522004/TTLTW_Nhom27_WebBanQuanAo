@@ -2,8 +2,12 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
   // Recent Orders Data
   document.getElementById("recent-orders--table").appendChild(buildTableBody());
+  // Orders Data
+  document.getElementById("orders--table").appendChild(buildTableOrder());
   // Customer Data
   document.getElementById("customer--table").appendChild(buildTableCustomer());
+  // Product Data
+  document.getElementById("product--table").appendChild(buildTableProduct());
 
   // Updates Data
   document
@@ -17,6 +21,8 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 });
 
 // Document Builder
+
+// Recent_oder_data
 const buildTableBody = () => {
   const recentOrderData = RECENT_ORDER_DATA;
 
@@ -40,6 +46,31 @@ const buildTableBody = () => {
   return tbody;
 };
 
+// order_data
+const buildTableOrder = () => {
+  const orderData = ORDER_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let OrderContent = "";
+  for (const row of orderData) {
+    OrderContent += `
+        <tr>
+          <td>${row.productName}</td>
+          <td>${row.productNumber}</td>
+          <td>${row.payment}</td>
+          <td class="${row.statusColor}">${row.status}</td>
+          <td class="primary">Details</td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = OrderContent;
+
+  return tbody;
+};
+
+// Customer_data
 const buildTableCustomer = () => {
   const customers = CUSTOMER_DATA;
 
@@ -60,6 +91,34 @@ const buildTableCustomer = () => {
   }
 
   tbody.innerHTML = CusContent;
+
+  return tbody;
+};
+
+// Product_data
+const buildTableProduct = () => {
+  const products = PRODUCTS_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let ProContent = "";
+  for (const row of products) {
+    ProContent += `
+        <tr>
+          <td>${row.proId}</td>
+          <td>${row.proName}</td>
+          <td>${row.proImg}</td>
+          <td>${row.proPrice}</td>
+          <td>${row.proPayment}</td>
+          <td class="${row.proStatusColor}">${row.proStatus}</td>
+          <td>${row.proAmount}</td>
+          <td>${row.proStockInDate}</td>
+          <td class="primary"> <span class="material-icons-sharp edit-product"> edit </span> <span class="material-icons-sharp info-product"> info </span></td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = ProContent;
 
   return tbody;
 };
@@ -141,3 +200,33 @@ themeToggler.addEventListener("click", () => {
   themeToggler.querySelector("span:nth-child(1)").classList.toggle("active");
   themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
 });
+
+// Xử lý sự kiện showMain cho menu
+document.addEventListener('DOMContentLoaded', function() {
+  // Hiển thị phần tử main đầu tiên khi tải trang
+  document.getElementById('dashboard').classList.add('block');
+});
+
+function showMain(event, mainId) {
+  event.preventDefault();
+
+  // Ẩn tất cả các thẻ main
+  document.querySelectorAll('main').forEach(main => {
+    main.classList.remove('block');
+  });
+
+  // Hiển thị thẻ main được chọn
+  const targetMain = document.getElementById(mainId);
+  if (targetMain) {
+    targetMain.classList.add('block');
+    return;
+  }
+
+  // Xóa class active khỏi tất cả các thẻ a
+  document.querySelectorAll('aside .sidebar a').forEach(link => {
+    link.classList.remove('active');
+  });
+
+  // Thêm class active vào thẻ a được nhấn
+  event.currentTarget.classList.add('active');
+}

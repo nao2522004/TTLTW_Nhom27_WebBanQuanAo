@@ -83,6 +83,8 @@ b {
   color: var(--color-warning);
 }
 
+/* Xử lý sự kiện cho việc xuất hiện từng main */
+
 /* START ASIDE */
 aside {
   height: 100vh;
@@ -167,6 +169,14 @@ aside .sidebar .message-count {
 /* END ASIDE */
 
 /* START MAIN */
+main {
+  display: none;
+}
+
+main.block {
+  display: block;
+}
+
 main {
   margin-top: 1.4rem;
 }
