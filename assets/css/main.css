@@ -110,40 +110,13 @@ body {
     color: #333;
 }
 
-/* ========================== Section 2 ========================== */
-#section_2 {
-    margin-top: 12rem;
-}
-
-#section_2 h2 {
-    margin-bottom: 3rem;
-}
-
-#section_2 .item {
-    text-align: center;
-}
-
-#section_2 .item img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-}
-
-#section_2 .item h4 {
-    text-align: start;
-    font-size: 1.6rem;
-}
-
-#section_2 .item p {
-    font-size: 1.5rem;
-    text-align: start;
-    font-weight: 700;
-    color: #333;
-}
-
 /* ========================== Section Collection ========================== */
+#section_banner_collection {
+    margin-top: 10rem;
+}
+
 #section_collection {
-    margin-top: 11rem;
+    margin-top: 7rem;
     padding: 4rem 2rem;
 }
 
@@ -155,15 +128,15 @@ body {
 
 #section_collection .collection-header h3 {
     font-size: 2.8rem;
-    color: #000;
+    color: var(--lighter-second-color);
     margin: 0.5rem 0 2rem;
 }
 
 #section_collection .see-more {
-    background-color: #ccc;
-    color: #000;
+    background-color: #ecede8;
+    color: var(--second-color);
     padding: 1rem 2rem;
-    border-radius: 2.5rem;
+    border-radius: 10%;
     font-size: 1.4rem;
     font-weight: bold;
     border: none;
@@ -210,31 +183,31 @@ body {
     font-size: 1.2rem;
 }
 
-/* ========================== Section 4 ========================== */
-#section_4 {
+/* ========================== Section New Arrivals ========================== */
+#section_new_arrivals {
     margin-top: 12rem;
 }
 
-#section_4 h2 {
+#section_new_arrivals h2 {
     margin-bottom: 3rem;
 }
 
-#section_4 .item {
+#section_new_arrivals .item {
     text-align: center;
 }
 
-#section_4 .item img {
+#section_new_arrivals .item img {
     width: 100%;
     height: auto;
     margin-bottom: 15px;
 }
 
-#section_4 .item h4 {
+#section_new_arrivals .item h4 {
     text-align: start;
     font-size: 1.6rem;
 }
 
-#section_4 .item p {
+#section_new_arrivals .item p {
     font-size: 1.5rem;
     text-align: start;
     font-weight: 700;
