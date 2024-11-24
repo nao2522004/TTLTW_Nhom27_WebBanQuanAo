@@ -360,3 +360,137 @@ a {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+/* General Mobile Styles */
+@media (max-width: 768px) {
+
+    /* Section Banner */
+    #section_banner img {
+        height: auto;
+        width: 100%;
+        margin-top: 10rem;
+    }
+
+    /* Collections Section */
+    .collections-head {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .clothes__title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .collections-head__desc p {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
+    }
+
+    .tab-header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .tab-header__item {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        border-radius: 999px;
+    }
+
+    .tab-header__item.is-active {
+        background-color: #335d4a;
+        color: #fff;
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        align-items: center;
+    }
+
+    .filter h2 {
+        font-size: 0.95rem;
+    }
+
+    .sort {
+        font-size: 0.85rem;
+    }
+
+    .sort select {
+        font-size: 0.85rem;
+        padding: 5px;
+    }
+
+    /* Product Grid */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+
+    .col-sm-6, .col-md-4, .col-lg-3 {
+        width: calc(50% - 10px);
+    }
+
+    .space-items {
+        margin-bottom: 15px;
+    }
+
+    .product-grid__image {
+        width: 100%;
+        height: auto;
+    }
+
+    .product-decrip p {
+        font-size: 0.85rem;
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    /* Collection Footer */
+    .collection-section-loadmore {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .collection-section-loadmore__btn {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+
+    /* Homepage Collections */
+    .homepage-collections {
+        padding: 10px 0;
+    }
+
+    .homepage-collections__wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .homepage-collections__item {
+        width: calc(50% - 8px);
+        margin-bottom: 8px;
+    }
+
+    .homepage-collections__item img {
+        border-radius: 8px;
+    }
+
+    .homepage-collections__item:hover {
+        transform: scale(1.03);
+    }
+}
