@@ -7,8 +7,8 @@
     <title>ADMIN</title>
     <!-- Frameworks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet" />
 
     <!-- CSS native -->
@@ -137,8 +137,11 @@
                     <thead>
                         <tr>
                             <th>Mã Đơn Hàng</th>
-                            <th>Mã Người Dùng</th>
+                            <th>Khách Hàng</th>
+                            <th>SDT</th>
+                            <th>Địa Chỉ</th>
                             <th>Ngày Tạo</th>
+                            <th>Tổng Tiền</th>
                             <th>Thanh Toán</th>
                             <th>Trạng Thái</th>
                         </tr>
@@ -232,6 +235,7 @@
                             <th>Địa Chỉ</th>
                             <th>Email</th>
                             <th>Quyền</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <!-- Add tbody here | JS insertion -->
@@ -316,12 +320,12 @@
                     <thead>
                         <tr>
                             <th>Mã Sản Phẩm</th>
+                            <th>Danh Mục</th>
                             <th>Tên Sản Phẩm</th>
                             <th>Ảnh Sản Phẩm</th>
                             <th>Giá Tiền</th>
-                            <th>Thanh toán</th>
-                            <th>Trạng Thái</th>
-                            <th>Chất Liệu</th>
+                            <th>Size</th>
+                            <th>Màu</th>
                             <th>Số Lượng</th>
                             <th>Ngày Nhập Kho</th>
                             <th>Tháo Tác</th>
@@ -331,6 +335,8 @@
                 </table>
                 <a href="#">Show All</a>
             </div>
+
+
         </main>
 
         <!------------------------------------ Manager Orders ------------------------------------>
@@ -409,8 +415,11 @@
                     <thead>
                         <tr>
                             <th>Mã Đơn Hàng</th>
-                            <th>Mã Người Dùng</th>
+                            <th>Khách Hàng</th>
+                            <th>SDT</th>
+                            <th>Địa Chỉ</th>
                             <th>Ngày Tạo</th>
+                            <th>Tổng Tiền</th>
                             <th>Thanh Toán</th>
                             <th>Trạng Thái</th>
                         </tr>
@@ -419,6 +428,28 @@
                 </table>
                 <a href="#">Show All</a>
             </div>
+
+            <!-- product-order--details -->
+            <div class="overlay" onclick="hideOverlay()">
+                <div class="recent-orders recent-orders--details">
+                    <h2>Chi Tiết Đơn Hàng</h2>
+                    <table id="orders-details--table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Mã Sản Phẩm</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Size</th>
+                                <th>Màu</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Giá</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
+                </div>
+            </div>
         </main>
 
         <!------------------------------------ Add Product ------------------------------------>
@@ -426,58 +457,96 @@
             <h1>Thêm sản phẩm</h1>
             <form id="add-product-form">
                 <div class="form-group">
-                    <label for="product-name">Tên Sản Phẩm</label>
-                    <input type="text" id="product-name" name="product-name" placeholder="Nhập tên sản phẩm" required>
+                    <div class="form-group--items">
+                        <label for="product-name">Tên Sản Phẩm</label>
+                        <input type="text" id="product-name" name="product-name" placeholder="Nhập tên sản phẩm."
+                            required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="product-category">Danh Mục</label>
+                        <input type="text" id="product-category" name="product-category"
+                            placeholder="Nhập tên danh mục." required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="product-price">Giá</label>
-                    <input type="number" id="product-price" name="product-price" placeholder="Nhập giá sản phẩm"
-                        required>
+                    <div class="form-group--items">
+                        <label for="product-brand">Thương Hiệu</label>
+                        <input type="text" id="product-brand" name="product-brand" placeholder="Nhập tên hãng."
+                            required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="product-style">Loại</label>
+                        <input type="text" id="product-style" name="product-style" placeholder="Nhập tên loại."
+                            required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="product-payment">Phương Thức Thanh Toán</label>
-                    <select id="product-payment" name="product-payment" required>
-                        <option value="" disabled selected>Chọn phương thức thanh toán</option>
-                        <option value="Tiền Mặt">Tiền Mặt</option>
-                        <option value="Chuyển Khoản">Chuyển Khoản</option>
-                        <option value="Thẻ Tín Dụng">Thẻ Tín Dụng</option>
-                    </select>
+                    <div class="form-group--items">
+                        <label for="product-price">Giá</label>
+                        <input type="number" id="product-price" name="product-price" placeholder="Nhập giá sản phẩm."
+                            required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="product-discount">Giảm Giá</label>
+                        <input type="text" id="product-discount" name="product-discount"
+                            placeholder="Nhập phần trăm giảm." required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="product-status">Trạng Thái</label>
-                    <select id="product-status" name="product-status" required>
-                        <option value="" disabled selected>Chọn trạng thái</option>
-                        <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-                        <option value="Chờ Xử Lý">Chờ Xử Lý</option>
-                        <option value="Hủy Đơn">Hủy Đơn</option>
-                    </select>
+                    <div class="form-group--items">
+                        <label for="product-size">Kích Cỡ</label>
+                        <input type="text" id="product-size" name="product-size" placeholder="Nhập kích thước."
+                            required>
+                    </div>
+                    <div class="form-group--items"> <label for="product-color">Màu Sắc</label>
+                        <input type="text" id="product-color" name="product-color" placeholder="Nhập màu sắc." required>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="product-material">Chất Liệu</label>
+                        <input type="text" id="product-material" name="product-material"
+                            placeholder="Nhập chất liệu sản phẩm" required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="product-amount">Số Lượng</label>
+                        <input type="number" id="product-amount" name="product-amount"
+                            placeholder="Nhập số lượng sản phẩm" required>
+                    </div>
+
                 </div>
 
                 <div class="form-group">
-                    <label for="product-material">Chất Liệu</label>
-                    <input type="text" id="product-material" name="product-material"
-                        placeholder="Nhập chất liệu sản phẩm" required>
+                    <div class="form-group--items">
+                        <label for="product-stock-in-date">Ngày Nhập Kho</label>
+                        <input type="date" id="product-stock-in-date" name="product-stock-in-date" required>
+                    </div>
+                    <div action="/upload" method="post" enctype="multipart/form-data" class="form-group--items"
+                        style="position: relative;">
+                        <label for="product-image">Chọn Ảnh</label>
+                        <input type="file" style="z-index: 100;" id="product-image" name="product-image"
+                            accept="image/*" placeholder="Tải têp.">
+                        <input type="text" id="product-img" name="product-img" placeholder="Tải ảnh lên." required
+                            style="position: absolute; top: 42%;">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="product-amount">Số Lượng</label>
-                    <input type="number" id="product-amount" name="product-amount" placeholder="Nhập số lượng sản phẩm"
-                        required>
+                    <div class="form-group--items">
+                        <label for="product-decription">Mô Tả</label>
+                        <!-- <input type="text" id="product-decriptione" name="product-decription" placeholder="Nhập mô tả."
+                            required> -->
+                        <textarea rows="5" type="text" name="product-decription" id="product-decriptione"
+                            placeholder="Nhập mô tả."></textarea>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="product-stock-in-date">Ngày Nhập Kho</label>
-                    <input type="date" id="product-stock-in-date" name="product-stock-in-date" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="product-image">Hình Ảnh (URL)</label>
-                    <input type="url" id="product-image" name="product-image"
-                        placeholder="Nhập đường dẫn hình ảnh sản phẩm">
-                </div>
 
                 <button type="submit" class="btn-primary"> <span class="material-icons-sharp"> add </span>
                     <h3>Thêm Sản Phẩm</h3>
@@ -534,6 +603,7 @@
     <script src="./assets/js/admin-data/user-data.js"></script>
     <script src="./assets/js/admin-data/product-data.js"></script>
     <script src="./assets/js/admin-data/order-data.js"></script>
+    <script src="./assets/js/admin-data/order-details-data.js"></script>
     <script src="./assets/js/admin.js"></script>
 </body>
 

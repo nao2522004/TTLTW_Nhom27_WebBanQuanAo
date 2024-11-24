@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", (ev) => {
   document.getElementById("recent-orders--table").appendChild(buildTableBody());
   // Orders Data
   document.getElementById("orders--table").appendChild(buildTableOrder());
+  document.getElementById("orders-details--table").appendChild(buildTableOrderDetails());
   // usertomer Data
   document.getElementById("users--table").appendChild(buildTableUser());
   // Product Data
@@ -33,11 +34,14 @@ const buildTableBody = () => {
     bodyContent += `
        <tr>
           <td>${row.orderId}</td>
-          <td>${row.userId}</td>
+          <td>${row.userName}</td>
+          <td>${row.userPhone}</td>
+          <td>${row.userAdress}</td>
           <td>${row.creationDate}</td>
+          <td>${row.totalPrice}</td>
           <td>${row.payment}</td>
           <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary">Details</td>
+          <td class="primary"> <a href="" id="product-details">Chi Tiết</a> </td>
         </tr>
       `;
   }
@@ -58,16 +62,45 @@ const buildTableOrder = () => {
     OrderContent += `
         <tr>
           <td>${row.orderId}</td>
-          <td>${row.userId}</td>
+          <td>${row.userName}</td>
+          <td>${row.userPhone}</td>
+          <td>${row.userAdress}</td>
           <td>${row.creationDate}</td>
+          <td>${row.totalPrice}</td>
           <td>${row.payment}</td>
           <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary">Details</td>
+          <td class="primary" onclick="showOverlay()">Details</td>
         </tr>
       `;
   }
 
   tbody.innerHTML = OrderContent;
+
+  return tbody;
+};
+
+// order detais data
+const buildTableOrderDetails = () => {
+  const orderDetaisData = ORDER_DETAILS_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let OrderDetaisContent = "";
+  for (const row of orderDetaisData) {
+    OrderDetaisContent += `
+        <tr>
+          <td>${row.proImg}</td>
+          <td>${row.proId}</td>
+          <td>${row.proName}</td>
+          <td>${row.proSize}</td>
+          <td>${row.proColor}</td>
+          <td>${row.proAmount}</td>
+          <td>${row.unitPrice}</td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = OrderDetaisContent;
 
   return tbody;
 };
@@ -88,6 +121,7 @@ const buildTableUser = () => {
           <td>${row.userAddress}</td>
           <td>${row.userEmail}</td>
           <td>${row.userPermission}</td>
+          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -108,15 +142,15 @@ const buildTableProduct = () => {
     ProContent += `
         <tr>
           <td>${row.proId}</td>
+          <td>${row.proCategory}</td>
           <td>${row.proName}</td>
           <td>${row.proImg}</td>
           <td>${row.proPrice}</td>
-          <td>${row.proPayment}</td>
-          <td class="${row.proStatusColor}">${row.proStatus}</td>
-          <td>${row.proMaterial}</td>
+          <td>${row.proSize}</td>
+          <td>${row.proColor}</td>
           <td>${row.proAmount}</td>
           <td>${row.proStockInDate}</td>
-          <td class="primary"> <span class="material-icons-sharp edit-product"> edit </span> <span class="material-icons-sharp info-product"> info </span></td>
+          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -232,3 +266,15 @@ function showMain(event, mainId) {
     targetMain.classList.add("block");
   }
 }
+
+//========== start Xu ly su kien cho order detail ============//
+function hideOverlay() {
+  const overlay = document.querySelector("main .overlay");
+  overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
+}
+
+function showOverlay() {
+  const show = document.querySelector("main .overlay");
+  show.style.display = "block";
+}
+//========== end Xu ly su kien cho order detail ============//
