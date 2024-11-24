@@ -5,22 +5,103 @@ body {
     background-color: #cfc8c3 !important;
 }
 
-/* Phần Hero */
+/* hero */
 .hero {
     background-color: #cfc8c3;
     color: #1d1b19;
-    padding: 100px 0;
-    text-align: center;
+    padding: 50px;
+    text-align: left;
+    display: flex;
+    justify-content: center;
     margin-top: 10rem;
 }
 
-.hero h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
+.hero-container {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.hero-main {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero-left {
+    flex: 1;
+    left:60%;
 }
 
 .hero p {
+    font-size: 1.8em;
+}
+
+.hero-title {
+    font-size: 10rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1d1b19;
+}
+
+.hero-button {
+    background-color: #1d1b19;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: background-color 0.3s ease;
+}
+
+.hero-button:hover {
+    background-color: #3a3633;
+}
+
+.hero-right {
+    right:70%
+}
+
+.hero-image {
+    width: 70%;
+    height: 40%;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-left: 50px;
+}
+
+/* Phần thông tin bên dưới */
+.hero-info {
+    display: flex;
+    justify-content: space-between;
     font-size: 1.5em;
+    margin-top: 15rem;
+}
+
+.hero-year {
+
+    text-align: left;
+}
+
+.hero-slogan {
+    flex: 1;
+    text-align: right;
+}
+
+/* Phần trên */
+.hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-logo {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.hero-intro {
+    font-size: 1em;
 }
 
 /* Phần ngày tháng */
@@ -248,14 +329,15 @@ body {
 
 #closing img {
     display: block;
-    margin: 1.5rem auto; 
-    width: 50%; 
+    margin: 1.5rem auto;
+    width: 50%;
     max-width: 300px;
     height: auto;
-  }
+}
 
 /* Responsive CSS cho màn hình nhỏ hơn 768px */
 @media (max-width: 768px) {
+
     /* Hero Section */
     .hero {
         padding: 50px 20px;
@@ -367,6 +449,7 @@ body {
 
 /* Responsive CSS cho màn hình nhỏ nhất (320px) */
 @media (max-width: 480px) {
+
     /* Hero Section */
     .hero {
         padding: 30px 10px;
@@ -475,4 +558,3 @@ body {
         width: 80%;
     }
 }
-
