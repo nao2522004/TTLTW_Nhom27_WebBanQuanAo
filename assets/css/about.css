@@ -13,7 +13,7 @@ body {
     text-align: left;
     display: flex;
     justify-content: center;
-    margin-top: 10rem;
+    margin-top: 15rem;
 }
 
 .hero-container {
@@ -338,20 +338,6 @@ body {
 /* Responsive CSS cho màn hình nhỏ hơn 768px */
 @media (max-width: 768px) {
 
-    /* Hero Section */
-    .hero {
-        padding: 50px 20px;
-        margin-top: 5rem;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-    }
-
     /* Giới Thiệu 1 */
     .intro-content {
         flex-direction: column;
@@ -449,19 +435,63 @@ body {
 
 /* Responsive CSS cho màn hình nhỏ nhất (320px) */
 @media (max-width: 480px) {
-
-    /* Hero Section */
     .hero {
-        padding: 30px 10px;
-        margin-top: 3rem;
+        margin-top: 2rem; 
+        overflow-x: hidden;
     }
 
-    .hero h1 {
-        font-size: 1.8rem;
+    .hero-container {
+        max-width: 100%;
+        padding: 0; 
+    }
+
+    .hero-main {
+        flex-direction: column; 
+        align-items: center; 
+        gap: 15px; 
+    }
+
+    .hero-left {
+        text-align: center; 
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .hero p {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-button {
+        font-size: 0.8rem;
+        border-radius: 20px; 
+    }
+
+    .hero-info {
+        margin-top: 2rem;
+        font-size: 0.8rem; 
+        display: flex;
+        flex-direction: column; 
+        gap: 10px; 
+        text-align: center;
+    }
+
+    .hero-year,
+    .hero-slogan {
+        text-align: center;
+    }
+
+    .hero-right {
+        text-align: center;
+        margin-top: 1.5rem; 
+    }
+
+    .hero-image {
+        display: none;
     }
 
     /* Giới Thiệu 1 */
@@ -556,5 +586,123 @@ body {
 
     #closing img {
         width: 80%;
+    }
+}
+
+
+/* Hero trên màn hình lớn hơn 900px */
+@media (max-width: 940px) {
+    .hero {
+        padding: 80px;
+        margin-top: 20rem;
+    }
+
+    .hero-container {
+        max-width: 1400px; 
+    }
+
+    .hero-main {
+        align-items: center;
+        gap: 60px; 
+    }
+
+    .hero-left {
+        flex: 1;
+        text-align: left;
+    }
+
+    .hero-title {
+        font-size: 6rem; 
+        margin-bottom: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 1.8em;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-button {
+        font-size: 1.2rem; 
+        padding: 15px 30px;
+        border-radius: 50px;
+    }
+
+    .hero-info {
+        margin-top: 3rem; 
+        font-size: 1.2rem;
+        gap: 20px;
+    }
+
+    .hero-year, .hero-slogan {
+        text-align: left; 
+    }
+
+    .hero-right {
+        flex: 1;
+        text-align: right;
+    }
+
+    .hero-image {
+        width: 60%;
+        height: auto;
+        border-radius: 15px;
+        margin: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+    .hero {
+        padding: 40px;
+        margin-top: 20rem;
+    }
+
+    .hero-container {
+        width: 100%;
+        max-width: 1100px; 
+    }
+
+    .hero-main {
+        flex-direction: row; 
+        align-items: center;
+        gap: 30px;
+    }
+
+    .hero-left {
+        flex: 1;
+        text-align: left;
+    }
+
+    .hero-title {
+        font-size: 4rem; 
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.3rem; 
+        margin-bottom: 1rem;
+    }
+
+    .hero-button {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        border-radius: 50px;
+    }
+
+    .hero-info {
+        margin-top: 2rem; 
+        font-size: 1.1rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .hero-right {
+        flex: 1;
+        text-align: right; 
+    }
+
+    .hero-image {
+        width: 70%; 
+        height: auto;
+        border-radius: 10px;
     }
 }
