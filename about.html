@@ -26,12 +26,32 @@
         <header id="header"></header>
     </div>
 
-
     <!-- Phần Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Chào mừng đến với Lasmanate</h1>
-            <p>Thời trang tinh tế, đẳng cấp, và luôn theo xu hướng.</p>
+        <div class="hero-container">
+            <div class="hero-main">
+                <div class="hero-left">
+                    <!-- Phần trên -->
+                    <div class="hero-top">
+                        <div class="hero-intro">
+                            <p>Chào mừng đến với tủ đồ của Lasmanate</p>
+                        </div>
+                    </div>
+
+                    <h1 class="hero-title">LASMANATE</h1>
+                    <p>Thời trang tinh tế, đẳng cấp, và luôn theo xu hướng</p>
+                    <button class="hero-button" onclick="scrollToContent()">Khám phá ngay</button>
+
+                    <!-- Phần thông tin bên dưới -->
+                    <div class="hero-info">
+                        <div class="hero-year">Est. 2024</div>
+                        <div class="hero-slogan">Thời trang đẳng cấp cho mọi phong cách</div>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <img src="./assets/imgs/About/hero.jpg" alt="Fashion Collection" class="hero-image">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -123,7 +143,7 @@
             <p>Với Lasmanate, chúng tôi không chỉ tạo ra thời trang mà còn mang đến phong cách và câu chuyện riêng cho
                 bạn.<br>
                 Hãy đồng hành cùng chúng tôi và tỏa sáng theo cách của bạn.</p>
-            <a href="index.html"><button class="btn-discover">Khám Phá Ngay</button></a> 
+            <a href="index.html"><button class="btn-discover">Khám Phá Ngay</button></a>
 
             <img src="./assets/imgs/About/sign.png" alt="">
         </div>
@@ -140,7 +160,11 @@
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
 
-
+    <script>
+        function scrollToContent() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
 
     <!-- base js -->
     <script src="./assets/js/base.js"></script>
