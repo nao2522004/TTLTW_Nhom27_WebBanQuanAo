@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN</title>
     <!-- Frameworks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet" />
 
     <!-- CSS native -->
-     <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/admin.css">
 </head>
 
@@ -51,7 +54,7 @@
                     <span class="material-icons-sharp"> add </span>
                     <h3>Add Product</h3>
                 </a>
-                <a href="#">
+                <a href="user.html">
                     <span class="material-icons-sharp"> logout </span>
                     <h3>Logout</h3>
                 </a>
@@ -179,6 +182,26 @@
 
                 <!-- Khách hàng online -->
                 <div class="expenses">
+                    <span class="material-icons-sharp"> person </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Người Dùng online</h3>
+                            <h1>1000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+
+                <!-- Khách hàng online -->
+                <div class="expenses" style="opacity: 0;">
                     <span class="material-icons-sharp"> person </span>
                     <div class="middle">
                         <div class="left">
@@ -401,66 +424,65 @@
         <!------------------------------------ Add Product ------------------------------------>
         <main id="add_product">
             <h1>Thêm sản phẩm</h1>
-                <form id="add-product-form">
-                    <div class="form-group">
-                        <label for="product-name">Tên Sản Phẩm</label>
-                        <input type="text" id="product-name" name="product-name" placeholder="Nhập tên sản phẩm"
-                            required>
-                    </div>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label for="product-name">Tên Sản Phẩm</label>
+                    <input type="text" id="product-name" name="product-name" placeholder="Nhập tên sản phẩm" required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-price">Giá</label>
-                        <input type="number" id="product-price" name="product-price" placeholder="Nhập giá sản phẩm"
-                            required>
-                    </div>
+                <div class="form-group">
+                    <label for="product-price">Giá</label>
+                    <input type="number" id="product-price" name="product-price" placeholder="Nhập giá sản phẩm"
+                        required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-payment">Phương Thức Thanh Toán</label>
-                        <select id="product-payment" name="product-payment" required>
-                            <option value="" disabled selected>Chọn phương thức thanh toán</option>
-                            <option value="Tiền Mặt">Tiền Mặt</option>
-                            <option value="Chuyển Khoản">Chuyển Khoản</option>
-                            <option value="Thẻ Tín Dụng">Thẻ Tín Dụng</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="product-payment">Phương Thức Thanh Toán</label>
+                    <select id="product-payment" name="product-payment" required>
+                        <option value="" disabled selected>Chọn phương thức thanh toán</option>
+                        <option value="Tiền Mặt">Tiền Mặt</option>
+                        <option value="Chuyển Khoản">Chuyển Khoản</option>
+                        <option value="Thẻ Tín Dụng">Thẻ Tín Dụng</option>
+                    </select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-status">Trạng Thái</label>
-                        <select id="product-status" name="product-status" required>
-                            <option value="" disabled selected>Chọn trạng thái</option>
-                            <option value="Đã Giao Hàng">Đã Giao Hàng</option>
-                            <option value="Chờ Xử Lý">Chờ Xử Lý</option>
-                            <option value="Hủy Đơn">Hủy Đơn</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="product-status">Trạng Thái</label>
+                    <select id="product-status" name="product-status" required>
+                        <option value="" disabled selected>Chọn trạng thái</option>
+                        <option value="Đã Giao Hàng">Đã Giao Hàng</option>
+                        <option value="Chờ Xử Lý">Chờ Xử Lý</option>
+                        <option value="Hủy Đơn">Hủy Đơn</option>
+                    </select>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-material">Chất Liệu</label>
-                        <input type="text" id="product-material" name="product-material"
-                            placeholder="Nhập chất liệu sản phẩm" required>
-                    </div>
+                <div class="form-group">
+                    <label for="product-material">Chất Liệu</label>
+                    <input type="text" id="product-material" name="product-material"
+                        placeholder="Nhập chất liệu sản phẩm" required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-amount">Số Lượng</label>
-                        <input type="number" id="product-amount" name="product-amount"
-                            placeholder="Nhập số lượng sản phẩm" required>
-                    </div>
+                <div class="form-group">
+                    <label for="product-amount">Số Lượng</label>
+                    <input type="number" id="product-amount" name="product-amount" placeholder="Nhập số lượng sản phẩm"
+                        required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-stock-in-date">Ngày Nhập Kho</label>
-                        <input type="date" id="product-stock-in-date" name="product-stock-in-date" required>
-                    </div>
+                <div class="form-group">
+                    <label for="product-stock-in-date">Ngày Nhập Kho</label>
+                    <input type="date" id="product-stock-in-date" name="product-stock-in-date" required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="product-image">Hình Ảnh (URL)</label>
-                        <input type="url" id="product-image" name="product-image"
-                            placeholder="Nhập đường dẫn hình ảnh sản phẩm">
-                    </div>
+                <div class="form-group">
+                    <label for="product-image">Hình Ảnh (URL)</label>
+                    <input type="url" id="product-image" name="product-image"
+                        placeholder="Nhập đường dẫn hình ảnh sản phẩm">
+                </div>
 
-                    <button type="submit" class="btn-primary"> <span class="material-icons-sharp"> add </span>
-                        <h3>Thêm Sản Phẩm</h3>
-                    </button>
-                </form>
+                <button type="submit" class="btn-primary"> <span class="material-icons-sharp"> add </span>
+                    <h3>Thêm Sản Phẩm</h3>
+                </button>
+            </form>
         </main>
 
 
