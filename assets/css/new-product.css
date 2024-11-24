@@ -1,13 +1,13 @@
 .collect {
     position: relative;
-    top: 12rem;
 }
 
 body {
     background-color: #f6f1eb;
 }
-
-
+#section_banner {
+    margin-top: 10rem;
+}
 .tw-container-full {
     margin-left: auto;
     margin-right: auto;
