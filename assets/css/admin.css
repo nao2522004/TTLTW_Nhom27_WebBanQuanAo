@@ -593,14 +593,14 @@ main .recent-orders a {
   main .recent-orders table {
     width: 83vw;
   }
-  main .recent-orders table thead tr th:first-child,
+  /* main .recent-orders table thead tr th:first-child,
   main .recent-orders table thead tr th:last-child {
     display: none;
   }
   main .recent-orders table tbody tr td:first-child,
   main .recent-orders table tbody tr td:last-child {
     display: none;
-  }
+  } */
 }
 
 /* SMALL TABLETS AND MOBILE */
