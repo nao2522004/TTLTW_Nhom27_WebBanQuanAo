@@ -7,7 +7,7 @@
     <title>Giỏ Hàng</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/imgs/Favicon/favicon-32x32.png" type="image/png">
-      <!-- Frameworks -->
+    <!-- Frameworks -->
     <!-- Reset CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
         integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
@@ -143,26 +143,22 @@
         const quantityDisplays = document.querySelectorAll('.quantity');
 
         decreaseBtns.forEach((btn, index) => {
-            let quantity = 1;
-
             btn.addEventListener('click', () => {
-                if (quantity > 1) {
-                    quantity--;
-                    quantityDisplays[index].textContent = quantity;
+                let currentQuantity = parseInt(quantityDisplays[index].textContent);
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    quantityDisplays[index].textContent = currentQuantity;
                 }
             });
         });
 
         increaseBtns.forEach((btn, index) => {
-            let quantity = 1;
-
             btn.addEventListener('click', () => {
-                quantity++;
-                quantityDisplays[index].textContent = quantity;
+                let currentQuantity = parseInt(quantityDisplays[index].textContent);
+                currentQuantity++;
+                quantityDisplays[index].textContent = currentQuantity;
             });
         });
-
-
     </script>
 
 
