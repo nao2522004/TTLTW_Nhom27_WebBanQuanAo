@@ -3,6 +3,8 @@
   height: 19rem;
 }
 
+
+
 header {
   border-bottom: solid 1px #ccc;
   background-color: var(--primary-color);
@@ -43,11 +45,11 @@ header nav {
 }
 
 header nav ul {
-  width: 100rem;
+  width: 120rem;
   padding: 0;
   margin: 0;
   list-style: none;
-  gap: 6rem;
+  gap: 3rem;
   text-transform: capitalize;
   font-size: 2.5rem;
   font-weight: 700;
@@ -86,6 +88,25 @@ header nav ul li a:hover {
   text-decoration: none;
   position: relative;
   font-weight: 700;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown .content-collection {
+  text-align: center;
+  position: absolute;
+  z-index: 100;
+  top: 4rem;
+  background-color: var(--primary-color);
+  border-radius: 0.8rem;
+  box-shadow: var(--box-shadow-light);
+  display: none;
+}
+
+.dropdown:hover .content-collection {
+  display: block;
 }
 
 /* Group icons */
@@ -156,6 +177,29 @@ header.scrolled .group_icons {
   padding: 1rem;
   cursor: pointer;
 }
+
+/* Back to Top Button */
+#backToTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  background-color: var(--second-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#backToTop:hover {
+  background-color: var(--lighter1-second-color);
+  transform: scale(1.1);
+}
+
 
 @media (max-width: 1456px) {
   /* Group icons */
@@ -548,10 +592,10 @@ footer {
     gap: 2rem;
   }
 
-  .footer-location-payment div h3, .footer-location-payment div {
+  .footer-location-payment div h3,
+  .footer-location-payment div {
     text-align: center;
   }
-
 }
 
 /* For small devices like mobile */
