@@ -34,25 +34,38 @@
                     <span class="material-icons-sharp"> dashboard </span>
                     <h3>Bảng thông tin</h3>
                 </a>
+
+                <a href="#" onclick="showMain(event, 'manager_orders')">
+                    <span class="material-icons-sharp"> receipt_long </span>
+                    <h3>Đơn hàng</h3>
+                </a>
                 <a href="#" onclick="showMain(event, 'manager_users')">
                     <span class="material-icons-sharp"> person_outline </span>
                     <h3>Người dùng</h3>
                 </a>
-                <a href="#" onclick="showMain(event, 'manager_orders')">
-                    <span class="material-icons-sharp"> receipt_long </span>
-                    <h3>Đơn hàng</h3>
+                <a href="" onclick="showMain(event, 'add_user')">
+                    <span class="material-icons-sharp"> add </span>
+                    <h3>Add User</h3>
                 </a>
                 <a href="#" onclick="showMain(event, 'manager_products')">
                     <span class="material-icons-sharp"> inventory </span>
                     <h3>Sản phẩm</h3>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp"> settings </span>
-                    <h3>Settings</h3>
-                </a>
                 <a href="" onclick="showMain(event, 'add_product')">
                     <span class="material-icons-sharp"> add </span>
                     <h3>Add Product</h3>
+                </a>
+                <a href="#" onclick="showMain(event, 'manager_others')">
+                    <span class="material-icons-sharp"> inventory </span>
+                    <h3>Others</h3>
+                </a>
+                <a href="" onclick="showMain(event, 'add_others')">
+                    <span class="material-icons-sharp"> add </span>
+                    <h3>Add Others</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp"> settings </span>
+                    <h3>Settings</h3>
                 </a>
                 <a href="user.html">
                     <span class="material-icons-sharp"> logout </span>
@@ -65,8 +78,24 @@
         <main id="dashboard">
             <h1>Bảng Thông Tin</h1>
 
-            <div class="date">
-                <input type="date" />
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
             <div class="insights">
                 <!-- SALES -->
@@ -155,10 +184,26 @@
         <!---------------------------------------- Manager User  ---------------------------------->
         <main id="manager_users">
             <h1>Quản lý người dùng</h1>
+            <div class="dash-top">
 
-            <div class="date">
-                <input type="date" />
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
+
 
             <div class="insights">
                 <!-- Tổng khách hàng -->
@@ -224,6 +269,8 @@
                 </div>
             </div>
 
+
+
             <div class="recent-orders">
                 <h2>Danh Sách Người Dùng</h2>
                 <table id="users--table">
@@ -248,9 +295,26 @@
         <main id="manager_products">
             <h1>Quản lý sản phẩm</h1>
 
-            <div class="date">
-                <input type="date" />
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
+
 
             <div class="insights">
                 <!-- SALES -->
@@ -339,13 +403,94 @@
 
         </main>
 
+        <!------------------------------------ Manager Sales ------------------------------------>
+        <main id="manager_others">
+            <h1>Quản lý sản phẩm</h1>
+
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+            <div class="recent-orders">
+                <h2>Chương Trình Giảm Giá.</h2>
+                <table id="sales--table">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Mô tả</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+            <div class="recent-orders">
+                <h2>Bộ sưu tầm.</h2>
+                <table id="collections--table">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Mô tả</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+
+
+        </main>
+
         <!------------------------------------ Manager Orders ------------------------------------>
         <main id="manager_orders">
             <h1>Quản lý đơn hàng</h1>
 
-            <div class="date">
-                <input type="date" />
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
+
 
             <div class="insights">
                 <!-- SALES -->
@@ -554,6 +699,150 @@
             </form>
         </main>
 
+        <!------------------------------------ Add User ------------------------------------>
+        <main id="add_user">
+            <h1>Thêm Người Dùng</h1>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập." required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="role-id">ID Vai Trò</label>
+                        <input type="text" id="role-id" name="role-id" placeholder="Nhập ID vai trò." required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="firstname">Họ</label>
+                        <input type="text" id="firstname" name="firstname" placeholder="Nhập họ." required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="lastname">Tên</label>
+                        <input type="text" id="lastname" name="lastname" placeholder="Nhập tên." required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Nhập email." required>
+                    </div>
+                    <div action="/upload" method="post" enctype="multipart/form-data" class="form-group--items"
+                        style="position: relative;">
+                        <label for="product-image">Chọn Ảnh</label>
+                        <input type="file" style="z-index: 100;" id="product-image" name="product-image"
+                            accept="image/*" placeholder="Tải têp.">
+                        <input type="text" id="product-img" name="product-img" placeholder="Tải ảnh lên." required
+                            style="position: absolute; top: 42%;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="password">Mật Khẩu</label>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu." required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="address">Địa Chỉ</label>
+                        <input type="text" id="address" name="address" placeholder="Nhập địa chỉ." required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="phone">Số Điện Thoại</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại." required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="status">Trạng Thái</label>
+                        <select id="status" name="status" required>
+                            <option value="1">Hoạt Động</option>
+                            <option value="0">Không Hoạt Động</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="material-icons-sharp"> add </span>
+                    <h3>Thêm Người Dùng</h3>
+                </button>
+            </form>
+        </main>
+
+        <!------------------------------------ Add Others ------------------------------------>
+        <main id="add_others">
+            <!------------------------------------ Add Collections ------------------------------------>
+            <h1>Thêm Bộ Sưu Tập</h1>
+            <form id="add-product-form" action="/add-collection" method="POST">
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="collections_name">Tên Bộ Sưu Tập</label>
+                        <input type="text" id="collections_name" name="collections_name"
+                            placeholder="Nhập tên bộ sưu tập." required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="start_date">Ngày Bắt Đầu</label>
+                        <input type="date" id="start_date" name="start_date" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="collections_description">Mô Tả Bộ Sưu Tập</label>
+                        <textarea id="collections_description" name="collections_description"
+                            placeholder="Nhập mô tả bộ sưu tập." required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="material-icons-sharp"> add </span>
+                    <h3>Thêm Bộ Sưu Tập</h3>
+                </button>
+            </form>
+
+            <!------------------------------------ Add Sales ------------------------------------>
+            <h1>Thêm Chương Trình Khuyến Mãi</h1>
+            <form id="add-product-form" action="/add-sales" method="POST">
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="sales_name">Tên Chương Trình</label>
+                        <input type="text" id="sales_name" name="sales_name" placeholder="Nhập tên chương trình."
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="start_date">Ngày Bắt Đầu</label>
+                        <input type="date" id="start_date" name="start_date" required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="end_date">Ngày Kết Thúc</label>
+                        <input type="date" id="end_date" name="end_date" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="sales_description">Mô Tả Chương Trình</label>
+                        <textarea id="sales_description" name="sales_description" placeholder="Nhập mô tả chương trình."
+                            required></textarea>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn-primary">
+                    <span class="material-icons-sharp"> add </span>
+                    <h3>Thêm Chương Trình Khuyến Mãi</h3>
+                </button>
+            </form>
+        </main>
+
+
+
 
 
         <div class="right">
@@ -603,6 +892,7 @@
     <script src="./assets/js/admin-data/product-data.js"></script>
     <script src="./assets/js/admin-data/order-data.js"></script>
     <script src="./assets/js/admin-data/order-details-data.js"></script>
+    <script src="./assets/js/admin-data/others-data.js"></script>
     <script src="./assets/js/admin.js"></script>
 
 </body>
