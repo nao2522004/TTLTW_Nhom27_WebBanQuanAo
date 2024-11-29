@@ -59,35 +59,45 @@
                 </a>
             </div>
         </div>
-
         <!-- Product Info -->
         <div class="col-md-6 product-info">
-            <h1>This is the eo vi towel, I will take it for the price of the number... ninety million</h1>
+            <h1>Quần dài Kaki dáng Baggy ống suông cạp chun Unisex nam</h1>
             <div class="price">250.000 đ</div>
+            <!-- Color options -->
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
                     <span></span><span></span><span></span>
                 </div>
             </div>
+            <!-- Size options -->
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
                 <div class="choose_size mt-3">
                     <span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span><span>XXXL</span>
                 </div>
             </div>
+            <!-- Instructions for choosing size -->
             <div class="instructions mt-2">
-                <a href="#">How to choose the exactly size <i class="fa fa-pencil"></i></a>
+                <a href="#" id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></a>
             </div>
+            <!-- Popup -->
+            <div class="overlay" id="popup-overlay"></div>
+            <div class="popup" id="popup">
+                <img src="./assets/imgs/products detail/size guild/2.png" alt="Size Guide">
+                <button class="close-btn" id="close-popup">Close</button>
+            </div>
+            <!-- Quantity -->
             <div class="quantity-selector mt-4">
                 <h5>Quantity:</h5>
-                <button class="btn btn-outline-secondary ml-3">-</button>
-                <input type="text" value="1" readonly>
-                <button class="btn btn-outline-secondary">+</button>
+                <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
+                <input type="text" value="1" id="quantity-input" readonly>
+                <button class="btn btn-outline-secondary" id="increase-btn">+</button>
             </div>
+            <!-- Buttons: add to cart, buy -->
             <div class="mt-5">
                 <a class="add_to_cart_btn">Add to cart</a>
-                <a class="buy_btn">Buy now</a>
+                <a href="cart.html" class="buy_btn">Buy now</a>
             </div>
         </div>
     </section>
@@ -97,35 +107,105 @@
         <h1 class="mb-5 pb-4 text-center">Thông tin chi tiết sản phẩm</h1>
         <div class="content">
             <ul class="text_content">
-                <li>Welcome to our store</li>
-                <li>Don't forget to collect coupons before shopping</li>
-                <li>Follow us to get more coupons</li>
-                <li>Our Store's Promise</li>
-                <li>Our store will do its best to answer all questions about the products and resolve any product issues promptly.</li>
-                <li>We guarantee that the colors shown in the videos and photos match 100%.</li>
-                <li>Customers can inspect the goods before making payment.</li>
-                <li>Exchange within 15 days.</li>
-                <li>Beautiful and secure packaging, fast delivery.</li>
-                <li>In stock, best delivery time.</li>
-                <li>Product Return Policy</li>
-                <li>Conditions for returns:
+                <li>Đừng quên áp mã giảm giá trước khi mua sắm</li>
+                <li>Shop đảm bảo màu sắc hiển thị trong video và ảnh giống 100%.</li>
+                <li>Khách hàng có thể kiểm tra hàng trước khi thanh toán.</li>
+                <li>Đổi trả trong vòng 15 ngày.</li>
+                <li>Đóng gói đẹp và an toàn, giao hàng nhanh chóng.</li>
+                <li>Hàng có sẵn, thời gian giao hàng tốt nhất.</li>
+                <li>Chính sách đổi trả sản phẩm</li>
+                <li>Điều kiện đổi trả:
                     <ul>
-                        <li>The item is new, with tags, and unused.</li>
-                        <li>The product is defective or damaged due to shipping or manufacturing issues.</li>
+                        <li>Sản phẩm còn mới, đầy đủ tem nhãn, và chưa qua sử dụng.</li>
+                        <li>Sản phẩm bị lỗi hoặc hư hỏng do vấn đề vận chuyển hoặc sản xuất.</li>
                     </ul>
                 </li>
-                <li>Warranty Policy:
+                <li>Chính sách bảo hành:
                     <ul>
-                        <li>Products are 100% guaranteed in quality.</li>
-                        <li>Exchanges and returns are carried out according to Shopee's policies.</li>
-                        <li>Nationwide shipping, cash on delivery available.</li>
+                        <li>Sản phẩm đảm bảo 100% về chất lượng.</li>
+                        <li>Việc đổi trả được thực hiện theo chính sách của Shopee.</li>
+                        <li>Giao hàng toàn quốc, có hỗ trợ thanh toán khi nhận hàng (COD).</li>
                     </ul>
                 </li>
-                <li>Size and Model</li>
-                <li>The product's size and model are displayed in the images, please review carefully. Due to manual measurements, there may be a 1-2 cm deviation.</li>
-                <li>Due to different displays and lighting, the images may not reflect the true colors of all products. Thank you for your understanding.</li>
-                <li>If customers find any product defects or encounter rude behavior from the delivery staff, please inform our store for the best solution!! Lastly, we look forward to your five-star rating.</li>
+                <li>Kích thước và mẫu mã</li>
+                <li>Kích thước và mẫu mã của sản phẩm được hiển thị trong hình ảnh, vui lòng xem kỹ trước khi đặt hàng.
+                    Do đo lường thủ công, có thể sai lệch 1-2 cm.</li>
+                <li>Do sự khác biệt về màn hình và ánh sáng, hình ảnh có thể không phản ánh chính xác màu sắc thật của
+                    tất cả sản phẩm. Mong quý khách thông cảm.</li>
+                <li>Nếu khách hàng phát hiện sản phẩm có lỗi hoặc gặp phải thái độ không đúng mực từ nhân viên giao
+                    hàng, vui lòng thông báo ngay với cửa hàng để được giải quyết tốt nhất!! Cuối cùng, rất mong nhận
+                    được đánh giá 5 sao từ quý khách.</li>
             </ul>
+        </div>
+    </section>
+
+    <!-- Comments -->
+    <section id="section_comments" class="container mx-auto">
+        <h1 class="mb-5 pb-4 text-center">Đánh giá từ những khách hàng đã mua</h1>
+        <!-- Review by customer -->
+        <div class="review-container container">
+            <div class="item">
+                <div class="user-info">
+                    <img src="./assets/imgs/products detail/1.png" alt="User Avatar" class="avatar">
+                    <div class="user-name">
+                        <span>Nguyễn Văn A</span>
+                        <div class="review-date">Thời gian: 22:11 2023-10-10</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <div class="review-content">
+                    <p>Shop chuẩn bị hàng và giao hàng nhanh. Shipper vui tính nhiệt tình. Chất vải phù hợp với giá
+                        tiền,
+                        gửi
+                        đúng mẫu. Mẫu mã bạn nhà mình rất thích. Tặng shop 5 sao</p>
+                </div>
+                <div class="review-media">
+                    <img src="./assets/imgs/products detail/2.webp" alt="Review Image 1">
+                    <img src="./assets/imgs/products detail/3.jpg" alt="Review Image 2">
+                </div>
+            </div>
+            <div class="item">
+                <div class="user-info">
+                    <img src="./assets/imgs/products detail/1.png" alt="User Avatar" class="avatar">
+                    <div class="user-name">
+                        <span>Hoàng Thái B</span>
+                        <div class="review-date">Thời gian: 22:11 2023-10-10</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <div class="review-content">
+                    <p>Rất đẹp và hài lòng lần sau sẽ ủng hộ shop tiếp</p>
+                </div>
+                <div class="review-media">
+                    <img src="./assets/imgs/products detail/6.webp" alt="Review Image 1">
+                    <img src="./assets/imgs/products detail/7.webp" alt="Review Image 2">
+                </div>
+            </div>
+            <div class="item">
+                <div class="user-info">
+                    <img src="./assets/imgs/products detail/1.png" alt="User Avatar" class="avatar">
+                    <div class="user-name">
+                        <span>Lý Thành C</span>
+                        <div class="review-date">Thời gian: 22:11 2023-10-10</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span>★★★★</span>
+                </div>
+                <div class="review-content">
+                    <p>Vải dầy, cạp to dầy, mặc thoải mãi rộng, vừa hết lạnh, ko biết có ấm ko. Shop tư vấn sai nên quần
+                        dài quá luôn, shop nên tham khảo nhiều hơn, muốn cho 2 sao nhưng thấy cũng oki mặc ở nhà nên 4
+                        sao nha</p>
+                </div>
+                <div class="review-media">
+                    <img src="./assets/imgs/products detail/4.webp" alt="Review Image 1">
+                    <img src="./assets/imgs/products detail/5.webp" alt="Review Image 2">
+                </div>
+            </div>
         </div>
     </section>
 
