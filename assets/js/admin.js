@@ -2,13 +2,24 @@
 document.addEventListener("DOMContentLoaded", (ev) => {
   // Recent Orders Data
   document.getElementById("recent-orders--table").appendChild(buildTableBody());
+
   // Orders Data
   document.getElementById("orders--table").appendChild(buildTableOrder());
-  document.getElementById("orders-details--table").appendChild(buildTableOrderDetails());
+  document
+    .getElementById("orders-details--table")
+    .appendChild(buildTableOrderDetails());
+
   // usertomer Data
   document.getElementById("users--table").appendChild(buildTableUser());
+
   // Product Data
   document.getElementById("product--table").appendChild(buildTableProduct());
+
+  // Others Data
+  document.getElementById("sales--table").appendChild(buildTableSales());
+  document
+    .getElementById("collections--table")
+    .appendChild(buildTableCollections());
 
   // Updates Data
   document
@@ -150,12 +161,61 @@ const buildTableProduct = () => {
           <td>${row.proColor}</td>
           <td>${row.proAmount}</td>
           <td>${row.proStockInDate}</td>
-          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span> </td>
         </tr>
       `;
   }
 
   tbody.innerHTML = ProContent;
+
+  return tbody;
+};
+
+// Sales_data
+const buildTableSales = () => {
+  const sales = SALES_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let SalesContent = "";
+  for (const row of sales) {
+    SalesContent += `
+        <tr>
+          <td>${row.saleid}</td>
+          <td>${row.salename}</td>
+          <td>${row.start_date}</td>
+          <td>${row.end_date}</td>
+          <td>${row.sale_decrip}</td>
+           <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = SalesContent;
+
+  return tbody;
+};
+
+// Collections_data
+const buildTableCollections = () => {
+  const collections = COLLECTIONS_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let CollectionsContent = "";
+  for (const row of collections) {
+    CollectionsContent += `
+        <tr>
+          <td>${row.coid}</td>
+          <td>${row.coname}</td>
+          <td>${row.start_date}</td>
+          <td>${row.co_decrip}</td>
+           <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = CollectionsContent;
 
   return tbody;
 };
