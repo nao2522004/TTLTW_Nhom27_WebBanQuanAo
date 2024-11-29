@@ -176,6 +176,7 @@ h4 {
 #section_all_products .list_products .product-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 #section_all_products .list_products .product-card:hover img {
     transform: scale(0.98);
 }
