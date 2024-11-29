@@ -75,6 +75,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 //
+// xu ly chuyen doi don vi tien te cua Luat
+document.addEventListener("DOMContentLoaded", () => {
+  const priceElements = document.querySelectorAll(".product-price");
+
+  priceElements.forEach((el) => {
+      const price = Number(el.getAttribute("data-price"));
+
+      const formattedPrice = new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+      }).format(price);
+
+      el.textContent = formattedPrice;
+  });
+});
+//
 
 // <!-- Filter -->
 document.addEventListener("DOMContentLoaded", function () {
