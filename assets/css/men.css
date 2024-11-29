@@ -29,6 +29,15 @@ h4 {
     font-size: 2.5rem;
 }
 
+#section_featured a {
+    cursor: pointer;
+    transition: transform .3s ease-in-out;
+}
+
+#section_featured a:hover {
+    transform: scale(0.98);
+}
+
 #section_featured img {
     max-width: 100%;
     height: auto;
