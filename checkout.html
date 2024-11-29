@@ -125,7 +125,7 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="state" class="lb-text">Tỉnh/Thành phố</label>
-                                <select class="custom-select d-block w-100 " id="state" required>
+                                <select class="custom-select d-block w-100 large-select" id="state" required>
                                     <option value="">Thành Phố Hồ Chí Minh</option>
                                     <option>Tỉnh An Giang</option>
                                     <option>Tỉnh Bà Rịa - Vũng Tàu</option>
@@ -222,7 +222,7 @@
                                 <img src="./assets/imgs/CheckOut/logo_5.jpg" alt="">
                             </div>
                         </div>
-                        <div class="d-block my-3">
+                        <!-- <div class="d-block my-3">
                             <div class="custom-control custom-radio">
                                 <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
                                     checked required>
@@ -247,7 +247,22 @@
                                 <input id="cod" name="paymentMethod" type="radio" class="custom-control-input" required>
                                 <label class="custom-control-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
                             </div>
+                        </div> -->
+                        <div class="md-6 mb-3">
+                            <label for="paymentMethod" class="lb-text" ></label>
+                            <select class="custom-select d-block w-100 large-select" id="paymentMethod" name="paymentMethod" required>
+                                <option value="">Chọn phương thức thanh toán</option>
+                                <option value="credit">Thẻ tín dụng</option>
+                                <option value="debit">Thẻ ghi nợ</option>
+                                <option value="momo">Momo</option>
+                                <option value="zalopay">Zalo Pay</option>
+                                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Vui lòng chọn phương thức thanh toán
+                            </div>
                         </div>
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="cc-name">Tên trên thẻ</label>
