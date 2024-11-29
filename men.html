@@ -166,7 +166,7 @@
                         <div class="row">
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
-                                <div class="product-card">
+                                <div class="product-card" onclick="redirectToProductPage()">
                                     <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
                                         class="product-image img-fluid">
                                     <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
@@ -443,6 +443,11 @@
 
         // Initial render
         renderPagination();
+    </script>
+    <script>
+        function redirectToProductPage() {
+            window.location.href = './products_detail.html';
+        }
     </script>
 </body>
 
