@@ -35,370 +35,313 @@
         <img src="./assets/imgs/sale/banner/1.png" alt="" class="w-100">
     </section>
 
-    <!-- Sale products -->
-    <section id="section_products" class="mt-5 pt-5">
-        <div class="container">
-            <h2>Giảm giá cho ngày Black Friday lên đến 70%</h2>
-            <div class="row mt-3">
-                <!-- Item 1 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/1.webp" alt="Image 1" class="w-100">
-                        <h4>Quần Kaki Ống Suông</h4>
-                        <p>289.000đ</p>
+    <!-- Collection -->
+    <div class="collect">
+        <div class="clothers">
+            <div class="container-fluid grid">
+                <div class="tw-container-full collections-head">
+                    <h2 class="clothes__title">Sản phẩm mới</h2>
+                    <div class="collections-head__desc">
+                        <p>
+                            Đây là những sản phẩm mới về trong tủ đồ Lasmanate với kiểu dáng mới, và những chức năng mới
+                            để
+                            tủ đồ của bạn đa dạng hơn
+                        </p>
                     </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/2.webp" alt="Image 2" class="w-100">
-                        <h4>Double Knee Reetro</h4>
-                        <p>450.000đ</p>
+                    <div class="tab-header tab-collection-get-header collection-filter__header">
+                        <a href="#" rel-script="filter-item" data-param-value="all" id="all"
+                            class="tab-header__item collection-filter__item is-active">Tất cả</a>
+                        <a href="#" rel-script="filter-item" data-param-value="ao-moi" id="ao-moi"
+                            class="tab-header__item collection-filter__item">Áo</a>
+                        <a href="#" rel-script="filter-item" data-param-value="quan-moi" id="quan-moi"
+                            class="tab-header__item collection-filter__item">Quần</a>
+                        <a href="#" rel-script="filter-item" data-param-value="phu-kien-moi" id="phu-kien-moi"
+                            class="tab-header__item collection-filter__item">Phụ kiện</a>
                     </div>
+                    <div class="collections-head__divider"></div>
                 </div>
-                <!-- Item 3 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/5.webp" alt="Image 3" class="w-100">
-                        <h4>Cargo pant carhartt</h4>
-                        <p>300.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/4.webp" alt="Image 4" class="w-100">
-                        <h4>Quần Anh Mạnh siêu đẹp</h4>
-                        <p>1.000.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/4.webp" alt="Image 4" class="w-100">
-                        <h4>Quần Anh Mạnh siêu đẹp</h4>
-                        <p>1.000.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/4.webp" alt="Image 4" class="w-100">
-                        <h4>Quần Anh Mạnh siêu đẹp</h4>
-                        <p>1.000.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/4.webp" alt="Image 4" class="w-100">
-                        <h4>Quần Anh Mạnh siêu đẹp</h4>
-                        <p>1.000.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-3">
-                    <div class="item">
-                        <img src="./assets/imgs/HomePage/section1/4.webp" alt="Image 4" class="w-100">
-                        <h4>Quần Anh Mạnh siêu đẹp</h4>
-                        <p>1.000.000đ</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- All products -->
-    <section id="section_all_products">
-        <!-- Top -->
-        <div class="container-fluid" style="border-bottom: solid 1px #000;    height: 5rem;">
-            <div class="top">
-                <div class="filter">
-                    <h2>Lọc sản phẩm</h2>
-                    <i class="fa-solid fa-filter custom_icon"></i>
-                </div>
-                <h1>Tất cả sản phẩm đang được giảm giá</h1>
-                <div class="sort">
-                    <label for="sortBy">Sắp xếp theo:</label>
-                    <select id="sortBy" class="custom-select">
-                        <option value="default">Chọn tiêu chí sắp xếp</option>
-                        <option value="priceAsc">Giá: Thấp đến Cao</option>
-                        <option value="priceDesc">Giá: Cao đến Thấp</option>
-                        <option value="newest">Sản Phẩm Mới Nhất</option>
-                        <option value="bestSeller">Bán Chạy Nhất</option>
-                        <option value="highestRated">Đánh Giá Cao Nhất</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <!-- Bottom -->
-        <div class="container-fluid">
-            <div class="bottom">
-                <!-- Filter -->
-                <div class="filter">
-                    <!-- Loại Sản Phẩm -->
-                    <div id="filter-category">
-                        <h4>Loại Sản Phẩm <span class="arrow"><i
-                                    class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="category" value="Shirts"> Áo</label>
-                            <label><input type="checkbox" name="category" value="Pants"> Quần</label>
-                            <label><input type="checkbox" name="category" value="Jackets"> Áo khoác</label>
-                            <label><input type="checkbox" name="category" value="Accessories"> Phụ kiện</label>
-                            <label><input type="checkbox" name="category" value="Shoes"> Giày</label>
-                        </div>
+                <div class="top">
+                    <div class="filter">
+                        <h2>8 Kết Quả</h2>
                     </div>
+                    <div class="sort">
+                        <span class="text-sort">SẮP XẾP
+                            THEO</span>
 
-                    <!-- Kích Thước -->
-                    <div id="filter-size">
-                        <h4>Kích Thước <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="size" value="S"> S</label>
-                            <label><input type="checkbox" name="size" value="M"> M</label>
-                            <label><input type="checkbox" name="size" value="L"> L</label>
-                            <label><input type="checkbox" name="size" value="XL"> XL</label>
-                            <label><input type="checkbox" name="size" value="XXL"> XXL</label>
-                        </div>
-                    </div>
-
-                    <!-- Màu Sắc -->
-                    <div id="filter-color">
-                        <h4>Màu Sắc <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="color" value="Black"> Đen</label>
-                            <label><input type="checkbox" name="color" value="White"> Trắng</label>
-                            <label><input type="checkbox" name="color" value="Blue"> Xanh</label>
-                            <label><input type="checkbox" name="color" value="Gray"> Xám</label>
-                        </div>
-                    </div>
-
-                    <!-- Giá -->
-                    <div id="filter-price">
-                        <h4>Giá <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
-                        <div class="filter-content">
-                            <input type="number" name="price-min" placeholder="Giá tối thiểu">
-                            <input type="number" name="price-max" placeholder="Giá tối đa">
-                            <select name="price-sort">
-                                <option value="low-to-high">Thấp đến cao</option>
-                                <option value="high-to-low">Cao đến thấp</option>
+                        <div rel-script="dropdown" id="sorting" class="">
+                            <select id="sortBy" class="custom-select">
+                                <option value="default">Mặc Định</option>
+                                <option value="priceAsc">Giá Thấp Đến Cao</option>
+                                <option value="priceDesc">Giá Cao Đến Thấp</option>
+                                <option value="newest">Mới Nhất</option>
+                                <option value="bestSeller">Bán Chạy</option>
                             </select>
                         </div>
                     </div>
-
-                    <!-- Thương Hiệu -->
-                    <div id="filter-brand">
-                        <h4>Thương Hiệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="brand" value="Gucci"> Gucci</label>
-                            <label><input type="checkbox" name="brand" value="Louis"> Louis Vuitton</label>
-                            <label><input type="checkbox" name="brand" value="Balenciaga"> Balenciaga</label>
-                            <label><input type="checkbox" name="brand" value="Dior"> Dior</label>
-                            <label><input type="checkbox" name="brand" value="Chanel"> Chanel</label>
-                        </div>
-                    </div>
-
-                    <!-- Chất Liệu -->
-                    <div id="filter-material">
-                        <h4>Chất Liệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="material" value="Cotton"> Cotton</label>
-                            <label><input type="checkbox" name="material" value="Wool"> Len</label>
-                            <label><input type="checkbox" name="material" value="Leather"> Da</label>
-                            <label><input type="checkbox" name="material" value="Polyester"> Polyester</label>
-                        </div>
-                    </div>
-
-                    <!-- Phong Cách -->
-                    <div id="filter-style">
-                        <h4>Phong Cách <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="style" value="Sporty"> Thể thao</label>
-                            <label><input type="checkbox" name="style" value="Business"> Công sở</label>
-                            <label><input type="checkbox" name="style" value="Casual"> Thường ngày</label>
-                            <label><input type="checkbox" name="style" value="High-fashion"> Thời trang cao cấp</label>
-                        </div>
-                    </div>
                 </div>
-                <!-- Right -->
-                <div class="list_products">
-                    <div class="container mt-2">
-                        <div class="row">
-                            <!-- Product Card 1 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
-                                </div>
-                            </div>
 
-                            <!-- Product Card 2 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
-                                    <div class="product-price" data-price="200000"></div>
+                <div class="container ">
+                    <div class="row g-3">
+                        <!-- Product Item 1 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-1/24CMCW.SM008_-_Xanh_Blue_Night_1.webp"
+                                            alt="Áo sơ mi dài tay cổ tàu Premium Poplin" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-1/24CMCW.SM008_-_Xanh_Blue_Night_6.webp"
+                                            alt="Áo sơ mi dài tay cổ tàu Premium Poplin">
+                                    </a>
                                 </div>
-                            </div>
 
-                            <!-- Product Card 3 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
-                                </div>
-                            </div>
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Áo sơ mi dài tay cổ tàu Premium Poplin</p>
+                                    </a>
 
-                            <!-- Product Card 4 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
-                                </div>
-                            </div>
-                            <!-- Product Card 1 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
-                                </div>
-                            </div>
+                                    <div data-price="250000"></div>
 
-                            <!-- Product Card 2 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
-                                    <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product Card 3 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                        <!-- Product Item 2 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-2/24CMCW.KM005_-_Navy_1.webp"
+                                            alt="Áo phao dày Ultrawarm Puffer có mũ" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-2/24CMCW.KM005_-_Navy_7.webp"
+                                            alt="Áo phao dày Ultrawarm Puffer có mũ">
+                                    </a>
                                 </div>
-                            </div>
 
-                            <!-- Product Card 4 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p> Áo phao Ultrawarm Puffer có mũ</p>
+                                    </a>
+                                    <div data-price="300000"></div>
                                 </div>
                             </div>
-                            <!-- Product Card 1 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
-                                </div>
-                            </div>
+                        </div>
 
-                            <!-- Product Card 2 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
-                                    <div class="product-price" data-price="200000"></div>
+                        <!-- Product Item 3 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-3/24CMAW.QD006_-_IMG_3727-_BE_KAKI.webp"
+                                            alt="Quần Jogger thể thao Fleece Track Pants Premium" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-3/24CMAW.QD006_-_IMG_3775-_BE_KAKI.webp"
+                                            alt="Quần Jogger thể thao Fleece Track Pants Premium">
+                                    </a>
                                 </div>
-                            </div>
 
-                            <!-- Product Card 3 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Quần Jogger thể thao Fleece Track Pants Premium</p>
+                                    </a>
+                                    <div data-price="200000"></div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product Card 4 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                        <!-- Product Item 4 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-4/24CMCW.QJ001_-_Reu_1.webp"
+                                            alt="Quần Jogger ECC Warp Knitting" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-4/24CMCW.QJ001_-_Reu_3.webp"
+                                            alt="Quần Jogger ECC Warp Knitting">
+                                    </a>
                                 </div>
-                            </div>
-                            <!-- Product Card 1 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
-                                </div>
-                            </div>
 
-                            <!-- Product Card 2 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/2/1.png" alt="Product 2"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
-                                    <div class="product-price" data-price="200000"></div>
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Quần Jogger ECC Warp Knitting</p>
+                                    </a>
+                                    <div data-price="200000"></div>
                                 </div>
                             </div>
+                        </div>
+                        <!-- Product Item 5 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-5/24CMCW.SM007_-_Xam_3.webp"
+                                            alt="Áo sơ mi dài tay Modal Essential" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-5/24CMCW.SM007_-_Xam_7.webp"
+                                            alt="Áo sơ mi dài tay Modal Essential">
+                                    </a>
+                                </div>
 
-                            <!-- Product Card 3 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/3/1.png" alt="Product 3"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Áo sơ mi dài tay Modal Essential</p>
+                                    </a>
+                                    <div data-price="225000"></div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Product Card 4 -->
-                            <div class="col-md-3 mt-4">
-                                <div class="product-card">
-                                    <img src="./assets/imgs/men/list products/4/1.png" alt="Product 4"
-                                        class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                        <!-- Product Item 6 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-6/23CMCW.JE006.XAW.1.webp"
+                                            alt="Quần Jeans Nam siêu nhẹ" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-6/Quan_Jeans_Nam_sieu_nhe.xanh_dam.jpg"
+                                            alt="Quần Jeans Nam siêu nhẹ">
+                                    </a>
+                                </div>
+
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Quần Jeans Nam siêu nhẹ</p>
+                                    </a>
+                                    <div data-price="340000"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Item 7 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-7/eccnaubrownUntitled-1.webp"
+                                            alt="Quần Dài Nam ECC Warp Pants dáng Slim" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-7/tappered1_47.jpg"
+                                            alt="Quần Dài Nam ECC Warp Pants dáng Slim">
+                                    </a>
+                                </div>
+
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Quần Dài Nam ECC Warp Pants dáng Slim</p>
+                                    </a>
+                                    <div data-price="289000"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Item 8 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="space-items">
+                                <div class="product-grid__image" rel-script="product-grid-thumbnails">
+                                    <a href="products_detail.html">
+                                        <img loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-8/TCTCRIBCM_3_31.webp"
+                                            alt="Combo 2 đôi Tất cổ trung Cotton Ribbed Coolmate" class="home-banner">
+                                        <img class="hover" loading="lazy"
+                                            src="./assets/imgs/New-Product/Product-8/TCTCRIBCM_IMG_4298_XAM_MEL_7.webp"
+                                            alt="Combo 2 đôi Tất cổ trung Cotton Ribbed Coolmate">
+                                    </a>
+                                </div>
+
+                                <div class="product-decrip">
+                                    <a href="products_detail.html">
+                                        <p>Combo 2 đôi Tất cổ trung Cotton Ribbed Coolmate</p>
+                                    </a>
+                                    <div data-price="20000"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Pagination -->
-                    <div id="pagination">
-                        <div class="product-pagination">
-                            <button class="pagination-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="collections-head__divider"></div>
+                </div>
+                <div class="collection-section-loadmore" style>
 
-                            <div id="pagination_numbers"></div>
+                    <a href="index.html" rel-script="product-loadmore" data-current-page="1" data-last-page="2"
+                        class="collection-section-loadmore__btn btn">Xem thêm </a>
+                    <!-- <p class="collection-section-loadmore__page" style="text-align: center;">
+                        Hiển thị <span>1</span> - <span class="loadmore-total">8</span>
+                        trên tổng số <span class="total-products">33</span> sản phẩm
+                    </p> -->
+                </div>
+                <div class="collection-section__foot">
+                    <section class="homepage-collections tw-container-full">
+                        <div
+                            class="homepage-collections__wrapper grid grid--four-columns tablet-grid--four-columns mobile-grid--two-columns">
+                            <!-- item 1 -->
+                            <div class="homepage-collections__item grid__column">
+                                <a href="collection-winter.html" ga-tracking-value="bannercat-vitri1"
+                                    ga-tracking-label="Đồ thu đông" class="bannercat-vitri1">
+                                    <div class="tw-overflow-hidden tw-rounded-lg md:tw-rounded-2xl xl:tw-rounded-3xl">
+                                        <picture>
+                                            <source media="(max-width: 768px)"
+                                                srcset="./assets/imgs/New-Product/Collection/mceclip2_10.webp">
+                                            <img loading="lazy"
+                                                src="./assets/imgs/New-Product/Collection/mceclip2_10.webp"
+                                                alt="Đồ thu đông"
+                                                class="tw-transform tw-transition tw-duration-500 hover:tw-scale-105"
+                                                style="width: 100%;">
 
-                            <button class="pagination-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                                        </picture>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- item 2 -->
+                            <div class="homepage-collections__item grid__column">
+                                <a href="collection-running.html" ga-tracking-value="bannercat-vitri1"
+                                    ga-tracking-label="Đồ thể thao" class="bannercat-vitri1">
+                                    <div class="tw-overflow-hidden tw-rounded-lg md:tw-rounded-2xl xl:tw-rounded-3xl">
+                                        <picture>
+                                            <source media="(max-width: 768px)"
+                                                srcset="./assets/imgs/New-Product/Collection/mceclip1_30.webp">
+                                            <img loading="lazy"
+                                                src="./assets/imgs/New-Product/Collection/mceclip1_30.webp"
+                                                alt="Đồ thể thao"
+                                                class="tw-transform tw-transition tw-duration-500 hover:tw-scale-105"
+                                                style="width: 100%;">
+
+                                        </picture>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- item 3 -->
+                            <div class="homepage-collections__item grid__column">
+                                <a href="collection-summer.html" ga-tracking-value="bannercat-vitri1"
+                                    ga-tracking-label="Mặc hằng ngày" class="bannercat-vitri1">
+                                    <div class="tw-overflow-hidden tw-rounded-lg md:tw-rounded-2xl xl:tw-rounded-3xl">
+                                        <picture>
+                                            <source media="(max-width: 768px)"
+                                                srcset="./assets/imgs/New-Product/Collection/mceclip0_55.webp">
+                                            <img loading="lazy"
+                                                src="./assets/imgs/New-Product/Collection/mceclip0_55.webp"
+                                                alt="Mặc hằng ngày"
+                                                class="tw-transform tw-transition tw-duration-500 hover:tw-scale-105"
+                                                style="width: 100%;">
+
+                                        </picture>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <footer id="footer"></footer>
 
