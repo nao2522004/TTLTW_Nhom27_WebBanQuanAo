@@ -365,14 +365,6 @@ a {
 
 /* General Mobile Styles */
 @media (max-width: 768px) {
-
-    /* Section Banner */
-    #section_banner img {
-        height: auto;
-        width: 100%;
-        margin-top: 10rem;
-    }
-
     /* Collections Section */
     .collections-head {
         padding: 15px;

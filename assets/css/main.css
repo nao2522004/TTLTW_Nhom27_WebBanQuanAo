@@ -1,6 +1,7 @@
 body {
     background-color: var(--primary-color);
 }
+
 /* ========================== For class ========================== */
 .container {
     max-width: 1200px;
@@ -84,35 +85,34 @@ body {
     width: 100px;
 }
 
-/* ========================== Section 1 ========================== */
-#section_1 {
+/* ========================== Sale section ========================== */
+#section_sale {
     margin-top: 18rem;
 }
 
-#section_1 h2 {
+#section_sale h2 {
     margin-bottom: 3rem;
 }
 
-#section_1 .item {
+#section_sale .item {
     text-align: center;
 }
 
-#section_1 .item img {
+#section_sale .item img {
     width: 100%;
     height: auto;
     margin-bottom: 15px;
 }
 
-#section_1 .item h4 {
+#section_sale .item h4 {
     text-align: start;
-    font-size: 1.6rem;
+    font-size: 1.9rem;
 }
 
-#section_1 .item p {
+#section_sale .product-price {
     font-size: 1.5rem;
     text-align: start;
     font-weight: 700;
-    color: #333;
 }
 
 /* ========================== Section Collection ========================== */
