@@ -482,7 +482,7 @@
   background-size: cover; /* Điều chỉnh icon vừa khít */
   top: 1rem;
   right: 1rem;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .modal-content {
