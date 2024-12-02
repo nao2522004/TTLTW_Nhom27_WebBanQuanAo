@@ -45,7 +45,7 @@ header nav {
 }
 
 header nav ul {
-  width: 120rem;
+  width: 95rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -138,9 +138,9 @@ header.scrolled {
   height: 10rem;
 }
 
-header .logo.hidden {
+/* header .logo.hidden {
   pointer-events: none;
-}
+} */
 
 header.scrolled .logo {
   position: absolute;

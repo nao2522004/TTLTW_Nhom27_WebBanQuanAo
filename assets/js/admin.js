@@ -298,7 +298,9 @@ themeToggler.addEventListener("click", () => {
   themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
 });
 
-// Xử lý sự kiện showMain cho menu
+
+
+// =============== Xử lý sự kiện showMain cho menu============//
 document.addEventListener("DOMContentLoaded", function () {
   // Hiển thị phần tử main đầu tiên khi tải trang
   document.getElementById("dashboard").classList.add("block");
