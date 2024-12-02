@@ -170,10 +170,19 @@ body {
     padding: 15px;
     border-radius: 8px;
     transition: box-shadow 0.3s;
+    cursor: pointer !important;
+}
+
+#section_all_products .list_products .product-card img {
+    transition: transform .3s ease;
 }
 
 #section_all_products .list_products .product-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#section_all_products .list_products .product-card:hover img {
+    transform: scale(0.98);
 }
 
 #section_all_products .list_products .product-image {

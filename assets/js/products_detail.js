@@ -42,3 +42,42 @@ $('#section_products .choose_color span').click(function () {
 $('#carousel_similar').carousel({
     interval: false
 });
+
+// ===================================================== Pop Up =====================================================
+
+const openPopupBtn = document.getElementById("open-popup");
+const closePopupBtn = document.getElementById("close-popup");
+const popup = document.getElementById("popup");
+const overlay = document.getElementById("popup-overlay");
+
+openPopupBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    popup.style.display = "block";
+    overlay.style.display = "block";
+});
+
+const closePopup = () => {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+};
+
+closePopupBtn.addEventListener("click", closePopup);
+overlay.addEventListener("click", closePopup);
+
+// ===================================================== Quantity =====================================================
+
+const decreaseBtn = document.getElementById("decrease-btn");
+const increaseBtn = document.getElementById("increase-btn");
+const quantityInput = document.getElementById("quantity-input");
+
+increaseBtn.addEventListener("click", () => {
+    let currentValue = parseInt(quantityInput.value, 10);
+    quantityInput.value = currentValue + 1;
+});
+
+decreaseBtn.addEventListener("click", () => {
+    let currentValue = parseInt(quantityInput.value, 10);
+    if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+    }
+});

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khu đàn ông</title>
+    <title>Đồ nam</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/imgs/Favicon/Luat/favicon-32x32.png" type="image/png">
     <!-- Frameworks -->
@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
     <link rel="stylesheet" href="./assets/css/men.css">
+    <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
 <body>
@@ -166,7 +167,7 @@
                         <div class="row">
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
-                                <div class="product-card">
+                                <div class="product-card" onclick="redirectToProductPage()">
                                     <img src="./assets/imgs/men/list products/1/1.png" alt="Product 1"
                                         class="product-image img-fluid">
                                     <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
@@ -444,9 +445,11 @@
         // Initial render
         renderPagination();
     </script>
-
-    <!-- base js -->
-    <script src="./assets/js/base.js"></script>
+    <script>
+        function redirectToProductPage() {
+            window.location.href = './products_detail.html';
+        }
+    </script>
 </body>
 
 </html>

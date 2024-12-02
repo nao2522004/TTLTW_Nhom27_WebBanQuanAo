@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
     <link rel="stylesheet" href="./assets/css/women.css">
+    <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
 <body>
@@ -168,7 +169,7 @@
                         <div class="row">
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
-                                <div class="product-card">
+                                <div class="product-card" onclick="redirectToProductPage()">
                                     <img src="./assets/imgs/women/list products/1/4.png" alt="Product 1"
                                         class="product-image img-fluid">
                                     <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
@@ -349,13 +350,12 @@
         fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
-    <!-- Javascript Native -->
-    <script src="./assets/js/base.js"></script>
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-    <!-- Pagination -->
+    <!-- Javascript Native -->
+    <script src="./assets/js/base.js"></script>
     <script>
         const totalPages = 20; // Total number of pages
         let currentPage = 1; // Current page
@@ -446,9 +446,11 @@
         // Initial render
         renderPagination();
     </script>
-
-    <!-- base js -->
-    <script src="./assets/js/base.js"></script>
+    <script>
+        function redirectToProductPage() {
+            window.location.href = './products_detail.html';
+        }
+    </script>
 </body>
 
 </html>
