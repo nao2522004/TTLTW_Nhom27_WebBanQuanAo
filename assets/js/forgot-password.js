@@ -9,19 +9,27 @@ form.addEventListener('submit', (e) => {
     }
 });
 
+// Mở popup
+function openOtpPopup() {
+    document.getElementById("otpPopup").style.display = "flex";
+}
 
-function togglePassword(button) {
-    const input = button.previousElementSibling; // Lấy input trước nút
-    const icon = button.querySelector('i');
+// Đóng popup
+function closeOtpPopup() {
+    document.getElementById("otpPopup").style.display = "none";
+}
 
-    if (input.type === "password") {
-        input.type = "text"; // Hiện mật khẩu
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
+// Xác minh mã OTP và chuyển hướng nếu hợp lệ
+function validateOtp() {
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+    if (otp.length === otpInputs.length && /^\d{6}$/.test(otp)) {
+        // Chuyển hướng đến trang reset-password.html nếu mã OTP hợp lệ
+        window.location.href = 'reset-password.html';
     } else {
-        input.type = "password"; // Ẩn mật khẩu
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+        alert("Vui lòng nhập đúng mã OTP gồm 6 chữ số!");
     }
 }
+
 
