@@ -335,7 +335,37 @@
         // Header and footer
         const header = document.getElementById('header');
         const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+        fetch('./assets/component/header.html')
+            .then(response => response.text())
+            .then(html => {
+                header.innerHTML = html;
+                // Sau khi header được chèn, lấy các phần tử liên quan
+                const searchIcon = document.getElementById('search-icon');
+                const searchPopup = document.getElementById('search-popup');
+                const closePopup = document.getElementById('close-popup');
+
+                if (searchIcon && searchPopup && closePopup) {
+                    // Show popup
+                    searchIcon.addEventListener('click', () => {
+                        searchPopup.classList.add('active');
+                    });
+
+                    // Close popup
+                    closePopup.addEventListener('click', () => {
+                        searchPopup.classList.remove('active');
+                    });
+
+                    // Close popup when clicking outside the search box
+                    searchPopup.addEventListener('click', (e) => {
+                        if (e.target === searchPopup) {
+                            searchPopup.classList.remove('active');
+                        }
+                    });
+                } else {
+                    console.error('One or more required elements were not found.');
+                }
+            })
+            .catch((error) => console.error('Failed to fetch header:', error));
         fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
     </script>
     <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
