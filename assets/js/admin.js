@@ -9,17 +9,35 @@ document.addEventListener("DOMContentLoaded", (ev) => {
     .getElementById("orders-details--table")
     .appendChild(buildTableOrderDetails());
 
-  // usertomer Data
+  // user Data
   document.getElementById("users--table").appendChild(buildTableUser());
+  // edit user
+  document
+    .getElementById("user_edit--table")
+    .appendChild(buildEdittableTableUser());
+  // table.innerHTML = "";
 
   // Product Data
   document.getElementById("product--table").appendChild(buildTableProduct());
+  // edit product
+  document
+    .getElementById("product_edit--table")
+    .appendChild(buildEditTableProduct());
+  // table.innerHTML = "";
 
   // Others Data
   document.getElementById("sales--table").appendChild(buildTableSales());
   document
     .getElementById("collections--table")
     .appendChild(buildTableCollections());
+  // edit Sales
+  document
+    .getElementById("sale_edit--table")
+    .appendChild(buildEditTableSales());
+  // edit Collections
+  document
+    .getElementById("collection_edit--table")
+    .appendChild(buildEditTableCollections());
 
   // Updates Data
   document
@@ -32,9 +50,15 @@ document.addEventListener("DOMContentLoaded", (ev) => {
   buildSalesAnalytics(salesAnalytics);
 });
 
-// Document Builder
+/*--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Orders  
+ 
+---------------------------------------------------------
+----------------------------------------------------------*/
 
-// Recent_oder_data
+// ===============Recent_oder_data===============//
 const buildTableBody = () => {
   const recentOrderData = RECENT_ORDER_DATA;
 
@@ -52,7 +76,7 @@ const buildTableBody = () => {
           <td>${row.totalPrice}</td>
           <td>${row.payment}</td>
           <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary"> <a href="" id="product-details">Chi Tiết</a> </td>
+          <td class="primary" onclick="showOverlay(event)">Chi Tiết</td>
         </tr>
       `;
   }
@@ -62,7 +86,7 @@ const buildTableBody = () => {
   return tbody;
 };
 
-// order_data
+// ===============Oder_data===============//
 const buildTableOrder = () => {
   const orderData = ORDER_DATA;
 
@@ -80,7 +104,7 @@ const buildTableOrder = () => {
           <td>${row.totalPrice}</td>
           <td>${row.payment}</td>
           <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary" onclick="showOverlay()">Details</td>
+          <td class="primary" onclick="showOverlay(event)">Chi Tiết</td>
         </tr>
       `;
   }
@@ -90,7 +114,7 @@ const buildTableOrder = () => {
   return tbody;
 };
 
-// order detais data
+// ===============Order details data===============//
 const buildTableOrderDetails = () => {
   const orderDetaisData = ORDER_DETAILS_DATA;
 
@@ -116,7 +140,13 @@ const buildTableOrderDetails = () => {
   return tbody;
 };
 
-// users_data
+/*--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager User  
+ 
+---------------------------------------------------------
+----------------------------------------------------------*/
 const buildTableUser = () => {
   const users = USER_DATA;
 
@@ -132,7 +162,7 @@ const buildTableUser = () => {
           <td>${row.userAddress}</td>
           <td>${row.userEmail}</td>
           <td>${row.userPermission}</td>
-          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+          <td class="primary"> <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -142,7 +172,76 @@ const buildTableUser = () => {
   return tbody;
 };
 
-// Product_data
+//---------------Edit user data--------------------//
+const buildEdittableTableUser = () => {
+  const userEdits = USER_DATA; // Lấy dữ liệu người dùng
+
+  const tbody = document.createElement("tbody");
+
+  let userEditContent = "";
+  for (const [index, row] of userEdits.entries()) {
+    userEditContent += `
+        <tr data-index="${index}">
+          <td>${row.userId}</td>
+          <td><input type="text" value="${
+            row.userName
+          }" data-key="userName" /></td>
+          <td><input type="text" value="${
+            row.userPhone
+          }" data-key="userPhone" /></td>
+          <td><input type="text" value="${
+            row.userAddress
+          }" data-key="userAddress" /></td>
+          <td><input type="email" value="${
+            row.userEmail
+          }" data-key="userEmail" /></td>
+          <td>
+            <select data-key="userPermission">
+              <option value="Admin" ${
+                row.userPermission === "Admin" ? "selected" : ""
+              }>Admin</option>
+              <option value="User" ${
+                row.userPermission === "User" ? "selected" : ""
+              }>User</option>
+            </select>
+          </td>
+          <td class="primary">
+            <span onclick="saveUser(event)" class="material-icons-sharp"> save </span>
+          </td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = userEditContent;
+
+  return tbody;
+};
+
+//---------------save user data--------------------//
+function saveUser(event) {
+  const row = event.target.closest("tr"); // Lấy hàng hiện tại
+  const index = row.getAttribute("data-index"); // Lấy chỉ số hàng
+  const inputs = row.querySelectorAll("[data-key]"); // Lấy tất cả các input/select trong hàng
+
+  // Cập nhật lại USER_DATA
+  inputs.forEach((input) => {
+    const key = input.getAttribute("data-key");
+    USER_DATA[index][key] = input.value;
+  });
+
+  alert("Thông tin đã được lưu!");
+}
+
+/*--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Product  
+ 
+---------------------------------------------------------
+----------------------------------------------------------*/
+
+//---------------Product Data--------------------//
+
 const buildTableProduct = () => {
   const products = PRODUCTS_DATA;
 
@@ -161,7 +260,7 @@ const buildTableProduct = () => {
           <td>${row.proColor}</td>
           <td>${row.proAmount}</td>
           <td>${row.proStockInDate}</td>
-          <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span> </td>
+         <td class="primary"> <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -171,7 +270,61 @@ const buildTableProduct = () => {
   return tbody;
 };
 
-// Sales_data
+//---------------Edit Product Data--------------------//
+const buildEditTableProduct = () => {
+  const productEdit = PRODUCTS_DATA; // Dữ liệu sản phẩm
+
+  const tbody = document.createElement("tbody");
+
+  let productEditContent = "";
+  for (const [index, row] of productEdit.entries()) {
+    productEditContent += `
+        <tr data-index="${index}">
+          <td>${row.proId}</td>
+          <td><input type="text" value="${row.proCategory}" data-key="proCategory" /></td>
+          <td><input type="text" value="${row.proName}" data-key="proName" /></td>
+          <td><input type="text" value="${row.proImg}" data-key="proImg" /></td>
+          <td><input type="number" value="${row.proPrice}" data-key="proPrice" /></td>
+          <td><input type="text" value="${row.proSize}" data-key="proSize" /></td>
+          <td><input type="text" value="${row.proColor}" data-key="proColor" /></td>
+          <td><input type="number" value="${row.proAmount}" data-key="proAmount" /></td>
+          <td><input type="date" value="${row.proStockInDate}" data-key="proStockInDate" /></td>
+          <td class="primary">
+            <span onclick="saveProduct(event)" class="material-icons-sharp"> save </span>
+          </td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = productEditContent;
+
+  return tbody;
+};
+
+//---------------save user data--------------------//
+function saveProduct(event) {
+  const row = event.target.closest("tr"); // Lấy hàng hiện tại
+  const index = row.getAttribute("data-index"); // Lấy chỉ số hàng
+  const inputs = row.querySelectorAll("[data-key]"); // Lấy tất cả các input/select trong hàng
+
+  // Cập nhật lại USER_DATA
+  inputs.forEach((input) => {
+    const key = input.getAttribute("data-key");
+    PRODUCTS_DATA[index][key] = input.value;
+  });
+
+  alert("Thông tin đã được lưu!");
+}
+
+/*--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Others  
+ 
+---------------------------------------------------------
+----------------------------------------------------------*/
+
+//===============Sales Data==================//
 const buildTableSales = () => {
   const sales = SALES_DATA;
 
@@ -186,7 +339,7 @@ const buildTableSales = () => {
           <td>${row.start_date}</td>
           <td>${row.end_date}</td>
           <td>${row.sale_decrip}</td>
-           <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+          <td class="primary"> <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -196,7 +349,7 @@ const buildTableSales = () => {
   return tbody;
 };
 
-// Collections_data
+//===============Collection Data==================//
 const buildTableCollections = () => {
   const collections = COLLECTIONS_DATA;
 
@@ -210,7 +363,7 @@ const buildTableCollections = () => {
           <td>${row.coname}</td>
           <td>${row.start_date}</td>
           <td>${row.co_decrip}</td>
-           <td class="primary"> <span class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
+          <td class="primary"> <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
         </tr>
       `;
   }
@@ -220,6 +373,80 @@ const buildTableCollections = () => {
   return tbody;
 };
 
+//=============== Edit Sales Data==================//
+const buildEditTableSales = () => {
+  const salesEdit = SALES_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let SalesEditContent = "";
+  for (const [index, row] of salesEdit.entries()) {
+    SalesEditContent += `
+        <tr data-index="${index}">
+          <td>${row.saleid}</td>
+          <td><input type="text" value="${row.salename}" data-key="salename" /></td>
+          <td><input type="date" value="${row.start_date}" data-key="start_date" /></td>
+          <td><input type="date" value="${row.end_date}" data-key="end_date" /></td>
+          <td><input type="text" value="${row.sale_decrip}" data-key="sale_decrip" /></td>
+          <td class="primary"> 
+            <span onclick="saveOthers(event)" class="material-icons-sharp"> save </span> 
+          </td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = SalesEditContent;
+
+  return tbody;
+};
+
+//===============Edit Collection Data==================//
+const buildEditTableCollections = () => {
+  const collectionsEdit = COLLECTIONS_DATA;
+
+  const tbody = document.createElement("tbody");
+
+  let CollectionsEditContent = "";
+  for (const [index, row] of collectionsEdit.entries()) {
+    CollectionsEditContent += `
+        <tr data-index="${index}">
+          <td>${row.coid}</td>
+          <td><input type="text" value="${row.coname}" data-key="coname" /></td>
+          <td><input type="date" value="${row.start_date}" data-key="start_date" /></td>
+          <td><input type="text" value="${row.co_decrip}" data-key="co_decrip" /></td>
+          <td class="primary"> 
+            <span onclick="saveOthers(event)" class="material-icons-sharp"> save </span> 
+          </td>
+        </tr>
+      `;
+  }
+
+  tbody.innerHTML = CollectionsEditContent;
+
+  return tbody;
+};
+
+
+//---------------Save edit sale and collection data--------------------//
+function saveOthers(event) {
+  const row = event.target.closest("tr"); // Lấy hàng hiện tại
+  const index = row.getAttribute("data-index"); // Lấy chỉ số hàng
+  const inputs = row.querySelectorAll("[data-key]"); // Lấy tất cả các input/select trong hàng
+
+  // Cập nhật lại USER_DATA
+  inputs.forEach((input) => {
+    const key = input.getAttribute("data-key");
+    SALES_DATA[index][key] = input.value;
+    COLLECTIONS_DATA[index][key] = input.value;
+  });
+
+  alert("Thông tin đã được lưu!");
+}
+
+// =============================================== //
+//================================================//
+//================================================//
+//================================================//
 const buildUpdatesList = () => {
   const updateData = UPDATE_DATA;
 
@@ -298,8 +525,6 @@ themeToggler.addEventListener("click", () => {
   themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
 });
 
-
-
 // =============== Xử lý sự kiện showMain cho menu============//
 document.addEventListener("DOMContentLoaded", function () {
   // Hiển thị phần tử main đầu tiên khi tải trang
@@ -330,13 +555,14 @@ function showMain(event, mainId) {
 }
 
 //========== start Xu ly su kien cho order detail ============//
-function hideOverlay() {
-  const overlay = document.querySelector("main .overlay");
+function hideOverlay(event) {
+  const overlay = event.target.closest("main").querySelector(".overlay");
   overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
 }
 
-function showOverlay() {
-  const show = document.querySelector("main .overlay");
-  show.style.display = "block";
+function showOverlay(event) {
+  const main = event.target.closest("main");
+  const overlay = main.querySelector(".overlay");
+  overlay.style.display = "block"; // Hiển thị overlay của main hiện tại
 }
 //========== end Xu ly su kien cho order detail ============//
