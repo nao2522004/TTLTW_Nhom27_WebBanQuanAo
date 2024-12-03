@@ -45,7 +45,7 @@
                 </a>
                 <a href="" onclick="showMain(event, 'add_user')">
                     <span class="material-icons-sharp"> add </span>
-                    <h3>Add User</h3>
+                    <h3>Thêm Người Dùng</h3>
                 </a>
                 <a href="#" onclick="showMain(event, 'manager_products')">
                     <span class="material-icons-sharp"> inventory </span>
@@ -53,15 +53,15 @@
                 </a>
                 <a href="" onclick="showMain(event, 'add_product')">
                     <span class="material-icons-sharp"> add </span>
-                    <h3>Add Product</h3>
+                    <h3>Thêm Sản Phẩm</h3>
                 </a>
                 <a href="#" onclick="showMain(event, 'manager_others')">
                     <span class="material-icons-sharp"> inventory </span>
-                    <h3>Others</h3>
+                    <h3>Khác</h3>
                 </a>
                 <a href="" onclick="showMain(event, 'add_others')">
                     <span class="material-icons-sharp"> add </span>
-                    <h3>Add Others</h3>
+                    <h3>Thêm Khác</h3>
                 </a>
                 <a href="#">
                     <span class="material-icons-sharp"> settings </span>
@@ -74,7 +74,13 @@
             </div>
         </aside>
 
-        <!------------------------------------ Manager infomation ------------------------------------>
+        <!--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Info
+ 
+---------------------------------------------------------
+---------------------------------------------------------->
         <main id="dashboard">
             <h1>Bảng Thông Tin</h1>
 
@@ -179,295 +185,38 @@
                 </table>
                 <a href="#">Show All</a>
             </div>
-        </main>
 
-        <!---------------------------------------- Manager User  ---------------------------------->
-        <main id="manager_users">
-            <h1>Quản lý người dùng</h1>
-            <div class="dash-top">
-
-
-                <div class="date">
-                    <input type="date" />
+            <!-- product-order--details -->
+            <div class="overlay">
+                <div class="recent-orders popup">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                    <h2>Chi Tiết Đơn Hàng</h2>
+                    <table id="orders-details--table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Mã Sản Phẩm</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Size</th>
+                                <th>Màu</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Giá</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
                 </div>
-
-                <div class="search-card">
-                    <form id="search-form">
-                        <div class="search-group">
-                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                            <button type="submit" class="search-button">
-                                <span class="material-icons-sharp">search</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-
-
-            <div class="insights">
-                <!-- Tổng khách hàng -->
-                <div class="sales">
-                    <span class="material-icons-sharp">
-                        group
-                    </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Tổng Người Dùng</h3>
-                            <h1>10000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>81%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-
-                <!-- Khách hàng online -->
-                <div class="expenses">
-                    <span class="material-icons-sharp"> person </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Người Dùng online</h3>
-                            <h1>1000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-
-                <!-- Khách hàng online -->
-                <div class="expenses" style="opacity: 0;">
-                    <span class="material-icons-sharp"> person </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Người Dùng online</h3>
-                            <h1>1000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-            </div>
-
-
-
-            <div class="recent-orders">
-                <h2>Danh Sách Người Dùng</h2>
-                <table id="users--table">
-                    <thead>
-                        <tr>
-                            <th>Mã Nguời Dùng</th>
-                            <th>Tên Người Dùng</th>
-                            <th>Số Điện Thoại</th>
-                            <th>Địa Chỉ</th>
-                            <th>Email</th>
-                            <th>Quyền</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
             </div>
         </main>
 
-        <!------------------------------------ Manager Product ------------------------------------>
-        <main id="manager_products">
-            <h1>Quản lý sản phẩm</h1>
 
-            <div class="dash-top">
-
-
-                <div class="date">
-                    <input type="date" />
-                </div>
-
-                <div class="search-card">
-                    <form id="search-form">
-                        <div class="search-group">
-                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                            <button type="submit" class="search-button">
-                                <span class="material-icons-sharp">search</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-
-
-            <div class="insights">
-                <!-- SALES -->
-                <div class="sales">
-                    <span class="material-icons-sharp"> inventory </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Tổng Sản Phẩm</h3>
-                            <h1>2500</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>81%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-
-                <!-- EXPENSES -->
-                <div class="expenses">
-                    <span class="material-icons-sharp"> bar_chart </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Tổng Chi Phí</h3>
-                            <h1>1000VND</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-
-                <!-- INCOME -->
-                <div class="income">
-                    <span class="material-icons-sharp"> stacked_line_chart </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Tổng Lợi Nhuận</h3>
-                            <h1>1500VND</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>44%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-            </div>
-
-            <div class="recent-orders">
-                <h2>Danh Sách Sản Phẩm</h2>
-                <table id="product--table">
-                    <thead>
-                        <tr>
-                            <th>Mã Sản Phẩm</th>
-                            <th>Danh Mục</th>
-                            <th>Tên Sản Phẩm</th>
-                            <th>Ảnh Sản Phẩm</th>
-                            <th>Giá Tiền</th>
-                            <th>Size</th>
-                            <th>Màu</th>
-                            <th>Số Lượng</th>
-                            <th>Ngày Nhập Kho</th>
-                            <th>Tháo Tác</th>
-                        </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
-            </div>
-
-
-        </main>
-
-        <!------------------------------------ Manager Sales ------------------------------------>
-        <main id="manager_others">
-            <h1>Quản lý sản phẩm</h1>
-
-            <div class="dash-top">
-
-
-                <div class="date">
-                    <input type="date" />
-                </div>
-
-                <div class="search-card">
-                    <form id="search-form">
-                        <div class="search-group">
-                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                            <button type="submit" class="search-button">
-                                <span class="material-icons-sharp">search</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-
-
-            <div class="recent-orders">
-                <h2>Chương Trình Giảm Giá.</h2>
-                <table id="sales--table">
-                    <thead>
-                        <tr>
-                            <th>Mã</th>
-                            <th>Tên</th>
-                            <th>Ngày bắt đầu</th>
-                            <th>Ngày kết thúc</th>
-                            <th>Mô tả</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
-            </div>
-
-            <div class="recent-orders">
-                <h2>Bộ sưu tầm.</h2>
-                <table id="collections--table">
-                    <thead>
-                        <tr>
-                            <th>Mã</th>
-                            <th>Tên</th>
-                            <th>Ngày bắt đầu</th>
-                            <th>Mô tả</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
-            </div>
-
-
-
-        </main>
-
-        <!------------------------------------ Manager Orders ------------------------------------>
+        <!--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Orders
+---------------------------------------------------------
+---------------------------------------------------------->
         <main id="manager_orders">
             <h1>Quản lý đơn hàng</h1>
 
@@ -575,8 +324,9 @@
             </div>
 
             <!-- product-order--details -->
-            <div class="overlay" onclick="hideOverlay()">
-                <div class="recent-orders recent-orders--details">
+            <div class="overlay">
+                <div class="recent-orders popup">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
                     <h2>Chi Tiết Đơn Hàng</h2>
                     <table id="orders-details--table">
                         <thead>
@@ -596,6 +346,394 @@
                 </div>
             </div>
         </main>
+
+        <!--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager User  
+ 
+---------------------------------------------------------
+---------------------------------------------------------->
+
+        <main id="manager_users">
+            <h1>Quản lý người dùng</h1>
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+            <div class="insights">
+                <!-- Tổng khách hàng -->
+                <div class="sales">
+                    <span class="material-icons-sharp">
+                        group
+                    </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Tổng Người Dùng</h3>
+                            <h1>10000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>81%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+
+                <!-- Khách hàng online -->
+                <div class="expenses" style="opacity: 0;">
+                    <span class="material-icons-sharp"> person </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Người Dùng online</h3>
+                            <h1>1000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+
+                <!-- Khách hàng online -->
+                <div class="expenses" style="opacity: 0;">
+                    <span class="material-icons-sharp"> person </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Người Dùng online</h3>
+                            <h1>1000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+            </div>
+
+
+
+            <div class="recent-orders">
+                <h2>Danh Sách Người Dùng</h2>
+                <table id="users--table">
+                    <thead>
+                        <tr>
+                            <th>Mã Nguời Dùng</th>
+                            <th>Tên Người Dùng</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Địa Chỉ</th>
+                            <th>Email</th>
+                            <th>Quyền</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+            <!-- edit users -->
+            <div class="overlay">
+                <div class="recent-orders popup">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                    <h2>Chỉnh Sửa Người Dùng</h2>
+                    <table id="user_edit--table">
+                        <thead>
+                            <tr>
+                                <th>Mã Nguời Dùng</th>
+                                <th>Tên Người Dùng</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Địa Chỉ</th>
+                                <th>Email</th>
+                                <th>Quyền</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
+                </div>
+            </div>
+        </main>
+
+        <!--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Products 
+ 
+---------------------------------------------------------
+---------------------------------------------------------->
+        <main id="manager_products">
+            <h1>Quản lý sản phẩm</h1>
+
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+            <div class="insights">
+                <!-- SALES -->
+                <div class="sales">
+                    <span class="material-icons-sharp"> inventory </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Tổng Sản Phẩm</h3>
+                            <h1>2500</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>81%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+
+                <!-- EXPENSES -->
+                <div class="expenses" style="opacity: 0;">
+                    <span class="material-icons-sharp"> bar_chart </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Tổng Chi Phí</h3>
+                            <h1>1000VND</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+
+                <!-- INCOME -->
+                <div class="income" style="opacity: 0;">
+                    <span class="material-icons-sharp"> stacked_line_chart </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Tổng Lợi Nhuận</h3>
+                            <h1>1500VND</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>44%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted"> Last 24 hours </small>
+                </div>
+            </div>
+
+            <div class="recent-orders">
+                <h2>Danh Sách Sản Phẩm</h2>
+                <table id="product--table">
+                    <thead>
+                        <tr>
+                            <th>Mã Sản Phẩm</th>
+                            <th>Danh Mục</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Ảnh Sản Phẩm</th>
+                            <th>Giá Tiền</th>
+                            <th>Size</th>
+                            <th>Màu</th>
+                            <th>Số Lượng</th>
+                            <th>Ngày Nhập Kho</th>
+                            <th>Tháo Tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+            <!-- edit products -->
+            <div class="overlay">
+                <div class="recent-orders popup">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                    <h2>Chỉnh Sửa Sản Phẩm</h2>
+                    <table id="product_edit--table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Danh Mục</th>
+                                <th>Tên</th>
+                                <th>Ảnh</th>
+                                <th>Giá</th>
+                                <th>Size</th>
+                                <th>Màu</th>
+                                <th>Số Lượng</th>
+                                <th>Ngày Nhập Kho</th>
+                                <th>Tháo Tác</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
+                </div>
+            </div>
+        </main>
+
+        <!--------------------------------------------------------
+---------------------------------------------------------
+ 
+                       Manager Others
+ 
+---------------------------------------------------------
+---------------------------------------------------------->
+        <main id="manager_others">
+            <h1>Quản lý sản phẩm</h1>
+
+            <div class="dash-top">
+
+
+                <div class="date">
+                    <input type="date" />
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+            <div class="recent-orders">
+                <h2>Chương Trình Giảm Giá.</h2>
+                <table id="sales--table">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Mô tả</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+
+
+
+            <div class="recent-orders">
+                <h2>Bộ sưu tầm.</h2>
+                <table id="collections--table">
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Tên</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Mô tả</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <!-- Add tbody here | JS insertion -->
+                </table>
+                <a href="#">Show All</a>
+            </div>
+
+            <!-- edit others -->
+            <div class="overlay">
+                <div class="recent-orders popup" style="top: -20rem;">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                    <h2>Chỉnh Sửa Chương Trình Giảm Giá</h2>
+                    <table id="sale_edit--table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Mô tả</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <h2 style="margin-top: 1rem;">Chỉnh Sửa Bộ Sưu Tập</h2>
+                    <table id="collection_edit--table">
+                        <thead>
+                            <tr>
+                                <th>Mã</th>
+                                <th>Tên</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Mô tả</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
+                </div>
+            </div>
+        </main>
+
 
         <!------------------------------------ Add Product ------------------------------------>
         <main id="add_product">
@@ -839,9 +977,38 @@
                     <h3>Thêm Chương Trình Khuyến Mãi</h3>
                 </button>
             </form>
+
+            <!-- Gui thong bao -->
+            <h1>Gửi Thông Báo</h1>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="notification-date">Ngày Thông Báo</label>
+                        <input type="datetime-local" id="notification-date" name="notification-date" required>
+                    </div>
+                    <div class="form-group--items">
+                        <label for="is-read">Trạng Thái Đọc</label>
+                        <select id="is-read" name="is-read" required>
+                            <option value="0">Chưa Đọc</option>
+                            <option value="1">Đã Đọc</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-group--items">
+                        <label for="message">Nội Dung Thông Báo</label>
+                        <textarea id="message" name="message" placeholder="Nhập nội dung thông báo."
+                            required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="material-icons-sharp"> send </span>
+                    <h3>Gửi Thông Báo</h3>
+                </button>
+            </form>
         </main>
-
-
 
 
 
