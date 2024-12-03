@@ -116,26 +116,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Thanh tim kiem tren header
-document.addEventListener('DOMContentLoaded', () => {
-  const searchIcon = document.getElementById('search-icon');
-  const searchPopup = document.getElementById('search-popup');
-  const closePopup = document.getElementById('close-popup');
+// // Thanh tim kiem tren header
+// document.addEventListener('DOMContentLoaded', () => {
+//   const headerContainer = document.getElementById('header-container');
 
-  // Show popup
-  searchIcon.addEventListener('click', () => {
-    searchPopup.classList.add('active');
-  });
+//   // Fetch header content and inject into DOM
+//   fetch('header.html')
+//     .then((response) => response.text())
+//     .then((html) => {
+//       headerContainer.innerHTML = html;
 
-  // Close popup
-  closePopup.addEventListener('click', () => {
-    searchPopup.classList.remove('active');
-  });
+//       // Sau khi header được chèn, lấy các phần tử liên quan
+//       const searchIcon = document.getElementById('search-icon');
+//       const searchPopup = document.getElementById('search-popup');
+//       const closePopup = document.getElementById('close-popup');
 
-  // Close popup when clicking outside the search box
-  searchPopup.addEventListener('click', (e) => {
-    if (e.target === searchPopup) {
-      searchPopup.classList.remove('active');
-    }
-  });
-});
+//       if (searchIcon && searchPopup && closePopup) {
+//         // Show popup
+//         searchIcon.addEventListener('click', () => {
+//           searchPopup.classList.add('active');
+//         });
+
+//         // Close popup
+//         closePopup.addEventListener('click', () => {
+//           searchPopup.classList.remove('active');
+//         });
+
+//         // Close popup when clicking outside the search box
+//         searchPopup.addEventListener('click', (e) => {
+//           if (e.target === searchPopup) {
+//             searchPopup.classList.remove('active');
+//           }
+//         });
+//       } else {
+//         console.error('One or more required elements were not found.');
+//       }
+//     })
+//     .catch((error) => console.error('Failed to fetch header:', error));
+// });
