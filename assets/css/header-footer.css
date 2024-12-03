@@ -3,8 +3,6 @@
   height: 19rem;
 }
 
-
-
 header {
   border-bottom: solid 1px #ccc;
   background-color: var(--primary-color);
@@ -95,18 +93,26 @@ header nav ul li a:hover {
 }
 
 .dropdown .content-collection {
-  text-align: center;
+  padding-left: 1rem;
   position: absolute;
   z-index: 100;
-  top: 4rem;
+  top: 3.5rem;
   background-color: var(--primary-color);
-  border-radius: 0.8rem;
+  border-radius: 0.3rem;
+  border-top: 2px solid var(--second-color);
   box-shadow: var(--box-shadow-light);
-  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: block; /* Đảm bảo display luôn là block để hiệu ứng hoạt động */
+  pointer-events: none; /* Ngăn việc hover khi chưa hiển thị */
 }
 
+
 .dropdown:hover .content-collection {
-  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; /* Bật lại khả năng tương tác khi hiển thị */
 }
 
 /* Group icons */
@@ -199,7 +205,6 @@ header.scrolled .group_icons {
   background-color: var(--lighter1-second-color);
   transform: scale(1.1);
 }
-
 
 @media (max-width: 1456px) {
   /* Group icons */
