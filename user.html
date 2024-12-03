@@ -41,8 +41,9 @@
           <li class="nav-item" onclick="showMain(event, 'voucher-wallet')"><i class="fas fa-wallet"></i> Ví Voucher</li>
           <li class="nav-item" onclick="showMain(event, 'order-feedback')"><i class="fas fa-star"></i> Đánh giá và phản
             hồi</li>
-          <li class="nav-item"><i class="fas fa-question-circle"></i> Chính sách & Câu hỏi thường gặp</li>
-          <li class="nav-item"><i class="fas fa-sign-out-alt"></i> Đăng xuất</li>
+          <li class="nav-item" onclick="showMain(event, 'notification')" style="position: relative;"><i class="fas fa-question-circle"></i> Thông
+            báo<span class="notification-count">1</span></li>
+          <li class="nav-item"><a href="index.html"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
         </ul>
       </div>
 
@@ -217,7 +218,7 @@
           </ul>
 
           <!-- Rating & Review Form -->
-          <h5 class="font-weight-bold mb-3">Đánh giá sản phẩm</h5>
+          <h4 class="font-weight-bold mb-3">Đánh giá sản phẩm</h4>
           <form>
             <div class="form-group">
               <label for="rating">Đánh giá:</label>
@@ -241,10 +242,11 @@
       </main>
 
 
+      <!-- Voucher -->
       <main id="voucher-wallet" class=" col-md-9 p-4 bg-white rounded">
         <div class="wallet-header">
-          <h3>Ví Voucher</h3>
-          <button class="btn-add-voucher">Thêm Voucher Mới</button>
+          <h4>Ví Voucher</h4>
+          <button class="btn-add-voucher">Nhận Voucher Mới</button>
         </div>
 
         <div class="voucher-list">
@@ -260,7 +262,7 @@
           <div class="voucher-card">
             <div class="voucher-info">
               <h5>Mã Voucher: <span class="voucher-code">XYZ456</span></h5>
-              <p class="voucher-desc">Miễn phí vận chuyển cho đơn hàng trên $50</p>
+              <p class="voucher-desc">Miễn phí vận chuyển cho đơn hàng trên 50000VND</p>
               <p class="voucher-expiry">Hết hạn: 15 Tháng 1 2025</p>
             </div>
             <button class="btn-use">Sử Dụng</button>
@@ -268,7 +270,26 @@
         </div>
       </main>
 
-
+      <!-- Notification -->
+      <main id="notification" class="col-md-9 p-4 bg-white rounded">
+        <h4 class="font-weight-bold mb-4 text-second-color">Thông báo</h4>
+        <!-- Notification Example -->
+        <div class="notification-card bg-light p-4 rounded mb-4">
+          <h5 class="text-second-color">Thông báo 1</h5>
+          <p class="text-muted">Ngày: 01/12/2024</p>
+          <p>Nội dung thông báo chi tiết, ví dụ: Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi!</p>
+        </div>
+        <div class="notification-card bg-light p-4 rounded mb-4">
+          <h5 class="text-second-color">Thông báo 2</h5>
+          <p class="text-muted">Ngày: 30/11/2024</p>
+          <p>Nội dung thông báo chi tiết, ví dụ: Đơn hàng #12345 của bạn đã được giao thành công.</p>
+        </div>
+        <div class="notification-card bg-light p-4 rounded mb-4">
+          <h5 class="text-second-color">Thông báo 3</h5>
+          <p class="text-muted">Ngày: 29/11/2024</p>
+          <p>Nội dung thông báo chi tiết, ví dụ: Bạn có voucher giảm giá 10% sắp hết hạn vào ngày 31/12/2024.</p>
+        </div>
+      </main>
 
 
 

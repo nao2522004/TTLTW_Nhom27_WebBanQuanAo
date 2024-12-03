@@ -15,22 +15,22 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("profile-info").classList.add("block");
 });
 function showMain(event, mainId) {
-  event.preventDefault(); // Ngừng hành động mặc định của sự kiện
+  event.preventDefault(); 
 
-  // Xóa class active khỏi tất cả các thẻ li
+
   document.querySelectorAll(".sidebar ul li").forEach((link) => {
     link.classList.remove("active");
   });
 
-  // Thêm class active vào thẻ li được nhấn
+
   event.currentTarget.classList.add("active");
 
-  // Ẩn tất cả các thẻ main
+
   document.querySelectorAll("main").forEach((main) => {
     main.classList.remove("block");
   });
 
-  // Hiển thị thẻ main tương ứng với ID đã chọn
+
   const targetMain = document.getElementById(mainId);
   if (targetMain) {
     targetMain.classList.add("block");
