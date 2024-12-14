@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/imgs/Favicon/favicon-32x32.png" type="image/png">
+    <!-- Frameworks -->
+    <!-- Reset CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap 4.6.2 CSS -->
+    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/header-footer.css">
+    <link rel="stylesheet" href="./assets/css/cart.css">
+</head>
+
+<body>
+    <header id="header"></header>
+
+    <!-- Shopping Cart -->
+    <div id="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4>Giỏ Hàng</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border-top-bottom">
+                    <div class="row main align-items-center">
+                        <div class="col-2"><img class="img-fluid" src="assets/imgs/Cart/T_shirt1.jpg"></div>
+                        <div class="col">
+                            <div class="row text-muted">Áo Thun</div>
+                            <div class="row">Cotton T-shirt</div>
+                        </div>
+                        <div class="col">
+                            <div class="quantity-controls">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
+                        </div>
+                        <div class="col"> 100.000 đồng<span class="close">&#10005;</span></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row main align-items-center">
+                        <div class="col-2"><img class="img-fluid" src="assets/imgs/Cart/T_shirt2.jpg"></div>
+                        <div class="col">
+                            <div class="row text-muted">Áo Thun</div>
+                            <div class="row">Cotton T-shirt</div>
+                        </div>
+                        <div class="col">
+                            <div class="quantity-controls">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
+                        </div>
+                        <div class="col">100.000 đồng <span class="close">&#10005;</span></div>
+                    </div>
+                </div>
+                <div class="row border-top-bottom">
+                    <div class="row main align-items-center">
+                        <div class="col-2"><img class="img-fluid" src="assets/imgs/Cart/T_shirt3.jpg"></div>
+                        <div class="col">
+                            <div class="row text-muted">Áo Thun</div>
+                            <div class="row">Cotton T-shirt</div>
+                        </div>
+                        <div class="col">
+                            <div class="quantity-controls">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
+                        </div>
+                        <div class="col">100.000 đồng <span class="close">&#10005;</span></div>
+                    </div>
+                </div>
+                <div class="back-to-shop text-muted"><a href="index.html">&leftarrow; Trở về trang chủ</a>
+                </div>
+            </div>
+            <div class="col-md-4 summary">
+                <div>
+                    <h5>Hóa Đơn</h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left: 12px;">3 SẢN PHẨM</div>
+                    <div class="col text-right">300.000 đồng</div>
+                </div>
+                <form>
+                    <p>VẬN CHUYỂN</p>
+                    <select>
+                        <option class="text-muted">Giao Hàng Nhanh 30.000 đồng</option>
+                        <option class="text-muted">Giao Hàng Tiết Kiệm 40.000 đồng</option>
+                    </select>
+                    <p>MÃ GIẢM GIÁ</p>
+                    <input id="code" placeholder="Nhập mã">
+                </form>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">
+                        <p>TỔNG TIỀN:</p>
+                    </div>
+                    <div class="col text-right">
+                        <p>330.000 đồng</p>
+                    </div>
+                </div>
+                <a href="checkout.html"><button class="btn btn-lg">THANH TOÁN</button></a>
+            </div>
+        </div>
+    </div>
+    <!-- END: Shopping Cart -->
+
+    <footer id="footer"></footer>
+
+
+
+
+    <script>
+        const header = document.getElementById('header');
+        const footer = document.getElementById('footer');
+        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
+        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
+    </script>
+
+    <!-- JS Cart -->
+    <script>
+        const decreaseBtns = document.querySelectorAll('.btn-decrease');
+        const increaseBtns = document.querySelectorAll('.btn-increase');
+        const quantityDisplays = document.querySelectorAll('.quantity');
+
+        decreaseBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantityDisplays[index].textContent);
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    quantityDisplays[index].textContent = currentQuantity;
+                }
+            });
+        });
+
+        increaseBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantityDisplays[index].textContent);
+                currentQuantity++;
+                quantityDisplays[index].textContent = currentQuantity;
+            });
+        });
+    </script>
+
+
+    <!-- base js -->
+    <script src="./assets/js/base.js"></script>
+</body>
+
+</html>
