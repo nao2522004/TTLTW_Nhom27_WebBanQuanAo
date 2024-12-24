@@ -19,6 +19,8 @@ public class Product implements Serializable {
     private int unitSold;
     private double unitPrice;
 
+    public Product() {}
+
     public Product(int proid, int typeID, int categoryID, int supplierID, String productName, String size, int stock, String images, String color, Date releaseDate, int unitSold, double unitPrice) {
         this.proid = proid;
         this.typeID = typeID;
@@ -38,92 +40,92 @@ public class Product implements Serializable {
         return proid;
     }
 
-    public int getTypeID() {
-        return typeID;
-    }
-
-    public int getCategoryID() {
-        return categoryID;
-    }
-
-    public int getSupplierID() {
-        return supplierID;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public int getUnitSold() {
-        return unitSold;
-    }
-
-    public double getUnitPrice() {
-        return unitPrice;
-    }
-
     public void setProid(int proid) {
         this.proid = proid;
+    }
+
+    public int getTypeID() {
+        return typeID;
     }
 
     public void setTypeID(int typeID) {
         this.typeID = typeID;
     }
 
+    public int getCategoryID() {
+        return categoryID;
+    }
+
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
+    }
+
+    public int getSupplierID() {
+        return supplierID;
     }
 
     public void setSupplierID(int supplierID) {
         this.supplierID = supplierID;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getSize() {
+        return size;
     }
 
     public void setSize(String size) {
         this.size = size;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getImages() {
+        return images;
     }
 
     public void setImages(String images) {
         this.images = images;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
+    public int getUnitSold() {
+        return unitSold;
+    }
+
     public void setUnitSold(int unitSold) {
         this.unitSold = unitSold;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
     public void setUnitPrice(double unitPrice) {
