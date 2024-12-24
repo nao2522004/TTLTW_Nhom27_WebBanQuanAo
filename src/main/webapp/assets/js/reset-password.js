@@ -21,7 +21,7 @@ function showConfirmationPopup(event) {
 }
 // Chuyển hướng về trang chủ
 function redirectToHome() {
-    window.location.href = "index.html";
+    window.location.href = "index.jsp";
 }
 
 // Kiểm tra mật khẩu mới và mật khẩu xác nhận

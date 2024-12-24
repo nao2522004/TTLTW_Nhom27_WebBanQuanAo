@@ -56,13 +56,23 @@
             <version>3.0.0-beta2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.grails.plugins/ckeditor -->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>org.grails.plugins</groupId>
-            <artifactId>ckeditor</artifactId>
-            <version>4.5.9.0</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
         </dependency>
 
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
