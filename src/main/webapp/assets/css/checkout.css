@@ -1,0 +1,108 @@
+/* Check Out  */
+body{
+    background-color: #f6f1eb !important;
+}
+#check-out{
+    margin-top: 120px;
+    font-weight: bold;
+}
+#check-out .header-text{
+    font-size: 2rem;
+    font-weight: bold;
+}
+#check-out label{
+    font-size: 1.5rem;
+}
+#check-out .lb-text{
+   font-size: 1.5rem;
+   font-weight: bold 700;
+} 
+#check-out .gr-text{
+    font-size: 1.5rem;
+}
+#check-out img {
+    width: 45px;
+    margin-right: 10px;
+}
+#check-out .back-to-shop {
+    margin-top: 30px;
+    font-size: 1.5rem;
+}
+#check-out .back-to-shop a {
+    color: var(--black-color);
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #4d876d !important;
+    cursor: pointer;
+}
+
+.text-custom {
+    color: #335d4a!important
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin-top: 120px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .list-group-item {
+        padding: 10px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .custom-control-label {
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .form-control {
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+}
+
+#check-out .btn {
+    color: #fff;
+    background-color: #335d4a;
+    border-radius: 5px; 
+    border: none;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+#check-out .btn:hover {
+    background-color: #335d4a; 
+    cursor: pointer; 
+}
+.large-select {
+    font-size: 1.5rem; 
+    height: 3.3rem;   
+}
+
+/* Check Out  */
