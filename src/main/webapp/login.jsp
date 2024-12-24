@@ -1,3 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,14 +39,14 @@
     <div class="container no-padding">
         <!-- Login -->
         <div class="form-box login">
-            <form action="">
+            <form action="login" method="POST" >">
                 <h1>Đăng Nhập</h1>
                 <div class="input-box">
-                    <input type="email" placeholder="Email" required>
+                    <input id="username" type="text" placeholder="UserName" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Mật Khẩu" required>
+                    <input id="password" type="password" placeholder="Mật Khẩu" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
