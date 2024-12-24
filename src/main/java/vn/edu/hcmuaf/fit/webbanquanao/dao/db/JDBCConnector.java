@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DbConn {
+public class JDBCConnector {
     static final String URL = "jdbc:mysql://localhost:3306/clothes_shop_db";
     static final String USER = "root";
     static final String PASS = "";
