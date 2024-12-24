@@ -17,7 +17,7 @@ public class ListProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> list = new ArrayList<Product>();
         ProductService service = new ProductService();
-//        list = service.getListOfProducts();
+        list = service.getListProducts();
 
         request.setAttribute("products", list);
         request.getRequestDispatcher("men.jsp").forward(request, response);
