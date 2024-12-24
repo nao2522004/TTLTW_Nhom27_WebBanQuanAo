@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao;
+package vn.edu.hcmuaf.fit.webbanquanao.controller;
 
 import java.io.*;
 
