@@ -1,4 +1,14 @@
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
+<%@ page import="java.util.List" %>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    ProductService service = new ProductService();
+    List<Product> list = service.getProducts();
+    request.setAttribute("listProducts", list);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,38 +59,20 @@
         <div class="container">
             <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>
             <div class="row">
-                <!-- Item 1 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/1.webp" alt="Image 1">
-                        <h4>Quần Kaki Ống Suông</h4>
-                        <div class="product-price" data-price="289000"></div>
+                <c:forEach var="p" items="${listProducts}" end="3">
+                    <!-- Item 1 -->
+                    <div class="col-md-3">
+                        <div class="item">
+                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
+                            <h4>${p.name}</h4>
+                            <div class="product-price" data-price="${p.unitPrice}"></div>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/2.webp" alt="Image 2">
-                        <h4>Double Knee Reetro</h4>
-                        <div class="product-price" data-price="350000"></div>
-                    </div>
-                </div>
-                <!-- Item 3 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/5.webp" alt="Image 3">
-                        <h4>Cargo pant carhartt</h4>
-                        <div class="product-price" data-price="300000"></div>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/4.webp" alt="Image 4">
-                        <h4>Quần Cargo pant</h4>
-                        <div class="product-price" data-price="280000"></div>
-                    </div>
-                </div>
+                </c:forEach>
+
+                <c:if test="${empty listProducts}">
+                    <h1>không có sản phẩm.</h1>
+                </c:if>
             </div>
         </div>
     </section>
