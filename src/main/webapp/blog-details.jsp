@@ -1,34 +1,17 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%@ include file="assets/includes/head.jsp"%>
     <title>Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sau</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/Favicon/favicon-32x32.png" type="image/png">
-
-    <!-- Frameworks -->
-    <!-- Reset CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap 4.6.2 CSS -->
-    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="stylesheet" href="./assets/css/header-footer.css">
     <link rel="stylesheet" href="./assets/css/blog-detalis.css">
-
 </head>
 </head>
 
 <body>
-    <header id="header"></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp" %></header>
 
     <!-- Blog Details -->
 
@@ -620,14 +603,14 @@
                                     <div class=" new_item">
                                         <div class="content_item">
                                             <figure class="featured-thumbnail thumbnail">
-                                                <a href="blog.html" title="Phối đồ với áo hoodie nam phong cách và cá tính">
+                                                <a href="blog.jsp" title="Phối đồ với áo hoodie nam phong cách và cá tính">
                                                     <img src="assets/imgs/Blog-Details/1.jpg" alt="">
                                                 </a>
 
                                             </figure>
                                             <div class="post_meta">
                                                 <div class="name">
-                                                    <a href="blog.html"
+                                                    <a href="blog.jsp"
                                                         title="Phối đồ với áo hoodie nam phong cách và cá tính">Phối đồ
                                                         với áo hoodie nam phong cách và cá tính</a>
                                                 </div>
@@ -642,7 +625,7 @@
                                     <div class=" new_item">
                                         <div class="content_item">
                                             <figure class="featured-thumbnail thumbnail">
-                                                <a href="blog.html"
+                                                <a href="blog.jsp"
                                                     title="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm">
                                                     <img src="assets/imgs/Blog-Details/2.jpg" alt="">
 
@@ -651,7 +634,7 @@
                                             </figure>
                                             <div class="post_meta">
                                                 <div class="name">
-                                                    <a href="blog.html"
+                                                    <a href="blog.jsp"
                                                         title="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm">10
                                                         cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm</a>
                                                 </div>
@@ -665,7 +648,7 @@
                                     <div class=" new_item">
                                         <div class="content_item">
                                             <figure class="featured-thumbnail thumbnail">
-                                                <a href="blog.html"
+                                                <a href="blog.jsp"
                                                     title="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính">
                                                     <img src="assets/imgs/Blog-Details/3.jpg" alt="">
 
@@ -674,7 +657,7 @@
                                             </figure>
                                             <div class="post_meta">
                                                 <div class="name">
-                                                    <a href="blog.html"
+                                                    <a href="blog.jsp"
                                                         title="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính">10
                                                         cách phối đồ thể thao nam năng động, trẻ trung, cá tính</a>
                                                 </div>
@@ -688,7 +671,7 @@
                                     <div class=" new_item">
                                         <div class="content_item">
                                             <figure class="featured-thumbnail thumbnail">
-                                                <a href="blog.html" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">
+                                                <a href="blog.jsp" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">
                                                     <img src="assets/imgs/Blog-Details/4.jpg" alt="">
 
                                                 </a>
@@ -696,7 +679,7 @@
                                             </figure>
                                             <div class="post_meta">
                                                 <div class="name">
-                                                    <a href="blog.html"
+                                                    <a href="blog.jsp"
                                                         title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">Phối
                                                         đồ Full đen nam: Cách mix đồ chất và cuốn hút</a>
                                                 </div>
@@ -728,7 +711,7 @@
                 <li class="col-xs-6 col-sm-4 col-md-3">
                     <div class="content">
                         <figure class="featured-thumbnail thumbnail">
-                            <a href="blog.html">
+                            <a href="blog.jsp">
                                 <img src="assets/imgs/Blog-Details/1.jpg"
                                     title="Phối đồ với áo hoodie nam phong cách và cá tính"
                                     alt="Phối đồ với áo hoodie nam phong cách và cá tính">
@@ -744,12 +727,12 @@
                             </span>
                         </div>
                         <div class="title_post">
-                            <a href="blog.html" rel="bookmark" title="Phối đồ với áo hoodie nam phong cách và cá tính">Phối đồ
+                            <a href="blog.jsp" rel="bookmark" title="Phối đồ với áo hoodie nam phong cách và cá tính">Phối đồ
                                 với
                                 áo hoodie nam phong cách và cá tính</a>
                         </div>
                         <div class="read_more">
-                            <a href="blog.html" rel="bookmark" title="Phối đồ với
+                            <a href="blog.jsp" rel="bookmark" title="Phối đồ với
                                 áo hoodie nam phong cách và cá tính">Xem
                                 thêm</a>
                         </div>
@@ -758,7 +741,7 @@
                 <li class="col-xs-6 col-sm-4 col-md-3">
                     <div class="content">
                         <figure class="featured-thumbnail thumbnail">
-                            <a href="blog.html">
+                            <a href="blog.jsp">
                                 <img src="assets/imgs/Blog-Details/2.jpg"
                                     title="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm"
                                     alt="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm">
@@ -774,12 +757,12 @@
                             </span>
                         </div>
                         <div class="title_post">
-                            <a href="blog.html" rel="bookmark"
+                            <a href="blog.jsp" rel="bookmark"
                                title="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm">10 cách phối đồ với
                                 áo len nam ấm ấp, thời trang và lịch lãm</a>
                         </div>
                         <div class="read_more">
-                            <a href="blog.html" rel="bookmark"
+                            <a href="blog.jsp" rel="bookmark"
                                title="10 cách phối đồ với áo len nam ấm ấp, thời trang và lịch lãm">Xem
                                 thêm</a>
                         </div>
@@ -788,7 +771,7 @@
                 <li class="col-xs-6 col-sm-4 col-md-3">
                     <div class="content">
                         <figure class="featured-thumbnail thumbnail">
-                            <a href="blog.html">
+                            <a href="blog.jsp">
                                 <img src="assets/imgs/Blog-Details/3.jpg"
                                     title="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính"
                                     alt="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính">
@@ -804,12 +787,12 @@
                             </span>
                         </div>
                         <div class="title_post">
-                            <a href="blog.html" rel="bookmark"
+                            <a href="blog.jsp" rel="bookmark"
                                title="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính">10 cách phối đồ thể
                                 thao nam năng động, trẻ trung, cá tính</a>
                         </div>
                         <div class="read_more">
-                            <a href="blog.html" rel="bookmark"
+                            <a href="blog.jsp" rel="bookmark"
                                title="10 cách phối đồ thể thao nam năng động, trẻ trung, cá tính">Xem
                                 thêm</a>
                         </div>
@@ -818,7 +801,7 @@
                 <li class="col-xs-6 col-sm-4 col-md-3">
                     <div class="content">
                         <figure class="featured-thumbnail thumbnail">
-                            <a href="blog.html">
+                            <a href="blog.jsp">
                                 <img src="assets/imgs/Blog-Details/4.jpg"
                                     title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút"
                                     alt="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">
@@ -834,11 +817,11 @@
                             </span>
                         </div>
                         <div class="title_post">
-                            <a href="blog.html" rel="bookmark" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">Phối đồ
+                            <a href="blog.jsp" rel="bookmark" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">Phối đồ
                                 Full đen nam: Cách mix đồ chất và cuốn hút</a>
                         </div>
                         <div class="read_more">
-                            <a href="blog.html" rel="bookmark" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">Xem
+                            <a href="blog.jsp" rel="bookmark" title="Phối đồ Full đen nam: Cách mix đồ chất và cuốn hút">Xem
                                 thêm</a>
                         </div>
                     </div>
@@ -848,22 +831,9 @@
     </div>
 
 
-    <footer id="footer"></footer>
-    <script>
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
+    <footer id="footer"><%@ include file="assets/includes/footer.jsp" %></footer>
 
     <script src="./assets/js/blog-details.js"></script>
-    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-
-    <!-- base js -->
-    <script src="./assets/js/base.js"></script>
 </body>
 
 </html>

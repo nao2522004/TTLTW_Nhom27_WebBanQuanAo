@@ -1,33 +1,15 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%@ include file="assets/includes/head.jsp"%>
     <title>Tin Tức</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/admin/favicon-32x32.png" type="image/png">
-
-    <!-- Frameworks -->
-    <!-- Reset CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap 4.6.2 CSS -->
-    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-
-    <!-- CSS native -->
-    <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/blog.css">
-    <link rel="stylesheet" href="./assets/css/header-footer.css">
 </head>
 
 <body>
-    <header id="header"></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp" %></header>
 
     <!-- Make a space to split the other out of header -->
     <div style="height: 15rem;"></div>
@@ -45,13 +27,13 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="assets/imgs/blogs/phoi-do-ao-nam-han-quoc-mua-dong.webp"
                                             alt="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Phối đồ nam mùa
+                                        <a href="blog-details.jsp">Phối đồ nam mùa
                                             đông phong cách Hàn Quốc chuẩn như sao</a>
                                     </h3>
                                     <span class="date">
@@ -62,13 +44,13 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="assets/imgs/blogs/phoi-do-voi-ao-hoodie-nam_small.webp"
                                             alt="Phối đồ với áo hoodie nam phong cách và cá tính"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Phối đồ với áo
+                                        <a href="blog-details.jsp">Phối đồ với áo
                                             hoodie nam phong cách và cá tính.</a>
                                     </h3>
                                     <span class="date">
@@ -79,13 +61,13 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="assets/imgs/blogs/phoi-do-voi-ao-len-nam_small.webp"
                                             alt="10 Cách phối đồ với áo len nam ấm áp, thời trang và lịch lãm"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">10 Cách phối đồ
+                                        <a href="blog-details.jsp">10 Cách phối đồ
                                             với áo len nam ấm áp, thời trang và lịch lãm</a>
                                     </h3>
                                     <span class="date">
@@ -96,13 +78,13 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="assets/imgs/blogs/phong-cach-the-thao_small.webp"
                                             alt="10 Cách phối đồ thể thao nam năng động, trẻ trung, cá tính"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">10 Cách phối đồ thể
+                                        <a href="blog-details.jsp">10 Cách phối đồ thể
                                             thao nam năng động, trẻ trung, cá tính</a>
                                     </h3>
                                     <span class="date">
@@ -113,13 +95,13 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="assets/imgs/blogs/phong-cach-all-black-nam_small.webp"
                                             alt="Phối Đồ Full Đen Nam: Cách Mix Đồ Chất Và Cuốn Hút"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Phối Đồ Full Đen Nam:
+                                        <a href="blog-details.jsp">Phối Đồ Full Đen Nam:
                                             Cách Mix Đồ Chất Và Cuốn Hút</a>
                                     </h3>
                                     <span class="date">
@@ -136,12 +118,12 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img src="assets/imgs/blogs/p1.webp"
-                                                                     alt="Áo Polo Nam ICONDENIM Subtle Shoulde"></a>
+                                    <a href="blog-details.jsp"><img src="assets/imgs/blogs/p1.webp"
+                                                                    alt="Áo Polo Nam ICONDENIM Subtle Shoulde"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Áo Polo Nam ICONDENIM Subtle Shoulder.</a>
+                                        <a href="blog-details.jsp">Áo Polo Nam ICONDENIM Subtle Shoulder.</a>
                                     </h3>
                                     <span class="date">
                                         <div data-price="250000"></div>
@@ -151,12 +133,12 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img src="assets/imgs/blogs/p2.webp"
-                                                                     alt="Áo Thun Nam ICONDENIM Trust The Process"></a>
+                                    <a href="blog-details.jsp"><img src="assets/imgs/blogs/p2.webp"
+                                                                    alt="Áo Thun Nam ICONDENIM Trust The Process"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Áo Thun Nam ICONDENIM Trust The Process.</a>
+                                        <a href="blog-details.jsp">Áo Thun Nam ICONDENIM Trust The Process.</a>
                                     </h3>
                                     <span class="date">
                                         <div data-price="250000"></div>
@@ -170,12 +152,12 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img src="assets/imgs/blogs/p3.webp"
-                                                                     alt="Quần Jean Nam Procool ICONDENIM CoolMax Performance Black Slim"></a>
+                                    <a href="blog-details.jsp"><img src="assets/imgs/blogs/p3.webp"
+                                                                    alt="Quần Jean Nam Procool ICONDENIM CoolMax Performance Black Slim"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Quần Jean Nam Procool ICONDENIM CoolMax Performance
+                                        <a href="blog-details.jsp">Quần Jean Nam Procool ICONDENIM CoolMax Performance
                                             Black Slim</a>
                                     </h3>
                                     <span class="date">
@@ -186,12 +168,12 @@
 
                             <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img src="assets/imgs/blogs/p4.jpg"
-                                                                     alt="Áo Thun Nam ICONDENIM Orgnls Armlines"></a>
+                                    <a href="blog-details.jsp"><img src="assets/imgs/blogs/p4.jpg"
+                                                                    alt="Áo Thun Nam ICONDENIM Orgnls Armlines"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Áo Thun Nam ICONDENIM Orgnls Armlines.</a>
+                                        <a href="blog-details.jsp">Áo Thun Nam ICONDENIM Orgnls Armlines.</a>
                                     </h3>
                                     <span class="date">
                                         <div data-price="250000"></div>
@@ -201,13 +183,13 @@
 
                             <!-- <div class="item-article d-flex">
                                 <div class="post-image">
-                                    <a href="blog-details.html"><img
+                                    <a href="blog-details.jsp"><img
                                             src="./assets/imgs/blogs/phong-cach-all-black-nam_small.webp"
                                             alt="Phối Đồ Full Đen Nam: Cách Mix Đồ Chất Và Cuốn Hút"></a>
                                 </div>
                                 <div class="post-content">
                                     <h3 class="title-article-side">
-                                        <a href="blog-details.html">Phối Đồ Full Đen Nam:
+                                        <a href="blog-details.jsp">Phối Đồ Full Đen Nam:
                                             Cách Mix Đồ Chất Và Cuốn Hút</a>
                                     </h3>
                                     <span class="date">
@@ -230,14 +212,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/db4cbb36-phoi-do-nam-mua-dong-han-quoc-2.jpg"
                                                     alt="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">Phối đồ
+                                                <a href="blog-details.jsp">Phối đồ
                                                     nam mùa đông phong cách Hàn Quốc chuẩn như sao</a>
                                             </h3>
                                             <p class="blog-desc text-center">&nbsp;Mùa đông Hàn Quốc không chỉ nổi tiếng
@@ -249,7 +231,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -261,14 +243,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/phoi-do-hoodie-nam__1__large.jpg"
                                                     alt="Phối đồ với áo hoodie nam phong cách và cá tính">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">Phối đồ với
+                                                <a href="blog-details.jsp">Phối đồ với
                                                     áo hoodie nam phong cách và cá tính</a>
                                             </h3>
                                             <p class="blog-desc text-center">Với thiết kế đơn giản nhưng không kém phần
@@ -280,7 +262,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -292,14 +274,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/phoi-do-voi-ao-len-nam_large.webp"
                                                     alt="10 Cách phối đồ với áo len nam ấm áp, thời trang và lịch lãm">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">10 Cách
+                                                <a href="blog-details.jsp">10 Cách
                                                     phối đồ với áo len nam ấm áp, thời trang và lịch lãm</a>
                                             </h3>
                                             <p class="blog-desc text-center">Áo len nam không chỉ là trang phục giữ ấm
@@ -311,7 +293,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -324,14 +306,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/phong-cach-the-thao_large.webp"
                                                     alt="10 Cách phối đồ thể thao năng động, trẻ trung cá tính">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">10 Cách
+                                                <a href="blog-details.jsp">10 Cách
                                                     phối đồ thể thao năng động, trẻ trung cá tính</a>
                                             </h3>
                                             <p class="blog-desc text-center">Một bộ đồ thể thao đẹp không chỉ giúp bạn
@@ -343,7 +325,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -355,14 +337,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/ao-form-rong_1ebf818039104f7d91c8213bfb8a0fe0_large.webp"
                                                     alt="Top 4 mẫu áo form rộng mặc thoải mái, diện đẹp mọi lúc mọi nơi">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">Top 4 mẫu áo form rộng mặc thoải mái, diện
+                                                <a href="blog-details.jsp">Top 4 mẫu áo form rộng mặc thoải mái, diện
                                                     đẹp mọi lúc mọi nơi</a>
                                             </h3>
                                             <p class="blog-desc text-center">Trong những năm gần đây, xu hướng thời
@@ -375,7 +357,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -387,14 +369,14 @@
                                 <div class="artile-item item-owl">
                                     <div class="blog-post">
                                         <div class="blog-post-image">
-                                            <a href="blog-details.html">
+                                            <a href="blog-details.jsp">
                                                 <img src="assets/imgs/blogs/big-size-la-gi_c05dd4d800a7409eb3551715571de86f_large.webp"
                                                     alt="Big size là gì? Cách chọn quần áo big size chuẩn nhất">
                                             </a>
                                         </div>
                                         <div class="blog-post-content">
                                             <h3 class="blog-title text-center">
-                                                <a href="blog-details.html">Big size là gì? Cách chọn quần áo big size
+                                                <a href="blog-details.jsp">Big size là gì? Cách chọn quần áo big size
                                                     chuẩn nhất</a>
                                             </h3>
                                             <p class="blog-desc text-center">Trong những năm gần đây, ngành thời trang
@@ -407,7 +389,7 @@
                                                             class="fa fa-calendar"></i>22/10/2024</span>
                                                 </div>
                                                 <div class="btn-view">
-                                                    <a href="blog-details.html" class="read-btn"
+                                                    <a href="blog-details.jsp" class="read-btn"
                                                        aria-label="Phối đồ nam mùa đông phong cách Hàn Quốc chuẩn như sao">
                                                         <span>Xem thêm »</span>
                                                     </a>
@@ -451,16 +433,9 @@
         </div>
     </div>
 
-    <footer id="footer"></footer>
+    <footer id="footer"><%@ include file="assets/includes/footer.jsp" %></footer>
 
-    <!-- Load Components -->
     <script>
-        // Header and footer
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-
         // xu ly chuyen doi atr thanh vnd
         document.addEventListener("DOMContentLoaded", () => {
             const priceElements = document.querySelectorAll(".post-content span div");
@@ -478,12 +453,7 @@
         });
         //
     </script>
-    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-
-    <script src="./assets/js/base.js"></script>
+    <%@ include file="assets/includes/foot.jsp" %>
 </body>
 
 </html>
