@@ -1,10 +1,11 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <title>Đăng Nhập</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/imgs/Favicon/favicon-32x32.png" type="image/png">
     <!-- Frameworks -->
@@ -12,14 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
         integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/login.css">
 
     <!-- Bootstrap 4.6.2 CSS -->
@@ -29,7 +30,7 @@
 
 <body>
     <div>
-        <header id="header"></header>
+        <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     </div>
 
 
@@ -49,7 +50,7 @@
                     </button>
                 </div>
                 <div class="forgot-link">
-                    <a href="forgot-password.html">Quên mật khẩu?</a>
+                    <a href="forgot-password.jsp">Quên mật khẩu?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg ">Đăng Nhập</button>
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
@@ -113,15 +114,8 @@
 
 
     <div>
-        <footer id="footer"></footer>
+        <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
     </div>
-
-    <script>
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
 
     <script src="./assets/js/login.js"></script>
 
