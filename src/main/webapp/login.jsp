@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,16 +38,22 @@
 
 
     <div class="container no-padding">
+        <%
+            String error = (String) request.getAttribute("error");
+            String username = (String) request.getAttribute("username");
+            if(error==null) error="";
+            if(username==null) username="";
+        %>
         <!-- Login -->
         <div class="form-box login">
-            <form action="">
+            <form action="login" method="POST">
                 <h1>Đăng Nhập</h1>
                 <div class="input-box">
-                    <input type="email" placeholder="Email" required>
+                    <input type="text" placeholder="UserName" value="<%=username%>" name="username" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Mật Khẩu" required>
+                    <input type="password" placeholder="Mật Khẩu" name="password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
