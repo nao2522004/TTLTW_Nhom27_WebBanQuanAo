@@ -1,8 +1,10 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao.model;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private int user_id;
     private String firstname;
     private String lastname;
@@ -11,14 +13,15 @@ public class User {
     private String email;
     private String phone;
     private String address;
-    private String role;
-    private String status;
-    private Date created_at;
+    private Integer role;
+    private Integer status;
+    private LocalDateTime created_at;
+    private String roleName;
 
     public User() {
     }
 
-    public User(int user_id, String firstname, String lastname, String username, String password, String email, String phone, String address, String role, String status, Date created_at) {
+    public User(int user_id, String firstname, String lastname, String username, String password, String email, String phone, String address, Integer role, Integer status, LocalDateTime created_at, String roleName) {
         this.user_id = user_id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -30,6 +33,7 @@ public class User {
         this.role = role;
         this.status = status;
         this.created_at = created_at;
+        this.roleName = roleName;
     }
 
     public int getUser_id() {
@@ -42,6 +46,10 @@ public class User {
 
     public String getLastname() {
         return lastname;
+    }
+
+    public String getRoleName() {
+        return roleName;
     }
 
     public String getUsername() {
@@ -64,15 +72,15 @@ public class User {
         return address;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public Date getCreated_at() {
+    public LocalDateTime getCreated_at() {
         return created_at;
     }
 
@@ -108,15 +116,19 @@ public class User {
         this.address = address;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }
