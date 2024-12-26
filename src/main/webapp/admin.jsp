@@ -23,7 +23,6 @@
 
 <body>
     <div class="container--admin">
-
         <aside>
             <div class="top">
                 <div class="logo">
@@ -36,7 +35,7 @@
             </div>
 
             <div class="sidebar">
-                <a class="active" href="#" onclick="showMain(event, 'dashboard')">
+                <a class="active" href="/admin" onclick="showMain(event, 'dashboard')">
                     <span class="material-icons-sharp"> dashboard </span>
                     <h3>Bảng thông tin</h3>
                 </a>
