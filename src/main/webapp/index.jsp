@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +48,11 @@
 
         <!-- Carousel captions -->
         <div class="carousel_caption">
-            <h5></h5>
+            <h5>
+                <h1> <c:if test="${sessionScope.auth!=null}">
+                    <h1>Chào mừng ${sessionScope.auth.username} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
+                </c:if> </h1>
+            </h5>
             <p></p>
             <a href="#" class="btn btn-link">Discover</a>
         </div>

@@ -45,7 +45,7 @@
         %>
         <!-- Login -->
         <div class="form-box login">
-            <form action="login" method="POST">
+            <form action="login" method="post">
                 <h1>Đăng Nhập</h1>
                 <div class="input-box">
                     <input type="text" placeholder="UserName" value="<%=username%>" name="username" required>
