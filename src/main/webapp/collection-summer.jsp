@@ -1,28 +1,15 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%@ include file="assets/includes/head.jsp"%>
     <title>Bộ sưu tập xuân hè</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/admin/favicon-32x32.png" type="image/png">
-    <!-- link css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/collection-summer.css">
-    <link rel="stylesheet" href="./assets/css/header-footer.css">
-
 </head>
 
 <body>
-    <header id="header"></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
 
     <div class="collect">
 
@@ -281,27 +268,9 @@
 
 
 
-    <footer id="footer"></footer>
+    <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
 
-
-    <script>
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
-
-
-    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-
-
-    <!-- base js -->
-    <script src="./assets/js/base.js"></script>
-
-
+    <%@ include file="assets/includes/foot.jsp"%>
 </body>
 
 </html>

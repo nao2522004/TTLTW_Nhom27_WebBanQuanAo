@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +27,7 @@
 </head>
 
 <body>
-  <header id="header"></header>
+  <header id="header"><%@ include file="assets/includes/header.jsp" %></header>
 
   <div style="height: 12rem;"></div>
 
@@ -108,7 +109,7 @@
         <!-- Header -->
         <div id="order-header" class="d-flex justify-content-between align-items-center mb-4">
           <h4 id="order-title" class="text-second-color">Lịch sử đơn hàng</h4>
-          <a href="return-policy.html" id="order-policy" class="btn">Chính sách đổi trả 30 ngày</a>
+          <a href="return-policy.jsp" id="order-policy" class="btn">Chính sách đổi trả 30 ngày</a>
         </div>
 
         <!-- Order Example -->
@@ -339,17 +340,7 @@
 
 
 
-  <footer id="footer"></footer>
-
-  <!-- Load Components -->
-  <script>
-    // Header and footer
-    const header = document.getElementById('header');
-    const footer = document.getElementById('footer');
-
-    fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-    fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-  </script>
+  <footer id="footer"><%@ include file="assets/includes/footer.jsp" %></footer>
 
   <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
   <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- Link to Font Awesome icons -->

@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.jdbi.v3.core.Jdbi" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +71,7 @@
                     <span class="material-icons-sharp"> settings </span>
                     <h3>Settings</h3>
                 </a>
-                <a href="user.html">
+                <a href="user.jsp">
                     <span class="material-icons-sharp"> logout </span>
                     <h3>Logout</h3>
                 </a>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +31,7 @@
 
 <body>
     <div>
-        <header id="header"></header>
+        <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     </div>
 
     <div class="container active no-padding">
@@ -67,15 +68,8 @@
     </div>
 
     <div>
-        <footer id="footer"></footer>
+        <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
     </div>
-
-    <script>
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
 
     <script src="./assets/js/reset-password.js"></script>
 

@@ -1,39 +1,34 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/Favicon/Luat/favicon-32x32.png" type="image/png">
-    <!-- Frameworks -->
-    <!-- Reset CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap 4.6.2 CSS -->
-    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-
-    <!-- CSS native -->
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/header-footer.css">
-    <link rel="stylesheet" href="./assets/css/children.css">
+    <%@ include file="assets/includes/head.jsp"%>
+    <title>Quần áo phụ nữ</title>
+    <link rel="stylesheet" href="./assets/css/women.css">
     <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
 <body>
-    <header id="header"></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     <!-- Make a space to split the other out of header -->
     <div style="height: 12rem;"></div>
 
     <!-- Banner -->
     <section id="section_banner" class="container-fluid p-0">
-        <img src="assets/imgs/children/banner/1.jpg" alt="" class="w-100">
+        <img src="assets/imgs/women/banner/1.jpg" alt="" class="w-100">
+    </section>
+
+    <!-- Featured -->
+    <section id="section_featured" class="container text-center">
+        <h2>Phong cách và sự thoải mái trong thời trang</h2>
+        <p>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản phẩm được yêu thích nhất hiện giờ.</p>
+        <a href="">Xem thêm</a>
+        <div class="row mt-5">
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383830362_23952c1c984be2fc022c0e59a65dd401.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383815724_271cdb9c51b42106fb22c930c2f1ef24.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383801137_92c75292a967b448dedc42affc14e3ea.jpg" alt="" class="w-100"></div>
+        </div>
     </section>
 
     <!-- All products -->
@@ -45,7 +40,7 @@
                     <h2>Lọc sản phẩm</h2>
                     <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
-                <h1>Tất cả sản phẩm cho đàn ông</h1>
+                <h1>Tất cả sản phẩm</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
                     <select id="sortBy" class="custom-select">
@@ -158,19 +153,19 @@
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card" onclick="redirectToProductPage()">
-                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 2 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
                                     <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
@@ -178,38 +173,38 @@
                             <!-- Product Card 3 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 4 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
                                 </div>
                             </div>
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 2 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
                                     <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
@@ -217,38 +212,38 @@
                             <!-- Product Card 3 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 4 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
                                 </div>
                             </div>
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 2 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
                                     <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
@@ -256,38 +251,38 @@
                             <!-- Product Card 3 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 4 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
                                 </div>
                             </div>
                             <!-- Product Card 1 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
-                                    <div class="product-price" data-price="250000"></div>
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 2 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
                                     <div class="product-price" data-price="200000"></div>
                                 </div>
                             </div>
@@ -295,20 +290,20 @@
                             <!-- Product Card 3 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
-                                    <div class="product-price" data-price="180000"></div>
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
                             </div>
 
                             <!-- Product Card 4 -->
                             <div class="col-md-3 mt-4">
                                 <div class="product-card">
-                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
                                          class="product-image img-fluid">
-                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
-                                    <div class="product-price" data-price="185000"></div>
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
                                 </div>
                             </div>
                         </div>
@@ -328,22 +323,9 @@
         </div>
     </section>
 
-    <footer id="footer"></footer>
+    <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
 
-    <!-- Load Components -->
-    <script>
-        // Header and footer
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
-    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
-    <!-- Javascript Native -->
-    <script src="./assets/js/base.js"></script>
+    <%@ include file="assets/includes/foot.jsp"%>
     <script>
         const totalPages = 20; // Total number of pages
         let currentPage = 1; // Current page
