@@ -1,13 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <%@ include file="assets/includes/head.jsp"%>
-    <title>Đồ nam</title>
-    <link rel="stylesheet" href="./assets/css/men.css">
+    <title>Trang trẻ em</title>
+    <link rel="stylesheet" href="./assets/css/children.css">
     <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
@@ -18,17 +16,7 @@
 
     <!-- Banner -->
     <section id="section_banner" class="container-fluid p-0">
-        <img src="assets/imgs/men/banner/3.jpg" alt="" class="w-100">
-    </section>
-
-    <!-- Featured -->
-    <section id="section_featured" class="container">
-        <div class="row">
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/2.jpg" alt="" class="w-100"></a>
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/3.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/4.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/5.jpg" alt="" class="w-100"></a>
-        </div>
+        <img src="assets/imgs/children/banner/1.jpg" alt="" class="w-100">
     </section>
 
     <!-- All products -->
@@ -40,7 +28,7 @@
                     <h2>Lọc sản phẩm</h2>
                     <i class="fa-solid fa-filter custom_icon"></i>
                 </div>
-                <h1>Tất cả sản phẩm</h1>
+                <h1>Tất cả sản phẩm cho đàn ông</h1>
                 <div class="sort">
                     <label for="sortBy">Sắp xếp theo:</label>
                     <select id="sortBy" class="custom-select">
@@ -151,20 +139,161 @@
                     <div class="container mt-2">
                         <div class="row">
                             <!-- Product Card 1 -->
-                            <c:forEach var="p" items="${products}">
-                                <div class="col-md-3 mt-4">
-                                    <div class="product-card" onclick="redirectToProductPage()">
-                                        <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
-                                             class="product-image img-fluid">
-                                        <div class="product-title">${p.productName}</div>
-                                        <div class="product-price" data-price="${p.unitPrice}"></div>
-                                    </div>
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card" onclick="redirectToProductPage()">
+                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
+                                    <div class="product-price" data-price="250000"></div>
                                 </div>
-                            </c:forEach>
+                            </div>
 
-                            <c:if test="${empty products}">
-                                <h2 class="display-4 mt-5 text-center w-100">Không có sản phẩm nào.</h2>
-                            </c:if>
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
+                                    <div class="product-price" data-price="185000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
+                                    <div class="product-price" data-price="185000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
+                                    <div class="product-price" data-price="185000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng Nhật Bản mềm mại thoáng khí</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần jeans baggy nam ống suông rộng</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Dài Kaki Dáng Baggy Ống Suông</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/men/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Jean Suông Túi Hộp Ống Rộng</div>
+                                    <div class="product-price" data-price="185000"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Pagination -->
@@ -184,7 +313,7 @@
 
     <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
 
-    <!-- Pagination -->
+    <%@ include file="assets/includes/foot.jsp"%>
     <script>
         const totalPages = 20; // Total number of pages
         let currentPage = 1; // Current page
@@ -280,7 +409,6 @@
             window.location.href = 'products_detail.jsp';
         }
     </script>
-    <%@ include file="assets/includes/foot.jsp"%>
 </body>
 
 </html>

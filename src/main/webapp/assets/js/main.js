@@ -2,12 +2,12 @@ let captions = {
   0: {
     title: "Đẳng cấp thời trang - Đồng hành phong cách!",
     description: "Quần áo chất lượng cao, hỗ trợ tư vấn quần áo miễn phí.",
-    link: "about.html"
+    link: "about.jsp"
   },
   1: {
     title: "Ưu đãi đặc biệt - Chọn ngay hôm nay!",
     description: "Miễn phí đổi trả trong 7 ngày, giao hàng nhanh toàn quốc.",
-    link: "sale.html"
+    link: "sale.jsp"
   }
 };
 

@@ -1,13 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <%@ include file="assets/includes/head.jsp"%>
-    <title>Đồ nam</title>
-    <link rel="stylesheet" href="./assets/css/men.css">
+    <title>Quần áo phụ nữ</title>
+    <link rel="stylesheet" href="./assets/css/women.css">
     <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
@@ -18,16 +16,18 @@
 
     <!-- Banner -->
     <section id="section_banner" class="container-fluid p-0">
-        <img src="assets/imgs/men/banner/3.jpg" alt="" class="w-100">
+        <img src="assets/imgs/women/banner/1.jpg" alt="" class="w-100">
     </section>
 
     <!-- Featured -->
-    <section id="section_featured" class="container">
-        <div class="row">
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/2.jpg" alt="" class="w-100"></a>
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/3.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/4.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/5.jpg" alt="" class="w-100"></a>
+    <section id="section_featured" class="container text-center">
+        <h2>Phong cách và sự thoải mái trong thời trang</h2>
+        <p>Sản phẩm nổi bật được lựa chọn kỹ lưỡng, mang đến chất lượng và phong cách tốt nhất. Khám phá các sản phẩm được yêu thích nhất hiện giờ.</p>
+        <a href="">Xem thêm</a>
+        <div class="row mt-5">
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383830362_23952c1c984be2fc022c0e59a65dd401.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383815724_271cdb9c51b42106fb22c930c2f1ef24.jpg" alt="" class="w-100"></div>
+            <div class="col-md-4"><img src="assets/imgs/women/featured/z6055383801137_92c75292a967b448dedc42affc14e3ea.jpg" alt="" class="w-100"></div>
         </div>
     </section>
 
@@ -151,20 +151,161 @@
                     <div class="container mt-2">
                         <div class="row">
                             <!-- Product Card 1 -->
-                            <c:forEach var="p" items="${products}">
-                                <div class="col-md-3 mt-4">
-                                    <div class="product-card" onclick="redirectToProductPage()">
-                                        <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
-                                             class="product-image img-fluid">
-                                        <div class="product-title">${p.productName}</div>
-                                        <div class="product-price" data-price="${p.unitPrice}"></div>
-                                    </div>
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card" onclick="redirectToProductPage()">
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
                                 </div>
-                            </c:forEach>
+                            </div>
 
-                            <c:if test="${empty products}">
-                                <h2 class="display-4 mt-5 text-center w-100">Không có sản phẩm nào.</h2>
-                            </c:if>
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
+                                </div>
+                            </div>
+                            <!-- Product Card 1 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/1/4.png" alt="Product 1"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng nữ vải tăm siêu xinh</div>
+                                    <div class="product-price" data-price="180000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/2/1.png" alt="Product 2"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Nữ Vải Đũi Mát, Cạp Cao</div>
+                                    <div class="product-price" data-price="200000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/3/1.png" alt="Product 3"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần ống rộng culottes</div>
+                                    <div class="product-price" data-price="250000"></div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 -->
+                            <div class="col-md-3 mt-4">
+                                <div class="product-card">
+                                    <img src="assets/imgs/women/list%20products/4/1.png" alt="Product 4"
+                                         class="product-image img-fluid">
+                                    <div class="product-title">Quần Ống Rộng Vải Nỉ Lì Mịn</div>
+                                    <div class="product-price" data-price="170000"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Pagination -->
@@ -184,7 +325,7 @@
 
     <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
 
-    <!-- Pagination -->
+    <%@ include file="assets/includes/foot.jsp"%>
     <script>
         const totalPages = 20; // Total number of pages
         let currentPage = 1; // Current page
@@ -277,10 +418,9 @@
     </script>
     <script>
         function redirectToProductPage() {
-            window.location.href = 'products_detail.jsp';
+            window.location.href = 'products_detail.html';
         }
     </script>
-    <%@ include file="assets/includes/foot.jsp"%>
 </body>
 
 </html>

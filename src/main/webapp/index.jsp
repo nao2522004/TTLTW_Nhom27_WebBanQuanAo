@@ -1,34 +1,29 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
+<%@ page import="java.util.List" %>
+
+<%
+    ProductService service = new ProductService();
+    List<Product> list = service.getProducts();
+    request.setAttribute("listProducts", list);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%@ include file="assets/includes/head.jsp"%>
     <title>Trang chủ</title>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/Favicon/Luat/favicon-32x32.png" type="image/png">
-    <!-- Frameworks -->
-    <!-- Reset CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap 4.6.2 CSS -->
-    <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- CSS native -->
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/header-footer.css">
     <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="./assets/css/responsive_luat.css">
 </head>
 
 <body>
-    <header id="header"></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp" %></header>
     <!-- Make a space to split the other out of header -->
     <div style="height: 12rem;"></div>
 
@@ -46,7 +41,11 @@
 
         <!-- Carousel captions -->
         <div class="carousel_caption">
-            <h5></h5>
+            <h5>
+                <h1> <c:if test="${sessionScope.auth!=null}">
+                    <h1>Chào mừng ${sessionScope.auth.username} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
+                </c:if> </h1>
+            </h5>
             <p></p>
             <a href="#" class="btn btn-link">Discover</a>
         </div>
@@ -67,38 +66,20 @@
         <div class="container">
             <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>
             <div class="row">
-                <!-- Item 1 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/1.webp" alt="Image 1">
-                        <h4>Quần Kaki Ống Suông</h4>
-                        <div class="product-price" data-price="289000"></div>
+                <c:forEach var="p" items="${listProducts}" end="3">
+                    <!-- Item 1 -->
+                    <div class="col-md-3">
+                        <div class="item">
+                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
+                            <h4>${p.name}</h4>
+                            <div class="product-price" data-price="${p.unitPrice}"></div>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/2.webp" alt="Image 2">
-                        <h4>Double Knee Reetro</h4>
-                        <div class="product-price" data-price="350000"></div>
-                    </div>
-                </div>
-                <!-- Item 3 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/5.webp" alt="Image 3">
-                        <h4>Cargo pant carhartt</h4>
-                        <div class="product-price" data-price="300000"></div>
-                    </div>
-                </div>
-                <!-- Item 4 -->
-                <div class="col-md-3">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/4.webp" alt="Image 4">
-                        <h4>Quần Cargo pant</h4>
-                        <div class="product-price" data-price="280000"></div>
-                    </div>
-                </div>
+                </c:forEach>
+
+                <c:if test="${empty listProducts}">
+                    <h1>không có sản phẩm.</h1>
+                </c:if>
             </div>
         </div>
     </section>
@@ -172,22 +153,10 @@
         </div>
     </section>
 
-    <footer id="footer"></footer>
+    <footer id="footer"><%@ include file="assets/includes/footer.jsp" %></footer>
 
-    <!-- Load Components -->
-    <script>
-        // Header and footer
-        const header = document.getElementById('header');
-        const footer = document.getElementById('footer');
-        fetch('./assets/component/header.html').then(response => response.text()).then(html => header.innerHTML = html);
-        fetch('./assets/component/footer.html').then(response => response.text()).then(html => footer.innerHTML = html);
-    </script>
-    <!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+    <%@ include file="assets/includes/foot.jsp"%>
     <!-- Javascript Native -->
-    <script src="./assets/js/base.js"></script>
     <script src="./assets/js/main.js"></script>
 </body>
 
