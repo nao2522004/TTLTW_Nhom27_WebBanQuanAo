@@ -15,28 +15,9 @@ public class ProductDAO {
 
     // Get all products
     public List<Product> getAllProducts() {
-        query = "SELECT" +
-                "   p.proid AS id," +
-                "   t.NAME AS type," +
-                "   c.NAME AS category," +
-                "   s.suppliersname AS supplier," +
-                "   p.productname AS name," +
-                "   p.DESCRIPTION," +
-                "   p.releasedate AS releaseDate," +
-                "   p.unitSold," +
-                "   p.unitprice AS unitPrice," +
-                "   p.STATUS," +
-                "   pd.size," +
-                "   pd.stock," +
-                "   pd.image AS img," +
-                "   pd.color " +
-                "FROM products p " +
-                "JOIN product_details pd ON p.proid = pd.pro_id " +
-                "JOIN categories c ON p.category_id = c.categoryid " +
-                "JOIN types t ON p.type_id = t.typeid " +
-                "JOIN suppliers s ON p.supplier_id = s.suppliersid";
+        query = "SELECT" + "   p.proid AS id," + "   t.NAME AS type," + "   c.NAME AS category," + "   s.suppliersname AS supplier," + "   p.productname AS name," + "   p.DESCRIPTION," + "   p.releasedate AS releaseDate," + "   p.unitSold," + "   p.unitprice AS unitPrice," + "   p.STATUS," + "   pd.size," + "   pd.stock," + "   pd.image AS img," + "   pd.color " + "FROM products p " + "JOIN product_details pd ON p.proid = pd.pro_id " + "JOIN categories c ON p.category_id = c.categoryid " + "JOIN types t ON p.type_id = t.typeid " + "JOIN suppliers s ON p.supplier_id = s.suppliersid";
 
-        return conn.getJdbi().withHandle(h -> {
+        return conn.get().withHandle(h -> {
             return h.createQuery(query).mapToBean(Product.class).list();
         });
     }
@@ -45,7 +26,7 @@ public class ProductDAO {
     public List<Product> getSaleProducts() {
         String query = "";
 
-        return conn.getJdbi().withHandle(h -> {
+        return conn.get().withHandle(h -> {
             return h.createQuery(query).mapToBean(Product.class).list();
         });
     }

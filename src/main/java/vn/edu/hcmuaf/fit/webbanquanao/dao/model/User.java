@@ -2,7 +2,6 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class User implements Serializable {
     private int id;
@@ -11,29 +10,30 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+    private String avatar;
     private String address;
-    private Integer roleId;
+    private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private String roleName;
+    private Integer roleId;
+
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String userName, String passWord, String email, String phone, String address, Integer roleId, Integer status, LocalDateTime createdAt, String roleName) {
+    public User(int id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.userName = userName;
         this.passWord = passWord;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.phone = phone;
+        this.avatar = avatar;
         this.address = address;
-        this.roleId = roleId;
+        this.phone = phone;
         this.status = status;
         this.createdAt = createdAt;
-        this.roleName = roleName;
+        this.roleId = roleId;
     }
 
     public int getId() {
@@ -60,16 +60,16 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Integer getPhone() {
+        return phone;
     }
 
     public Integer getStatus() {
@@ -80,8 +80,8 @@ public class User implements Serializable {
         return createdAt;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public Integer getRoleId() {
+        return roleId;
     }
 
     public void setId(int id) {
@@ -108,16 +108,16 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 
     public void setStatus(Integer status) {
@@ -128,7 +128,7 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }

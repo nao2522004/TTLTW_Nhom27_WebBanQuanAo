@@ -49,11 +49,11 @@
             <form action="login" method="post">
                 <h1>Đăng Nhập</h1>
                 <div class="input-box">
-                    <input type="text" placeholder="UserName" value="<%=username%>" name="username" required>
+                    <input type="text" placeholder="UserName" value="<%=username%>" name="userName" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Mật Khẩu" name="password" required>
+                    <input type="password" placeholder="Mật Khẩu" name="passWord" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>

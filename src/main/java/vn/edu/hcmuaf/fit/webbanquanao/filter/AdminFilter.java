@@ -27,13 +27,11 @@ public class AdminFilter implements Filter {
 
         HttpSession session = request.getSession(true);
         User u = (User) session.getAttribute("auth");
-        if (u == null || u.getRoleName().equalsIgnoreCase("USER")) {
+        if (u == null || u.getRoleId() > 1) {
             response.sendRedirect("../login.jsp");
             return;
         }
 
-        // In thông tin user ra console
-        System.out.println("User logged in: " + u.getUserName() + " | Role ID: " + u.getRoleId());
 
         chain.doFilter(request, response);
     }

@@ -14,31 +14,35 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("auth") == null) {
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        AuthService service = new AuthService();
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("passWord");
 
-        User user = service.checkLogin(username, password, 1);
+        AuthService service = new AuthService();
+        User user = service.checkLogin(userName, password);
 
 
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("auth", user); // Lưu người dùng vào session với tên 'auth'
 
-            if (user.getRoleName().equalsIgnoreCase("ADMIN")) {
+            response.sendRedirect("./index.jsp");
+            if (user.getRoleId() == 1) {
                 response.sendRedirect("./admin.jsp");
-            } else if (user.getRoleName().equalsIgnoreCase("USER")) {
+            } else {
                 response.sendRedirect("./index.jsp");
             }
         } else {
             request.setAttribute("error", "Dang Nhap Khong Thanh Cong");
-            request.getRequestDispatcher("./login.jsp").forward(request, response);
+            request.getRequestDispatcher("./admin.jsp").forward(request, response);
         }
-
 
 
     }
