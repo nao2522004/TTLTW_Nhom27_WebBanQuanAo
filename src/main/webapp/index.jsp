@@ -2,15 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
-<%@ page import="java.util.List" %>
+<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>--%>
+<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>--%>
+<%--<%@ page import="java.util.List" %>--%>
 
-<%
-    ProductService service = new ProductService();
-    List<Product> list = service.getProducts();
-    request.setAttribute("listProducts", list);
-%>
+<%--<%--%>
+<%--    ProductService service = new ProductService();--%>
+<%--    List<Product> list = service.getProducts();--%>
+<%--    request.setAttribute("listProducts", list);--%>
+<%--%>--%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +43,7 @@
         <div class="carousel_caption">
             <h5>
                 <h1> <c:if test="${sessionScope.auth!=null}">
-                    <h1>Chào mừng ${sessionScope.auth.username} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
+                    <h1>Chào mừng ${sessionScope.auth.userName} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
                 </c:if> </h1>
             </h5>
             <p></p>

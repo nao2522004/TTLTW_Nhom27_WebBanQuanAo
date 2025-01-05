@@ -5,59 +5,55 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User implements Serializable {
-    private int user_id;
-    private String firstname;
-    private String lastname;
-    private String username;
-    private String password;
+    private int id;
+    private String userName;
+    private String passWord;
+    private String firstName;
+    private String lastName;
     private String email;
     private String phone;
     private String address;
-    private Integer role;
+    private Integer roleId;
     private Integer status;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private String roleName;
 
     public User() {
     }
 
-    public User(int user_id, String firstname, String lastname, String username, String password, String email, String phone, String address, Integer role, Integer status, LocalDateTime created_at, String roleName) {
-        this.user_id = user_id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.username = username;
-        this.password = password;
+    public User(int id, String firstName, String lastName, String userName, String passWord, String email, String phone, String address, Integer roleId, Integer status, LocalDateTime createdAt, String roleName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.passWord = passWord;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.role = role;
+        this.roleId = roleId;
         this.status = status;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.roleName = roleName;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getId() {
+        return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -72,36 +68,40 @@ public class User implements Serializable {
         return address;
     }
 
-    public Integer getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
     public Integer getStatus() {
         return status;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setEmail(String email) {
@@ -116,16 +116,16 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public void setRole(Integer role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setRoleName(String roleName) {

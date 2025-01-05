@@ -30,7 +30,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("auth", user); // Lưu người dùng vào session với tên 'auth'
 
             if (user.getRoleName().equalsIgnoreCase("ADMIN")) {
-                response.sendRedirect("./index.jsp");
+                response.sendRedirect("./admin.jsp");
             } else if (user.getRoleName().equalsIgnoreCase("USER")) {
                 response.sendRedirect("./index.jsp");
             }
