@@ -1,4 +1,8 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.model;
+package vn.edu.hcmuaf.fit.webbanquanao.service;
+
+import vn.edu.hcmuaf.fit.webbanquanao.dao.CartDao;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.model.CartProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +13,13 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Cart {
 
-    Map<Integer, CartProduct> data = new HashMap<>();
+    Map<Integer, CartProduct> data ;
+    CartDao dao;
 
-
+    public Cart(){
+        this.dao = new CartDao();
+        this.data = dao.getCartProducts();
+    }
     public boolean add(Product p){
         if (data.containsKey(p.getId())){
             update(p.getId(), data.get(p.getId()).getQuantity()+1);
@@ -34,7 +42,7 @@ public class Cart {
         return data.remove(id) != null;
     }
 
-    public List<CartProduct> List(){
+    public List<CartProduct> getList(){
         return new ArrayList<>(data.values());
     }
 
@@ -58,7 +66,6 @@ public class Cart {
         result.setQuantity(1);
 
         return result;
-
     }
 
 }

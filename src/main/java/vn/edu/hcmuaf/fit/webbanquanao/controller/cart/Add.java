@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Cart;
+import vn.edu.hcmuaf.fit.webbanquanao.service.Cart;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 import vn.edu.hcmuaf.fit.webbanquanao.service.ProductService;
 
