@@ -3,14 +3,25 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDAO {
+    static Map<Integer, Product> data = new HashMap<>();
+
     JDBIConnector conn;
     String query;
 
     public ProductDAO() {
         conn = new JDBIConnector();
+    }
+
+    public static Product getById(int id) {
+        if (!data.containsKey(id)) {
+            return null;
+        }
+        return data.get(id);
     }
 
     // Get all products
