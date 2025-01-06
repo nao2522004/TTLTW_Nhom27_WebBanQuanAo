@@ -168,6 +168,6 @@ public class Product implements Serializable {
                 ", stock=" + stock +
                 ", img='" + img + '\'' +
                 ", color='" + color + '\'' +
-                '}';
+                "} \n";
     }
 }
