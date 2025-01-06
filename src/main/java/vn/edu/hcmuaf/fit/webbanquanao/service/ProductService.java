@@ -56,6 +56,19 @@ public class ProductService {
         return list;
     }
 
+    // Get products by category
+    public List<Product> getProductsByCategory(String category) {
+        List<Product> list = new ArrayList<>();
+        Map<Integer, Product> uniqueProducts = new HashMap<>();
+        for (Product product : dao.getProductsByCategory(category)) {
+            if(!uniqueProducts.containsKey(product.getId())) {
+                uniqueProducts.put(product.getId(), product);
+                list.add(product);
+            }
+        }
+        return list;
+    }
+
     public Product getDetail(String pro){
         try {
             int id = Integer.parseInt(pro);

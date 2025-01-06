@@ -120,8 +120,37 @@ public class ProductDAO {
         });
     }
 
+    // Get list products by category
+    public List<Product> getProductsByCategory(String category) {
+        query = "SELECT" +
+                "   p.id AS id," +
+                "   t.name AS type," +
+                "   c.name AS category," +
+                "   s.supplierName AS supplier," +
+                "   p.productname AS name," +
+                "   p.description," +
+                "   p.releaseDate AS releaseDate," +
+                "   p.unitSold," +
+                "   p.unitPrice AS unitPrice," +
+                "   p.status," +
+                "   pd.size," +
+                "   pd.stock," +
+                "   pd.image AS img," +
+                "   pd.color " +
+                "FROM products p " +
+                "JOIN product_details pd ON p.id = pd.productId " +
+                "JOIN categories c ON p.categoryId = c.id " +
+                "JOIN types t ON p.typeId = t.id " +
+                "JOIN suppliers s ON p.supplierId = s.id " +
+                "WHERE c.name = :category";
+
+        return conn.get().withHandle(h -> {
+            return h.createQuery(query).bind("category", category).mapToBean(Product.class).list();
+        });
+    }
+
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        System.out.println(dao.getBestSellingProducts());
+        System.out.println(dao.getProductsByCategory("Nam"));
     }
 }

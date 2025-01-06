@@ -5,14 +5,14 @@
 <html lang="en">
 
 <head>
-    <%@ include file="assets/includes/head.jsp"%>
+    <jsp:include page="assets/includes/head.jsp" />
     <title>Đồ nam</title>
-    <link rel="stylesheet" href="./assets/css/men.css">
-    <link rel="stylesheet" href="./assets/css/responsive_luat.css">
+    <link rel="stylesheet" href="assets/css/men.css">
+    <link rel="stylesheet" href="assets/css/responsive_luat.css">
 </head>
 
 <body>
-    <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
+    <header id="header"><jsp:include page="assets/includes/header.jsp" /></header>
     <!-- Make a space to split the other out of header -->
     <div style="height: 12rem;"></div>
 
@@ -24,10 +24,10 @@
     <!-- Featured -->
     <section id="section_featured" class="container">
         <div class="row">
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/2.jpg" alt="" class="w-100"></a>
-            <a href="collection-summer" class="col-md-3"><img src="assets/imgs/men/featured/3.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/4.jpg" alt="" class="w-100"></a>
-            <a href="collection-winter" class="col-md-3"><img src="assets/imgs/men/featured/5.jpg" alt="" class="w-100"></a>
+            <a href="" class="col-md-3"><img src="assets/imgs/men/featured/2.jpg" alt="" class="w-100"></a>
+            <a href="" class="col-md-3"><img src="assets/imgs/men/featured/3.jpg" alt="" class="w-100"></a>
+            <a href="" class="col-md-3"><img src="assets/imgs/men/featured/4.jpg" alt="" class="w-100"></a>
+            <a href="" class="col-md-3"><img src="assets/imgs/men/featured/5.jpg" alt="" class="w-100"></a>
         </div>
     </section>
 
@@ -151,7 +151,7 @@
                     <div class="container mt-2">
                         <div class="row">
                             <!-- Product Card 1 -->
-                            <c:forEach var="p" items="${products}">
+                            <c:forEach var="p" items="${allProducts}">
                                 <div class="col-md-3 mt-4">
                                     <div class="product-card" onclick="redirectToProductPage()">
                                         <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
@@ -162,7 +162,7 @@
                                 </div>
                             </c:forEach>
 
-                            <c:if test="${empty products}">
+                            <c:if test="${empty allProducts}">
                                 <h2 class="display-4 mt-5 text-center w-100">Không có sản phẩm nào.</h2>
                             </c:if>
                         </div>
@@ -182,7 +182,7 @@
         </div>
     </section>
 
-    <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
+    <footer id="footer"><jsp:include page="assets/includes/footer.jsp"/></footer>
 
     <!-- Pagination -->
     <script>
@@ -280,7 +280,7 @@
             window.location.href = 'products_detail.jsp';
         }
     </script>
-    <%@ include file="assets/includes/foot.jsp"%>
+    <jsp:include page="assets/includes/foot.jsp"/>
 </body>
 
 </html>
