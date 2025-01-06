@@ -6,9 +6,13 @@ import org.jdbi.v3.core.Jdbi;
 import java.sql.SQLException;
 
 public class JDBIConnector {
-    private Jdbi jdbi;
+    private static Jdbi jdbi;
 
-    public void connect() {
+    public static Jdbi get() {
+        if(jdbi == null) connect();
+        return jdbi;
+    }
+    public static void connect() {
         MysqlDataSource ds = new MysqlDataSource();
         ds.setURL("jdbc:mysql://" + Properties.HOST + ":" + Properties.PORT + "/" + Properties.DBNAME);
         ds.setUser(Properties.USERNAME);
@@ -22,8 +26,4 @@ public class JDBIConnector {
         jdbi = Jdbi.create(ds);
     }
 
-    public Jdbi getJdbi() {
-        if(jdbi == null) connect();
-        return jdbi;
-    }
 }

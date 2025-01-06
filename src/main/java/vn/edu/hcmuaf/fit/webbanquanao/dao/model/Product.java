@@ -19,6 +19,7 @@ public class Product implements Serializable {
     private String img;
     private String color;
 
+
     public Product() {}
 
     public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status, String size, int stock, String img, String color) {

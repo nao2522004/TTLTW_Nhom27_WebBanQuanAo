@@ -26,4 +26,13 @@ public class ProductService {
 
         return list;
     }
+
+    public Product getDetail(String pro){
+        try {
+            int id = Integer.parseInt(pro);
+            return ProductDAO.getById(id);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }

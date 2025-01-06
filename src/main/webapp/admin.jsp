@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,6 @@
 
 <body>
     <div class="container--admin">
-
         <aside>
             <div class="top">
                 <div class="logo">
@@ -34,7 +35,7 @@
             </div>
 
             <div class="sidebar">
-                <a class="active" href="#" onclick="showMain(event, 'dashboard')">
+                <a class="active" href="/admin" onclick="showMain(event, 'dashboard')">
                     <span class="material-icons-sharp"> dashboard </span>
                     <h3>Bảng thông tin</h3>
                 </a>

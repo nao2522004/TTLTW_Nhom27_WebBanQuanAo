@@ -1,0 +1,71 @@
+package vn.edu.hcmuaf.fit.webbanquanao.service;
+
+import vn.edu.hcmuaf.fit.webbanquanao.dao.CartDao;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.model.CartProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
+public class Cart {
+
+    Map<Integer, CartProduct> data ;
+    CartDao dao;
+
+    public Cart(){
+        this.dao = new CartDao();
+        this.data = dao.getCartProducts();
+    }
+    public boolean add(Product p){
+        if (data.containsKey(p.getId())){
+            update(p.getId(), data.get(p.getId()).getQuantity()+1);
+            return true;
+        }
+        data.put(p.getId(), convert(p));
+        return true;
+    }
+
+    public boolean update(int id, int quantity){
+        if(!data.containsKey(id)){
+            return false;
+        }
+        CartProduct cp = data.get(id);
+        cp.setQuantity(quantity);
+        return true;
+    }
+
+    public boolean remove(int id){
+        return data.remove(id) != null;
+    }
+
+    public List<CartProduct> getList(){
+        return new ArrayList<>(data.values());
+    }
+
+    public int getTotalQuantity(){
+        AtomicInteger i = new AtomicInteger(0);
+        data.forEach((k,v)-> i.addAndGet(v.getQuantity()));
+        return i.get();
+    }
+    public Double getTotal(){
+        AtomicReference<Double> d  = new AtomicReference<>(0.0);
+        data.values().forEach((cp)-> d.updateAndGet(v->v+ (cp.getQuantity()) * cp.getUnitPrice() ));
+        return d.get();
+    }
+
+    public CartProduct convert(Product p){
+        CartProduct result = new CartProduct();
+        result.setId(p.getId());
+        result.setName(p.getName());
+        result.setUnitPrice(p.getUnitPrice());
+        result.setImg(p.getImg());
+        result.setQuantity(1);
+
+        return result;
+    }
+
+}

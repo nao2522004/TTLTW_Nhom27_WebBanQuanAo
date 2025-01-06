@@ -1,14 +1,26 @@
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
-<%@ page import="java.util.List" %>
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<<<<<<< HEAD
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     ProductService service = new ProductService();
     List<Product> list = service.getAllProducts();
     request.setAttribute("listProducts", list);
 %>
+=======
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>--%>
+<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>--%>
+<%--<%@ page import="java.util.List" %>--%>
+
+<%--<%--%>
+<%--    ProductService service = new ProductService();--%>
+<%--    List<Product> list = service.getProducts();--%>
+<%--    request.setAttribute("listProducts", list);--%>
+<%--%>--%>
+
+>>>>>>> 41dcb4097205b1a57b33c1a1f97771d334b8faec
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,7 +50,11 @@
 
         <!-- Carousel captions -->
         <div class="carousel_caption">
-            <h5></h5>
+            <h5>
+                <h1> <c:if test="${sessionScope.auth!=null}">
+                    <h1>Chào mừng ${sessionScope.auth.userName} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
+                </c:if> </h1>
+            </h5>
             <p></p>
             <a href="#" class="btn btn-link">Discover</a>
         </div>
