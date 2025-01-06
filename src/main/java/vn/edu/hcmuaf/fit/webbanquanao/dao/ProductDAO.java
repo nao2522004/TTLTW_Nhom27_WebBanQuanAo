@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.model.SaleProduct;
 
 import java.util.List;
 
@@ -42,25 +43,35 @@ public class ProductDAO {
     }
 
     // Get sale products
-    public List<Product> getSaleProducts() {
-        String query = "";
+    public List<SaleProduct> getSaleProducts() {
+        query = "SELECT" +
+                "   p.proid AS id," +
+                "   p.productname AS name," +
+                "   p.DESCRIPTION," +
+                "   p.releasedate AS releaseDate," +
+                "   p.unitSold," +
+                "   p.unitprice AS unitPrice," +
+                "   p.STATUS," +
+                "   pd.size," +
+                "   pd.stock," +
+                "   pd.image AS img," +
+                "   pd.color " +
+                "   s.sales_name " +
+                "   s.sales_description " +
+                "   s.start_date " +
+                "   s.end_date " +
+                "FROM products p " +
+                "JOIN product_details pd ON p.proid = pd.pro_id " +
+                "JOIN sales_product sp ON p.proid = sp.product_id " +
+                "JOIN sales s ON sp.sales_id = s.salesid";
 
         return conn.getJdbi().withHandle(h -> {
-            return h.createQuery(query).mapToBean(Product.class).list();
+            return h.createQuery(query).mapToBean(SaleProduct.class).list();
         });
     }
 
-    // Lay ra danh sach san pham theo so luong va category
-//    public List<Product> getProducts(int total, String category) {
-//        query = "SELECT top(?) * FROM products p "
-//                + "JOIN categories c ON p.category_id = c.id "
-//                + "WHERE c.name = ?";
-//        return conn.getJdbi().withHandle(h -> {
-//            return h.createQuery(query)
-//                    .bind(0, total)
-//                    .bind(1, category)
-//                    .mapToBean(Product.class)
-//                    .list();
-//        });
-//    }
+    // Get best-selling products
+    public List<Product> getBestSellingProducts() {
+        return null;
+    }
 }

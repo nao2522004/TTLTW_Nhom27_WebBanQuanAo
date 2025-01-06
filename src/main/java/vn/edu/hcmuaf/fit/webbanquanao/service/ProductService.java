@@ -9,19 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductService {
-    ProductDAO dao = new ProductDAO();
+    ProductDAO dao;
 
-    // Lay ra tat ca san pham
+    // Get all products
     public List<Product> getAllProducts() {
-        return dao.getAllProducts();
-    }
-
-    // Lay ra danh sach san pham theo so luong va category
-//    public List<Product> getProducts(int total, String category) {
-//        return dao.getProducts(total, category);
-//    }
-
-    public List<Product> getProducts() {
+        dao = new ProductDAO();
         List<Product> list = new ArrayList<>();
         Map<Integer, Product> uniqueProducts = new HashMap<>();
 

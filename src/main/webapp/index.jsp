@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     ProductService service = new ProductService();
-    List<Product> list = service.getProducts();
+    List<Product> list = service.getAllProducts();
     request.setAttribute("listProducts", list);
 %>
 <!DOCTYPE html>
