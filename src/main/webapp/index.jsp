@@ -74,11 +74,15 @@
                 <c:forEach var="p" items="${saleProducts}" end="3">
                     <!-- Item 1 -->
                     <div class="col-md-3">
-                        <div class="item">
-                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
-                            <h4>${p.name}</h4>
-                            <div class="product-price" data-price="${p.unitPrice}"></div>
-                        </div>
+                        <a href="productDetail?pid=${p.id}" class="item-link">
+                            <div class="item">
+                                <img src="assets/product-imgs/${p.img}" alt="${p.name}">
+                                <h4>${p.name}</h4>
+                                <div class="product-price" data-price="${p.unitPrice}">
+                                    Giá: ${p.unitPrice} VND
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </c:forEach>
 

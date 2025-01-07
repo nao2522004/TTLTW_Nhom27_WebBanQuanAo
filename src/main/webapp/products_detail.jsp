@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,8 +50,8 @@
     <!-- Product Info -->
     <div class="col-md-6 product-info">
 
-            <h1>Quần dài Kaki dáng Baggy ống suông cạp chun Unisex nam</h1>
-            <div class="price">250.000 đ</div>
+            <h1>${p.name}</h1>
+            <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
             <!-- Color options -->
             <div class="color-options">
                 <h5>Choose color:</h5>
@@ -83,12 +84,10 @@
                 <button class="btn btn-outline-secondary" id="increase-btn">+</button>
             </div>
             <!-- Buttons: add to cart, buy -->
-        <c:forEach var="p" items="$data">
             <div class="mt-5">
-                <a class="add_to_cart_btn" href="add-cart?pro=${p.id}">Add to cart</a>
+                <a class="add_to_cart_btn" href="add-cart?pro=">Add to cart</a>
                 <a href="cart.jsp" class="buy_btn">Buy now</a>
             </div>
-        </c:forEach>
     </div>
 </section>
 

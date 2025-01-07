@@ -72,7 +72,7 @@ public class ProductService {
     public Product getDetail(String pro){
         try {
             int id = Integer.parseInt(pro);
-            return ProductDAO.getById(id);
+            return dao.getById(id);
         } catch (NumberFormatException e) {
             return null;
         }
