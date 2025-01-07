@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.Product" %>
 <%@ page import="java.util.List" %>
 
 <%

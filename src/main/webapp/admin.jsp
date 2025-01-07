@@ -44,7 +44,7 @@
                 <span class="material-icons-sharp"> receipt_long </span>
                 <h3>Đơn hàng</h3>
             </a>
-            <a href="adminUserController" onclick="showMain(event, 'adminUserController')">
+            <a href="admin/manager-users" onclick="showMain(event, 'admin/manager-users')">
                 <span class="material-icons-sharp"> person_outline </span>
                 <h3>Người dùng</h3>
             </a>
@@ -360,144 +360,97 @@
 ---------------------------------------------------------
 ---------------------------------------------------------->
 
-    <main id="adminUserController">
-        <h1>Quản lý người dùng</h1>
-        <div class="dash-top">
+        <main id="admin/manager-users">
+            <h1>Quản lý người dùng</h1>
+            <div class="dash-top">
 
 
-            <div class="date">
-                <input type="date"/>
+                <div class="date">
+                    <input type="date"/>
+                </div>
+
+                <div class="search-card">
+                    <form id="search-form">
+                        <div class="search-group">
+                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                            <button type="submit" class="search-button">
+                                <span class="material-icons-sharp">search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
 
-            <div class="search-card">
-                <form id="search-form">
-                    <div class="search-group">
-                        <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                        <button type="submit" class="search-button">
-                            <span class="material-icons-sharp">search</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
 
-        </div>
-
-
-        <div class="insights">
-            <!-- Tổng khách hàng -->
-            <div class="sales">
-                    <span class="material-icons-sharp">
-                        group
-                    </span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Tổng Người Dùng</h3>
-                        <h1>10000</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx="38" cy="38" r="36"></circle>
-                        </svg>
-                        <div class="number">
-                            <p>81%</p>
+            <div class="insights">
+                <!-- Tổng khách hàng -->
+                <div class="sales">
+                        <span class="material-icons-sharp">
+                            group
+                        </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Tổng Người Dùng</h3>
+                            <h1>10000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>81%</p>
+                            </div>
                         </div>
                     </div>
+                    <small class="text-muted"> Last 24 hours </small>
                 </div>
-                <small class="text-muted"> Last 24 hours </small>
-            </div>
 
-            <!-- Khách hàng online -->
-            <div class="expenses" style="opacity: 0;">
-                <span class="material-icons-sharp"> person </span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Người Dùng online</h3>
-                        <h1>1000</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx="38" cy="38" r="36"></circle>
-                        </svg>
-                        <div class="number">
-                            <p>62%</p>
+                <!-- Khách hàng online -->
+                <div class="expenses" style="opacity: 0;">
+                    <span class="material-icons-sharp"> person </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Người Dùng online</h3>
+                            <h1>1000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
                         </div>
                     </div>
+                    <small class="text-muted"> Last 24 hours </small>
                 </div>
-                <small class="text-muted"> Last 24 hours </small>
-            </div>
 
-            <!-- Khách hàng online -->
-            <div class="expenses" style="opacity: 0;">
-                <span class="material-icons-sharp"> person </span>
-                <div class="middle">
-                    <div class="left">
-                        <h3>Người Dùng online</h3>
-                        <h1>1000</h1>
-                    </div>
-                    <div class="progress">
-                        <svg>
-                            <circle cx="38" cy="38" r="36"></circle>
-                        </svg>
-                        <div class="number">
-                            <p>62%</p>
+                <!-- Khách hàng online -->
+                <div class="expenses" style="opacity: 0;">
+                    <span class="material-icons-sharp"> person </span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>Người Dùng online</h3>
+                            <h1>1000</h1>
+                        </div>
+                        <div class="progress">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="number">
+                                <p>62%</p>
+                            </div>
                         </div>
                     </div>
+                    <small class="text-muted"> Last 24 hours </small>
                 </div>
-                <small class="text-muted"> Last 24 hours </small>
             </div>
-        </div>
 
 
-        <div class="recent-orders">
-            <h2>Danh Sách Người Dùng</h2>
-            <table id="users--table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Tên</th>
-                    <th>Tài khoản</th>
-                    <th>Họ</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Avatar</th>
-                    <th>Địa chỉ</th>
-                    <th>SDT</th>
-                    <th>Ngày tạo</th>
-                    <th>Quyền</th>
-                </tr>
-                </thead>
-                <!-- Add tbody here | JS insertion -->
-                <tbody>
-                <c:forEach var="user" items="${userList}">
-                    <tr>
-                        <td>${user.id}</td>
-                        <td>${user.userName}</td>
-                        <td>${user.firstName}</td>
-                        <td>${user.lastName}</td>
-                        <td>${user.email}</td>
-                        <td>${user.avatar}</td>
-                        <td>${user.address}</td>
-                        <td>${user.phone}</td>
-                        <td>${user.status}</td>
-                        <td>${user.createdAt}</td>
-                        <td>${user.roleId}</td>
-                        <td class="primary">
-                            <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span>
-                            <span class="material-icons-sharp"> delete </span>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <a href="#">Show All</a>
-        </div>
-
-        <!-- edit users -->
-        <div class="overlay">
-            <div class="recent-orders popup">
-                <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
-                <h2>Chỉnh Sửa Người Dùng</h2>
-                <table id="user_edit--table">
+            <div class="recent-orders">
+                <h2>Danh Sách Người Dùng</h2>
+                <table id="users--table">
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -510,15 +463,42 @@
                         <th>Địa chỉ</th>
                         <th>SDT</th>
                         <th>Ngày tạo</th>
-                        <th>Id Quyền</th>
+                        <th>Quyền</th>
                     </tr>
                     </thead>
                     <!-- Add tbody here | JS insertion -->
+                    </tbody>
                 </table>
                 <a href="#">Show All</a>
             </div>
-        </div>
-    </main>
+
+            <!-- edit users -->
+            <div class="overlay">
+                <div class="recent-orders popup">
+                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                    <h2>Chỉnh Sửa Người Dùng</h2>
+                    <table id="user_edit--table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tên</th>
+                            <th>Tài khoản</th>
+                            <th>Họ</th>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Avatar</th>
+                            <th>Địa chỉ</th>
+                            <th>SDT</th>
+                            <th>Ngày tạo</th>
+                            <th>Id Quyền</th>
+                        </tr>
+                        </thead>
+                        <!-- Add tbody here | JS insertion -->
+                    </table>
+                    <a href="#">Show All</a>
+                </div>
+            </div>
+        </main>
 
     <!--------------------------------------------------------
 ---------------------------------------------------------
@@ -1090,6 +1070,8 @@
 <script src="./assets/js/admin-data/order-details-data.js"></script>
 <script src="./assets/js/admin-data/others-data.js"></script>
 <script src="./assets/js/admin.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
 </body>
 

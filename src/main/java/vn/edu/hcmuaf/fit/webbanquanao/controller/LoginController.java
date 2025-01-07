@@ -3,8 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Role;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.service.AuthService;
 
 import java.io.IOException;

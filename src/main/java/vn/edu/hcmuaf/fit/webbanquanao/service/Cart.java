@@ -1,11 +1,10 @@
 package vn.edu.hcmuaf.fit.webbanquanao.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.CartDao;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.CartProduct;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.model.CartProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;

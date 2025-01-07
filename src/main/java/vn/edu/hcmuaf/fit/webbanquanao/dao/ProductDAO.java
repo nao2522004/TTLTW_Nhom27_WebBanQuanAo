@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
 import java.util.HashMap;
 import java.util.List;

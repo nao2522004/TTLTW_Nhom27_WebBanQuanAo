@@ -1,13 +1,11 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserDao implements CRUIDDao {
@@ -36,6 +34,7 @@ public class UserDao implements CRUIDDao {
                     user.setAvatar(rs.getString("avatar"));
                     user.setAddress(rs.getString("address"));
                     user.setPhone(rs.getInt("phone"));
+                    user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                     user.setStatus(rs.getInt("status"));
                     user.setRoleId(rs.getInt("roleId"));
                     users.put(user.getUserName(), user);

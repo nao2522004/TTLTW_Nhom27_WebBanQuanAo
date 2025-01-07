@@ -1,14 +1,12 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.CartProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.model.CartProduct;
 
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CartDao {
