@@ -41,11 +41,9 @@
 
         <!-- Carousel captions -->
         <div class="carousel_caption">
-            <h5>
-                <h1> <c:if test="${sessionScope.auth!=null}">
-                    <h1>Chào mừng ${sessionScope.auth.userName} : ${sessionScope.auth.roleName}  đến với trang web của chúng tôi</h1>
-                </c:if> </h1>
-            </h5>
+             <h5>   <c:if test="${sessionScope.auth!=null}">
+                    <h1>Chào mừng ${sessionScope.auth.firstName} : ${sessionScope.auth.roleId}  đến với trang web của chúng tôi</h1>
+                </c:if> </h5>
             <p></p>
             <a href="#" class="btn btn-link">Discover</a>
         </div>
@@ -62,27 +60,27 @@
     </div>
 
     <!-- Sale products -->
-    <section id="section_sale">
-        <div class="container">
-            <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>
-            <div class="row">
-                <c:forEach var="p" items="${listProducts}" end="3">
-                    <!-- Item 1 -->
-                    <div class="col-md-3">
-                        <div class="item">
-                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
-                            <h4>${p.name}</h4>
-                            <div class="product-price" data-price="${p.unitPrice}"></div>
-                        </div>
-                    </div>
-                </c:forEach>
+<%--    <section id="section_sale">--%>
+<%--        <div class="container">--%>
+<%--            <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>--%>
+<%--            <div class="row">--%>
+<%--                <c:forEach var="p" items="${listProducts}" end="3">--%>
+<%--                    <!-- Item 1 -->--%>
+<%--                    <div class="col-md-3">--%>
+<%--                        <div class="item">--%>
+<%--                            <img src="assets/product-imgs/${p.img}" alt="Image 1">--%>
+<%--                            <h4>${p.name}</h4>--%>
+<%--                            <div class="product-price" data-price="${p.unitPrice}"></div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </c:forEach>--%>
 
-                <c:if test="${empty listProducts}">
-                    <h1>không có sản phẩm.</h1>
-                </c:if>
-            </div>
-        </div>
-    </section>
+<%--                <c:if test="${empty listProducts}">--%>
+<%--                    <h1>không có sản phẩm.</h1>--%>
+<%--                </c:if>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </section>--%>
 
     <!-- Collections -->
     <section id="section_banner_collection" class="container-fluid p-0">

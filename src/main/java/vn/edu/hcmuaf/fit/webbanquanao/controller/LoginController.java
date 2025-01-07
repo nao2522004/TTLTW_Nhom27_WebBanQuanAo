@@ -33,7 +33,6 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("auth", user); // Lưu người dùng vào session với tên 'auth'
 
-            response.sendRedirect("./index.jsp");
             if (user.getRoleId() == 1) {
                 response.sendRedirect("./admin.jsp");
             } else {
@@ -41,7 +40,7 @@ public class LoginController extends HttpServlet {
             }
         } else {
             request.setAttribute("error", "Dang Nhap Khong Thanh Cong");
-            request.getRequestDispatcher("./admin.jsp").forward(request, response);
+            request.getRequestDispatcher("./about.jsp").forward(request, response);
         }
 
 

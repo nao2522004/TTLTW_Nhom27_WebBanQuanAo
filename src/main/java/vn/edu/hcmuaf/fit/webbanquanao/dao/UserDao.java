@@ -5,22 +5,26 @@ import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class UserDao {
-    public static Map<String, User> listUser = getAllUser();
+public class UserDao implements CRUIDDao {
+
+    public Map<String, User> listUser;
 
     public UserDao() {
-
+        listUser = getAllUser();
     }
 
-    public static Map<String, User> getAllUser() {
+    public Map<String, User> getAllUser() {
         Map<String, User> users = new HashMap<>();
         String sql = "SELECT * FROM users ORDER BY id DESC";
 
-        JDBIConnector.get().withHandle(handle -> {
-            try (ResultSet rs = handle.getConnection().createStatement().executeQuery(sql)) {
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     User user = new User();
                     user.setId(rs.getInt("id"));
@@ -32,17 +36,82 @@ public class UserDao {
                     user.setAvatar(rs.getString("avatar"));
                     user.setAddress(rs.getString("address"));
                     user.setPhone(rs.getInt("phone"));
-                    user.setCreatedAt(rs.getDate("createAt").toLocalDate().atStartOfDay());
+                    user.setStatus(rs.getInt("status"));
                     user.setRoleId(rs.getInt("roleId"));
                     users.put(user.getUserName(), user);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Loi khi lay danh sach user: " + e.getMessage());
             }
             return users;
         });
-        return users;
     }
 
+    @Override
+    public boolean create(Object obj) {
+        User user = (User) obj;
+        listUser.put(user.getUserName(), user);
+        String sql = "INSERT INTO users (userName, passWord, firstName, lastName, email, avatar, address, phone, status, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getPassWord());
+                ps.setString(3, user.getFirstName());
+                ps.setString(4, user.getLastName());
+                ps.setString(5, user.getEmail());
+                ps.setString(6, user.getAvatar());
+                ps.setString(7, user.getAddress());
+                ps.setInt(8, user.getPhone());
+                ps.setInt(9, user.getStatus());
+                ps.setInt(10, user.getRoleId());
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi tạo user: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
+    @Override
+    public boolean update(Object obj, String userName) {
+        return JDBIConnector.get().withHandle(handle -> {
+            User user = (User) obj;
+            listUser.replace(userName, user);
+            String sql = "UPDATE users SET userName = ?, passWord = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, roleId = ? WHERE userName ='" + userName + "'";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getPassWord());
+                ps.setString(3, user.getFirstName());
+                ps.setString(4, user.getLastName());
+                ps.setString(5, user.getEmail());
+                ps.setString(6, user.getAvatar());
+                ps.setString(7, user.getAddress());
+                ps.setInt(8, user.getPhone());
+                ps.setInt(9, user.getStatus());
+                ps.setInt(10, user.getRoleId());
+                ps.setString(11, userName);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi update user: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
+
+    @Override
+    public boolean delete(String userName) {
+        listUser.remove(userName);
+        return JDBIConnector.get().withHandle(handle -> {
+            String sql = "DELETE FROM users WHERE userName = '" + userName + "'";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi xoa user: " + e.getMessage());
+            }
+            return false;
+        });
+    }
 
 }
