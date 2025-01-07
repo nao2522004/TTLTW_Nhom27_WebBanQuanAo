@@ -21,13 +21,4 @@ public class AuthService {
         return null;
     }
 
-    public Map<String, User> showuser(){
-        UserDao uDao = new UserDao();
-        return uDao.listUser;
-    }
-
-    public static void main(String[] args) {
-        AuthService authService = new AuthService();
-        System.out.println(authService.showuser());
-    }
 }

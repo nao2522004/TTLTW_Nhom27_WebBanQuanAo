@@ -502,6 +502,7 @@ main .recent-orders h2 {
 main .recent-orders table {
   background: var(--color-white);
   width: 100%;
+  table-layout: auto;
   border-radius: var(--card-border-radius);
   padding: var(--card-padding);
   text-align: center;
@@ -543,9 +544,9 @@ main .overlay.block {
 
 main .popup {
   position: relative;
-  transform: translate(33%, 100%);
+  transform: translate(19%, 95%);
   background: var(--color-white);
-  width: 59.5%;
+  width: 75%;
   border-radius: var(--card-border-radius);
   padding: var(--card-padding);
   text-align: center;
@@ -735,6 +736,7 @@ main .popup td input {
 
   main .recent-orders table {
     width: 83vw;
+    table-layout: fixed;
   }
   /* main .recent-orders table thead tr th:first-child,
   main .recent-orders table thead tr th:last-child {

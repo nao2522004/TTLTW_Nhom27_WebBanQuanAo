@@ -360,128 +360,127 @@
 ---------------------------------------------------------
 ---------------------------------------------------------->
 
-        <main id="admin/manager-users">
-            <h1>Quản lý người dùng</h1>
-            <div class="dash-top">
+    <main id="admin/manager-users">
+        <h1>Quản lý người dùng</h1>
+        <div class="dash-top">
 
 
-                <div class="date">
-                    <input type="date"/>
-                </div>
-
-                <div class="search-card">
-                    <form id="search-form">
-                        <div class="search-group">
-                            <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                            <button type="submit" class="search-button">
-                                <span class="material-icons-sharp">search</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
+            <div class="date">
+                <input type="date"/>
             </div>
 
+            <div class="search-card">
+                <form id="search-form">
+                    <div class="search-group">
+                        <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
+                        <button type="submit" class="search-button">
+                            <span class="material-icons-sharp">search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-            <div class="insights">
-                <!-- Tổng khách hàng -->
-                <div class="sales">
+        </div>
+
+
+        <div class="insights">
+            <!-- Tổng khách hàng -->
+            <div class="sales">
                         <span class="material-icons-sharp">
                             group
                         </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Tổng Người Dùng</h3>
-                            <h1>10000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>81%</p>
-                            </div>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Tổng Người Dùng</h3>
+                        <h1>10000</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx="38" cy="38" r="36"></circle>
+                        </svg>
+                        <div class="number">
+                            <p>81%</p>
                         </div>
                     </div>
-                    <small class="text-muted"> Last 24 hours </small>
                 </div>
-
-                <!-- Khách hàng online -->
-                <div class="expenses" style="opacity: 0;">
-                    <span class="material-icons-sharp"> person </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Người Dùng online</h3>
-                            <h1>1000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
-
-                <!-- Khách hàng online -->
-                <div class="expenses" style="opacity: 0;">
-                    <span class="material-icons-sharp"> person </span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Người Dùng online</h3>
-                            <h1>1000</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted"> Last 24 hours </small>
-                </div>
+                <small class="text-muted"> Last 24 hours </small>
             </div>
 
-
-            <div class="recent-orders">
-                <h2>Danh Sách Người Dùng</h2>
-                <table id="users--table">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Tên</th>
-                        <th>Tài khoản</th>
-                        <th>Họ</th>
-                        <th>Tên</th>
-                        <th>Email</th>
-                        <th>Avatar</th>
-                        <th>Địa chỉ</th>
-                        <th>SDT</th>
-                        <th>Ngày tạo</th>
-                        <th>Quyền</th>
-                    </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                    </tbody>
-                </table>
-                <a href="#">Show All</a>
+            <!-- Khách hàng online -->
+            <div class="expenses" style="opacity: 0;">
+                <span class="material-icons-sharp"> person </span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Người Dùng online</h3>
+                        <h1>1000</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx="38" cy="38" r="36"></circle>
+                        </svg>
+                        <div class="number">
+                            <p>62%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted"> Last 24 hours </small>
             </div>
 
-            <!-- edit users -->
-            <div class="overlay">
-                <div class="recent-orders popup">
-                    <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
-                    <h2>Chỉnh Sửa Người Dùng</h2>
+            <!-- Khách hàng online -->
+            <div class="expenses" style="opacity: 0;">
+                <span class="material-icons-sharp"> person </span>
+                <div class="middle">
+                    <div class="left">
+                        <h3>Người Dùng online</h3>
+                        <h1>1000</h1>
+                    </div>
+                    <div class="progress">
+                        <svg>
+                            <circle cx="38" cy="38" r="36"></circle>
+                        </svg>
+                        <div class="number">
+                            <p>62%</p>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted"> Last 24 hours </small>
+            </div>
+        </div>
+
+
+        <div class="recent-orders">
+            <h2>Danh Sách Người Dùng</h2>
+            <table id="users--table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tài khoản</th>
+                    <th>Họ</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Avatar</th>
+                    <th>Địa chỉ</th>
+                    <th>SDT</th>
+                    <th>Ngày tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Quyền</th>
+                </tr>
+                </thead>
+                <!-- Add tbody here | JS insertion -->
+            </table>
+            <a href="#">Show All</a>
+        </div>
+
+        <!-- edit users -->
+        <div class="overlay">
+            <div class="recent-orders popup">
+                <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
+                <h2>Chỉnh Sửa Người Dùng</h2>
+                <form id="user-edit-form" method="POST" action="admin/manager-users">
                     <table id="user_edit--table">
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Tên</th>
                             <th>Tài khoản</th>
                             <th>Họ</th>
                             <th>Tên</th>
@@ -490,15 +489,44 @@
                             <th>Địa chỉ</th>
                             <th>SDT</th>
                             <th>Ngày tạo</th>
-                            <th>Id Quyền</th>
+                            <th>Trạng thái</th>
+                            <th>Quyền</th>
                         </tr>
                         </thead>
-                        <!-- Add tbody here | JS insertion -->
+
+                        <tbody>
+                        <!-- Các trường nhập sẽ được thêm vào ở đây qua JavaScript hoặc từ server -->
+                        <tr>
+                            <td><input type="text" name="id" id="edit-id" readonly></td>
+                            <td><input type="text" name="username" id="edit-username" required></td>
+                            <td><input type="text" name="lastName" id="edit-lastName" required></td>
+                            <td><input type="text" name="firstName" id="edit-firstName" required></td>
+                            <td><input type="email" name="email" id="edit-email" required></td>
+                            <td><input type="file" name="avatar" id="edit-avatar"></td>
+                            <td><input type="text" name="address" id="edit-address" required></td>
+                            <td><input type="text" name="phone" id="edit-phone" required></td>
+                            <td><input type="datetime-local" name="createdDate" id="edit-createdDate" readonly></td>
+                            <td>
+                                <select name="status" id="edit-status" required>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="role" id="edit-role" required>
+                                    <option value="admin">Admin</option>
+                                    <option value="user">User</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
                     </table>
-                    <a href="#">Show All</a>
-                </div>
+                    <button type="submit" onclick="saveUserEdits()" class="primary material-icons-sharp">save</button>
+                </form>
             </div>
-        </main>
+        </div>
+
+    </main>
 
     <!--------------------------------------------------------
 ---------------------------------------------------------
