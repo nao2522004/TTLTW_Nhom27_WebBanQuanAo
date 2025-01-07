@@ -42,7 +42,7 @@
                                 <button class="btn-increase">+</button>
                             </div>
                         </div>
-                        <div class="col">${cp.unitPrice * cp.quantity}<span class="close">&#10005;</span></div>
+                        <div class="col">${cp.unitPrice * cp.quantity}<span class="close" href="del-cart?pro=${cp.id}">&#10005;</span></div>
                     </div>
                 </div>
             </c:forEach>

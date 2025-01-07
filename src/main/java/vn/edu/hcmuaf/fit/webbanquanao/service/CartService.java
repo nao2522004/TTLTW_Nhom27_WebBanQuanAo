@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Cart {
+public class CartService {
 
     Map<Integer, CartProduct> data ;
     CartDao dao;
 
-    public Cart(){
+    public CartService(){
         this.dao = new CartDao();
         this.data = dao.getCartProducts();
     }
