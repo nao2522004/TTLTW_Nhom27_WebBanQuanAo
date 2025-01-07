@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.webbanquanao.service.Cart;
+import vn.edu.hcmuaf.fit.webbanquanao.service.CartService;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 import vn.edu.hcmuaf.fit.webbanquanao.service.ProductService;
 
@@ -23,9 +23,9 @@ public class Add extends HttpServlet {
         }
 
         HttpSession session = request.getSession(true);
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart == null) {
-            cart = new Cart();
+        CartService cart = (CartService) session.getAttribute("cart");
+         if (cart == null) {
+            cart = new CartService();
         }
         cart.add(pro);
         session.setAttribute("cart", cart);

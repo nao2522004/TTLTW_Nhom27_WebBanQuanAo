@@ -50,48 +50,50 @@
     <!-- Product Info -->
     <div class="col-md-6 product-info">
 
-            <h1>${p.name}</h1>
-            <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
-            <!-- Color options -->
-            <div class="color-options">
-                <h5>Choose color:</h5>
-                <div class="choose_color mt-3">
-                    <c:forEach var="co" items="${colors}">
-                        <span style="background-color: ${co}"></span>
-                    </c:forEach>
-                </div>
+        <h1>${p.name}</h1>
+        <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
+        <!-- Color options -->
+        <div class="color-options">
+            <h5>Choose color:</h5>
+            <div class="choose_color mt-3">
+                <c:forEach var="co" items="${colors}">
+                    <span style="background-color: ${co}"></span>
+                </c:forEach>
             </div>
-            <!-- Size options -->
-            <div class="size-options mt-4">
-                <h5>Choose size:</h5>
-                <div class="choose_size mt-3">
-                    <c:forEach var="s" items="${sizes}">
-                        <span>${s}</span>
-                    </c:forEach>
-                </div>
+        </div>
+        <!-- Size options -->
+        <div class="size-options mt-4">
+            <h5>Choose size:</h5>
+            <div class="choose_size mt-3">
+                <c:forEach var="s" items="${sizes}">
+                    <span>${s}</span>
+                </c:forEach>
             </div>
-            <!-- Instructions for choosing size -->
-            <div class="instructions mt-2">
-                <a href="#" id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></a>
-            </div>
-            <!-- Popup -->
-            <div class="overlay" id="popup-overlay"></div>
-            <div class="popup" id="popup">
-                <img src="assets/imgs/products%20detail/size%20guild/2.png" alt="Size Guide">
-                <button class="close-btn" id="close-popup">Close</button>
-            </div>
-            <!-- Quantity -->
-            <div class="quantity-selector mt-4">
-                <h5>Quantity:</h5>
-                <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
-                <input type="text" value="1" id="quantity-input" readonly>
-                <button class="btn btn-outline-secondary" id="increase-btn">+</button>
-            </div>
-            <!-- Buttons: add to cart, buy -->
-            <div class="mt-5">
-                <a class="add_to_cart_btn" href="add-cart?pro=">Add to cart</a>
-                <a href="cart.jsp" class="buy_btn">Buy now</a>
-            </div>
+        </div>
+        <!-- Instructions for choosing size -->
+        <div class="instructions mt-2">
+            <a href="#" id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></a>
+        </div>
+        <!-- Popup -->
+        <div class="overlay" id="popup-overlay"></div>
+        <div class="popup" id="popup">
+            <img src="assets/imgs/products%20detail/size%20guild/2.png" alt="Size Guide">
+            <button class="close-btn" id="close-popup">Close</button>
+        </div>
+        <!-- Quantity -->
+        <div class="quantity-selector mt-4">
+            <h5>Quantity:</h5>
+            <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
+            <input type="text" value="1" id="quantity-input" readonly>
+            <button class="btn btn-outline-secondary" id="increase-btn">+</button>
+        </div>
+        <!-- Buttons: add to cart, buy -->
+        <div class="mt-5">
+            <c:forEach var="p" items="${data}">
+                <a class="add_to_cart_btn" href="add-cart?pro=${p.id}">Add to cart</a>
+            </c:forEach>
+            <a href="cart.jsp" class="buy_btn">Buy now</a>
+        </div>
     </div>
 </section>
 

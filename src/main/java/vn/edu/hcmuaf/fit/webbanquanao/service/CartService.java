@@ -5,18 +5,17 @@ import vn.edu.hcmuaf.fit.webbanquanao.dao.model.CartProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class Cart {
+public class CartService {
 
     Map<Integer, CartProduct> data ;
     CartDao dao;
 
-    public Cart(){
+    public CartService(){
         this.dao = new CartDao();
         this.data = dao.getCartProducts();
     }
