@@ -154,9 +154,9 @@
                             <c:forEach var="p" items="${allProducts}">
                                 <div class="col-md-3 mt-4">
                                     <div class="product-card" onclick="redirectToProductPage()">
-                                        <img src="assets/imgs/men/list%20products/1/1.png" alt="Product 1"
+                                        <img src="assets/product-imgs/${p.img}" alt="Product 1"
                                              class="product-image img-fluid">
-                                        <div class="product-title">${p.productName}</div>
+                                        <div class="product-title">${p.name}</div>
                                         <div class="product-price" data-price="${p.unitPrice}"></div>
                                     </div>
                                 </div>
