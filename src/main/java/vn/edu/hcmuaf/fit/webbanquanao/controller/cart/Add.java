@@ -17,7 +17,7 @@ public class Add extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductService service = new ProductService();
-        Product pro =  service.getDetail(request.getParameter("pro"));
+        Product pro =  service.getDetail(Integer.parseInt(request.getParameter("pro")));
         if (pro == null) {
             response.sendRedirect("product_detail?addCart=false");
         }

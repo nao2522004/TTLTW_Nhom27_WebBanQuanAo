@@ -56,14 +56,18 @@
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
-                    <span></span><span></span><span></span>
+                    <c:forEach var="co" items="${colors}">
+                        <span style="background-color: ${co}"></span>
+                    </c:forEach>
                 </div>
             </div>
             <!-- Size options -->
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
                 <div class="choose_size mt-3">
-                    <span>S</span><span>M</span><span>L</span><span>XL</span><span>XXL</span><span>XXXL</span>
+                    <c:forEach var="s" items="${sizes}">
+                        <span>${s}</span>
+                    </c:forEach>
                 </div>
             </div>
             <!-- Instructions for choosing size -->
@@ -95,39 +99,9 @@
 <section id="section_description" class="container mx-auto">
     <h1 class="mb-5 pb-4 text-center">Thông tin chi tiết sản phẩm</h1>
     <div class="content">
-        <ul class="text_content">
-            <li>Đừng quên áp mã giảm giá trước khi mua sắm</li>
-            <li>Shop đảm bảo màu sắc hiển thị trong video và ảnh giống 100%.</li>
-            <li>Khách hàng có thể kiểm tra hàng trước khi thanh toán.</li>
-            <li>Đổi trả trong vòng 15 ngày.</li>
-            <li>Đóng gói đẹp và an toàn, giao hàng nhanh chóng.</li>
-            <li>Hàng có sẵn, thời gian giao hàng tốt nhất.</li>
-            <li>Chính sách đổi trả sản phẩm</li>
-            <li>Điều kiện đổi trả:
-                <ul>
-                    <li>Sản phẩm còn mới, đầy đủ tem nhãn, và chưa qua sử dụng.</li>
-                    <li>Sản phẩm bị lỗi hoặc hư hỏng do vấn đề vận chuyển hoặc sản xuất.</li>
-                </ul>
-            </li>
-            <li>Chính sách bảo hành:
-                <ul>
-                    <li>Sản phẩm đảm bảo 100% về chất lượng.</li>
-                    <li>Việc đổi trả được thực hiện theo chính sách của Shopee.</li>
-                    <li>Giao hàng toàn quốc, có hỗ trợ thanh toán khi nhận hàng (COD).</li>
-                </ul>
-            </li>
-            <li>Kích thước và mẫu mã</li>
-            <li>Kích thước và mẫu mã của sản phẩm được hiển thị trong hình ảnh, vui lòng xem kỹ trước khi đặt hàng.
-                Do đo lường thủ công, có thể sai lệch 1-2 cm.
-            </li>
-            <li>Do sự khác biệt về màn hình và ánh sáng, hình ảnh có thể không phản ánh chính xác màu sắc thật của
-                tất cả sản phẩm. Mong quý khách thông cảm.
-            </li>
-            <li>Nếu khách hàng phát hiện sản phẩm có lỗi hoặc gặp phải thái độ không đúng mực từ nhân viên giao
-                hàng, vui lòng thông báo ngay với cửa hàng để được giải quyết tốt nhất!! Cuối cùng, rất mong nhận
-                được đánh giá 5 sao từ quý khách.
-            </li>
-        </ul>
+        <p class="text_content">
+            ${p.description}
+        </p>
     </div>
 </section>
 

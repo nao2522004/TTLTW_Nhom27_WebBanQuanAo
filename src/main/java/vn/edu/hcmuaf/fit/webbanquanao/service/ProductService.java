@@ -3,10 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.service;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductService {
     ProductDAO dao;
@@ -17,17 +14,7 @@ public class ProductService {
 
     // Get all products
     public List<Product> getAllProducts() {
-        List<Product> list = new ArrayList<>();
-        Map<Integer, Product> uniqueProducts = new HashMap<>();
-
-        for (Product product : dao.getAllProducts()) {
-            if(!uniqueProducts.containsKey(product.getId())) {
-                uniqueProducts.put(product.getId(), product);
-                list.add(product);
-            }
-        }
-
-        return list;
+        return dao.getAllProducts();
     }
 
     // Get sale products
@@ -69,12 +56,29 @@ public class ProductService {
         return list;
     }
 
-    public Product getDetail(String pro){
+    public Product getDetail(int id){
         try {
-            int id = Integer.parseInt(pro);
             return dao.getById(id);
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        ProductService service = new ProductService();
+        List<String> sizes = new ArrayList<>();
+        List<String> colors = new ArrayList<>();
+        for (Product pro : service.getAllProducts()) {
+            if(pro.getId() == 1 && !sizes.contains(pro.getSize())) {
+                sizes.add(pro.getSize());
+            }
+            if(pro.getId() == 1 && !colors.contains(pro.getColor())) {
+                colors.add(pro.getColor());
+            }
+        }
+        List<String> sizeOrder = Arrays.asList("S", "M", "L", "XL", "XXL", "XXXL", "XXXXL");
+        sizes.sort(Comparator.comparingInt(sizeOrder::indexOf));
+        System.out.println(sizes);
+        System.out.println(colors);
     }
 }
