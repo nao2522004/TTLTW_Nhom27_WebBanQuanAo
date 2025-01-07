@@ -1,16 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>--%>
-<%--<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>--%>
-<%--<%@ page import="java.util.List" %>--%>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.dao.model.Product" %>
+<%@ page import="java.util.List" %>
 
-<%--<%--%>
-<%--    ProductService service = new ProductService();--%>
-<%--    List<Product> list = service.getProducts();--%>
-<%--    request.setAttribute("listProducts", list);--%>
-<%--%>--%>
+<%
+    ProductService service = new ProductService();
+    List<Product> list;
+
+    list = service.getSaleProducts();
+    request.setAttribute("saleProducts", list);
+
+    list = service.getBestSellingProducts();
+    request.setAttribute("bestSellingProducts", list);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,6 +65,7 @@
     </div>
 
     <!-- Sale products -->
+<<<<<<< HEAD
 <%--    <section id="section_sale">--%>
 <%--        <div class="container">--%>
 <%--            <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>--%>
@@ -81,6 +87,33 @@
 <%--            </div>--%>
 <%--        </div>--%>
 <%--    </section>--%>
+=======
+    <section id="section_sale">
+        <div class="container">
+            <h2>Giảm giá lên đến 70% cho ngày Black Friday</h2>
+            <div class="row">
+                <c:forEach var="p" items="${saleProducts}" end="3">
+                    <!-- Item 1 -->
+                    <div class="col-md-3">
+                        <a href="productDetail?pid=${p.id}" class="item-link">
+                            <div class="item">
+                                <img src="assets/product-imgs/${p.img}" alt="${p.name}">
+                                <h4>${p.name}</h4>
+                                <div class="product-price" data-price="${p.unitPrice}">
+                                    Giá: ${p.unitPrice} VND
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </c:forEach>
+
+                <c:if test="${empty saleProducts}">
+                    <h1>không có sản phẩm.</h1>
+                </c:if>
+            </div>
+        </div>
+    </section>
+>>>>>>> 9c4e0cfa1547d8455bbb9d0abdb912198cdd29c0
 
     <!-- Collections -->
     <section id="section_banner_collection" class="container-fluid p-0">
@@ -123,30 +156,20 @@
         <div class="container">
             <h2>Sản phẩm bán chạy và được yêu thích nhiều nhất</h2>
             <div class="row">
-                <!-- Item 1 -->
-                <div class="col-md-4">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/1.webp" alt="Image 1">
-                        <h4>Quần Kaki Ống Suông</h4>
-                        <p>289.000đ</p>
+                <c:forEach var="p" items="${bestSellingProducts}" end="2">
+                    <!-- Item 1 -->
+                    <div class="col-md-4">
+                        <div class="item">
+                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
+                            <h4>${p.name}</h4>
+                            <p>${p.unitPrice}đ</p>
+                        </div>
                     </div>
-                </div>
-                <!-- Item 2 -->
-                <div class="col-md-4">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/2.webp" alt="Image 2">
-                        <h4>Double Knee Reetro</h4>
-                        <p>450.000đ</p>
-                    </div>
-                </div>
-                <!-- Item 3 -->
-                <div class="col-md-4">
-                    <div class="item">
-                        <img src="assets/imgs/HomePage/section1/5.webp" alt="Image 3">
-                        <h4>Cargo pant carhartt</h4>
-                        <p>300.000đ</p>
-                    </div>
-                </div>
+                </c:forEach>
+
+                <c:if test="${empty bestSellingProducts}">
+                    <h1>không có sản phẩm.</h1>
+                </c:if>
             </div>
         </div>
     </section>

@@ -4,7 +4,7 @@
   <div class="container-nav">
     <nav>
       <ul>
-        <li><a href="men.jsp" data-text="Nam">Nam</a></li>
+        <li><a href="${pageContext.request.contextPath}/CategoryServlet?category=men" data-text="Nam">Nam</a></li>
         <li><a href="women.jsp" data-text="Nữ">Nữ</a></li>
         <li><a href="children.jsp" data-text="Trẻ em">Trẻ em</a></li>
         <li><a href="sale.jsp" data-text="Khuyến mãi">Khuyến mãi</a></li>
