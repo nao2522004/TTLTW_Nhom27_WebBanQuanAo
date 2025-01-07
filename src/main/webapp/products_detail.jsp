@@ -7,8 +7,8 @@
 <head>
     <%@ include file="assets/includes/head.jsp" %>
     <title>Product Detail</title>
-    <link rel="stylesheet" href="./assets/css/products_detail.css">
-    <link rel="stylesheet" href="./assets/css/responsive_luat.css">
+    <link rel="stylesheet" href="assets/css/products_detail.css">
+    <link rel="stylesheet" href="assets/css/responsive_luat.css">
 </head>
 
 <body>
@@ -23,20 +23,20 @@
     <!-- Product Gallery -->
     <div class="col-md-6 product-gallery">
         <div class="thumbnail-list">
-            <img src="assets/imgs/men/list%20products/1/1.png" alt="Thumbnail">
-            <img src="assets/imgs/men/list%20products/1/2.png" alt="Thumbnail">
-            <img src="assets/imgs/men/list%20products/1/4.png" alt="Thumbnail">
+            <c:forEach var="i" items="${images}" end="2">
+                <img src="assets/product-imgs/${i}" alt="Thumbnail">
+            </c:forEach>
         </div>
         <div id="mainCarousel" class="carousel slide main-image">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/imgs/men/list%20products/1/1.png" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${images[0]}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/imgs/men/list%20products/1/2.png" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${images[1]}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/imgs/men/list%20products/1/4.png" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${images[2]}" class="d-block w-100" alt="Main Image">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">

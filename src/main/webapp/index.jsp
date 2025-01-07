@@ -23,12 +23,12 @@
 <head>
     <%@ include file="assets/includes/head.jsp"%>
     <title>Trang chủ</title>
-    <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="stylesheet" href="./assets/css/responsive_luat.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/responsive_luat.css">
 </head>
 
 <body>
-    <header id="header"><%@ include file="assets/includes/header.jsp" %></header>
+    <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     <!-- Make a space to split the other out of header -->
     <div style="height: 12rem;"></div>
 
@@ -37,10 +37,10 @@
         <!-- Carousel Inner -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="assets/imgs/HomePage/carousel/5.png" class="d-block w-100" alt="Slide 1">
+                <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/carousel/5.png" class="d-block w-100" alt="Slide 1">
             </div>
             <div class="carousel-item">
-                <img src="assets/imgs/HomePage/carousel/6.png" class="d-block w-100" alt="Slide 2">
+                <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/carousel/6.png" class="d-block w-100" alt="Slide 2">
             </div>
         </div>
 
@@ -74,7 +74,7 @@
                     <div class="col-md-3">
                         <a href="productDetail?pid=${p.id}" class="item-link">
                             <div class="item">
-                                <img src="assets/product-imgs/${p.img}" alt="${p.name}">
+                                <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="${p.name}">
                                 <h4>${p.name}</h4>
                                 <div class="product-price" data-price="${p.unitPrice}">
                                     Giá: ${p.unitPrice} VND
@@ -90,11 +90,10 @@
             </div>
         </div>
     </section>
->>>>>>> 9c4e0cfa1547d8455bbb9d0abdb912198cdd29c0
 
     <!-- Collections -->
     <section id="section_banner_collection" class="container-fluid p-0">
-        <img src="assets/imgs/HomePage/collections/banner/1.jpg" alt="" class="w-100">
+        <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/collections/banner/1.jpg" alt="" class="w-100">
     </section>
     <section id="section_collection">
         <div class="container">
@@ -108,19 +107,19 @@
             <div class="row product-grid mt-5">
                 <div class="col-md-4 col-lg-3 mb-4">
                     <div class="product-item">
-                        <img src="assets/imgs/HomePage/collections/1.png" alt="Product 1">
+                        <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/collections/1.png" alt="Product 1">
                         <div class="product-price" data-price="1086207"></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 mb-4">
                     <div class="product-item">
-                        <img src="assets/imgs/HomePage/collections/2.png" alt="Product 2">
+                        <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/collections/2.png" alt="Product 2">
                         <div class="product-price" data-price="2240896"></div>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3 mb-4">
                     <div class="product-item">
-                        <img src="assets/imgs/HomePage/collections/3.png" alt="Product 3">
+                        <img src="${pageContext.request.contextPath}/assets/imgs/HomePage/collections/3.png" alt="Product 3">
                         <div class="product-price" data-price="318302"></div>
                     </div>
                 </div>
@@ -137,7 +136,7 @@
                     <!-- Item 1 -->
                     <div class="col-md-4">
                         <div class="item">
-                            <img src="assets/product-imgs/${p.img}" alt="Image 1">
+                            <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="Image 1">
                             <h4>${p.name}</h4>
                             <p>${p.unitPrice}đ</p>
                         </div>
@@ -155,7 +154,7 @@
 
     <%@ include file="assets/includes/foot.jsp"%>
     <!-- Javascript Native -->
-    <script src="./assets/js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 </body>
 
 </html>
