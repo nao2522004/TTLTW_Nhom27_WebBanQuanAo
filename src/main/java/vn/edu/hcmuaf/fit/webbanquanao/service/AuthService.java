@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.UserDao;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.util.Map;
 

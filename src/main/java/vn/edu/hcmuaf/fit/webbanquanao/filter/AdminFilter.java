@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.io.IOException;
 

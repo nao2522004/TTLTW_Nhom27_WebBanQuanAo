@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.model;
+package vn.edu.hcmuaf.fit.webbanquanao.model;
 
 import java.io.Serializable;
 

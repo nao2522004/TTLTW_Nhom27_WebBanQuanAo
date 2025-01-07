@@ -1,8 +1,5 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.model.User;
-
 public class RoleDao {
 
 //    public Role getAllRole() {

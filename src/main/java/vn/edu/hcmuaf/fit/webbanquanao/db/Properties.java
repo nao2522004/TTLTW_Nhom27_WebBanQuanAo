@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.db;
+package vn.edu.hcmuaf.fit.webbanquanao.db;
 
 public class Properties {
     static final String HOST = "localhost";

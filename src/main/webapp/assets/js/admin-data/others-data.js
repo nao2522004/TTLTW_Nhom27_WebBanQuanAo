@@ -11,8 +11,8 @@ const SALES_DATA = [
 const COLLECTIONS_DATA = [
     {
         coid: "1",
-        coname: "Thu dong",
+        coname: "Black Friday",
         start_date: "30-2-2024",
-        co_decrip: "mo "
+        co_decrip: "hehehehe"
     },
 ]

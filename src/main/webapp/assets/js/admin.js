@@ -145,86 +145,84 @@ const buildTableOrderDetails = () => {
  
 ---------------------------------------------------------
 ----------------------------------------------------------*/
-//
-// // Lấy danh sách người dùng từ server
-// function fetchUsers() {
-//   fetch('AdminUserController', { method: 'GET' })
-//       .then((response) => response.json())
-//       .then((users) => {
-//         const table = document.getElementById("users--table");
-//         table.innerHTML = ""; // Xóa bảng cũ
-//         table.appendChild(buildTableUser(users)); // Tạo bảng với dữ liệu từ server
-//       })
-//       .catch((error) => console.error('Error fetching users:', error));
-// }
-//
-// // Gửi dữ liệu user mới lên server
-// function saveUserToServer(user) {
-//   fetch('AdminUserController', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(user),
-//   })
-//       .then((response) => response.json())
-//       .then(() => {
-//         alert("User added successfully!");
-//         fetchUsers(); // Làm mới danh sách người dùng sau khi thêm thành công
-//       })
-//       .catch((error) => console.error('Error saving user:', error));
-// }
+// Lấy danh sách người dùng từ server
+function fetchUsers() {
+  $.ajax({
+    url: 'admin/manager-users',
+    type: 'GET',
+    dataType: 'json',
+    success: function (users) {
+      const table = document.getElementById("users--table");
+      const oldTbody = table.querySelector("tbody");
 
+      // Xóa tbody cũ nếu có
+      if (oldTbody) {
+        table.removeChild(oldTbody);
+      }
+
+      // Thêm tbody mới vào bảng
+      table.appendChild(buildTableUser(users));
+    },
+    error: function (xhr, status, error) {
+      console.error('Error fetching users:', error);
+      alert("Failed to fetch users. Please try again later.");
+    }
+  });
+}
+
+// Gửi dữ liệu user mới lên server
+function saveUserToServer(user) {
+  $.ajax({
+    url: 'admin/manager-users',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(user),
+    success: function () {
+      alert("User added successfully!");
+      fetchUsers(); // Làm mới danh sách người dùng sau khi thêm thành công
+    },
+    error: function (xhr, status, error) {
+      console.error('Error saving user:', error);
+      alert("Failed to save user. Please check the input and try again.");
+    }
+  });
+}
 
 // Khi DOM load, gọi fetchUsers để tải dữ liệu
 document.addEventListener('DOMContentLoaded', fetchUsers);
 
-// // Ví dụ thêm user mới
-// function addUser() {
-//   // Lấy dữ liệu từ form
-//   const newUser = {
-//     userId: document.getElementById("userId").value,
-//     userName: document.getElementById("userName").value,
-//     userPhone: document.getElementById("userPhone").value,
-//     userAddress: document.getElementById("userAddress").value,
-//     userEmail: document.getElementById("userEmail").value,
-//     userPermission: document.getElementById("userPermission").value,
-//   };
-//
-//   // Gọi API để thêm user
-//   saveUserToServer(newUser);
-// }
+// Tạo bảng từ danh sách người dùng
+const buildTableUser = (users) => {
+  const tbody = document.createElement("tbody");
 
+  let userContent = "";
+  for (const user of users) {
+    userContent += `
+        <tr>
+          <td>${user.id}</td>
+          <td>${user.userName}</td>
+          <td>${user.firstName}</td>
+          <td>${user.lastName}</td>
+          <td>${user.email}</td>
+          <td><img src="${user.avatar}" alt="Avatar" width="50" height="50"></td>
+          <td>${user.address}</td>
+          <td>${user.phone}</td>
+          <td>${user.status}</td>
+          <td>${user.createdAt}</td>
+          <td>${user.roleId}</td>
+          <td class="primary">
+            <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span>
+            <span class="material-icons-sharp"> delete </span>
+          </td>
+        </tr>
+      `;
+  }
 
+  tbody.innerHTML = userContent;
 
-// const buildTableUser = (users) => {
-//   const tbody = document.createElement("tbody");
-//
-//   let userContent = "";
-//   for (const user of users) {
-//     userContent += `
-//         <tr>
-//           <td>${user.id}</td>
-//           <td>${user.userName}</td>
-//           <td>${user.firstName}</td>
-//           <td>${user.lastName}</td>
-//           <td>${user.email}</td>
-//           <td>${user.avatar}</td>
-//           <td>${user.address}</td>
-//           <td>${user.phone}</td>
-//           <td>${user.status}</td>
-//           <td>${user.createdAt}</td>
-//           <td>${user.roleId}</td>
-//           <td class="primary">
-//             <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span>
-//             <span class="material-icons-sharp"> delete </span>
-//           </td>
-//         </tr>
-//       `;
-//   }
-//
-//   tbody.innerHTML = userContent;
-//
-//   return tbody;
-// };
+  return tbody;
+};
+
 
 //---------------Edit user data--------------------//
 const buildEdittableTableUser = () => {
