@@ -27,6 +27,8 @@ public class CartDao {
                 "    p.unitPrice AS unitPrice," +
                 "    pd.image AS img," +
                 "    cd.quantity AS quantity " +
+                "    cd.size AS size," +
+                "    cd.color AS color" +
                 "FROM " +
                 "    products p " +
                 "JOIN " +
@@ -49,8 +51,19 @@ public class CartDao {
                         cp.setId(rs.getInt("id"));
                         cp.setName(rs.getString("name"));
                         cp.setUnitPrice(rs.getDouble("unitPrice"));
-                        cp.setImg(rs.getString("img"));
                         cp.setQuantity(rs.getInt("quantity"));
+
+                        String size = rs.getString("size");
+                        String image = rs.getString("image");
+                        String color = rs.getString("color");
+
+                        if (!cp.getSizes().contains(size))
+                            cp.getSizes().add(size);
+                        if (!cp.getImages().contains(image))
+                            cp.getImages().add(image);
+                        if (!cp.getColors().contains(color))
+                            cp.getColors().add(color);
+
                         cps.put(cp.getId(), cp);
                     }
                 }

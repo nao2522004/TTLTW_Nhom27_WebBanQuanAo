@@ -175,4 +175,6 @@ public class Product implements Serializable {
                 ", colors=" + colors +
                 "} \n";
     }
+
+
 }

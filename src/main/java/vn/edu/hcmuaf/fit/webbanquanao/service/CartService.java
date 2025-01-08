@@ -15,6 +15,7 @@ public class CartService {
     Map<Integer, CartProduct> data ;
     CartDao dao;
 
+
     public CartService(){
         this.dao = new CartDao();
         this.data = dao.getCartProducts();
@@ -45,26 +46,33 @@ public class CartService {
         return new ArrayList<>(data.values());
     }
 
-    public int getTotalQuantity(){
-        AtomicInteger i = new AtomicInteger(0);
-        data.forEach((k,v)-> i.addAndGet(v.getQuantity()));
-        return i.get();
+    public void updateQuantity(int productId, int newQuantity) {
+        CartProduct cp = data.get(productId);
+        if (cp != null) {
+            cp.setQuantity(newQuantity);
+        }
     }
-    public Double getTotal(){
-        AtomicReference<Double> d  = new AtomicReference<>(0.0);
-        data.values().forEach((cp)-> d.updateAndGet(v->v+ (cp.getQuantity()) * cp.getUnitPrice() ));
-        return d.get();
+    public int getTotalQuantity() {
+        AtomicInteger totalQuantity = new AtomicInteger(0);
+        data.forEach((k, v) -> totalQuantity.addAndGet(v.getQuantity()));
+        return totalQuantity.get();
+    }
+
+    public Double getTotal() {
+        AtomicReference<Double> total = new AtomicReference<>(0.0);
+        data.values().forEach(cp -> total.updateAndGet(v -> v + cp.getQuantity() * cp.getUnitPrice()));
+        return total.get();
     }
 
     public CartProduct convert(Product p){
         CartProduct result = new CartProduct();
-//        result.setId(p.getId());
-//        result.setName(p.getName());
-//        result.setUnitPrice(p.getUnitPrice());
-//        result.setImg(p.getImg());
-//        result.setQuantity(1);
-//        result.setSize(p.getSize());
-//        result.setColor(p.getColor());
+        result.setId(p.getId());
+        result.setName(p.getName());
+        result.setUnitPrice(p.getUnitPrice());
+        result.setImages(p.getImages());
+        result.setQuantity(1);
+        result.setSizes(p.getSizes());
+        result.setColors(p.getColors());
         return result;
     }
 
