@@ -4,19 +4,19 @@
   <div class="container-nav">
     <nav>
       <ul>
-        <li><a href="categoryController?category=men" data-text="Nam">Nam</a></li>
-        <li><a href="categoryController?category=women" data-text="Nữ">Nữ</a></li>
-        <li><a href="categoryController?category=children" data-text="Trẻ em">Trẻ em</a></li>
-        <li><a href="categoryController?category=sale" data-text="Khuyến mãi">Khuyến mãi</a></li>
+        <li><a href="navController?category=men" data-text="Nam">Nam</a></li>
+        <li><a href="navController?category=women" data-text="Nữ">Nữ</a></li>
+        <li><a href="navController?category=children" data-text="Trẻ em">Trẻ em</a></li>
+        <li><a href="navController?category=sale" data-text="Khuyến mãi">Khuyến mãi</a></li>
         <li class="dropdown"><a href="#" data-text="Bộ sưu tập">Bộ sưu tập</a>
           <div class="content-collection">
-            <a href="categoryController?category=collection-running" data-text="">Chạy bộ</a>
-            <a href="categoryController?category=collection-winter" data-text="">Thu đông</a>
-            <a href="categoryController?category=collection-summer" data-text="">Xuân hè</a>
+            <a href="navController?category=collection-running" data-text="">Chạy bộ</a>
+            <a href="navController?category=collection-winter" data-text="">Thu đông</a>
+            <a href="navController?category=collection-summer" data-text="">Xuân hè</a>
           </div>
         </li>
-        <li><a href="categoryController?category=new-product" data-text="Sản phẩm mới">Sản phẩm mới</a></li>
-        <li><a href="categoryController?category=blog" data-text="Tin tức">Tin tức</a></li>
+        <li><a href="navController?category=new-product" data-text="Sản phẩm mới">Sản phẩm mới</a></li>
+        <li><a href="navController?category=blog" data-text="Tin tức">Tin tức</a></li>
       </ul>
     </nav>
   </div>

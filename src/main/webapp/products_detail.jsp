@@ -90,7 +90,7 @@
             <!-- Buttons: add to cart, buy -->
             <div class="mt-5">
 
-                <a class="add_to_cart_btn" href="add-cart?pro=${p.id}">Add to cart</a>
+                <a class="add_to_cart_btn" href="add-cart?pid=${p.id}">Add to cart</a>
                 <a href="cart.jsp" class="buy_btn">Buy now</a>
             </div>
     </div>

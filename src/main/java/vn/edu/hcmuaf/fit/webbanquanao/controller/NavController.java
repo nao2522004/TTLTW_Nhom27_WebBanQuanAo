@@ -9,8 +9,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.service.ProductService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "Category", value = "/categoryController")
-public class Category extends HttpServlet {
+@WebServlet(name = "NavController", value = "/navController")
+public class NavController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,5 +26,6 @@ public class Category extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 }
