@@ -476,7 +476,7 @@
             <div class="recent-orders popup">
                 <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
                 <h2>Chỉnh Sửa Người Dùng</h2>
-                <form id="user-edit-form" action="/WebBanQuanAo/admin/manager-users">
+                <form id="user-edit-form">
                     <table id="user_edit--table">
                         <thead>
                         <tr>
@@ -508,10 +508,12 @@
                             <td><input type="datetime-local" name="createdDate" id="edit-createdDate" readonly></td>
                             <td><input type="number" name="status" id="edit-status" required></td>
                             <td><input type="number" name="role" id="edit-role" required></td>
+                            <td><span type="submit" onclick="saveUserEdits(event)" class="primary material-icons-sharp">save</span>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <button type="submit" onclick="saveUserEdits()" class="primary material-icons-sharp">save</button>
+
                 </form>
             </div>
         </div>
