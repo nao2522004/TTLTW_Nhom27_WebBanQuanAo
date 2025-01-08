@@ -45,6 +45,13 @@ public class ProductService {
 
     // Get products by category
     public List<Product> getProductsByCategory(String category) {
+        category = switch (category) {
+            case "men" -> "Nam";
+            case "women" -> "Nữ";
+            case "children" -> "Trẻ em";
+            default -> category;
+        };
+
         List<Product> list = new ArrayList<>();
         Map<Integer, Product> uniqueProducts = new HashMap<>();
         for (Product product : dao.getProductsByCategory(category)) {

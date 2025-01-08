@@ -4,19 +4,19 @@
   <div class="container-nav">
     <nav>
       <ul>
-        <li><a href="categoryServlet?category=men" data-text="Nam">Nam</a></li>
-        <li><a href="women.jsp" data-text="Nữ">Nữ</a></li>
-        <li><a href="children.jsp" data-text="Trẻ em">Trẻ em</a></li>
-        <li><a href="sale.jsp" data-text="Khuyến mãi">Khuyến mãi</a></li>
+        <li><a href="categoryController?category=men" data-text="Nam">Nam</a></li>
+        <li><a href="categoryController?category=women" data-text="Nữ">Nữ</a></li>
+        <li><a href="categoryController?category=children" data-text="Trẻ em">Trẻ em</a></li>
+        <li><a href="categoryController?category=sale" data-text="Khuyến mãi">Khuyến mãi</a></li>
         <li class="dropdown"><a href="#" data-text="Bộ sưu tập">Bộ sưu tập</a>
           <div class="content-collection">
-            <a href="collection-running.jsp" data-text="">Chạy bộ</a>
-            <a href="collection-winter.jsp" data-text="">Thu đông</a>
-            <a href="collection-summer.jsp" data-text="">Xuân hè</a>
+            <a href="categoryController?category=collection-running" data-text="">Chạy bộ</a>
+            <a href="categoryController?category=collection-winter" data-text="">Thu đông</a>
+            <a href="categoryController?category=collection-summer" data-text="">Xuân hè</a>
           </div>
         </li>
-        <li><a href="new-product.jsp" data-text="Sản phẩm mới">Sản phẩm mới</a></li>
-        <li><a href="blog.jsp" data-text="Tin tức">Tin tức</a></li>
+        <li><a href="categoryController?category=new-product" data-text="Sản phẩm mới">Sản phẩm mới</a></li>
+        <li><a href="categoryController?category=blog" data-text="Tin tức">Tin tức</a></li>
       </ul>
     </nav>
   </div>

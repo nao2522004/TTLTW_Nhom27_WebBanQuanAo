@@ -1,21 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page import="vn.edu.hcmuaf.fit.webbanquanao.service.ProductService" %>
 <%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.Product" %>
 <%@ page import="java.util.List" %>
 
-<%
-    ProductService service = new ProductService();
-    List<Product> list;
+<%--<%--%>
+<%--    ProductService service = new ProductService();--%>
+<%--    List<Product> list;--%>
 
-    list = service.getSaleProducts();
-    request.setAttribute("saleProducts", list);
+<%--    list = service.getSaleProducts();--%>
+<%--    request.setAttribute("saleProducts", list);--%>
 
-    list = service.getBestSellingProducts();
-    request.setAttribute("bestSellingProducts", list);
-%>
+<%--    list = service.getBestSellingProducts();--%>
+<%--    request.setAttribute("bestSellingProducts", list);--%>
+<%--%>--%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -76,9 +76,7 @@
                             <div class="item">
                                 <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="${p.name}">
                                 <h4>${p.name}</h4>
-                                <div class="product-price" data-price="${p.unitPrice}">
-                                    Giá: ${p.unitPrice} VND
-                                </div>
+                                <div class="product-price" data-price="${p.unitPrice}"></div>
                             </div>
                         </a>
                     </div>
@@ -138,7 +136,7 @@
                         <div class="item">
                             <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="Image 1">
                             <h4>${p.name}</h4>
-                            <p>${p.unitPrice}đ</p>
+                            <p><f:formatNumber value="${p.unitPrice}"/> đ</p>
                         </div>
                     </div>
                 </c:forEach>
