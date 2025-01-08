@@ -26,16 +26,29 @@
                     </div>
                 </div>
             </div>
+            <!-- Kiểm tra nếu giỏ hàng trống -->
+            <c:if test="${empty sessionScope.cart.list}">
+                <div class="row mt-4" style="height: 300px;">
+                    <div class="col d-flex justify-content-center align-items-center text-muted">
+                        Giỏ hàng của bạn đang không có sản phẩm nào.
+                    </div>
+                </div>
+            </c:if>
 
             <c:forEach items="${sessionScope.cart.list}" var="cp">
                 <div class="row border-top-bottom">
                     <div class="row main align-items-center">
-                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.img}" alt=""></div>
+                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.images[0]}" alt=""></div>
                         <div class="col">
                             <div class="row text-muted">${cp.name}</div>
                             <div class="row text-muted">
-                                    ${cp.size}
-                                <div class="col text-muted">${cp.color}</div>
+                                <c:forEach var="s" items="${cp.sizes}">
+                                    s
+                                </c:forEach>
+                                <c:forEach var="co" items="${cp.colors}">
+                                    <div class="col text-muted">co</div>
+                                </c:forEach>
+
                             </div>
                         </div>
                         <div class="col">
@@ -51,38 +64,43 @@
                 </div>
             </c:forEach>
 
-            <div class="back-to-shop text-muted"><a href="homePage">&leftarrow; Trở về trang chủ</a>
+            <div class="back-to-shop text-muted"><a href="index.jsp">&leftarrow; Trở về trang chủ</a>
             </div>
         </div>
         <div class="col-md-4 summary">
-            <div>
-                <h5>Hóa Đơn</h5>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col" style="padding-left: 12px;"> SẢN PHẨM</div>
-                <div class="col text-right"></div>
-            </div>
-            <form>
-                <p>VẬN CHUYỂN</p>
-                <select>
-                    <option class="text-muted">Giao Hàng Nhanh  đồng</option>
-                    <option class="text-muted">Giao Hàng Tiết Kiệm  đồng</option>
-                </select>
-                <p>MÃ GIẢM GIÁ</p>
-                <input id="code" placeholder="Nhập mã">
-            </form>
-            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">
-                    <p>TỔNG TIỀN:</p>
+            <c:if test="${empty sessionScope.cart.list}">
+            </c:if>
+            <c:if test="${not empty sessionScope.cart.list}">
+                <div>
+                    <h5>Hóa Đơn</h5>
                 </div>
-                <div class="col text-right">
-                    <p> đồng</p>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left: 12px;">${sessionScope.cart.totalQuantity} SẢN PHẨM</div>
                 </div>
-            </div>
-            <a href="checkout.jsp">
-                <button class="btn btn-lg">THANH TOÁN</button>
-            </a>
+                <form>
+                    <p>VẬN CHUYỂN</p>
+                    <select>
+                        <option class="text-muted" value="35000">Giao Hàng Nhanh 35.000 đ</option>
+                        <option class="text-muted" value="27000">Giao Hàng Tiết Kiệm 27.000 đ</option>
+                    </select>
+                    <p>MÃ GIẢM GIÁ</p>
+                    <input id="code" placeholder="Nhập mã">
+                </form>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">
+                        <p>TỔNG TIỀN:</p>
+                    </div>
+                    <div class="col text-right">
+                        <p id="total-price" data-price="${sessionScope.cart.total}}">
+                                ${sessionScope.cart.total}
+                        </p>
+                    </div>
+                </div>
+                <a href="checkout.jsp">
+                    <button class="btn btn-lg">THANH TOÁN</button>
+                </a>
+            </c:if>
         </div>
     </div>
 </div>
@@ -94,28 +112,121 @@
 
 <!-- JS Cart -->
 <script>
+    // Function to format price in VND currency
+    function formatPrice(price) {
+        return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+            maximumFractionDigits: 0
+        }).format(price);
+    }
+
+    // Function to get cart data from localStorage
+    function getCartData() {
+        let cartData = localStorage.getItem("cart");
+        return cartData ? JSON.parse(cartData) : [];
+    }
+
+    // Function to update cart data in localStorage
+    function saveCartData(cartData) {
+        localStorage.setItem("cart", JSON.stringify(cartData));
+    }
+
+    // Function to update the total price
+    function updateTotalPrice() {
+        let totalPrice = 0;
+
+        // Loop through each product to calculate total
+        document.querySelectorAll('.product-price').forEach((priceElement) => {
+            let productPrice = parseFloat(priceElement.getAttribute('data-price'));
+            totalPrice += productPrice;
+        });
+
+        // Update the total price display
+        const totalPriceElement = document.getElementById('total-price');
+        totalPriceElement.setAttribute('data-price', totalPrice);
+        totalPriceElement.textContent = formatPrice(totalPrice);
+    }
+
+    // Load cart data from localStorage and populate quantities
+    function loadCartData() {
+        const cartData = getCartData();
+        cartData.forEach((product) => {
+            const quantityDisplay = document.getElementById(`quantity-${product.id}`);
+            const priceDisplay = document.getElementById(`price-${product.id}`);
+            if (quantityDisplay && priceDisplay) {
+                quantityDisplay.textContent = product.quantity;
+                priceDisplay.setAttribute('data-price', product.unitPrice * product.quantity);
+                priceDisplay.textContent = formatPrice(product.unitPrice * product.quantity);
+            }
+        });
+        updateTotalPrice();
+    }
+
+    // Event listeners for quantity change
     const decreaseBtns = document.querySelectorAll('.btn-decrease');
     const increaseBtns = document.querySelectorAll('.btn-increase');
     const quantityDisplays = document.querySelectorAll('.quantity');
+    const priceDisplays = document.querySelectorAll('.product-price');
 
     decreaseBtns.forEach((btn, index) => {
         btn.addEventListener('click', () => {
+            let productId = btn.getAttribute('data-id');
             let currentQuantity = parseInt(quantityDisplays[index].textContent);
             if (currentQuantity > 1) {
                 currentQuantity--;
                 quantityDisplays[index].textContent = currentQuantity;
+
+                // Update the price for the product
+                let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity + 1);
+                let newPrice = unitPrice * currentQuantity;
+                priceDisplays[index].setAttribute('data-price', newPrice);
+                priceDisplays[index].textContent = formatPrice(newPrice);
+
+                // Update the cart data
+                const cartData = getCartData();
+                const productIndex = cartData.findIndex(p => p.id === productId);
+                if (productIndex !== -1) {
+                    cartData[productIndex].quantity = currentQuantity;
+                }
+                saveCartData(cartData);
+
+                // Update the total price
+                updateTotalPrice();
             }
         });
     });
 
     increaseBtns.forEach((btn, index) => {
         btn.addEventListener('click', () => {
+            let productId = btn.getAttribute('data-id');
             let currentQuantity = parseInt(quantityDisplays[index].textContent);
             currentQuantity++;
             quantityDisplays[index].textContent = currentQuantity;
+
+            // Update the price for the product
+            let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity - 1);
+            let newPrice = unitPrice * currentQuantity;
+            priceDisplays[index].setAttribute('data-price', newPrice);
+            priceDisplays[index].textContent = formatPrice(newPrice);
+
+            // Update the cart data
+            const cartData = getCartData();
+            const productIndex = cartData.findIndex(p => p.id === productId);
+            if (productIndex !== -1) {
+                cartData[productIndex].quantity = currentQuantity;
+            }
+            saveCartData(cartData);
+
+            // Update the total price
+            updateTotalPrice();
         });
     });
+
+    // Load cart data when the page is loaded
+    document.addEventListener("DOMContentLoaded", loadCartData);
 </script>
+
 
 
 <!-- base js -->
