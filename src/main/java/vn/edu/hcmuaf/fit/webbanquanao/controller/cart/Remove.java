@@ -18,7 +18,7 @@ public class Remove extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pro =-1;
         try {
-            pro = Integer.parseInt(request.getParameter("pro"));
+            pro = Integer.parseInt(request.getParameter("pid"));
         } catch (NumberFormatException e) {
             response.sendRedirect("ShowCart");
         }

@@ -1,7 +1,7 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : localhost_3306
+ Source Server         : localhost
  Source Server Type    : MariaDB
  Source Server Version : 100432 (10.4.32-MariaDB)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 07/01/2025 12:53:38
+ Date: 08/01/2025 14:06:17
 */
 
 SET NAMES utf8mb4;
@@ -230,12 +230,11 @@ CREATE TABLE `orderitem`  (
   INDEX `productId`(`productId`) USING BTREE,
   CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orderitem
 -- ----------------------------
-INSERT INTO `orderitem` VALUES (1, 1, 1, '2025-01-07 03:07:38', 1, 274550.00, 0, b'1');
 
 -- ----------------------------
 -- Table structure for orders
@@ -257,12 +256,11 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`paymentId`) REFERENCES `payments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1, 2, 1, NULL, '2025-01-07 03:05:49', 274550.00, b'1', 30000.00);
 
 -- ----------------------------
 -- Table structure for payments
@@ -272,13 +270,11 @@ CREATE TABLE `payments`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `paymentMethod` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of payments
 -- ----------------------------
-INSERT INTO `payments` VALUES (1, 'cash on delivery');
-INSERT INTO `payments` VALUES (2, 'online payment');
 
 -- ----------------------------
 -- Table structure for product_details
@@ -299,12 +295,12 @@ CREATE TABLE `product_details`  (
 -- ----------------------------
 -- Records of product_details
 -- ----------------------------
-INSERT INTO `product_details` VALUES (1, 1, 'M', 10, 'p1n1.webp', 'saddlebrown');
-INSERT INTO `product_details` VALUES (2, 1, 'L', 11, 'p1n2.webp', 'saddlebrown');
-INSERT INTO `product_details` VALUES (3, 1, 'XL', 7, 'p1n5.webp', 'saddlebrown');
-INSERT INTO `product_details` VALUES (4, 1, 'XXL', 4, 'p1n7.webp', 'saddlebrown');
-INSERT INTO `product_details` VALUES (5, 1, 'M', 8, 'p1n3.webp', 'black');
-INSERT INTO `product_details` VALUES (6, 1, 'L', 5, 'p1n6.webp', 'black');
+INSERT INTO `product_details` VALUES (1, 1, 'M', 10, 'p1n1.webp', 'Nâu dạ');
+INSERT INTO `product_details` VALUES (2, 1, 'L', 11, 'p1n2.webp', 'Nâu dạ');
+INSERT INTO `product_details` VALUES (3, 1, 'XL', 7, 'p1n5.webp', 'Nâu dạ');
+INSERT INTO `product_details` VALUES (4, 1, 'XXL', 4, 'p1n7.webp', 'Nâu dạ');
+INSERT INTO `product_details` VALUES (5, 1, 'M', 8, 'p1n3.webp', 'Đen xám');
+INSERT INTO `product_details` VALUES (6, 1, 'L', 5, 'p1n6.webp', 'Đen xám');
 INSERT INTO `product_details` VALUES (7, 2, 'M', 12, 'p2n1.webp', 'Nâu nhạt');
 INSERT INTO `product_details` VALUES (8, 2, 'L', 4, 'p2n6.webp', 'Nâu nhạt');
 INSERT INTO `product_details` VALUES (9, 2, 'XL', 9, 'p2n2.webp', 'Trắng');
@@ -414,12 +410,11 @@ CREATE TABLE `sales`  (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sales
 -- ----------------------------
-INSERT INTO `sales` VALUES (1, 'Black Friday', 'Ngày lễ mua sắm', '2024-11-29', '2024-12-05');
 
 -- ----------------------------
 -- Table structure for sales_product
@@ -437,7 +432,6 @@ CREATE TABLE `sales_product`  (
 -- ----------------------------
 -- Records of sales_product
 -- ----------------------------
-INSERT INTO `sales_product` VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for shipping

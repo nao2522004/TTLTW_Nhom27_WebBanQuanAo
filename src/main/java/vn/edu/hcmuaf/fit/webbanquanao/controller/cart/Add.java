@@ -20,7 +20,7 @@ public class Add extends HttpServlet {
         ProductService service = new ProductService();
         Product pro =  service.getDetail(Integer.parseInt(request.getParameter("pro")));
         if (pro == null) {
-            response.sendRedirect("product_detail?addCart=false");
+            response.sendRedirect("productDetail?addCart=false");
         }
 
         HttpSession session = request.getSession(true);
@@ -31,7 +31,7 @@ public class Add extends HttpServlet {
         cart.add(pro);
         session.setAttribute("cart", cart);
 
-        response.sendRedirect("product_detail?addCart=ok");
+        response.sendRedirect("productDetail?addCart=ok");
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
