@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.fit.webbanquanao.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Product implements Serializable {
     private int id;
@@ -14,15 +16,18 @@ public class Product implements Serializable {
     private int unitSold;
     private double unitPrice;
     private boolean status;
-    private String size;
+    private List<String> sizes;
     private int stock;
-    private String img;
-    private String color;
+    private List<String> images;
+    private List<String> colors;
 
+    public Product() {
+        this.sizes = new ArrayList<String>();
+        this.images = new ArrayList<String>();
+        this.colors = new ArrayList<String>();
+    }
 
-    public Product() {}
-
-    public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status, String size, int stock, String img, String color) {
+    public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status, List<String> sizes, int stock, List<String> imgs, List<String> colors) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -33,10 +38,10 @@ public class Product implements Serializable {
         this.unitSold = unitSold;
         this.unitPrice = unitPrice;
         this.status = status;
-        this.size = size;
+        this.sizes = sizes;
         this.stock = stock;
-        this.img = img;
-        this.color = color;
+        this.images = imgs;
+        this.colors = colors;
     }
 
     public int getId() {
@@ -119,12 +124,12 @@ public class Product implements Serializable {
         this.status = status;
     }
 
-    public String getSize() {
-        return size;
+    public List<String> getSizes() {
+        return sizes;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setSizes(List<String> sizes) {
+        this.sizes = sizes;
     }
 
     public int getStock() {
@@ -135,20 +140,20 @@ public class Product implements Serializable {
         this.stock = stock;
     }
 
-    public String getImg() {
-        return img;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
-    public String getColor() {
-        return color;
+    public List<String> getColors() {
+        return colors;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 
     @Override
@@ -164,10 +169,10 @@ public class Product implements Serializable {
                 ", unitSold=" + unitSold +
                 ", unitPrice=" + unitPrice +
                 ", status=" + status +
-                ", size='" + size + '\'' +
+                ", sizes=" + sizes +
                 ", stock=" + stock +
-                ", img='" + img + '\'' +
-                ", color='" + color + '\'' +
+                ", imgs=" + images +
+                ", colors=" + colors +
                 "} \n";
     }
 }

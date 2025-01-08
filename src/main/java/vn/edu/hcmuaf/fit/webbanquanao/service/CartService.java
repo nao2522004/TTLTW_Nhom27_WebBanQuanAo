@@ -58,13 +58,13 @@ public class CartService {
 
     public CartProduct convert(Product p){
         CartProduct result = new CartProduct();
-        result.setId(p.getId());
-        result.setName(p.getName());
-        result.setUnitPrice(p.getUnitPrice());
-        result.setImg(p.getImg());
-        result.setQuantity(1);
-        result.setSize(p.getSize());
-        result.setColor(p.getColor());
+//        result.setId(p.getId());
+//        result.setName(p.getName());
+//        result.setUnitPrice(p.getUnitPrice());
+//        result.setImg(p.getImg());
+//        result.setQuantity(1);
+//        result.setSize(p.getSize());
+//        result.setColor(p.getColor());
         return result;
     }
 

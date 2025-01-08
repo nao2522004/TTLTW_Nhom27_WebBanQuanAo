@@ -23,20 +23,20 @@
     <!-- Product Gallery -->
     <div class="col-md-6 product-gallery">
         <div class="thumbnail-list">
-            <c:forEach var="i" items="${images}" end="2">
+            <c:forEach var="i" items="${p.images}" end="2">
                 <img src="assets/product-imgs/${i}" alt="Thumbnail">
             </c:forEach>
         </div>
         <div id="mainCarousel" class="carousel slide main-image">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/product-imgs/${images[0]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.images[0]}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/product-imgs/${images[1]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.images[1]}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/product-imgs/${images[2]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.images[2]}" class="d-block w-100" alt="Main Image">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
@@ -50,49 +50,56 @@
     <!-- Product Info -->
     <div class="col-md-6 product-info">
 
-            <h1>${p.name}</h1>
-            <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
-            <!-- Color options -->
-            <div class="color-options">
-                <h5>Choose color:</h5>
-                <div class="choose_color mt-3">
-                    <c:forEach var="co" items="${colors}">
-                        <span style="background-color: ${co}"></span>
-                    </c:forEach>
-                </div>
+        <h1>${p.name}</h1>
+        <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
+        <!-- Color options -->
+        <div class="color-options">
+            <h5>Choose color:</h5>
+            <div class="choose_color mt-3">
+                <c:forEach var="co" items="${p.colors}">
+                    <span style="background-color: ${co}"></span>
+                </c:forEach>
             </div>
-            <!-- Size options -->
-            <div class="size-options mt-4">
-                <h5>Choose size:</h5>
-                <div class="choose_size mt-3">
-                    <c:forEach var="s" items="${sizes}">
-                        <span>${s}</span>
-                    </c:forEach>
-                </div>
+        </div>
+        <!-- Size options -->
+        <div class="size-options mt-4">
+            <h5>Choose size:</h5>
+            <div class="choose_size mt-3">
+                <c:forEach var="s" items="${p.sizes}">
+                    <span>${s}</span>
+                </c:forEach>
             </div>
-            <!-- Instructions for choosing size -->
-            <div class="instructions mt-2">
-                <a href="#" id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></a>
-            </div>
-            <!-- Popup -->
-            <div class="overlay" id="popup-overlay"></div>
-            <div class="popup" id="popup">
-                <img src="assets/imgs/products%20detail/size%20guild/2.png" alt="Size Guide">
-                <button class="close-btn" id="close-popup">Close</button>
-            </div>
-            <!-- Quantity -->
-            <div class="quantity-selector mt-4">
-                <h5>Quantity:</h5>
-                <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
-                <input type="text" value="1" id="quantity-input" readonly>
-                <button class="btn btn-outline-secondary" id="increase-btn">+</button>
-            </div>
-            <!-- Buttons: add to cart, buy -->
-            <div class="mt-5">
+        </div>
+        <!-- Instructions for choosing size -->
+        <div class="instructions mt-2">
+            <h3 id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></h3>
+        </div>
+        <!-- Popup -->
+        <div class="overlay" id="popup-overlay"></div>
+        <div class="popup" id="popup">
+            <img src="assets/imgs/products%20detail/size%20guild/2.png" alt="Size Guide">
+            <button class="close-btn" id="close-popup">Close</button>
+        </div>
+        <!-- Quantity -->
+        <div class="quantity-selector mt-4">
+            <h5>Quantity:</h5>
+            <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
+            <input type="text" value="1" id="quantity-input" readonly>
+            <button class="btn btn-outline-secondary" id="increase-btn">+</button>
+        </div>
+        <!-- Buttons: add to cart, buy -->
+        <div class="mt-5">
+            <a class="add_to_cart_btn" href="add-cart?pid=${p.id}">Add to cart</a>
+            <a href="cart.jsp" class="buy_btn">Buy now</a>
+        </div>
+        <!-- Popup overlay -->
+        <div class="addOk-overlay"></div>
 
-                <a class="add_to_cart_btn" href="add-cart?pid=${p.id}">Add to cart</a>
-                <a href="cart.jsp" class="buy_btn">Buy now</a>
-            </div>
+        <!-- Popup content -->
+        <div class="addOk" id="addToCartPopup">
+            <img alt="green-tick" src="assets/imgs/Green-Tick.png">
+            <h3 class="mt-3">Sản phẩm đã được thêm vào giỏ hàng của bạn.</h3>
+        </div>
     </div>
 </section>
 
@@ -227,7 +234,13 @@
     <%@ include file="assets/includes/footer.jsp" %>
 </footer>
 
+<!-- jQuery, Popper.js, and Bootstrap 4.6.2 JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
 <!-- Javascript Native -->
+<script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
 <script>
     // Transition for Header
     window.addEventListener("scroll", () => {
@@ -237,9 +250,26 @@
             header.classList.remove("scrolled");
         }
     });
+
+    // Get the current URL
+    const urlParams = new URLSearchParams(window.location.search);
+    // Check if 'addCart=ok' is in the URL
+    if (urlParams.get('addCart') === 'ok') {
+        // Show the popup
+        const popup = document.getElementById('addToCartPopup');
+        const overlay = document.querySelector('.addOk-overlay');
+        popup.classList.add('show');
+        overlay.classList.add('show');
+
+        // Auto-close popup after 3 seconds
+        setTimeout(() => {
+            popup.classList.remove('show');
+            overlay.classList.remove('show');
+        }, 2000);
+    }
 </script>
-<script src="./assets/js/products_detail.js"></script>
-<%@ include file="assets/includes/foot.jsp" %>
+
+<script src="${pageContext.request.contextPath}/assets/js/products_detail.js"></script>
 </body>
 
 </html>

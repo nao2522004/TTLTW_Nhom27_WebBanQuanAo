@@ -51,7 +51,7 @@
                 </div>
             </c:forEach>
 
-            <div class="back-to-shop text-muted"><a href="index.jsp">&leftarrow; Trở về trang chủ</a>
+            <div class="back-to-shop text-muted"><a href="homePage">&leftarrow; Trở về trang chủ</a>
             </div>
         </div>
         <div class="col-md-4 summary">
