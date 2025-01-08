@@ -3,9 +3,10 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 public class ProductDAO {
     Map<Integer, Product> data = new HashMap<>();
@@ -14,7 +15,7 @@ public class ProductDAO {
 
     public ProductDAO() {
         conn = new JDBIConnector();
-        loadData();
+        data = getAllProducts();
     }
 
     public Product getById(int id) {
@@ -25,50 +26,50 @@ public class ProductDAO {
     }
 
     // Get all products
-    public List<Product> getAllProducts() {
+    public Map<Integer, Product> getAllProducts() {
+        Map<Integer, Product> re = new HashMap<>();
         query = "SELECT" +
                 "   p.id AS id," +
                 "   t.name AS type," +
                 "   c.name AS category," +
                 "   s.supplierName AS supplier," +
                 "   p.productname AS name," +
-                "   p.description," +
+                "   p.description AS description," +
                 "   p.releaseDate AS releaseDate," +
-                "   p.unitSold," +
+                "   p.unitSold AS unitSold," +
                 "   p.unitPrice AS unitPrice," +
-                "   p.status," +
-                "   pd.size," +
-                "   pd.stock," +
-                "   pd.image AS img," +
-                "   pd.color " +
+                "   p.status AS status," +
+                "   pd.size AS size," +
+                "   pd.stock AS stock," +
+                "   pd.image AS image," +
+                "   pd.color AS color " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
                 "JOIN types t ON p.typeId = t.id " +
                 "JOIN suppliers s ON p.supplierId = s.id";
 
-        return conn.get().withHandle(h -> {
-            return h.createQuery(query).mapToBean(Product.class).list();
-        });
+        return getProductsByQuery(query);
     }
 
     // Get sale products
-    public List<Product> getSaleProducts() {
+    public Map<Integer, Product> getSaleProducts() {
+        Map<Integer, Product> re = new HashMap<>();
         query = "SELECT" +
                 "   p.id AS id," +
                 "   t.name AS type," +
                 "   c.name AS category," +
                 "   s.supplierName AS supplier," +
                 "   p.productname AS name," +
-                "   p.description," +
+                "   p.description AS description," +
                 "   p.releaseDate AS releaseDate," +
-                "   p.unitSold," +
+                "   p.unitSold AS unitSold," +
                 "   p.unitPrice AS unitPrice," +
-                "   p.status," +
-                "   pd.size," +
-                "   pd.stock," +
-                "   pd.image AS img," +
-                "   pd.color " +
+                "   p.status AS status," +
+                "   pd.size AS size," +
+                "   pd.stock AS stock," +
+                "   pd.image AS image," +
+                "   pd.color AS color " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -77,28 +78,26 @@ public class ProductDAO {
                 "JOIN sales_product sp ON p.id = sp.productId " +
                 "JOIN sales ss ON ss.id = sp.saleId";
 
-        return conn.get().withHandle(h -> {
-           return h.createQuery(query).mapToBean(Product.class).list();
-        });
+        return getProductsByQuery(query);
     }
 
     // Get best-selling products
-    public List<Product> getBestSellingProducts() {
+    public Map<Integer, Product> getBestSellingProducts() {
         query = "SELECT" +
                 "   p.id AS id," +
                 "   t.name AS type," +
                 "   c.name AS category," +
                 "   s.supplierName AS supplier," +
                 "   p.productname AS name," +
-                "   p.description," +
+                "   p.description AS description," +
                 "   p.releaseDate AS releaseDate," +
-                "   p.unitSold," +
+                "   p.unitSold AS unitSold," +
                 "   p.unitPrice AS unitPrice," +
-                "   p.status," +
-                "   pd.size," +
-                "   pd.stock," +
-                "   pd.image AS img," +
-                "   pd.color " +
+                "   p.status AS status," +
+                "   pd.size AS size," +
+                "   pd.stock AS stock," +
+                "   pd.image AS image," +
+                "   pd.color AS color " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -107,53 +106,122 @@ public class ProductDAO {
                 "JOIN orderitem oi ON p.id = oi.productId " +
                 "JOIN orders o ON oi.orderId = o.id " +
                 "WHERE MONTH(oi.orderDate) = MONTH(CURDATE()) AND YEAR(oi.orderDate) = YEAR(CURDATE()) " +
-                "ORDER BY p.unitSold DESC " +
-                "LIMIT 4";
+                "ORDER BY p.unitSold DESC";
 
+        return getProductsByQuery(query);
+    }
+
+    // Get products by query
+    public Map<Integer, Product> getProductsByQuery(String query) {
         return conn.get().withHandle(h -> {
-            return h.createQuery(query).mapToBean(Product.class).list();
+            Map<Integer, Product> result = new HashMap<>();
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query);
+                 ResultSet rs = stmt.executeQuery()
+            ) {
+                while (rs.next()) {
+                    int productId = rs.getInt("id");
+                    Product p = result.getOrDefault(productId, new Product());
+
+                    p.setId(productId);
+                    p.setType(rs.getString("type"));
+                    p.setCategory(rs.getString("category"));
+                    p.setSupplier(rs.getString("supplier"));
+                    p.setName(rs.getString("name"));
+                    p.setDescription(rs.getString("description"));
+                    p.setReleaseDate(rs.getDate("releaseDate"));
+                    p.setUnitSold(rs.getInt("unitSold"));
+                    p.setUnitPrice(rs.getDouble("unitPrice"));
+                    p.setStatus(rs.getBoolean("status"));
+                    p.setStock(rs.getInt("stock"));
+
+                    String size = rs.getString("size");
+                    String image = rs.getString("image");
+                    String color = rs.getString("color");
+
+                    if (!p.getSizes().contains(size))
+                        p.getSizes().add(size);
+                    if (!p.getImages().contains(image))
+                        p.getImages().add(image);
+                    if (!p.getColors().contains(color))
+                        p.getColors().add(color);
+
+                    result.put(productId, p);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return result;
         });
     }
 
     // Get list products by category
-    public List<Product> getProductsByCategory(String category) {
+    public Map<Integer, Product> getProductsByCategory(String category) {
         query = "SELECT" +
                 "   p.id AS id," +
                 "   t.name AS type," +
                 "   c.name AS category," +
                 "   s.supplierName AS supplier," +
                 "   p.productname AS name," +
-                "   p.description," +
+                "   p.description AS description," +
                 "   p.releaseDate AS releaseDate," +
-                "   p.unitSold," +
+                "   p.unitSold AS unitSold," +
                 "   p.unitPrice AS unitPrice," +
-                "   p.status," +
-                "   pd.size," +
-                "   pd.stock," +
-                "   pd.image AS img," +
-                "   pd.color " +
+                "   p.status AS status," +
+                "   pd.size AS size," +
+                "   pd.stock AS stock," +
+                "   pd.image AS image," +
+                "   pd.color AS color " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
                 "JOIN types t ON p.typeId = t.id " +
                 "JOIN suppliers s ON p.supplierId = s.id " +
-                "WHERE c.name = :category";
+                "WHERE c.name = ?";
 
         return conn.get().withHandle(h -> {
-            return h.createQuery(query).bind("category", category).mapToBean(Product.class).list();
-        });
-    }
+            Map<Integer, Product> result = new HashMap<>();
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+                stmt.setString(1, category);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        int productId = rs.getInt("id");
+                        Product p = result.getOrDefault(productId, new Product());
 
-    public void loadData() {
-        for (Product product : getAllProducts()) {
-            if(!data.containsKey(product.getId())) {
-                data.put(product.getId(), product);
+                        p.setId(productId);
+                        p.setType(rs.getString("type"));
+                        p.setCategory(rs.getString("category"));
+                        p.setSupplier(rs.getString("supplier"));
+                        p.setName(rs.getString("name"));
+                        p.setDescription(rs.getString("description"));
+                        p.setReleaseDate(rs.getDate("releaseDate"));
+                        p.setUnitSold(rs.getInt("unitSold"));
+                        p.setUnitPrice(rs.getDouble("unitPrice"));
+                        p.setStatus(rs.getBoolean("status"));
+                        p.setStock(rs.getInt("stock"));
+
+                        String size = rs.getString("size");
+                        String image = rs.getString("image");
+                        String color = rs.getString("color");
+
+                        if (!p.getSizes().contains(size))
+                            p.getSizes().add(size);
+                        if (!p.getImages().contains(image))
+                            p.getImages().add(image);
+                        if (!p.getColors().contains(color))
+                            p.getColors().add(color);
+
+                        result.put(productId, p);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        }
+            return result;
+        });
     }
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        System.out.println(dao.data);
+        System.out.println(dao.getProductsByCategory("Nam"));
     }
 }

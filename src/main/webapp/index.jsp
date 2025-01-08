@@ -74,7 +74,7 @@
                     <div class="col-md-3">
                         <a href="productDetail?pid=${p.id}" class="item-link">
                             <div class="item">
-                                <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="${p.name}">
+                                <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.images[0]}" alt="${p.name}">
                                 <h4>${p.name}</h4>
                                 <div class="product-price" data-price="${p.unitPrice}"></div>
                             </div>
@@ -134,7 +134,7 @@
                     <!-- Item 1 -->
                     <div class="col-md-4">
                         <div class="item">
-                            <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.img}" alt="Image 1">
+                            <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.images[0]}" alt="Image 1">
                             <h4>${p.name}</h4>
                             <p><f:formatNumber value="${p.unitPrice}"/> đ</p>
                         </div>
