@@ -43,10 +43,10 @@
                             <div class="row text-muted">${cp.name}</div>
                             <div class="row text-muted">
                                 <c:forEach var="s" items="${cp.sizes}">
-                                    s
+                                    ${s}
                                 </c:forEach>
                                 <c:forEach var="co" items="${cp.colors}">
-                                    <div class="col text-muted">co</div>
+                                    <div class="col text-muted">${co}</div>
                                 </c:forEach>
 
                             </div>

@@ -31,11 +31,11 @@ $('#mainCarousel').carousel({
     interval: false
 });
 
-$('#section_products .choose_color span').click(function () {
-    var colorIndex = $(this).index();
-
-    $('#mainCarousel').carousel(colorIndex);
-});
+// $('#section_products .choose_color span').click(function () {
+//     var colorIndex = $(this).index();
+//
+//     $('#mainCarousel').carousel(colorIndex);
+// });
 
 // ===================================================== Similar Section =====================================================
 
@@ -66,18 +66,18 @@ overlay.addEventListener("click", closePopup);
 
 // ===================================================== Quantity =====================================================
 
-const decreaseBtn = document.getElementById("decrease-btn");
-const increaseBtn = document.getElementById("increase-btn");
-const quantityInput = document.getElementById("quantity-input");
-
-increaseBtn.addEventListener("click", () => {
-    let currentValue = parseInt(quantityInput.value, 10);
-    quantityInput.value = currentValue + 1;
-});
-
-decreaseBtn.addEventListener("click", () => {
-    let currentValue = parseInt(quantityInput.value, 10);
-    if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-    }
-});
+// const decreaseBtn = document.getElementById("decrease-btn");
+// const increaseBtn = document.getElementById("increase-btn");
+// const quantityInput = document.getElementById("quantity-input");
+//
+// increaseBtn.addEventListener("click", () => {
+//     let currentValue = parseInt(quantityInput.value, 10);
+//     quantityInput.value = currentValue + 1;
+// });
+//
+// decreaseBtn.addEventListener("click", () => {
+//     let currentValue = parseInt(quantityInput.value, 10);
+//     if (currentValue > 1) {
+//         quantityInput.value = currentValue - 1;
+//     }
+// });

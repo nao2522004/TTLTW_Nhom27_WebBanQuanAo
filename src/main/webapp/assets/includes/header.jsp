@@ -23,7 +23,7 @@
   <div class="group_icons">
     <a href="login.jsp"><i class="fa-solid fa-user custom_size"></i></a>
     <a href="wishlist.jsp"><i class="fa-solid fa-heart custom_size"></i></a>
-    <a href="cart.jsp"><i class="fa-solid fa-cart-shopping custom_size"></i></a>
+    <a href="ShowCart"><i class="fa-solid fa-cart-shopping custom_size"></i></a>
   </div>
   <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
 

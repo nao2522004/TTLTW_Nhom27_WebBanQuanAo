@@ -22,7 +22,7 @@ public class CartService {
     }
     public boolean add(Product p){
         if (data.containsKey(p.getId())){
-            update(p.getId(), data.get(p.getId()).getQuantity()+1);
+            update(p.getId(), data.get(p.getId()).getQuantity()+p.getStock());
             return true;
         }
         data.put(p.getId(), convert(p));

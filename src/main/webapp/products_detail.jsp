@@ -52,49 +52,56 @@
 
         <h1>${p.name}</h1>
         <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
-        <!-- Color options -->
-        <div class="color-options">
-            <h5>Choose color:</h5>
-            <div class="choose_color mt-3">
-                <c:forEach var="co" items="${p.colors}">
-                    <span style="background-color: ${co}"></span>
-                </c:forEach>
+
+        <form id="add-cart-form" action="add-cart" method="post" class="mt-5">
+            <!-- Color options -->
+            <div class="color-options">
+                <h5>Choose color:</h5>
+                <div class="choose_color mt-3">
+                    <c:forEach var="co" items="${p.colors}">
+                        <label>
+                            <input class="d-none" type="radio" name="color" value="${co}">
+                            <span>${co}</span>
+                        </label>
+                    </c:forEach>
+                </div>
             </div>
-        </div>
-        <!-- Size options -->
-        <div class="size-options mt-4">
-            <h5>Choose size:</h5>
-            <div class="choose_size mt-3">
-                <c:forEach var="s" items="${p.sizes}">
-                    <span>${s}</span>
-                </c:forEach>
+
+            <!-- Size options -->
+            <div class="size-options mt-4">
+                <h5>Choose size:</h5>
+                <div class="choose_size mt-3">
+                    <c:forEach var="s" items="${p.sizes}">
+                        <label>
+                            <input class="d-none" type="radio" name="size" value="${s}">
+                            <span>${s}</span>
+                        </label>
+                    </c:forEach>
+                </div>
             </div>
-        </div>
-        <!-- Instructions for choosing size -->
-        <div class="instructions mt-2">
-            <h3 id="open-popup">How to choose the exactly size <i class="fa fa-pencil"></i></h3>
-        </div>
-        <!-- Popup -->
-        <div class="overlay" id="popup-overlay"></div>
-        <div class="popup" id="popup">
-            <img src="assets/imgs/products%20detail/size%20guild/2.png" alt="Size Guide">
-            <button class="close-btn" id="close-popup">Close</button>
-        </div>
-        <!-- Quantity -->
-        <div class="quantity-selector mt-4">
-            <h5>Quantity:</h5>
-            <button class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
-            <input type="text" value="1" id="quantity-input" readonly>
-            <button class="btn btn-outline-secondary" id="increase-btn">+</button>
-        </div>
-        <!-- Buttons: add to cart, buy -->
-        <div class="mt-5">
-            <a class="add_to_cart_btn" href="add-cart?pid=${p.id}">Add to cart</a>
-            <a href="cart.jsp" class="buy_btn">Buy now</a>
-        </div>
+
+            <!-- Quantity -->
+            <div class="quantity-selector mt-4">
+                <h5>Quantity:</h5>
+                <button type="button" class="btn btn-outline-secondary ml-3" id="decrease-btn">-</button>
+                <input type="number" name="quantity" value="1" id="quantity-input" required>
+                <button type="button" class="btn btn-outline-secondary" id="increase-btn">+</button>
+            </div>
+
+            <!-- Alert Message -->
+            <h4 id="alert-message" class="d-none mt-3" style="color: red">Vui lòng chọn màu và kích cỡ</h4>
+
+            <!-- Hidden input for product ID -->
+            <input type="hidden" name="pid" value="${p.id}">
+
+            <!-- Buttons -->
+            <div class="mt-5">
+                <button type="submit" class="btn btn-primary mt-4 add_to_cart_btn">Thêm vào giỏ hàng</button>
+            </div>
+        </form>
+
         <!-- Popup overlay -->
         <div class="addOk-overlay"></div>
-
         <!-- Popup content -->
         <div class="addOk" id="addToCartPopup">
             <img alt="green-tick" src="assets/imgs/Green-Tick.png">
@@ -267,6 +274,35 @@
             overlay.classList.remove('show');
         }, 2000);
     }
+
+    // Alert if user didn't choose color or size
+    document.getElementById('add-cart-form').addEventListener('submit', function (event) {
+        const colorSelected = document.querySelector('input[name="color"]:checked');
+        const sizeSelected = document.querySelector('input[name="size"]:checked');
+        const alertMessage = document.getElementById('alert-message');
+
+        if (!colorSelected || !sizeSelected) {
+            event.preventDefault();
+            alertMessage.classList.remove('d-none');
+        } else {
+            alertMessage.classList.add('d-none');
+        }
+    });
+
+    // Quantity
+    const decreaseBtn = document.getElementById("decrease-btn");
+    const increaseBtn = document.getElementById("increase-btn");
+    const quantityInput = document.getElementById("quantity-input");
+    increaseBtn.addEventListener("click", () => {
+        let currentValue = parseInt(quantityInput.value, 10);
+        quantityInput.value = currentValue + 1;
+    });
+    decreaseBtn.addEventListener("click", () => {
+        let currentValue = parseInt(quantityInput.value, 10);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    });
 </script>
 
 <script src="${pageContext.request.contextPath}/assets/js/products_detail.js"></script>

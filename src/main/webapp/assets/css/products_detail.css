@@ -102,9 +102,7 @@ body {
 
 #section_products .color-options span,
 #section_products .size-options span {
-    display: inline-block;
-    width: 4.5rem;
-    height: 4.5rem;
+    padding: 0.8rem;
     background-color: #ccc;
     margin: 0 1.2rem 0 0;
     cursor: pointer;
@@ -113,13 +111,15 @@ body {
     align-items: center;
 }
 
-#section_products .color-options span:hover {
-    transition: .3s ease-in-out;
-    transform: scale(0.95);
+#section_products .size-options span {
+    width: 4.5rem;
+    height: 4.5rem;
 }
 
-#section_products .size-options span:hover {
-    border: 1px solid #000;
+#section_products .color-options span:hover,
+#section_products .size-options span:hover{
+    background-color: var(--lighter-second-color);
+    color: #ffffff;
 }
 
 #section_products .choose_size,
@@ -261,6 +261,7 @@ body {
 #section_products .buy_btn {
     text-decoration: none;
     border: 2px solid var(--lighter-second-color);
+    background-color: var(--lighter-second-color);
     font-size: 2.5rem;
     padding: 0.5rem 2.5rem;
     transition: .5s ease;
@@ -268,7 +269,7 @@ body {
 }
 
 #section_products .add_to_cart_btn {
-    color: #000;
+    color: #ffffff;
 }
 
 #section_products .buy_btn {
@@ -278,8 +279,8 @@ body {
 }
 
 #section_products .add_to_cart_btn:hover {
-    background-color: var(--lighter-second-color);
-    color: #fff;
+    background: none;
+    color: #000000;
 }
 
 #section_products .buy_btn:hover {
@@ -324,6 +325,28 @@ body {
 
 .addOk-overlay.show {
     display: block;
+}
+
+/* Hiệu ứng cho phần tử được chọn */
+.color-options label input:checked + span,
+.size-options label input:checked + span{
+    transform: scale(.9);
+    transition: all 0.3s ease;
+    background-color: var(--lighter-second-color)!important;
+    color: #ffffff;
+}
+
+/* Ẩn các mũi tên bên trong input[type="number"] */
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+    -webkit-appearance: none;  /* Safari and Chrome */
+    appearance: none;          /* Standard */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Ẩn khoảng cách của nút spin */
 }
 
 /* ===================================================== Description ===================================================== */
