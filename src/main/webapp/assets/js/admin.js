@@ -256,7 +256,10 @@ function openEditPopup(event) {
 }
 
 
-function saveUserEdits() {
+function saveUserEdits(event) {
+    // Ngăn hành vi submit mặc định của form
+    event.preventDefault();
+
     // Thu thập dữ liệu từ các trường nhập liệu
     const user = {
         id: parseInt(document.getElementById("edit-id").value),
