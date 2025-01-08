@@ -50,7 +50,7 @@ public class UserDao implements CRUIDDao {
     public boolean create(Object obj) {
         User user = (User) obj;
         listUser.put(user.getUserName(), user);
-        String sql = "INSERT INTO users (userName, passWord, firstName, lastName, email, avatar, address, phone, status, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status, createdAt, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, user.getUserName());
@@ -76,10 +76,10 @@ public class UserDao implements CRUIDDao {
         return JDBIConnector.get().withHandle(handle -> {
             User user = (User) obj;
             listUser.replace(userName, user);
-            String sql = "UPDATE users SET userName = ?, passWord = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, roleId = ? WHERE userName ='" + userName + "'";
+            String sql = "UPDATE users SET id = ?, userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ?, roleId = ? WHERE userName = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, user.getUserName());
-                ps.setString(2, user.getPassWord());
+                ps.setInt(1, user.getId());
+                ps.setString(2, user.getUserName());
                 ps.setString(3, user.getFirstName());
                 ps.setString(4, user.getLastName());
                 ps.setString(5, user.getEmail());
@@ -87,8 +87,9 @@ public class UserDao implements CRUIDDao {
                 ps.setString(7, user.getAddress());
                 ps.setInt(8, user.getPhone());
                 ps.setInt(9, user.getStatus());
-                ps.setInt(10, user.getRoleId());
-                ps.setString(11, userName);
+                ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
+                ps.setInt(11, user.getRoleId());
+                ps.setString(12, userName);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
                 System.out.println("Loi khi update user: " + e.getMessage());

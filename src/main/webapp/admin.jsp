@@ -476,7 +476,7 @@
             <div class="recent-orders popup">
                 <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
                 <h2>Chỉnh Sửa Người Dùng</h2>
-                <form id="user-edit-form" method="POST" action="admin/manager-users">
+                <form id="user-edit-form" action="/WebBanQuanAo/admin/manager-users">
                     <table id="user_edit--table">
                         <thead>
                         <tr>
@@ -497,27 +497,17 @@
                         <tbody>
                         <!-- Các trường nhập sẽ được thêm vào ở đây qua JavaScript hoặc từ server -->
                         <tr>
-                            <td><input type="text" name="id" id="edit-id" readonly></td>
-                            <td><input type="text" name="username" id="edit-username" required></td>
+                            <td><input type="number" name="id" id="edit-id" readonly></td>
+                            <td><input type="text" name="username" id="edit-username" readonly></td>
                             <td><input type="text" name="lastName" id="edit-lastName" required></td>
                             <td><input type="text" name="firstName" id="edit-firstName" required></td>
-                            <td><input type="email" name="email" id="edit-email" required></td>
-                            <td><input type="file" name="avatar" id="edit-avatar"></td>
+                            <td><input type="text" name="email" id="edit-email" required></td>
+                            <td><input type="text" name="avatar" id="edit-avatar"></td>
                             <td><input type="text" name="address" id="edit-address" required></td>
-                            <td><input type="text" name="phone" id="edit-phone" required></td>
+                            <td><input type="number" name="phone" id="edit-phone" required></td>
                             <td><input type="datetime-local" name="createdDate" id="edit-createdDate" readonly></td>
-                            <td>
-                                <select name="status" id="edit-status" required>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="role" id="edit-role" required>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                </select>
-                            </td>
+                            <td><input type="number" name="status" id="edit-status" required></td>
+                            <td><input type="number" name="role" id="edit-role" required></td>
                         </tr>
                         </tbody>
                     </table>

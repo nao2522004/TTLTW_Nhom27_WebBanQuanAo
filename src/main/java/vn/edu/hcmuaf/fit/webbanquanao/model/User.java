@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class User implements Serializable {
-    private int id;
+    private Integer id;
     private String userName;
     private String passWord;
     private String firstName;
@@ -21,7 +21,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(int id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
+    public User(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -36,7 +36,21 @@ public class User implements Serializable {
         this.roleId = roleId;
     }
 
-    public int getId() {
+    public User(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.avatar = avatar;
+        this.address = address;
+        this.phone = phone;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.roleId = roleId;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -84,7 +98,7 @@ public class User implements Serializable {
         return roleId;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

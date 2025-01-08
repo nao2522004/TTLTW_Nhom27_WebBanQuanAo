@@ -5,6 +5,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.util.Map;
 
+
 public class UserService {
 
     public Map<String, User> showUser() {
@@ -14,7 +15,7 @@ public class UserService {
 
     public boolean updateUser(User user, String userName) {
         UserDao uDao = new UserDao();
-        return uDao.update(user, userName);
+        return uDao.update(user, getUserByUsername(userName).getUserName());
     }
 
     public User getUserByUsername(String username) {
@@ -22,5 +23,11 @@ public class UserService {
         if(!uDao.listUser.containsKey(username))
            return null;
         return uDao.listUser.get(username);
+    }
+
+    public static void main(String[] args) {
+        UserService userService = new UserService();
+
+        userService.updateUser( new User(3, "user2", "user2", "Nam", "Phạm", "abc@gmail.com", "andday", "Long An", 123456789, 1, userService.getUserByUsername("user3").getCreatedAt(), 2), userService.getUserByUsername("user3").getUserName());
     }
 }

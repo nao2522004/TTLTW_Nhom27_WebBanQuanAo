@@ -144,7 +144,7 @@ const buildTableOrderDetails = () => {
 // Lấy danh sách người dùng từ server
 function fetchUsers() {
     $.ajax({
-        url: 'admin/manager-users',
+        url: '/WebBanQuanAo/admin/manager-users',
         type: 'GET',
         dataType: 'json',
         success: function (users) {
@@ -177,10 +177,12 @@ function saveUserToServer(user) {
             alert("User added successfully!");
             fetchUsers(); // Làm mới danh sách người dùng sau khi thêm thành công
         },
-        error: function (xhr, status, error) {
-            console.error('Error saving user:', error);
-            alert("Failed to save user. Please check the input and try again.");
+        error: function(xhr, status, error) {
+            console.error("Lỗi khi cập nhật thông tin người dùng:", error);
+            console.error("Response Text:", xhr.responseText);
+            alert("Không thể cập nhật thông tin người dùng. Vui lòng kiểm tra lại dữ liệu và thử lại.");
         }
+
     });
 }
 
@@ -200,7 +202,7 @@ const buildTableUser = (users) => {
           <td>${user.lastName}</td>
           <td>${user.firstName}</td>
           <td>${user.email}</td>
-          <td><img src="${user.avatar}" alt="Avatar" width="50" height="50"></td>
+          <td>${user.avatar}</td>   
           <td>${user.address}</td>
           <td>${user.phone}</td>
           <td>${user.createdAt}</td>
@@ -224,15 +226,13 @@ const buildTableUser = (users) => {
 function openEditPopup(event) {
     const userName = event.target.getAttribute("data-username");  // Lấy username từ thuộc tính data-username
 
-    console.log("Editing user:", userName);  // Kiểm tra giá trị của username
-
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");
     overlay.style.display = "block"; // Hiển thị lớp phủ của main hiện tại
 
     // Gửi yêu cầu AJAX để lấy dữ liệu người dùng theo username
     $.ajax({
-        url: 'admin/manager-users', // Đảm bảo rằng URL này khớp với mapping của servlet
+        url: '/WebBanQuanAo/admin/manager-users', // Đảm bảo rằng URL này khớp với mapping của servlet
         type: 'GET',
         data: { username: userName },  // Gửi username dưới dạng tham số truy vấn
         success: function (data) {
@@ -245,8 +245,8 @@ function openEditPopup(event) {
             document.getElementById("edit-address").value = data.address;
             document.getElementById("edit-phone").value = data.phone;
             document.getElementById("edit-createdDate").value = data.createdAt;
-            document.getElementById("edit-status").value = data.status === 1 ? "active" : "inactive";
-            document.getElementById("edit-role").value = data.roleId === 1 ? "admin" : "user";
+            document.getElementById("edit-status").value = data.status;
+            document.getElementById("edit-role").value = data.roleId;
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
@@ -257,24 +257,33 @@ function openEditPopup(event) {
 
 
 function saveUserEdits() {
+    // Thu thập dữ liệu từ các trường nhập liệu
     const user = {
-        id: document.getElementById("edit-id").value,
-        username: document.getElementById("edit-username").value,
-        lastName: document.getElementById("edit-lastName").value,
+        id: parseInt(document.getElementById("edit-id").value),
+        userName: document.getElementById("edit-username").value,
         firstName: document.getElementById("edit-firstName").value,
+        lastName: document.getElementById("edit-lastName").value,
         email: document.getElementById("edit-email").value,
+        avatar: document.getElementById("edit-avatar").value,
         address: document.getElementById("edit-address").value,
-        phone: document.getElementById("edit-phone").value,
-        createdDate: document.getElementById("edit-createdDate").value,
-        status: document.getElementById("edit-status").value === "active" ? 1 : 0,
-        role: document.getElementById("edit-role").value === "admin" ? 1 : 2,
+        phone: parseInt(document.getElementById("edit-phone").value),
+        status: parseInt(document.getElementById("edit-status").value),
+        createdAt: new Date(document.getElementById("edit-createdDate").value).toISOString(),
+        roleId: parseInt(document.getElementById("edit-role").value)
     };
 
+    // Chuyển đổi đối tượng `user` thành JSON
+    const userJson = JSON.stringify(user);
+
+    // Log để kiểm tra JSON đã tạo
+    console.log("JSON object gửi đi:", userJson);
+
+    // Gửi yêu cầu AJAX với JSON
     $.ajax({
-        url: '/admin/manager-users',
+        url: '/WebBanQuanAo/admin/manager-users',
         type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(user),
+        contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
+        data: userJson, // Gửi JSON object
         success: function (response) {
             alert("Cập nhật thông tin người dùng thành công!");
             fetchUsers(); // Tải lại danh sách người dùng

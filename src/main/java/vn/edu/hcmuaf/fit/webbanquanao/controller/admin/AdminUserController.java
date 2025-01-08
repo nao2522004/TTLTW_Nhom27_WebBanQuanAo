@@ -1,11 +1,14 @@
 package vn.edu.hcmuaf.fit.webbanquanao.controller.admin;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.service.AuthService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
@@ -50,7 +53,7 @@ public class AdminUserController extends HttpServlet {
             } else {
                 // Nếu không tìm thấy người dùng, trả về lỗi 404
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().write("{\"message\": \"User not found\"}");
+                response.getWriter().write("{\"message\": \"Khong tim thay user\"}");
             }
         } else {
             // Nếu không có 'username', trả về tất cả người dùng
@@ -79,48 +82,62 @@ public class AdminUserController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy thông tin từ request
-        String userId = request.getParameter("id");
-        String username = request.getParameter("username");
-        String lastName = request.getParameter("lastName");
-        String firstName = request.getParameter("firstName");
-        String email = request.getParameter("email");
-        String avatar = request.getParameter("avatar");
-        String address = request.getParameter("address");
-        String phone = request.getParameter("phone");
-        String createdDate = request.getParameter("createdDate");
-        String status = request.getParameter("status");
-        String role = request.getParameter("role");
-
-        // Tạo đối tượng User từ thông tin request
-        User updatedUser = new User();
-        updatedUser.setId(Integer.parseInt(userId));
-        updatedUser.setUserName(username);
-        updatedUser.setLastName(lastName);
-        updatedUser.setFirstName(firstName);
-        updatedUser.setEmail(email);
-        updatedUser.setAvatar(avatar);
-        updatedUser.setAddress(address);
-        updatedUser.setPhone(Integer.valueOf(phone));
-        updatedUser.setCreatedAt(LocalDateTime.parse(createdDate)); // Giả sử bạn xử lý định dạng chuỗi thành LocalDateTime trong User
-        updatedUser.setStatus(status.equals("active") ? 1 : 0); // Mapping status
-        updatedUser.setRoleId(role.equals("admin") ? 1 : 2); // Mapping role
-
-        // Gọi UserService để cập nhật người dùng
-        UserService userService = new UserService();
-        boolean isUpdated = userService.updateUser(updatedUser, username);
-
-        // Thiết lập phản hồi JSON
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        PrintWriter out = response.getWriter();
-        if (isUpdated) {
-            out.print("{\"message\": \"User updated successfully\"}");
-        } else {
-            out.print("{\"message\": \"User update failed\"}");
+        try {
+            // Đọc JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+
+            // Log JSON nhận được
+            System.out.println("JSON body received: " + json);
+
+            // Parse JSON
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+            User user = gson.fromJson(json, User.class);
+
+            // Log user nhận được
+            System.out.println("User received: " + user);
+
+            // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
+            if (user.getId() == null || user.getUserName() == null) {
+                throw new IllegalArgumentException("Missing required fields");
+            }
+
+            // Gọi service để cập nhật
+            UserService userService = new UserService();
+            boolean isUpdated = userService.updateUser(user, user.getUserName());
+
+            // Phản hồi
+            JsonObject jsonResponse = new JsonObject();
+            if (isUpdated) {
+                jsonResponse.addProperty("message", "User updated successfully");
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                jsonResponse.addProperty("message", "Failed to update user");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+            response.getWriter().write(gson.toJson(jsonResponse));
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Invalid JSON format\"}");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Missing required fields\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Error processing request: " + e.getMessage() + "\"}");
         }
-        out.flush();
     }
 
 
