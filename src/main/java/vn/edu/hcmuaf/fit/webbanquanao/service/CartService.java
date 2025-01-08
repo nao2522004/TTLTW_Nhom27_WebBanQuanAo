@@ -63,7 +63,8 @@ public class CartService {
         result.setUnitPrice(p.getUnitPrice());
         result.setImg(p.getImg());
         result.setQuantity(1);
-
+        result.setSize(p.getSize());
+        result.setColor(p.getColor());
         return result;
     }
 

@@ -10,15 +10,13 @@ import vn.edu.hcmuaf.fit.webbanquanao.service.CartService;
 
 import java.io.IOException;
 
-@WebServlet(name = "Remove", value = "/del-cart")
+@WebServlet(name = "del", value = "/del-cart")
 public class Remove extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pro = -1;
+        int pid = -1;
         try {
-            pro = Integer.parseInt(request.getParameter("pro"));
+            pid = Integer.parseInt(request.getParameter("pid"));
         } catch (NumberFormatException e) {
             response.sendRedirect("ShowCart");
         }
@@ -27,10 +25,9 @@ public class Remove extends HttpServlet {
         if(cart == null){
             cart = new CartService();
         }
-        cart.remove(pro);
+        cart.remove(pid);
         session.setAttribute("cart",cart);
         response.sendRedirect("ShowCart");
-
-
     }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
 }

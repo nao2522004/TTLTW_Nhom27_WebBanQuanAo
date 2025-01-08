@@ -8,6 +8,8 @@ public class CartProduct implements Serializable {
      private double unitPrice;
      private String img;
      private int quantity;
+     private String size;
+     private String color;
 
      public int getId() {return id;}
     public void setId(int id) {this.id = id;}
@@ -19,5 +21,9 @@ public class CartProduct implements Serializable {
     public void setQuantity(int quantity) {this.quantity = quantity;}
     public String getImg() {return img;}
     public void setImg(String img) {this.img = img;}
+    public String getSize() {return size;}
+    public void setSize(String size) {this.size = size;}
+    public String getColor() {return color;}
+    public void setColor(String color) {this.color = color;}
 
 }

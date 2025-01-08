@@ -30,10 +30,13 @@
             <c:forEach items="${sessionScope.cart.list}" var="cp">
                 <div class="row border-top-bottom">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="${cp.img}" alt=""></div>
+                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.img}" alt=""></div>
                         <div class="col">
                             <div class="row text-muted">${cp.name}</div>
-                            <div class="row"></div>
+                            <div class="row text-muted">
+                                    ${cp.size}
+                                <div class="col text-muted">${cp.color}</div>
+                            </div>
                         </div>
                         <div class="col">
                             <div class="quantity-controls">
@@ -42,7 +45,8 @@
                                 <button class="btn-increase">+</button>
                             </div>
                         </div>
-                        <div class="col">${cp.unitPrice * cp.quantity}<span class="close" href="del-cart?pro=${cp.id}">&#10005;</span></div>
+                        <div class="product-price col" data-price="${cp.unitPrice * cp.quantity}"></div>
+                        <a href="del-cart?pid=${cp.id}"><button class="close col">&#10005;</button></a>
                     </div>
                 </div>
             </c:forEach>
