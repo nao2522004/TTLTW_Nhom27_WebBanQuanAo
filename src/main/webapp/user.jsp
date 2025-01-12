@@ -55,45 +55,40 @@
       <!-- Profile Info -->
       <main id="profile-info" class="col-md-9 p-4 bg-white rounded">
         <h4 class="font-weight-bold mb-4 text-second-color">Thông tin tài khoản</h4>
-        <form method="post">
+        <form method="post" action="updateProfileServlet">
           <div class="form-group">
             <label for="name">Họ và tên</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    value="<%= ((User) session.getAttribute("auth")).getFirstName() + ' ' + ((User) session.getAttribute("auth")).getLastName() %>"
-                    required>
+            <input type="text" class="form-control" id="name" name="name"
+                   value="<%= ((User) session.getAttribute("auth")).getLastName() + ' ' + ((User) session.getAttribute("auth")).getFirstName() %>" required>
           </div>
           <div class="form-group">
             <label for="phone">Số điện thoại</label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="phone"
-                    value="<%= ((User) session.getAttribute("auth")).getPhone() %>"
-                    required>
+            <input type="text" class="form-control" id="phone" name="phone"
+                   value="<%= ((User) session.getAttribute("auth")).getPhone() %>" required>
           </div>
           <div class="form-group">
             <label for="gender">Giới tính</label>
-            <select class="form-control" id="gender" style="padding: 0;">
-              <option selected>Chưa cập nhật!</option>
-              <option>Nam</option>
-              <option>Nữ</option>
-              <option>Khác</option>
+            <select class="form-control" id="gender" name="gender" style="padding: 0;">
+              <option <%= ((User) session.getAttribute("auth")).getGender() == null ? "selected" : "" %>>Chưa cập nhật!</option>
+              <option value="Nam" <%= "Nam".equals(((User) session.getAttribute("auth")).getGender()) ? "selected" : "" %>>Nam</option>
+              <option value="Nữ" <%= "Nữ".equals(((User) session.getAttribute("auth")).getGender()) ? "selected" : "" %>>Nữ</option>
+              <option value="Khác" <%= "Khác".equals(((User) session.getAttribute("auth")).getGender()) ? "selected" : "" %>>Khác</option>
             </select>
           </div>
           <div class="form-group">
             <label for="dob">Ngày sinh</label>
-            <input type="date" class="form-control" id="dob">
+            <input type="date" class="form-control" id="dob" name="dob"
+                   value="<%= ((User) session.getAttribute("auth")).getDateOfBirth() %>">
           </div>
           <div class="form-group">
             <label for="height">Chiều cao (cm)</label>
-            <input type="number" class="form-control" id="height" placeholder="Chưa cập nhật!">
+            <input type="number" class="form-control" id="height" name="height"
+                   value="<%= ((User) session.getAttribute("auth")).getHeight() %>" placeholder="Chưa cập nhật!">
           </div>
           <div class="form-group">
             <label for="weight">Cân nặng (kg)</label>
-            <input type="number" class="form-control" id="weight" placeholder="Chưa cập nhật!">
+            <input type="number" class="form-control" id="weight" name="weight"
+                   value="<%= ((User) session.getAttribute("auth")).getWeight() %>" placeholder="Chưa cập nhật!">
           </div>
           <button type="submit" class="btn btn-second-color">Cập nhật</button>
         </form>
@@ -103,25 +98,17 @@
         <div class="inform-login">
           <div class="form-group">
             <label for="email">Email</label>
-            <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    value="<%= ((User) session.getAttribute("auth")).getEmail() %>"
-                    readonly>
+            <input type="email" class="form-control" id="email"
+                   value="<%= ((User) session.getAttribute("auth")).getEmail() %>" readonly>
           </div>
           <div class="form-group">
             <label for="password">Mật khẩu</label>
-            <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    value="************"
-                    readonly>
+            <input type="password" class="form-control" id="password" value="************" readonly>
           </div>
           <button class="btn btn-second-color" id="openPopup" onclick="openChangePassword()">Đổi mật khẩu</button>
         </div>
       </main>
+
 
 
 
