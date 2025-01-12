@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.controller.admin;
+package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

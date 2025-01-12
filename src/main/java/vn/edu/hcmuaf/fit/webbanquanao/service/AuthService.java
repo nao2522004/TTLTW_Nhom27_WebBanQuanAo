@@ -11,7 +11,7 @@ public class AuthService {
         UserDao uDao = new UserDao(); // Khởi tạo UserDao
 
         // Lấy User từ cơ sở dữ liệu thông qua UserDao
-        User user = uDao.getUserByUsername(userName);
+        User user = uDao.listUser.get(userName);
 
         if (user != null) {
             // So sánh mật khẩu

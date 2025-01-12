@@ -506,8 +506,18 @@
                             <td><input type="text" name="address" id="edit-address" required></td>
                             <td><input type="number" name="phone" id="edit-phone" required></td>
                             <td><input type="datetime-local" name="createdDate" id="edit-createdDate" readonly></td>
-                            <td><input type="number" name="status" id="edit-status" required></td>
-                            <td><input type="number" name="role" id="edit-role" required></td>
+                            <td>
+                                <select name="status" id="edit-status" required>
+                                    <option value="1">Hoạt Động</option>
+                                    <option value="0">Không Hoạt Động</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="role" id="edit-role" required>
+                                    <option value="1">Admin</option>
+                                    <option value="2">User</option>
+                                </select>
+                            </td>
                             <td><span type="submit" onclick="saveUserEdits(event)" class="primary material-icons-sharp">save</span>
                             </td>
                         </tr>
@@ -519,6 +529,87 @@
         </div>
 
     </main>
+
+    <!------------------------------------ Add User ------------------------------------>
+    <main id="add_user">
+        <h1>Thêm Người Dùng</h1>
+        <form id="add-user-form">
+            <div class="form-group">
+                <div class="form-group--items">
+                    <label for="userName">Tên đăng nhập</label>
+                    <input type="text" id="userName" name="userName" placeholder="Nhập tên đăng nhập." required>
+                </div>
+                <div class="form-group--items">
+                    <label for="passWord">Mật Khẩu</label>
+                    <input type="passWord" id="passWord" name="passWord" placeholder="Nhập mật khẩu." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group--items">
+                    <label for="firstName">Họ</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Nhập họ." required>
+                </div>
+                <div class="form-group--items">
+                    <label for="lastName">Tên</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Nhập tên." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group--items">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email." required>
+                </div>
+                <%--                <div action="/upload" method="post" enctype="multipart/form-data" class="form-group--items"--%>
+                <%--                     style="position: relative;">--%>
+                <%--                    <label for="product-image">Chọn Ảnh</label>--%>
+                <%--                    <input type="file" style="z-index: 100;" id="product-image" name="product-image"--%>
+                <%--                           accept="image/*" placeholder="Tải têp.">--%>
+                <%--                    <input type="text" id="product-img" name="product-img" placeholder="Tải ảnh lên." required--%>
+                <%--                           style="position: absolute; top: 42%;">--%>
+                <%--                </div>--%>
+                <div class="form-group--items">
+                    <label for="avatar">Email</label>
+                    <input type="text" id="avatar" name="avatar" placeholder="Nhập avatar." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group--items">
+                    <label for="address">Địa Chỉ</label>
+                    <input type="text" id="address" name="address" placeholder="Nhập địa chỉ." required>
+                </div>
+                <div class="form-group--items">
+                    <label for="phone">Số Điện Thoại</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại." required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group--items">
+                    <label for="status">Trạng Thái</label>
+                    <select id="status" name="status" required>
+                        <option type="number" value="1">Hoạt Động</option>
+                        <option type="number" value="0">Không Hoạt Động</option>
+                    </select>
+                </div>
+                <div class="form-group--items">
+                    <label for="roleId">Quyền</label>
+                    <select id="roleId" name="roleId" required>
+                        <option type="number" value="1">Admin</option>
+                        <option type="number" value="2">User</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" onclick="createUser(event)" class="btn-primary">
+                <span class="material-icons-sharp"> add </span>
+                <h3>Thêm Người Dùng</h3>
+            </button>
+        </form>
+    </main>
+
 
     <!--------------------------------------------------------
 ---------------------------------------------------------
@@ -867,78 +958,6 @@
         </form>
     </main>
 
-    <!------------------------------------ Add User ------------------------------------>
-    <main id="add_user">
-        <h1>Thêm Người Dùng</h1>
-        <form id="add-product-form">
-            <div class="form-group">
-                <div class="form-group--items">
-                    <label for="username">Tên đăng nhập</label>
-                    <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập." required>
-                </div>
-                <div class="form-group--items">
-                    <label for="role-id">ID Vai Trò</label>
-                    <input type="text" id="role-id" name="role-id" placeholder="Nhập ID vai trò." required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="form-group--items">
-                    <label for="firstname">Họ</label>
-                    <input type="text" id="firstname" name="firstname" placeholder="Nhập họ." required>
-                </div>
-                <div class="form-group--items">
-                    <label for="lastname">Tên</label>
-                    <input type="text" id="lastname" name="lastname" placeholder="Nhập tên." required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="form-group--items">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Nhập email." required>
-                </div>
-                <div action="/upload" method="post" enctype="multipart/form-data" class="form-group--items"
-                     style="position: relative;">
-                    <label for="product-image">Chọn Ảnh</label>
-                    <input type="file" style="z-index: 100;" id="product-image" name="product-image"
-                           accept="image/*" placeholder="Tải têp.">
-                    <input type="text" id="product-img" name="product-img" placeholder="Tải ảnh lên." required
-                           style="position: absolute; top: 42%;">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="form-group--items">
-                    <label for="password">Mật Khẩu</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu." required>
-                </div>
-                <div class="form-group--items">
-                    <label for="address">Địa Chỉ</label>
-                    <input type="text" id="address" name="address" placeholder="Nhập địa chỉ." required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="form-group--items">
-                    <label for="phone">Số Điện Thoại</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại." required>
-                </div>
-                <div class="form-group--items">
-                    <label for="status">Trạng Thái</label>
-                    <select id="status" name="status" required>
-                        <option value="1">Hoạt Động</option>
-                        <option value="0">Không Hoạt Động</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-primary">
-                <span class="material-icons-sharp"> add </span>
-                <h3>Thêm Người Dùng</h3>
-            </button>
-        </form>
-    </main>
 
     <!------------------------------------ Add Others ------------------------------------>
     <main id="add_others">

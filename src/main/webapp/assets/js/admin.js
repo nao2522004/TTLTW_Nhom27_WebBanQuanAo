@@ -299,6 +299,33 @@ function saveUserEdits(event) {
     });
 }
 
+function createUser(event) {
+    event.preventDefault()
+
+    const form = document.getElementById('add-user-form');
+    const formData = new FormData(form);
+
+    const userData = Object.fromEntries(formData.entries());
+
+    fetch('/WebBanQuanAo/admin/manager-users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+    })
+        .then(response => {
+            if (response.ok) return response.json();
+            return response.json().then(err => Promise.reject(err));
+        })
+        .then(data => {
+            alert(data.message || 'Người dùng đã được tạo thành công!');
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            alert(err.message || 'Không thể tạo người dùng. Vui lòng thử lại.');
+        });
+}
 
 /*--------------------------------------------------------
 ---------------------------------------------------------

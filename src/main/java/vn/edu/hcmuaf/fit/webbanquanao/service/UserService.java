@@ -18,16 +18,23 @@ public class UserService {
         return uDao.update(user, getUserByUsername(userName).getUserName());
     }
 
+    public boolean createUser(User user) {
+        UserDao uDao = new UserDao();
+        if(uDao.listUser.containsKey(user.getUserName()))
+            return false;
+        return uDao.create(user);
+    }
+
     public User getUserByUsername(String username) {
         UserDao uDao = new UserDao();
         if(!uDao.listUser.containsKey(username))
-           return null;
+            return null;
         return uDao.listUser.get(username);
     }
 
     public static void main(String[] args) {
         UserService userService = new UserService();
 
-        userService.updateUser( new User(3, "user2", "user2", "Nam", "Phạm", "abc@gmail.com", "andday", "Long An", 123456789, 1, userService.getUserByUsername("user3").getCreatedAt(), 2), userService.getUserByUsername("user3").getUserName());
     }
+
 }
