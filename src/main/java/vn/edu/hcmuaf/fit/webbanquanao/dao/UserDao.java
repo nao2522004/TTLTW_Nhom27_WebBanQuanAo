@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -112,6 +114,36 @@ public class UserDao implements CRUIDDao {
             }
             return false;
         });
+    }
+
+    public User getUserByUsername(String userName) {
+        String sql = """
+        SELECT id, userName, passWord, firstName, lastName, email, avatar, 
+               address, phone, createdAt, status, roleId 
+        FROM users WHERE userName = :userName
+    """;
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("userName", userName)
+                        .map((rs, ctx) -> {
+                            User user = new User();
+                            user.setId(rs.getInt("id"));
+                            user.setUserName(rs.getString("userName"));
+                            user.setPassWord(rs.getString("passWord"));
+                            user.setFirstName(rs.getString("firstName"));
+                            user.setLastName(rs.getString("lastName"));
+                            user.setEmail(rs.getString("email"));
+                            user.setAvatar(rs.getString("avatar"));
+                            user.setAddress(rs.getString("address"));
+                            user.setPhone(rs.getInt("phone"));
+                            user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                            user.setStatus(rs.getInt("status"));
+                            user.setRoleId(rs.getInt("roleId"));
+                            return user;
+                        })
+                        .findOne()
+                        .orElse(null)
+        );
     }
 
 

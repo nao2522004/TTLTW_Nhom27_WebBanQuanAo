@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,14 +55,24 @@
       <!-- Profile Info -->
       <main id="profile-info" class="col-md-9 p-4 bg-white rounded">
         <h4 class="font-weight-bold mb-4 text-second-color">Thông tin tài khoản</h4>
-        <form>
+        <form method="post">
           <div class="form-group">
             <label for="name">Họ và tên</label>
-            <input type="text" class="form-control" id="name" value="Mạnh Hoàng Lê Nguyễn">
+            <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    value="<%= ((User) session.getAttribute("auth")).getFirstName() + ' ' + ((User) session.getAttribute("auth")).getLastName() %>"
+                    required>
           </div>
           <div class="form-group">
             <label for="phone">Số điện thoại</label>
-            <input type="text" class="form-control" id="phone" value="0396788838">
+            <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    value="<%= ((User) session.getAttribute("auth")).getPhone() %>"
+                    required>
           </div>
           <div class="form-group">
             <label for="gender">Giới tính</label>
@@ -87,18 +98,28 @@
           <button type="submit" class="btn btn-second-color">Cập nhật</button>
         </form>
 
+        <!-- Login Info -->
         <h4 class="font-weight-bold mt-5 mb-4 text-second-color">Thông tin đăng nhập</h4>
         <div class="inform-login">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" value="22130163@st.hcmuaf.edu.vn" readonly>
+            <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    value="<%= ((User) session.getAttribute("auth")).getEmail() %>"
+                    readonly>
           </div>
           <div class="form-group">
             <label for="password">Mật khẩu</label>
-            <input type="password" class="form-control" id="password" value="************" required minlength="8"
-              readonly>
+            <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    value="************"
+                    readonly>
           </div>
-          <button class="btn btn-second-color" id="openPopup">Đổi mật khẩu</button>
+          <button class="btn btn-second-color" id="openPopup" onclick="openChangePassword()">Đổi mật khẩu</button>
         </div>
       </main>
 
@@ -143,21 +164,6 @@
               <div class="text-right">
                 <p id="product-old-price" class="mb-1"><s>300.000đ</s></p>
                 <p id="product-new-price" class="text-danger mb-0"><strong>200.000đ</strong></p>
-              </div>
-            </li>
-            <!-- Product 2 -->
-            <li id="order-product-item-2" class="list-group-item d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
-                <img src="assets/imgs/Collection-running/epitem1.1.webp" alt="Sản phẩm 2"
-                     class="order-product-img rounded mr-3">
-                <div>
-                  <h6 id="product-name" class="mb-1">Sản phẩm 2</h6>
-                  <p id="product-qty" class="text-muted mb-0">Số lượng: 2</p>
-                </div>
-              </div>
-              <div class="text-right">
-                <p id="product-old-price" class="mb-1"><s>600.000đ</s></p>
-                <p id="product-new-price" class="text-danger mb-0"><strong>400.000đ</strong></p>
               </div>
             </li>
           </ul>

@@ -14,10 +14,15 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("auth") == null) {
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        if (session.getAttribute("auth") != null) {
+            // Nếu người dùng đã đăng nhập, điều hướng đến user.jsp
+            response.sendRedirect("./user.jsp");
+        } else {
+            // Nếu chưa đăng nhập, hiển thị trang đăng nhập
+            request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,13 +40,11 @@ public class LoginController extends HttpServlet {
             if (user.getRoleId() == 1) {
                 response.sendRedirect("./admin.jsp");
             } else {
-                response.sendRedirect("./index.jsp");
+                response.sendRedirect("homePage");
             }
         } else {
             request.setAttribute("error", "Dang Nhap Khong Thanh Cong");
-            request.getRequestDispatcher("./about.jsp").forward(request, response);
+            request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
-
-
     }
 }

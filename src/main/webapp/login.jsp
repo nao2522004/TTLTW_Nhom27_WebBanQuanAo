@@ -62,6 +62,7 @@
                     <a href="forgot-password.jsp">Quên mật khẩu?</a>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg ">Đăng Nhập</button>
+                <p style="color: red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %></p>
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
