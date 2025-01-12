@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <header>
   <a href="homePage" class="logo"><img src="./assets/imgs/Logo/LASMANATE.png" alt=""></a>
@@ -21,7 +22,21 @@
     </nav>
   </div>
   <div class="group_icons">
+    <%
+      User user = (User) session.getAttribute("auth"); // Kiểm tra người dùng trong session
+      if (user != null) {
+    %>
+    <!-- Nếu người dùng đã đăng nhập, chuyển đến trang người dùng -->
+    <a href="user.jsp"><i class="fa-solid fa-user custom_size"></i></a>
+    <%
+    } else {
+    %>
+    <!-- Nếu người dùng chưa đăng nhập, chuyển đến trang đăng nhập -->
     <a href="login.jsp"><i class="fa-solid fa-user custom_size"></i></a>
+    <%
+      }
+    %>
+
     <a href="wishlist.jsp"><i class="fa-solid fa-heart custom_size"></i></a>
     <a href="ShowCart"><i class="fa-solid fa-cart-shopping custom_size"></i></a>
   </div>

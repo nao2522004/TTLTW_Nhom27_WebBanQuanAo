@@ -18,10 +18,7 @@ public class UpdateProfileController extends HttpServlet {
         // Lấy thông tin từ form
         String name = request.getParameter("name");
         Integer phone = Integer.valueOf(request.getParameter("phone"));
-        String gender = request.getParameter("gender");
-        String dob = request.getParameter("dob");
-        String height = request.getParameter("height");
-        String weight = request.getParameter("weight");
+
 
         // Lấy thông tin người dùng hiện tại từ session
         User user = (User) request.getSession().getAttribute("auth");
@@ -41,10 +38,7 @@ public class UpdateProfileController extends HttpServlet {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setPhone(phone);
-        user.setGender(gender);
-        user.setDateOfBirth(LocalDate.parse(dob));
-        if (!height.isEmpty()) user.setHeight(Integer.parseInt(height));
-        if (!weight.isEmpty()) user.setWeight(Integer.parseInt(weight));
+
 
         // Lưu vào cơ sở dữ liệu
         UserDao userDao = new UserDao();
