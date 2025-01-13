@@ -48,7 +48,13 @@
           <li class="nav-item" onclick="showMain(event, 'notification')" style="position: relative;"><i
               class="fas fa-question-circle"></i> Thông
             báo<span class="notification-count">1</span></li>
-          <li class="nav-item"><a href="index.jsp"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+          <li class="nav-item">
+            <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+              <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            </a>
+            <form id="logoutForm" action="logout" method="post" style="display: none;">
+            </form>
+          </li>
         </ul>
       </div>
 
@@ -108,9 +114,6 @@
           <button class="btn btn-second-color" id="openPopup" onclick="openChangePassword()">Đổi mật khẩu</button>
         </div>
       </main>
-
-
-
 
       <!-- Order History -->
       <main id="order-container" class="col-md-9 p-4 bg-white rounded">

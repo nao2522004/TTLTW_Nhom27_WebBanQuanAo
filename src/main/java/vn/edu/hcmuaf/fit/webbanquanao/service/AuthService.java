@@ -20,7 +20,7 @@ public class AuthService {
                 return user;
             }
         }
-        return null; // Trả về null nếu không tìm thấy hoặc sai mật khẩu
+        return null;
     }
 
 }

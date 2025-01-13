@@ -520,3 +520,19 @@ INSERT INTO `users` VALUES (2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', 'lua
 INSERT INTO `users` VALUES (3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', 'namday', 'SaiGon', '022222222', b'1', '2024-12-24 22:37:22', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for types
+-- ----------------------------
+
+DROP TABLE IF EXISTS `UserDetails`;
+CREATE TABLE `UserDetails` (
+    `user_id` int(11) NOT NULL,
+    `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `birth_date` date NOT NULL,
+    `height` decimal(5,2) NOT NULL,
+    `weight` decimal(5,2) NOT NULL,
+    PRIMARY KEY (`user_id`),
+    CONSTRAINT `UserDetails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
