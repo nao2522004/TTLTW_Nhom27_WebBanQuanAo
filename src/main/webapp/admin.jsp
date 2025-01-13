@@ -733,26 +733,48 @@
             <div class="recent-orders popup">
                 <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
                 <h2>Chỉnh Sửa Sản Phẩm</h2>
-                <table id="product_edit--table">
-                    <thead>
-                    <tr>
-                        <th>Mã</th>
-                        <th>Loại</th>
-                        <th>Danh mục</th>
-                        <th>Nhà cung cấp</th>
-                        <th>Tên</th>
-                        <th>Mô tả</th>
-                        <th>Ngày Nhập Kho</th>
-                        <th>Số Lượng</th>
-                        <th>Giá Tiền</th>
-                        <th>Tháo Tác</th>
-                    </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
+                <form id="product-edit-form">
+                    <table id="product_edit--table">
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Loại</th>
+                            <th>Danh mục</th>
+                            <th>Nhà cung cấp</th>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
+                            <th>Ngày Nhập Kho</th>
+                            <th>Số Lượng</th>
+                            <th>Giá Tiền</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="number" name="id" id="edit-idProduct" readonly></td>
+                            <td><input type="text" name="type" id="edit-type" required></td>
+                            <td><input type="text" name="category" id="edit-category" required></td>
+                            <td><input type="text" name="supplier" id="edit-supplier" required></td>
+                            <td><input type="text" name="name" id="edit-name" required></td>
+                            <td><textarea name="description" id="edit-description" required></textarea></td>
+                            <td><input type="date" name="releaseDate" id="edit-releaseDate" required></td>
+                            <td><input type="number" name="unitSold" id="edit-unitSold" required></td>
+                            <td><input type="number" name="unitPrice" id="edit-unitPrice" step="0.01" required></td>
+                            <td>
+                                <select name="status" id="edit-statusProduct" required>
+                                    <option value="true">Còn</option>
+                                    <option value="false">Hết</option>
+                                </select>
+                            </td>
+                            <td><span type="submit" onclick="saveProductEdits(event)"
+                                      class="primary material-icons-sharp">save</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
+
     </main>
 
     <!--------------------------------------------------------

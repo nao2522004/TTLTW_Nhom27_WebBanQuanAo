@@ -338,6 +338,7 @@ function fetchProducts() {
         type: 'GET',
         dataType: 'json',
         success: function (products) {
+
             const table = document.getElementById("products--table");
             const oldTbody = table.querySelector("tbody");
 
@@ -378,7 +379,7 @@ const buildTableProduct = (products) => {
           <td>${product.unitPrice}</td>
           <td>${product.status ? 'Còn' : 'Hết'}</td>
           <td class="primary">
-            <span onclick="openEditPopup(event)" class="material-icons-sharp" data-product-id="${product.id}"> edit </span>
+            <span onclick="openEditProductPopup(event)" class="material-icons-sharp" data-product-id="${product.id}"> edit </span>
             <span onclick="deleteProduct(event)" class="material-icons-sharp" data-product-id="${product.id}"> delete </span>
           </td>
         </tr>
@@ -413,29 +414,31 @@ function deleteProduct(event) {
 }
 
 //---------------Edit sản phẩm--------------------//
-function openEditPopup(event) {
-    const productId = event.target.getAttribute("data-product-id");  // Lấy ID sản phẩm từ thuộc tính data-product-id
+function openEditProductPopup(event) {
+    const productId = event.target.getAttribute("data-product-id");
 
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");
-    overlay.style.display = "block"; // Hiển thị lớp phủ của main hiện tại
+    overlay.style.display = "block";
 
     // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm theo ID
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products', // Đảm bảo rằng URL này khớp với mapping của servlet
+        url: '/WebBanQuanAo/admin/manager-products',
         type: 'GET',
-        data: { id: productId },  // Gửi ID sản phẩm dưới dạng tham số truy vấn
+        data: { id: productId },
         success: function (data) {
             // Điền dữ liệu sản phẩm vào các trường trong form
-            document.getElementById("edit-id").value = data.id;
-            document.getElementById("edit-name").value = data.name;
+            document.getElementById("edit-idProduct").value = data.id;
             document.getElementById("edit-type").value = data.type;
             document.getElementById("edit-category").value = data.category;
             document.getElementById("edit-supplier").value = data.supplier;
-            document.getElementById("edit-releaseDate").value = data.releaseDate;
+            document.getElementById("edit-name").value = data.name;
+            document.getElementById("edit-description").value = data.description;
+            // Chuyển đổi releaseDate thành định dạng ngày theo kiểu YYYY-MM-DD và gán vào input
+            document.getElementById("edit-releaseDate").value = new Date(data.releaseDate).toISOString().slice(0, 10);
             document.getElementById("edit-unitSold").value = data.unitSold;
             document.getElementById("edit-unitPrice").value = data.unitPrice;
-            document.getElementById("edit-status").value = data.status;
+            document.getElementById("edit-statusProduct").value = data.status;
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
@@ -450,15 +453,16 @@ function saveProductEdits(event) {
 
     // Thu thập dữ liệu từ các trường nhập liệu
     const product = {
-        id: parseInt(document.getElementById("edit-id").value),
-        name: document.getElementById("edit-name").value,
+        id: parseInt(document.getElementById("edit-idProduct").value),
         type: document.getElementById("edit-type").value,
         category: document.getElementById("edit-category").value,
         supplier: document.getElementById("edit-supplier").value,
-        releaseDate: new Date(document.getElementById("edit-releaseDate").value).toISOString(),
+        name: document.getElementById("edit-name").value,
+        description : document.getElementById("edit-description").value,
+        releaseDate: new Date(document.getElementById("edit-releaseDate").value).toISOString().slice(0, 10),
         unitSold: parseInt(document.getElementById("edit-unitSold").value),
-        unitPrice: parseFloat(document.getElementById("edit-unitPrice").value),
-        status: document.getElementById("edit-status").checked,
+        unitPrice: parseFloat(document.getElementById("edit-unitPrice").value).toFixed(2),
+        status: document.getElementById("edit-statusProduct").value === "true",
     };
 
     // Chuyển đổi đối tượng `product` thành JSON

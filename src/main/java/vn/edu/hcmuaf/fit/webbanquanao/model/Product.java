@@ -6,18 +6,18 @@ import java.util.Date;
 import java.util.List;
 
 public class Product implements Serializable {
-    private int id;
+    private Integer id;
     private String type;
     private String category;
     private String supplier;
     private String name;
     private String description;
     private Date releaseDate;
-    private int unitSold;
+    private Integer unitSold;
     private double unitPrice;
     private boolean status;
     private List<String> sizes;
-    private int stock;
+    private Integer stock;
     private List<String> images;
     private List<String> colors;
 
@@ -27,7 +27,7 @@ public class Product implements Serializable {
         this.colors = new ArrayList<String>();
     }
 
-    public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status, List<String> sizes, int stock, List<String> imgs, List<String> colors) {
+    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status, List<String> sizes, Integer stock, List<String> imgs, List<String> colors) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -44,7 +44,7 @@ public class Product implements Serializable {
         this.colors = colors;
     }
 
-    public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status) {
+    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -57,11 +57,11 @@ public class Product implements Serializable {
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -105,19 +105,19 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public java.sql.Date getReleaseDate() {
+        return (java.sql.Date) releaseDate;
     }
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public int getUnitSold() {
+    public Integer getUnitSold() {
         return unitSold;
     }
 
-    public void setUnitSold(int unitSold) {
+    public void setUnitSold(Integer unitSold) {
         this.unitSold = unitSold;
     }
 
@@ -145,11 +145,11 @@ public class Product implements Serializable {
         this.sizes = sizes;
     }
 
-    public int getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
 

@@ -16,6 +16,16 @@ public class AProductService {
         return productDao.listProduct;
     }
 
+    public Product getProductById(Integer id){
+        if(!productDao.listProduct.containsKey(id)) return null;
+        return productDao.listProduct.get(id);
+    }
+
+    public boolean updateProduct(Integer id, Product product){
+        if(!productDao.listProduct.containsKey(id)) return false;
+        return productDao.update(product, id);
+    }
+
     public static void main(String[] args) {
         AProductService a = new AProductService();
 

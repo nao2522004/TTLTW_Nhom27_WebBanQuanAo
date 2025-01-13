@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import com.google.gson.*;
+import vn.edu.hcmuaf.fit.webbanquanao.service.ProductService;
 import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AProductService;
 import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
@@ -11,6 +12,11 @@ import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.sql.Date;
+
 
 @WebServlet(name = "ManagerProducts", value = "/admin/manager-products")
 public class ManagerProducts extends HttpServlet {
@@ -25,23 +31,54 @@ public class ManagerProducts extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy danh sách sản phẩm từ service
-        Map<Integer, Product> products = productService.showProduct();
+        // Lấy tham số 'id' từ yêu cầu (nếu có)
+        String productId = request.getParameter("id");
 
-        // Chuyển đổi danh sách sản phẩm thành JSON
-        List<Product> productList = products.values().stream().collect(Collectors.toList());
+        // Tạo đối tượng ProductService để truy vấn dữ liệu sản phẩm
+        AProductService productService = new AProductService();
 
-        // Tạo Gson và thiết lập kiểu dữ liệu trả về là JSON
-        Gson gson = new Gson();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        // Nếu có tham số 'id', tìm sản phẩm theo id
+        if (productId != null && !productId.isEmpty()) {
+            try {
+                // Chuyển đổi productId thành Integer
+                int id = Integer.parseInt(productId);
 
-        // In ra JSON danh sách sản phẩm
-        PrintWriter out = response.getWriter();
-        String json = gson.toJson(productList);
-        out.print(json);
-        out.flush();
+                // Tìm sản phẩm theo id
+                Product product = productService.getProductById(id);
+                if (product != null) {
+                    // Tạo Gson để chuyển đối tượng thành JSON
+                    Gson gson = new Gson();
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    PrintWriter out = response.getWriter();
+                    String json = gson.toJson(product); // Chuyển đổi sản phẩm thành JSON
+                    out.print(json);
+                    out.flush();
+                } else {
+                    // Nếu không tìm thấy sản phẩm, trả về lỗi 404
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"message\": \"Khong tim thay san pham\"}");
+                }
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"ID không hợp lệ\"}");
+            }
+        } else {
+            // Nếu không có 'id', trả về tất cả sản phẩm
+            Map<Integer, Product> products = productService.showProduct();
+            List<Product> productList = products.values().stream().collect(Collectors.toList());
+
+            // Tạo Gson để chuyển danh sách sản phẩm thành JSON
+            Gson gson = new Gson();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            String json = gson.toJson(productList); // Sử dụng Gson để chuyển danh sách sản phẩm thành JSON
+            out.print(json);
+            out.flush();
+        }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -96,48 +133,73 @@ public class ManagerProducts extends HttpServlet {
 //        }
     }
 
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        try {
-//            // Đọc JSON từ body
-//            StringBuilder jsonBuffer = new StringBuilder();
-//            String line;
-//            try (BufferedReader reader = request.getReader()) {
-//                while ((line = reader.readLine()) != null) {
-//                    jsonBuffer.append(line);
-//                }
-//            }
-//            String json = jsonBuffer.toString();
-//            // Parse JSON thành đối tượng Product
-//            Gson gson = new Gson();
-//            Product product = gson.fromJson(json, Product.class);
-//
-//            // Kiểm tra các trường dữ liệu
-//            if (product.getId() == null || product.getName() == null) {
-//                throw new IllegalArgumentException("ID và tên sản phẩm không được để trống");
-//            }
-//
-//            // Gọi service để cập nhật sản phẩm
-//            boolean isUpdated = productService.updateProduct(product);
-//
-//            // Phản hồi
-//            JsonObject jsonResponse = new JsonObject();
-//            if (isUpdated) {
-//                jsonResponse.addProperty("message", "Sản phẩm đã được cập nhật");
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            } else {
-//                jsonResponse.addProperty("message", "Không thể cập nhật sản phẩm");
-//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            }
-//            response.getWriter().write(gson.toJson(jsonResponse));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
-//        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            // Đọc JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            // Cấu hình Gson
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd")  // Định dạng ngày tháng
+                    .create();
+            String json = jsonBuffer.toString(); // Parse JSON thành đối tượng Product
+            Product product = gson.fromJson(json, Product.class);
+            // Kiểm tra các trường dữ liệu
+            if (product.getId() == null || product.getId() <= 0)
+                throw new IllegalArgumentException("ID sản phẩm không hợp lệ");
+            if (product.getName() == null || product.getName().isEmpty())
+                throw new IllegalArgumentException("Tên sản phẩm không được để trống");
+            if (product.getUnitPrice() <= 0)
+                throw new IllegalArgumentException("Giá sản phẩm phải lớn hơn 0");
+            if (product.getReleaseDate() == null)
+                throw new IllegalArgumentException("Ngày phát hành không được để trống");
+            // Xử lý chuỗi ngày thành LocalDate và chuyển đổi sang java.sql.Date
+            try {
+                LocalDate releaseDate = LocalDate.parse(product.getReleaseDate().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                product.setReleaseDate(Date.valueOf(releaseDate)); // Cập nhật lại ngày
+            } catch (DateTimeParseException e) {
+                throw new IllegalArgumentException("Ngày phát hành không hợp lệ. Định dạng đúng là yyyy-MM-dd");
+            }
+
+            // Gọi service để cập nhật sản phẩm
+            boolean isUpdated = productService.updateProduct(product.getId(), product);
+
+            // Phản hồi
+            JsonObject jsonResponse = new JsonObject();
+            if (isUpdated) {
+                jsonResponse.addProperty("message", "Sản phẩm đã được cập nhật");
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                jsonResponse.addProperty("message", "Không thể cập nhật sản phẩm");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+            response.getWriter().write(gson.toJson(jsonResponse));
+
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Lỗi định dạng JSON: " + e.getMessage() + "\"}");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Dữ liệu không hợp lệ: " + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
     }
+
+
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

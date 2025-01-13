@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.CRUIDDao;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
@@ -9,7 +8,7 @@ import java.sql.ResultSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AUserDao implements CRUIDDao {
+public class AUserDao{
 
     public Map<String, User> listUser;
 
@@ -47,7 +46,7 @@ public class AUserDao implements CRUIDDao {
         });
     }
 
-    @Override
+
     public boolean create(Object obj) {
         User user = (User) obj;
         listUser.put(user.getUserName(), user);
@@ -72,7 +71,7 @@ public class AUserDao implements CRUIDDao {
         });
     }
 
-    @Override
+
     public boolean update(Object obj, String userName) {
         return JDBIConnector.get().withHandle(handle -> {
             User user = (User) obj;
@@ -100,7 +99,7 @@ public class AUserDao implements CRUIDDao {
     }
 
 
-    @Override
+
     public boolean delete(String userName) {
         listUser.remove(userName);
         return JDBIConnector.get().withHandle(handle -> {
