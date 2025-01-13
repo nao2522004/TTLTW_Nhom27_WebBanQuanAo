@@ -160,11 +160,9 @@ public class ManagerUsers extends HttpServlet {
             if (user.getId() == null || user.getUserName() == null) {
                 throw new IllegalArgumentException("Missing required fields");
             }
-
             // Gọi service để cập nhật
             UserService userService = new UserService();
             boolean isUpdated = userService.updateUser(user, user.getUserName());
-
             // Phản hồi
             JsonObject jsonResponse = new JsonObject();
             if (isUpdated) {
