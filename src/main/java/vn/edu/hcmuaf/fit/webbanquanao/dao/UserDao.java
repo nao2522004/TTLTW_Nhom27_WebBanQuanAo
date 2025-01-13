@@ -5,7 +5,6 @@ import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -104,16 +103,17 @@ public class UserDao implements CRUIDDao {
     public boolean delete(String userName) {
         listUser.remove(userName);
         return JDBIConnector.get().withHandle(handle -> {
-            String sql = "DELETE FROM users WHERE userName = '" + userName + "'";
+            String sql = "DELETE FROM users WHERE userName = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, userName);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
-                System.out.println("Loi khi xoa user: " + e.getMessage());
+                System.out.println("Lỗi khi xóa user: " + e.getMessage());
             }
-            return false;
+            return false; // Trả về false nếu xảy ra lỗi
         });
     }
+
 
 
 //    public User getUserByUsername(String userName) {
@@ -145,6 +145,7 @@ public class UserDao implements CRUIDDao {
 //                        .orElse(null)
 //        );
 //    }
+
     public boolean updateUser(User user) {
         return JDBIConnector.get().withHandle(handle -> {
             listUser.replace(user.getUserName(), user);

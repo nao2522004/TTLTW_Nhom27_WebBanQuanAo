@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import vn.edu.hcmuaf.fit.webbanquanao.service.UserService;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
@@ -134,7 +131,6 @@ public class ManagerUsers extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
         try {
             // Đọc JSON từ body
             StringBuilder jsonBuffer = new StringBuilder();
@@ -145,17 +141,13 @@ public class ManagerUsers extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
-
             // Log JSON nhận được
             System.out.println("JSON body received: " + json);
-
             // Parse JSON
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
             User user = gson.fromJson(json, User.class);
-
             // Log user nhận được
             System.out.println("User received: " + user);
-
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
             if (user.getId() == null || user.getUserName() == null) {
                 throw new IllegalArgumentException("Missing required fields");
@@ -190,9 +182,53 @@ public class ManagerUsers extends HttpServlet {
 
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            // Đọc dữ liệu JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+
+            // Log dữ liệu JSON nhận được
+            System.out.println("Received JSON: " + json);
+
+            // Parse JSON để lấy username
+            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+            String username = jsonObject.get("userName").getAsString();
+
+            // Kiểm tra username
+            if (username == null || username.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
+                return;
+            }
+
+            // Gọi service để xóa user
+            UserService userService = new UserService();
+            boolean isDeleted = userService.deleteUser(username);
+
+            // Phản hồi
+            if (isDeleted) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\": \"Xóa người dùng thành công\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"message\": \"Không tìm thấy người dùng\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
     }
+
 
 
 }

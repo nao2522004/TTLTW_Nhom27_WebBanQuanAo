@@ -32,9 +32,20 @@ public class UserService {
         return uDao.listUser.get(username);
     }
 
+    public boolean deleteUser(String username) {
+        UserDao uDao = new UserDao();
+        if(uDao.listUser.containsKey(username))
+            return uDao.delete(username);
+        return false;
+    }
+
+
     public static void main(String[] args) {
         UserService userService = new UserService();
 
+        System.out.println(userService.showUser());
+
+        System.out.println(userService.getUserByUsername("user2"));
     }
 
 }

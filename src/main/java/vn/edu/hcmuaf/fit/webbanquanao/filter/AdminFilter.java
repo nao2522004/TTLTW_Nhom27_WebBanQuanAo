@@ -9,7 +9,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.io.IOException;
 
-@WebFilter("/admin.jsp")  // Chỉ áp dụng filter cho trang admin.jsp
+@WebFilter("/admin/*")  // Chỉ áp dụng filter cho trang admin.jsp
 public class AdminFilter implements Filter {
 
     @Override

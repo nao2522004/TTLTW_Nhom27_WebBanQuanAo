@@ -166,25 +166,6 @@ function fetchUsers() {
     });
 }
 
-// Gửi dữ liệu user mới lên server
-function saveUserToServer(user) {
-    $.ajax({
-        url: 'admin/manager-users',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(user),
-        success: function () {
-            alert("User added successfully!");
-            fetchUsers(); // Làm mới danh sách người dùng sau khi thêm thành công
-        },
-        error: function(xhr, status, error) {
-            console.error("Lỗi khi cập nhật thông tin người dùng:", error);
-            console.error("Response Text:", xhr.responseText);
-            alert("Không thể cập nhật thông tin người dùng. Vui lòng kiểm tra lại dữ liệu và thử lại.");
-        }
-
-    });
-}
 
 // Khi DOM load, gọi fetchUsers để tải dữ liệu
 document.addEventListener('DOMContentLoaded', fetchUsers);
@@ -220,6 +201,29 @@ const buildTableUser = (users) => {
 
     return tbody;
 };
+
+// Hàm xóa user
+function deleteUser(event) {
+    const userName = event.target.getAttribute("data-username");
+    console.log(JSON.stringify({ userName: userName }));
+    if (confirm(`Bạn có chắc chắn muốn xóa người dùng: ${userName}?`)) {
+        $.ajax({
+            url: `/WebBanQuanAo/admin/manager-users?username=${userName}`,
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ userName: userName }), // Gửi username dưới dạng JSON
+            success: function (response) {
+                alert(response.message || "Xóa người dùng thành công!");
+                fetchUsers(); // Refresh danh sách người dùng sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi xóa người dùng:', error);
+                alert(xhr.responseJSON?.message || "Không thể xóa người dùng. Vui lòng thử lại sau.");
+            }
+        });
+    }
+}
+
 
 
 //---------------Edit user data--------------------//
