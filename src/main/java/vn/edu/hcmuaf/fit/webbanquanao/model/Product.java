@@ -44,6 +44,19 @@ public class Product implements Serializable {
         this.colors = colors;
     }
 
+    public Product(int id, String type, String category, String supplier, String name, String description, Date releaseDate, int unitSold, double unitPrice, boolean status) {
+        this.id = id;
+        this.type = type;
+        this.category = category;
+        this.supplier = supplier;
+        this.name = name;
+        this.description = description;
+        this.releaseDate = releaseDate;
+        this.unitSold = unitSold;
+        this.unitPrice = unitPrice;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

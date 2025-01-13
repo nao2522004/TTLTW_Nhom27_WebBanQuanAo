@@ -709,12 +709,12 @@
             <table id="product--table">
                 <thead>
                 <tr>
-                    <th>Mã Sản Phẩm</th>
-                    <th>Danh Mục</th>
-                    <th>Tên Sản Phẩm</th>
-                    <th>Ảnh Sản Phẩm</th>
+                    <th>Mã</th>
+                    <th>Loại</th>
+                    <th>Danh mục</th>
+                    <th>Nhà cung cấp</th>
+                    <th>Tên</th>
                     <th>Giá Tiền</th>
-                    <th>Size</th>
                     <th>Màu</th>
                     <th>Số Lượng</th>
                     <th>Ngày Nhập Kho</th>

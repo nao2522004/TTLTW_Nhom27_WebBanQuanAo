@@ -3,12 +3,10 @@ package vn.edu.hcmuaf.fit.webbanquanao.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.dao.UserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AUserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @WebServlet("/updateProfileServlet")
@@ -41,7 +39,7 @@ public class UpdateProfileController extends HttpServlet {
 
 
         // Lưu vào cơ sở dữ liệu
-        UserDao userDao = new UserDao();
+        AUserDao userDao = new AUserDao();
         boolean updateSuccess = userDao.updateUser(user);
 
         if (updateSuccess) {

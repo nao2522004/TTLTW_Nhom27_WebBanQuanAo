@@ -4,7 +4,6 @@ import com.google.gson.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,34 +13,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import vn.edu.hcmuaf.fit.webbanquanao.service.UserService;
+import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AUserService;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
 public class ManagerUsers extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         // Lấy tham số 'username' từ yêu cầu (nếu có)
         String username = request.getParameter("username");
-
         // Tạo đối tượng UserService để truy vấn dữ liệu người dùng
-        UserService userService = new UserService();
-
+        AUserService userService = new AUserService();
         // Kiểm tra xem có tham số 'username' hay không
         if (username != null && !username.isEmpty()) {
             // Nếu có username, tìm người dùng theo username
-            User user = userService.getUserByUsername(username);
-
+            vn.edu.hcmuaf.fit.webbanquanao.model.User user = userService.getUserByUsername(username);
             if (user != null) {
                 // Tạo Gson với TypeAdapter cho LocalDateTime
                 Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
                         .create();
-
                 // Thiết lập kiểu dữ liệu trả về là JSON
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
-
                 PrintWriter out = response.getWriter();
                 String json = gson.toJson(user); // Chuyển đổi đối tượng người dùng thành JSON
                 out.print(json);
@@ -53,8 +46,8 @@ public class ManagerUsers extends HttpServlet {
             }
         } else {
             // Nếu không có 'username', trả về tất cả người dùng
-            Map<String, User> users = userService.showUser();
-            List<User> userList = users.values().stream().collect(Collectors.toList());
+            Map<String, vn.edu.hcmuaf.fit.webbanquanao.model.User> users = userService.showUser();
+            List<vn.edu.hcmuaf.fit.webbanquanao.model.User> userList = users.values().stream().collect(Collectors.toList());
 
             // Tạo Gson với TypeAdapter cho LocalDateTime
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
@@ -89,7 +82,7 @@ public class ManagerUsers extends HttpServlet {
 
             // Parse JSON thành đối tượng User
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-            User user = gson.fromJson(json, User.class);
+            vn.edu.hcmuaf.fit.webbanquanao.model.User user = gson.fromJson(json, vn.edu.hcmuaf.fit.webbanquanao.model.User.class);
 
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
             if (user.getUserName() == null || user.getPassWord() == null) {
@@ -97,7 +90,7 @@ public class ManagerUsers extends HttpServlet {
             }
 
             // Gọi service để tạo user
-            UserService userService = new UserService();
+            AUserService userService = new AUserService();
             boolean isCreated = userService.createUser(user);
 
             // Phản hồi
@@ -145,7 +138,7 @@ public class ManagerUsers extends HttpServlet {
             System.out.println("JSON body received: " + json);
             // Parse JSON
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-            User user = gson.fromJson(json, User.class);
+            vn.edu.hcmuaf.fit.webbanquanao.model.User user = gson.fromJson(json, vn.edu.hcmuaf.fit.webbanquanao.model.User.class);
             // Log user nhận được
             System.out.println("User received: " + user);
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
@@ -153,7 +146,7 @@ public class ManagerUsers extends HttpServlet {
                 throw new IllegalArgumentException("Missing required fields");
             }
             // Gọi service để cập nhật
-            UserService userService = new UserService();
+            AUserService userService = new AUserService();
             boolean isUpdated = userService.updateUser(user, user.getUserName());
             // Phản hồi
             JsonObject jsonResponse = new JsonObject();
@@ -195,25 +188,21 @@ public class ManagerUsers extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
-
             // Log dữ liệu JSON nhận được
             System.out.println("Received JSON: " + json);
 
             // Parse JSON để lấy username
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             String username = jsonObject.get("userName").getAsString();
-
             // Kiểm tra username
             if (username == null || username.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
                 return;
             }
-
             // Gọi service để xóa user
-            UserService userService = new UserService();
+            AUserService userService = new AUserService();
             boolean isDeleted = userService.deleteUser(username);
-
             // Phản hồi
             if (isDeleted) {
                 response.setStatus(HttpServletResponse.SC_OK);
@@ -228,7 +217,4 @@ public class ManagerUsers extends HttpServlet {
             response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
         }
     }
-
-
-
 }

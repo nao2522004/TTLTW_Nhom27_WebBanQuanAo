@@ -1,5 +1,6 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao;
+package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
 
+import vn.edu.hcmuaf.fit.webbanquanao.dao.CRUIDDao;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
@@ -8,11 +9,11 @@ import java.sql.ResultSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class UserDao implements CRUIDDao {
+public class AUserDao implements CRUIDDao {
 
     public Map<String, User> listUser;
 
-    public UserDao() {
+    public AUserDao() {
         listUser = getAllUser();
     }
 
@@ -114,37 +115,6 @@ public class UserDao implements CRUIDDao {
         });
     }
 
-
-
-//    public User getUserByUsername(String userName) {
-//        String sql = """
-//        SELECT id, userName, passWord, firstName, lastName, email, avatar,
-//               address, phone, createdAt, status, roleId
-//        FROM users WHERE userName = :userName
-//    """;
-//        return JDBIConnector.get().withHandle(handle ->
-//                handle.createQuery(sql)
-//                        .bind("userName", userName)
-//                        .map((rs, ctx) -> {
-//                            User user = new User();
-//                            user.setId(rs.getInt("id"));
-//                            user.setUserName(rs.getString("userName"));
-//                            user.setPassWord(rs.getString("passWord"));
-//                            user.setFirstName(rs.getString("firstName"));
-//                            user.setLastName(rs.getString("lastName"));
-//                            user.setEmail(rs.getString("email"));
-//                            user.setAvatar(rs.getString("avatar"));
-//                            user.setAddress(rs.getString("address"));
-//                            user.setPhone(rs.getInt("phone"));
-//                            user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
-//                            user.setStatus(rs.getInt("status"));
-//                            user.setRoleId(rs.getInt("roleId"));
-//                            return user;
-//                        })
-//                        .findOne()
-//                        .orElse(null)
-//        );
-//    }
 
     public boolean updateUser(User user) {
         return JDBIConnector.get().withHandle(handle -> {
