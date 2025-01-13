@@ -119,20 +119,18 @@ public class AUserDao implements CRUIDDao {
     public boolean updateUser(User user) {
         return JDBIConnector.get().withHandle(handle -> {
             listUser.replace(user.getUserName(), user);
-            String sql = "UPDATE users SET id = ?, userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ?, roleId = ? WHERE userName = ?";
+            String sql = "UPDATE users SET userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ? WHERE userName = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, user.getId());
-                ps.setString(2, user.getUserName());
-                ps.setString(3, user.getFirstName());
-                ps.setString(4, user.getLastName());
-                ps.setString(5, user.getEmail());
-                ps.setString(6, user.getAvatar());
-                ps.setString(7, user.getAddress());
-                ps.setInt(8, user.getPhone());
-                ps.setInt(9, user.getStatus());
-                ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
-                ps.setInt(11, user.getRoleId());
-                ps.setString(12, user.getUserName());
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getFirstName());
+                ps.setString(3, user.getLastName());
+                ps.setString(4, user.getEmail());
+                ps.setString(5, user.getAvatar());
+                ps.setString(6, user.getAddress());
+                ps.setInt(7, user.getPhone());
+                ps.setInt(8, user.getStatus());
+                ps.setDate(9, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
+                ps.setString(10, user.getUserName());
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
                 System.out.println("Lỗi khi cập nhật user: " + e.getMessage());

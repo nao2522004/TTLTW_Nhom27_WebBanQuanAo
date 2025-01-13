@@ -15,8 +15,6 @@ public class UpdateProfileController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy thông tin từ form
         String name = request.getParameter("name");
-        Integer phone = Integer.valueOf(request.getParameter("phone"));
-
 
         // Lấy thông tin người dùng hiện tại từ session
         User user = (User) request.getSession().getAttribute("auth");
@@ -24,19 +22,34 @@ public class UpdateProfileController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        int phone = 0;
+        try {
+            String phoneInput = request.getParameter("phone");
+
+            long phoneLong = Long.parseLong(phoneInput);
+            if (phoneLong > Integer.MAX_VALUE || phoneLong < Integer.MIN_VALUE) {
+                throw new IllegalArgumentException("Giá trị số điện thoại vượt quá phạm vi kiểu int.");
+            }
+            phone = (int) phoneLong;
+
+            user.setPhone(phone);
+
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Số điện thoại không hợp lệ.");
+        } catch (IllegalArgumentException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        }
 
         // Cập nhật thông tin người dùng
         String fullName = request.getParameter("name");
         String[] nameParts = fullName.trim().split("\\s+");
 
-        // Kiểm tra xem có ít nhất hai từ không
         String firstName = nameParts[nameParts.length - 1];
         String lastName = String.join(" ", Arrays.copyOfRange(nameParts, 0, nameParts.length - 1));
 
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setPhone(phone);
-
 
         // Lưu vào cơ sở dữ liệu
         AUserDao userDao = new AUserDao();

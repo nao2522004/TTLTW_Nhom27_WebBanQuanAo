@@ -53,13 +53,15 @@
                         </div>
                         <div class="col">
                             <div class="quantity-controls">
-                                <button class="btn-decrease">-</button>
-                                <span class="quantity">${cp.quantity}</span>
-                                <button class="btn-increase">+</button>
+                                <button class="btn-decrease" data-id="${cp.id}">-</button>
+                                <span id="quantity-${cp.id}" class="quantity">${cp.quantity}</span>
+                                <button class="btn-increase" data-id="${cp.id}">+</button>
                             </div>
                         </div>
                         <div class="product-price col" data-price="${cp.unitPrice * cp.quantity}"></div>
-                        <a href="del-cart?pid=${cp.id}"><button class="close col">&#10005;</button></a>
+                        <a href="del-cart?pid=${cp.id}">
+                            <button class="close col">&#10005;</button>
+                        </a>
                     </div>
                 </div>
             </c:forEach>
@@ -81,8 +83,7 @@
                 <form>
                     <p>VẬN CHUYỂN</p>
                     <select>
-                        <option class="text-muted" value="35000">Giao Hàng Nhanh 35.000 đ</option>
-                        <option class="text-muted" value="27000">Giao Hàng Tiết Kiệm 27.000 đ</option>
+                        <option class="text-muted" value="35000">Miễn phí vận chuyển</option>
                     </select>
                     <p>MÃ GIẢM GIÁ</p>
                     <input id="code" placeholder="Nhập mã">
@@ -129,8 +130,10 @@
 
     // Function to update cart data in localStorage
     function saveCartData(cartData) {
+        console.log('Saving cart data:', cartData); // Debugging log
         localStorage.setItem("cart", JSON.stringify(cartData));
     }
+
 
     // Function to update the total price
     function updateTotalPrice() {
@@ -148,9 +151,11 @@
         totalPriceElement.textContent = formatPrice(totalPrice);
     }
 
-    // Load cart data from localStorage and populate quantities
+    // Function to load cart data from localStorage and populate quantities
     function loadCartData() {
-        const cartData = getCartData();
+        const cartData = getCartData(); // Get the cart data from localStorage
+        console.log('Loading cart data:', cartData); // Debugging log
+
         cartData.forEach((product) => {
             const quantityDisplay = document.getElementById(`quantity-${product.id}`);
             const priceDisplay = document.getElementById(`price-${product.id}`);
@@ -160,8 +165,11 @@
                 priceDisplay.textContent = formatPrice(product.unitPrice * product.quantity);
             }
         });
+
+        // Update the total price
         updateTotalPrice();
     }
+
 
     // Event listeners for quantity change
     const decreaseBtns = document.querySelectorAll('.btn-decrease');
@@ -226,7 +234,6 @@
     // Load cart data when the page is loaded
     document.addEventListener("DOMContentLoaded", loadCartData);
 </script>
-
 
 
 <!-- base js -->
