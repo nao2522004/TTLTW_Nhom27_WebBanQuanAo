@@ -15,10 +15,12 @@
           integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet"/>
-
     <!-- CSS native -->
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/admin.css">
+    <%-- Nhung cdn ckeditor  --%>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
 </head>
 
 <body>
@@ -52,7 +54,7 @@
                 <span class="material-icons-sharp"> add </span>
                 <h3>Thêm Người Dùng</h3>
             </a>
-            <a href="#" onclick="showMain(event, 'manager_products')">
+            <a href="/admin/manager-products" onclick="showMain(event, '/admin/manager-products')">
                 <span class="material-icons-sharp"> inventory </span>
                 <h3>Sản phẩm</h3>
             </a>
@@ -618,7 +620,7 @@
 
 ---------------------------------------------------------
 ---------------------------------------------------------->
-    <main id="manager_products">
+    <main id="/admin/manager-products">
         <h1>Quản lý sản phẩm</h1>
 
         <div class="dash-top">
@@ -706,18 +708,18 @@
 
         <div class="recent-orders">
             <h2>Danh Sách Sản Phẩm</h2>
-            <table id="product--table">
+            <table id="products--table">
                 <thead>
                 <tr>
                     <th>Mã</th>
                     <th>Loại</th>
                     <th>Danh mục</th>
                     <th>Nhà cung cấp</th>
-                    <th>Tên</th>
-                    <th>Giá Tiền</th>
-                    <th>Màu</th>
-                    <th>Số Lượng</th>
+                    <th style="width: 150px">Tên</th>
+                    <th style="width: 250px">Mô tả</th>
                     <th>Ngày Nhập Kho</th>
+                    <th>Số Lượng</th>
+                    <th>Giá Tiền</th>
                     <th>Tháo Tác</th>
                 </tr>
                 </thead>
@@ -735,14 +737,14 @@
                     <thead>
                     <tr>
                         <th>Mã</th>
-                        <th>Danh Mục</th>
+                        <th>Loại</th>
+                        <th>Danh mục</th>
+                        <th>Nhà cung cấp</th>
                         <th>Tên</th>
-                        <th>Ảnh</th>
-                        <th>Giá</th>
-                        <th>Size</th>
-                        <th>Màu</th>
-                        <th>Số Lượng</th>
+                        <th>Mô tả</th>
                         <th>Ngày Nhập Kho</th>
+                        <th>Số Lượng</th>
+                        <th>Giá Tiền</th>
                         <th>Tháo Tác</th>
                     </tr>
                     </thead>
@@ -944,9 +946,7 @@
             <div class="form-group">
                 <div class="form-group--items">
                     <label for="product-decription">Mô Tả</label>
-                    <!-- <input type="text" id="product-decriptione" name="product-decription" placeholder="Nhập mô tả."
-                        required> -->
-                    <textarea rows="5" type="text" name="product-decription" id="product-decriptione"
+                    <textarea rows="10" cols="20" type="text" name="product-decription" id="product-decription"
                               placeholder="Nhập mô tả."></textarea>
                 </div>
             </div>
@@ -1100,7 +1100,7 @@
     </div>
 </div>
 
-<script src="./assets/js/admin-data/recent-order-data.js"></script>
+<script src="./assets/js/admin-data/recent-order-data.js"></scri>
 <script src="./assets/js/admin-data/sales-analytics-data.js"></script>
 <script src="./assets/js/admin-data/update-data.js"></script>
 <script src="./assets/js/admin-data/user-data.js"></script>
@@ -1111,6 +1111,28 @@
 <script src="./assets/js/admin.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script>
+    ClassicEditor
+        .create(document.querySelector('#product-decription'), {
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'link', '|',
+                'bulletedList', 'numberedList', '|',
+                'imageUpload', 'blockQuote', '|',
+                'insertTable', '|',
+                'undo', 'redo'
+            ],
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side']
+            },
+            table: {
+                contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 
 </body>
 

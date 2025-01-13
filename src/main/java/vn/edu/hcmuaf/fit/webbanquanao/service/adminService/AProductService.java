@@ -15,4 +15,10 @@ public class AProductService {
     public Map<Integer, Product> showProduct() {
         return productDao.listProduct;
     }
+
+    public static void main(String[] args) {
+        AProductService a = new AProductService();
+
+        System.out.println(a.showProduct());
+    }
 }

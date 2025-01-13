@@ -9,15 +9,6 @@ document.addEventListener("DOMContentLoaded", (ev) => {
         .getElementById("orders-details--table")
         .appendChild(buildTableOrderDetails());
 
-
-    // Product Data
-    document.getElementById("product--table").appendChild(buildTableProduct());
-    // edit product
-    document
-        .getElementById("product_edit--table")
-        .appendChild(buildEditTableProduct());
-    // table.innerHTML = "";
-
     // Others Data
     document.getElementById("sales--table").appendChild(buildTableSales());
     document
@@ -340,81 +331,188 @@ function createUser(event) {
 ----------------------------------------------------------*/
 
 //---------------Product Data--------------------//
+// Lấy danh sách sản phẩm từ server
+function fetchProducts() {
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-products',
+        type: 'GET',
+        dataType: 'json',
+        success: function (products) {
+            const table = document.getElementById("products--table");
+            const oldTbody = table.querySelector("tbody");
 
-const buildTableProduct = () => {
-    const products = PRODUCTS_DATA;
+            // Xóa tbody cũ nếu có
+            if (oldTbody) {
+                table.removeChild(oldTbody);
+            }
 
+            // Thêm tbody mới vào bảng
+            table.appendChild(buildTableProduct(products));
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi khi lấy danh sách sản phẩm:', error);
+            alert("Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.");
+        }
+    });
+}
+
+// Khi DOM load, gọi fetchProducts để tải dữ liệu
+document.addEventListener('DOMContentLoaded', fetchProducts);
+
+// Tạo bảng từ danh sách sản phẩm
+const buildTableProduct = (products) => {
     const tbody = document.createElement("tbody");
 
-    let ProContent = "";
-    for (const row of products) {
-        ProContent += `
+    let productContent = "";
+    for (const product of products) {
+        productContent += `
         <tr>
-          <td>${row.proId}</td>
-          <td>${row.proCategory}</td>
-          <td>${row.proName}</td>
-          <td>${row.proImg}</td>
-          <td>${row.proPrice}</td>
-          <td>${row.proSize}</td>
-          <td>${row.proColor}</td>
-          <td>${row.proAmount}</td>
-          <td>${row.proStockInDate}</td>
-         <td class="primary"> <span onclick="showOverlay(event)" class="material-icons-sharp"> edit </span> <span class="material-icons-sharp"> delete </span></td>
-        </tr>
-      `;
-    }
-
-    tbody.innerHTML = ProContent;
-
-    return tbody;
-};
-
-//---------------Edit Product Data--------------------//
-const buildEditTableProduct = () => {
-    const productEdit = PRODUCTS_DATA; // Dữ liệu sản phẩm
-
-    const tbody = document.createElement("tbody");
-
-    let productEditContent = "";
-    for (const [index, row] of productEdit.entries()) {
-        productEditContent += `
-        <tr data-index="${index}">
-          <td>${row.proId}</td>
-          <td><input type="text" value="${row.proCategory}" data-key="proCategory" /></td>
-          <td><input type="text" value="${row.proName}" data-key="proName" /></td>
-          <td><input type="text" value="${row.proImg}" data-key="proImg" /></td>
-          <td><input type="number" value="${row.proPrice}" data-key="proPrice" /></td>
-          <td><input type="text" value="${row.proSize}" data-key="proSize" /></td>
-          <td><input type="text" value="${row.proColor}" data-key="proColor" /></td>
-          <td><input type="number" value="${row.proAmount}" data-key="proAmount" /></td>
-          <td><input type="date" value="${row.proStockInDate}" data-key="proStockInDate" /></td>
+          <td>${product.id}</td>
+          <td>${product.type}</td>
+          <td>${product.category}</td>
+          <td>${product.supplier}</td>
+          <td>${product.name}</td>
+          <td>${product.description}</td>
+          <td>${product.releaseDate}</td>
+          <td>${product.unitSold}</td>
+          <td>${product.unitPrice}</td>
+          <td>${product.status ? 'Còn' : 'Hết'}</td>
           <td class="primary">
-            <span onclick="saveProduct(event)" class="material-icons-sharp"> save </span>
+            <span onclick="openEditPopup(event)" class="material-icons-sharp" data-product-id="${product.id}"> edit </span>
+            <span onclick="deleteProduct(event)" class="material-icons-sharp" data-product-id="${product.id}"> delete </span>
           </td>
         </tr>
       `;
     }
 
-    tbody.innerHTML = productEditContent;
+    tbody.innerHTML = productContent;
 
     return tbody;
 };
 
-//---------------save product data--------------------//
-function saveProduct(event) {
-    const row = event.target.closest("tr"); // Lấy hàng hiện tại
-    const index = row.getAttribute("data-index"); // Lấy chỉ số hàng
-    const inputs = row.querySelectorAll("[data-key]"); // Lấy tất cả các input/select trong hàng
-
-    // Cập nhật lại USER_DATA
-    inputs.forEach((input) => {
-        const key = input.getAttribute("data-key");
-        PRODUCTS_DATA[index][key] = input.value;
-    });
-
-    alert("Thông tin đã được lưu!");
+// Hàm xóa sản phẩm
+function deleteProduct(event) {
+    const productId = event.target.getAttribute("data-product-id");
+    console.log(JSON.stringify({ id: productId }));
+    if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm ID: ${productId}?`)) {
+        $.ajax({
+            url: `/WebBanQuanAo/admin/manager-products?id=${productId}`,
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: productId }), // Gửi ID sản phẩm dưới dạng JSON
+            success: function (response) {
+                alert(response.message || "Xóa sản phẩm thành công!");
+                fetchProducts(); // Refresh danh sách sản phẩm sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi xóa sản phẩm:', error);
+                alert(xhr.responseJSON?.message || "Không thể xóa sản phẩm. Vui lòng thử lại sau.");
+            }
+        });
+    }
 }
 
+//---------------Edit sản phẩm--------------------//
+function openEditPopup(event) {
+    const productId = event.target.getAttribute("data-product-id");  // Lấy ID sản phẩm từ thuộc tính data-product-id
+
+    const main = event.target.closest("main");
+    const overlay = main.querySelector(".overlay");
+    overlay.style.display = "block"; // Hiển thị lớp phủ của main hiện tại
+
+    // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm theo ID
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-products', // Đảm bảo rằng URL này khớp với mapping của servlet
+        type: 'GET',
+        data: { id: productId },  // Gửi ID sản phẩm dưới dạng tham số truy vấn
+        success: function (data) {
+            // Điền dữ liệu sản phẩm vào các trường trong form
+            document.getElementById("edit-id").value = data.id;
+            document.getElementById("edit-name").value = data.name;
+            document.getElementById("edit-type").value = data.type;
+            document.getElementById("edit-category").value = data.category;
+            document.getElementById("edit-supplier").value = data.supplier;
+            document.getElementById("edit-releaseDate").value = data.releaseDate;
+            document.getElementById("edit-unitSold").value = data.unitSold;
+            document.getElementById("edit-unitPrice").value = data.unitPrice;
+            document.getElementById("edit-status").value = data.status;
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+            alert("Không thể lấy thông tin sản phẩm. Vui lòng thử lại.");
+        }
+    });
+}
+
+function saveProductEdits(event) {
+    // Ngăn hành vi submit mặc định của form
+    event.preventDefault();
+
+    // Thu thập dữ liệu từ các trường nhập liệu
+    const product = {
+        id: parseInt(document.getElementById("edit-id").value),
+        name: document.getElementById("edit-name").value,
+        type: document.getElementById("edit-type").value,
+        category: document.getElementById("edit-category").value,
+        supplier: document.getElementById("edit-supplier").value,
+        releaseDate: new Date(document.getElementById("edit-releaseDate").value).toISOString(),
+        unitSold: parseInt(document.getElementById("edit-unitSold").value),
+        unitPrice: parseFloat(document.getElementById("edit-unitPrice").value),
+        status: document.getElementById("edit-status").checked,
+    };
+
+    // Chuyển đổi đối tượng `product` thành JSON
+    const productJson = JSON.stringify(product);
+
+    // Log để kiểm tra JSON đã tạo
+    console.log("JSON object gửi đi:", productJson);
+
+    // Gửi yêu cầu AJAX với JSON
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-products',
+        type: 'PUT',
+        contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
+        data: productJson, // Gửi JSON object
+        success: function (response) {
+            alert("Cập nhật thông tin sản phẩm thành công!");
+            fetchProducts(); // Tải lại danh sách sản phẩm
+            hideOverlay(); // Ẩn overlay
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật thông tin sản phẩm:", error);
+            alert("Không thể cập nhật thông tin sản phẩm. Vui lòng kiểm tra lại dữ liệu và thử lại.");
+        }
+    });
+}
+
+// Thêm sản phẩm mới
+function createProduct(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('add-product-form');
+    const formData = new FormData(form);
+
+    const productData = Object.fromEntries(formData.entries());
+
+    fetch('/WebBanQuanAo/admin/manager-products', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productData)
+    })
+        .then(response => {
+            if (response.ok) return response.json();
+            return response.json().then(err => Promise.reject(err));
+        })
+        .then(data => {
+            alert(data.message || 'Sản phẩm đã được tạo thành công!');
+        })
+        .catch(err => {
+            console.error('Lỗi:', err);
+            alert(err.message || 'Không thể tạo sản phẩm. Vui lòng thử lại.');
+        });
+}
 
 /*--------------------------------------------------------
 ---------------------------------------------------------

@@ -18,7 +18,23 @@ public class AProductDao implements CRUIDDao {
 
     public Map<Integer, Product> getAllProducts() {
         Map<Integer, Product> products = new LinkedHashMap<>();
-        String sql = "SELCT * FROM products DESC id";
+        String sql = "SELECT\n" +
+                "    p.id AS id,\n" +
+                "    t.name AS type,\n" +
+                "    c.name AS category,\n" +
+                "    s.supplierName AS supplier,\n" +
+                "    p.productname AS name,\n" +
+                "    p.description AS description,\n" +
+                "    p.releaseDate AS releaseDate,\n" +
+                "    p.unitSold AS unitSold,\n" +
+                "    p.unitPrice AS unitPrice,\n" +
+                "    p.status AS status\n" +
+                "FROM products p\n" +
+                "JOIN product_details pd ON p.id = pd.productId\n" +
+                "JOIN categories c ON p.categoryId = c.id\n" +
+                "JOIN types t ON p.typeId = t.id\n" +
+                "JOIN suppliers s ON p.supplierId = s.id \n" +
+                "ORDER BY p.id DESC;  ";
 
        return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -59,4 +75,5 @@ public class AProductDao implements CRUIDDao {
     public boolean delete(String userName) {
         return false;
     }
+
 }

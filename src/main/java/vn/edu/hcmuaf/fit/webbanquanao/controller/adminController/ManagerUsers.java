@@ -190,7 +190,6 @@ public class ManagerUsers extends HttpServlet {
             String json = jsonBuffer.toString();
             // Log dữ liệu JSON nhận được
             System.out.println("Received JSON: " + json);
-
             // Parse JSON để lấy username
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             String username = jsonObject.get("userName").getAsString();
