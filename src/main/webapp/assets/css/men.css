@@ -80,7 +80,7 @@ h4 {
 }
 
 #section_all_products .top .sort label {
-    width: 12rem;
+    width: 13rem;
 }
 
 #section_all_products .top .sort select {
@@ -152,6 +152,17 @@ h4 {
 
 #section_all_products .filter .arrow.active {
     transform: rotate(180deg);
+}
+
+#section_all_products .filter-submit .btn {
+    margin-top: 1rem;
+    background-color: var(--lighter-second-color);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
 }
 
 /* List Products */
