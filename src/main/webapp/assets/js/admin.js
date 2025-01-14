@@ -406,6 +406,7 @@ const buildTableProduct = (products) => {
           <td class="primary">
             <span onclick="openEditProductPopup(event)" class="material-icons-sharp" data-product-id="${product.id}"> edit </span>
             <span onclick="deleteProduct(event)" class="material-icons-sharp" data-product-id="${product.id}"> delete </span>
+            <span onclick="openProductDetails(event)" class="material-icons-sharp" data-productId-details="${product.id}"> info </span>
           </td>
         </tr>
       `;
@@ -526,6 +527,130 @@ function saveProductEdits(event) {
         }
     });
 }
+
+function openProductDetails(event) {
+    const productId = event.target.getAttribute("data-productId-details");
+
+    const main = event.target.closest("main");
+    const overlay = main.querySelector(".overlay-productDetails");
+    overlay.style.display = "block";
+
+    // Gửi yêu cầu AJAX để lấy dữ liệu chi tiết sản phẩm theo productId
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-productDetails',
+        type: 'GET',
+        data: { id: productId },
+        success: function (data) {
+            console.log(JSON.stringify(data));  // In ra dữ liệu nhận được từ server
+            // Giả sử `data` là mảng chứa các chi tiết sản phẩm
+            if (data && data.length > 0) {
+                let productDetailListContent = '';
+
+                // Duyệt qua tất cả các chi tiết sản phẩm và tạo HTML để hiển thị
+                data.forEach(productDetail => {
+                    productDetailListContent += `
+                        <tr>
+                            <td><input type="number" value="${productDetail.id}" disabled></td>
+                            <td><input type="number" value="${productDetail.productId}" disabled></td>
+                            <td><input type="text" value="${productDetail.size}" class="editable" data-id="${productDetail.id}" data-field="size"></td>
+                            <td><input type="number" value="${productDetail.stock}" class="editable" data-id="${productDetail.id}" data-field="stock"></td>
+                            <td><input type="text" value="${productDetail.color}" class="editable" data-id="${productDetail.id}" data-field="color"></td>
+                            <td><input type="text" value="${productDetail.image}" class="editable" data-id="${productDetail.id}" data-field="image"></td>
+                            <td><span type="submit" onclick="saveProductDetailEdits(event)" class="primary material-icons-sharp">save</span></td>
+                        </tr>
+                    `;
+                });
+
+                // Điền dữ liệu vào bảng chi tiết sản phẩm
+                document.getElementById("product-details--table").innerHTML = productDetailListContent;
+
+                // Thêm sự kiện để chỉnh sửa các trường thông tin
+                const editableFields = document.querySelectorAll(".editable");
+                editableFields.forEach(field => {
+                    field.addEventListener("change", handleFieldChange);
+                });
+            } else {
+                alert("Không có chi tiết sản phẩm nào.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu chi tiết sản phẩm:", error);
+            alert("Không thể lấy thông tin chi tiết sản phẩm. Vui lòng thử lại.");
+        }
+    });
+}
+
+
+function handleFieldChange(event) {
+    const input = event.target;
+    const productDetailId = input.getAttribute("data-id");
+    const field = input.getAttribute("data-field");
+    const newValue = input.value;
+
+    // Gửi yêu cầu AJAX để cập nhật dữ liệu chi tiết sản phẩm
+    const updateData = {
+        id: productDetailId,
+        [field]: newValue
+    };
+
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-productDetails',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updateData),
+        success: function (response) {
+            alert("Cập nhật thành công!");
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật thông tin chi tiết sản phẩm:", error);
+            alert("Không thể cập nhật thông tin. Vui lòng thử lại.");
+        }
+    });
+}
+
+
+
+function saveProductDetailEdits(event) {
+    // Ngăn hành vi submit mặc định của form
+    event.preventDefault();
+
+    // Lấy các giá trị từ các trường nhập liệu
+    const productDetail = {
+        id: parseInt(document.getElementById("edit-detail-id").value),
+        productId: parseInt(document.getElementById("edit-productId").value),
+        size: document.getElementById("edit-size").value,
+        stock: parseInt(document.getElementById("edit-stock").value),
+        color: document.getElementById("edit-color").value,
+        image: document.getElementById("edit-image").value
+    };
+
+    // Kiểm tra các giá trị bắt buộc có hợp lệ hay không
+    if (!productDetail.size || !productDetail.color) {
+        alert("Vui lòng điền đầy đủ thông tin kích thước và màu sắc.");
+        return;
+    }
+
+    // Chuyển đổi đối tượng `productDetail` thành JSON
+    const productDetailJson = JSON.stringify(productDetail);
+
+    // Gửi yêu cầu AJAX để lưu chi tiết sản phẩm
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-product-details', // Đảm bảo đường dẫn chính xác
+        type: 'PUT',
+        contentType: 'application/json',
+        data: productDetailJson,
+        success: function (response) {
+            alert("Cập nhật chi tiết sản phẩm thành công!");
+            hideOverlay(); // Ẩn overlay sau khi lưu
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật chi tiết sản phẩm:", error);
+            alert("Không thể cập nhật chi tiết sản phẩm. Vui lòng thử lại.");
+        }
+    });
+}
+
+
 
 // Thêm sản phẩm mới
 function createProduct(event) {
@@ -797,6 +922,11 @@ function showMain(event, mainId) {
 //========== start Xu ly su kien cho order detail ============//
 function hideOverlay(event) {
     const overlay = event.target.closest("main").querySelector(".overlay");
+    overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
+}
+
+function hideOverlayProductDetails(event) {
+    const overlay = event.target.closest("main").querySelector(".overlay-productDetails");
     overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
 }
 

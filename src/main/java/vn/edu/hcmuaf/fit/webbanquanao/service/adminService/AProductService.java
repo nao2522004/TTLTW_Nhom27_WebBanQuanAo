@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.service.adminService;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AProductDao;
 import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProductDetails;
 
 
 import java.sql.Date;
@@ -18,6 +19,10 @@ public class AProductService {
         return productDao.listProduct;
     }
 
+    public Map<Integer, AProductDetails> showProductDetails(Integer id) {
+        return productDao.getAllProductDetails(id);
+    }
+
     public AProduct getProductById(Integer id) {
         if (!productDao.listProduct.containsKey(id)) return null;
         return productDao.listProduct.get(id);
@@ -30,11 +35,8 @@ public class AProductService {
 
     public static void main(String[] args) {
         AProductService a = new AProductService();
-//        System.out.println(a.showProduct());
-        // Chuyển chuỗi thành đối tượng Date
-        String releaseDateString = "2024-10-06";
-        Date releaseDate = Date.valueOf(releaseDateString);
-        a.updateProduct(5, new AProduct(5, 2, 4, 4, "QUẦN DÁNG XUÔNG XẾP LY BY RUYCH.", "Size: M, L, XL...\n... (Rút gọn nếu cần)", releaseDate, 110, 369000.00, false));
+      System.out.println(a.showProductDetails(1));
+
     }
 
 

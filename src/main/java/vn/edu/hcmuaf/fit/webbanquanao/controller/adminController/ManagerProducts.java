@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.*;
 import com.google.gson.*;
 import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AProductService;
-import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
 import java.io.*;
 import java.util.List;

@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProductDetails;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,31 @@ public class AProductDao {
 
     public AProductDao() {
         listProduct = getAllProducts();
+    }
+
+    public Map<Integer, AProductDetails> getAllProductDetails(Integer id) {
+        Map<Integer, AProductDetails> productDetails = new LinkedHashMap<>();
+        String sql = "SELECT * FROM product_details WHERE productId = ? ORDER BY id DESC;";
+
+        return JDBIConnector.get().withHandle(h -> {
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    AProductDetails productDetail = new AProductDetails();
+                    productDetail.setId(rs.getInt("id"));
+                    productDetail.setProductId(rs.getInt("productId"));
+                    productDetail.setSize(rs.getString("size"));
+                    productDetail.setStock(rs.getInt("stock"));
+                    productDetail.setColor(rs.getString("color"));
+                    productDetail.setImage(rs.getString("image"));
+                    productDetails.put(productDetail.getId(), productDetail);
+                }
+            } catch (Exception e) {
+                System.out.println("Loi khi lay danh sach chi tiet san pham: " + e.getMessage());
+            }
+            return productDetails;
+        });
     }
 
     public Map<Integer, AProduct> getAllProducts() {

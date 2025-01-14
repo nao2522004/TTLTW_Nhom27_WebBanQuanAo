@@ -729,8 +729,8 @@
         </div>
 
         <!-- edit products -->
-        <div class="overlay">
-            <div class="recent-orders popup">
+        <div class="overlay overlay-productForId">
+            <div class="recent-orders popup popup-productForId">
                 <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
                 <h2>Chỉnh Sửa Sản Phẩm</h2>
                 <form id="product-edit-form">
@@ -751,7 +751,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td style="width: 10px;"><input type="number" name="id" id="edit-idProduct" readonly></td>
+                            <td><input type="number" name="id" id="edit-idProduct" readonly></td>
                             <td>
                                 <%--                               <input type="number" name="typeId" id="edit-typeId" required>--%>
                                 <select name="typeId" id="edit-typeId" required>
@@ -798,6 +798,29 @@
                 </form>
             </div>
         </div>
+
+        <!-- Popup chi tiết sản phẩm -->
+        <div class="overlay overlay-productDetails">
+            <div class="recent-orders popup popup-productDetails">
+                <span onclick="hideOverlayProductDetails(event)" class="material-icons-sharp close"> close </span>
+                <h2>Chi Tiết Sản Phẩm</h2>
+                <form id="product-detail-form">
+                    <table id="product-details--table">
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Size</th>
+                            <th>Số Lượng</th>
+                            <th>Màu Sắc</th>
+                            <th>Hình ảnh</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </form>
+            </div>
+        </div>
+
 
     </main>
 
@@ -1146,7 +1169,7 @@
     </div>
 </div>
 
-<script src="./assets/js/admin-data/recent-order-data.js"></scri>
+<script src="./assets/js/admin-data/recent-order-data.js"></script>
 <script src="./assets/js/admin-data/sales-analytics-data.js"></script>
 <script src="./assets/js/admin-data/update-data.js"></script>
 <script src="./assets/js/admin-data/user-data.js"></script>
