@@ -272,7 +272,7 @@
         setTimeout(() => {
             popup.classList.remove('show');
             overlay.classList.remove('show');
-        }, 2000);
+        }, 1500);
     }
 
     // Alert if user didn't choose color or size
