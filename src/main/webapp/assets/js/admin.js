@@ -196,13 +196,13 @@ const buildTableUser = (users) => {
 // Hàm xóa user
 function deleteUser(event) {
     const userName = event.target.getAttribute("data-username");
-    console.log(JSON.stringify({ userName: userName }));
+    console.log(JSON.stringify({userName: userName}));
     if (confirm(`Bạn có chắc chắn muốn xóa người dùng: ${userName}?`)) {
         $.ajax({
             url: `/WebBanQuanAo/admin/manager-users?username=${userName}`,
             type: 'DELETE',
             contentType: 'application/json',
-            data: JSON.stringify({ userName: userName }), // Gửi username dưới dạng JSON
+            data: JSON.stringify({userName: userName}), // Gửi username dưới dạng JSON
             success: function (response) {
                 alert(response.message || "Xóa người dùng thành công!");
                 fetchUsers(); // Refresh danh sách người dùng sau khi xóa
@@ -214,7 +214,6 @@ function deleteUser(event) {
         });
     }
 }
-
 
 
 //---------------Edit user data--------------------//
@@ -229,7 +228,7 @@ function openEditPopup(event) {
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-users', // Đảm bảo rằng URL này khớp với mapping của servlet
         type: 'GET',
-        data: { username: userName },  // Gửi username dưới dạng tham số truy vấn
+        data: {username: userName},  // Gửi username dưới dạng tham số truy vấn
         success: function (data) {
             // Điền dữ liệu người dùng vào các trường trong form
             document.getElementById("edit-id").value = data.id;
@@ -365,12 +364,39 @@ const buildTableProduct = (products) => {
 
     let productContent = "";
     for (const product of products) {
+        let typeIdOptionsForId = `
+            <select>
+                <option value="1" ${product.typeId === 1 ? 'selected' : ''}>Áo</option>
+                <option value="2" ${product.typeId === 2 ? 'selected' : ''}>Quần</option>
+            </select>
+        `;
+
+        let supplierOptionsForId = `
+            <select>
+                <option value="1" ${product.supplierId === 1 ? 'selected' : ''}>PEALO</option>
+                <option value="2" ${product.supplierId === 2 ? 'selected' : ''}>B Brown Studio</option>
+                <option value="3" ${product.supplierId === 3 ? 'selected' : ''}>BBRAND</option>
+                <option value="4" ${product.supplierId === 4 ? 'selected' : ''}>RUYCH STUDIO</option>
+            </select>
+        `;
+
+        let categoryOptionsForId = `
+            <select>
+                <option value="1" ${product.categoryId === 1 ? 'selected' : ''}>Áo nam</option>
+                <option value="2" ${product.categoryId === 2 ? 'selected' : ''}>Áo Nữ</option>
+                <option value="3" ${product.categoryId === 3 ? 'selected' : ''}>Áo trẻ em</option>
+                <option value="4" ${product.categoryId === 4 ? 'selected' : ''}>Quần nam</option>
+                <option value="5" ${product.categoryId === 5 ? 'selected' : ''}>Quần nữ</option>
+                <option value="6" ${product.categoryId === 6 ? 'selected' : ''}>Quần trẻ em</option>
+            </select>
+        `;
+
         productContent += `
         <tr>
           <td>${product.id}</td>
-          <td>${product.typeId}</td>
-          <td>${product.categoryId}</td>
-          <td>${product.supplierId}</td>
+          <td>${typeIdOptionsForId}</td>
+          <td>${categoryOptionsForId}</td>
+          <td>${supplierOptionsForId}</td>
           <td>${product.name}</td>
           <td>${product.description}</td>
           <td>${product.releaseDate}</td>
@@ -393,13 +419,13 @@ const buildTableProduct = (products) => {
 // Hàm xóa sản phẩm
 function deleteProduct(event) {
     const productId = event.target.getAttribute("data-product-id");
-    console.log(JSON.stringify({ id: productId }));
+    console.log(JSON.stringify({id: productId}));
     if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm ID: ${productId}?`)) {
         $.ajax({
             url: `/WebBanQuanAo/admin/manager-products?id=${productId}`,
             type: 'DELETE',
             contentType: 'application/json',
-            data: JSON.stringify({ id: productId }), // Gửi ID sản phẩm dưới dạng JSON
+            data: JSON.stringify({id: productId}), // Gửi ID sản phẩm dưới dạng JSON
             success: function (response) {
                 alert(response.message || "Xóa sản phẩm thành công!");
                 fetchProducts(); // Refresh danh sách sản phẩm sau khi xóa
@@ -424,17 +450,25 @@ function openEditProductPopup(event) {
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-products',
         type: 'GET',
-        data: { id: productId },
+        data: {id: productId},
         success: function (data) {
             // Điền dữ liệu sản phẩm vào các trường trong form
             document.getElementById("edit-idProduct").value = data.id;
-            document.getElementById("edit-type").value = data.type;
-            document.getElementById("edit-category").value = data.category;
-            document.getElementById("edit-supplier").value = data.supplier;
+            document.getElementById("edit-typeId").value = data.typeId;
+            document.getElementById("edit-categoryId").value = data.categoryId;
+            document.getElementById("edit-supplierId").value = data.supplierId;
             document.getElementById("edit-name").value = data.name;
             document.getElementById("edit-description").value = data.description;
-            // Chuyển đổi releaseDate thành định dạng ngày theo kiểu YYYY-MM-DD và gán vào input
-            document.getElementById("edit-releaseDate").value = new Date(data.releaseDate).toISOString().slice(0, 10);
+
+            // Đoạn mã trong openEditProductPopup
+            const releaseDate = new Date(data.releaseDate);
+            const formattedDate = releaseDate.getFullYear() + '-' +
+                ('0' + (releaseDate.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + releaseDate.getDate()).slice(-2);
+
+            document.getElementById("edit-releaseDate").value = formattedDate;
+
+
             document.getElementById("edit-unitSold").value = data.unitSold;
             document.getElementById("edit-unitPrice").value = data.unitPrice;
             document.getElementById("edit-statusProduct").value = data.status;
@@ -451,14 +485,19 @@ function saveProductEdits(event) {
     event.preventDefault();
 
     // Thu thập dữ liệu từ các trường nhập liệu
+    const releaseDateRaw = document.getElementById("edit-releaseDate").value;
+
+    // Chỉ lấy giá trị ngày mà không sử dụng toISOString để tránh lỗi múi giờ
+    const releaseDate = releaseDateRaw.split('T')[0]; // Chỉ lấy phần ngày (yyyy-MM-dd)
+
     const product = {
         id: parseInt(document.getElementById("edit-idProduct").value),
-        type: document.getElementById("edit-type").value,
-        category: document.getElementById("edit-category").value,
-        supplier: document.getElementById("edit-supplier").value,
+        typeId: parseInt(document.getElementById("edit-typeId").value),
+        categoryId: parseInt(document.getElementById("edit-categoryId").value),
+        supplierId: parseInt(document.getElementById("edit-supplierId").value),
         name: document.getElementById("edit-name").value,
-        description : document.getElementById("edit-description").value,
-        releaseDate: new Date(document.getElementById("edit-releaseDate").value).toISOString().slice(0, 10),
+        description: document.getElementById("edit-description").value,
+        releaseDate: releaseDate, // Gắn giá trị đã định dạng
         unitSold: parseInt(document.getElementById("edit-unitSold").value),
         unitPrice: parseFloat(document.getElementById("edit-unitPrice").value).toFixed(2),
         status: document.getElementById("edit-statusProduct").value === "true",

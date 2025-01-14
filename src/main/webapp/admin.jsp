@@ -751,10 +751,34 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td><input type="number" name="id" id="edit-idProduct" readonly></td>
-                            <td><input type="text" name="type" id="edit-type" required></td>
-                            <td><input type="text" name="category" id="edit-category" required></td>
-                            <td><input type="text" name="supplier" id="edit-supplier" required></td>
+                            <td style="width: 10px;"><input type="number" name="id" id="edit-idProduct" readonly></td>
+                            <td>
+                                <%--                               <input type="number" name="typeId" id="edit-typeId" required>--%>
+                                <select name="typeId" id="edit-typeId" required>
+                                    <option value="1">Áo</option>
+                                    <option value="2">Quần</option>
+                                </select>
+                            </td>
+                            <td>
+                                <%--                                <input type="number" name="categoryId" id="edit-categoryId" required>--%>
+                                <select name="categoryId" id="edit-categoryId" required>
+                                    <option value="1">Áo nam</option>
+                                    <option value="2">Áo nữ</option>
+                                    <option value="3">Áo trẻ em</option>
+                                    <option value="4">Quần nam</option>
+                                    <option value="5">Quần nữ</option>
+                                    <option value="6">Quần trẻ em</option>
+                                </select>
+                            </td>
+                            <td>
+                                <%--                                <input type="number" name="supplierId" id="edit-supplierId" required>--%>
+                                <select name="supplierId" id="edit-supplierId" required>
+                                    <option value="1">PEALO</option>
+                                    <option value="2">B Brown Studio</option>
+                                    <option value="3">BBRAND</option>
+                                    <option value="4">RUYCH STUDIO</option>
+                                </select>
+                            </td>
                             <td><input type="text" name="name" id="edit-name" required></td>
                             <td><textarea name="description" id="edit-description" required></textarea></td>
                             <td><input type="date" name="releaseDate" id="edit-releaseDate" required></td>

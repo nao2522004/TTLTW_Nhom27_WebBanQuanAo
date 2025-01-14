@@ -4,7 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import com.google.gson.*;
-import vn.edu.hcmuaf.fit.webbanquanao.service.ProductService;
+import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AProductService;
 import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
@@ -44,7 +44,7 @@ public class ManagerProducts extends HttpServlet {
                 int id = Integer.parseInt(productId);
 
                 // Tìm sản phẩm theo id
-                Product product = productService.getProductById(id);
+                AProduct product = productService.getProductById(id);
                 if (product != null) {
                     // Tạo Gson để chuyển đối tượng thành JSON
                     Gson gson = new Gson();
@@ -65,8 +65,8 @@ public class ManagerProducts extends HttpServlet {
             }
         } else {
             // Nếu không có 'id', trả về tất cả sản phẩm
-            Map<Integer, Product> products = productService.showProduct();
-            List<Product> productList = products.values().stream().collect(Collectors.toList());
+            Map<Integer, AProduct> products = productService.showProduct();
+            List<AProduct> productList = products.values().stream().collect(Collectors.toList());
 
             // Tạo Gson để chuyển danh sách sản phẩm thành JSON
             Gson gson = new Gson();
@@ -152,7 +152,7 @@ public class ManagerProducts extends HttpServlet {
                     .setDateFormat("yyyy-MM-dd")  // Định dạng ngày tháng
                     .create();
             String json = jsonBuffer.toString(); // Parse JSON thành đối tượng Product
-            Product product = gson.fromJson(json, Product.class);
+            AProduct product = gson.fromJson(json, AProduct.class);
             // Kiểm tra các trường dữ liệu
             if (product.getId() == null || product.getId() <= 0)
                 throw new IllegalArgumentException("ID sản phẩm không hợp lệ");

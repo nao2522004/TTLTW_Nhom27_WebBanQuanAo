@@ -10,9 +10,6 @@ public class Product implements Serializable {
     private String type;
     private String category;
     private String supplier;
-    private Integer typeId;
-    private Integer categoryId;
-    private Integer supplierId;
     private String name;
     private String description;
     private Date releaseDate;
@@ -45,32 +42,6 @@ public class Product implements Serializable {
         this.stock = stock;
         this.images = imgs;
         this.colors = colors;
-    }
-
-    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status) {
-        this.id = id;
-        this.type = type;
-        this.category = category;
-        this.supplier = supplier;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.unitSold = unitSold;
-        this.unitPrice = unitPrice;
-        this.status = status;
-    }
-
-    public Product(Integer id, Integer typeId, Integer categoryId, Integer supplierId, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status) {
-        this.id = id;
-        this.typeId = typeId;
-        this.categoryId = categoryId;
-        this.supplierId = supplierId;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.unitSold = unitSold;
-        this.unitPrice = unitPrice;
-        this.status = status;
     }
 
 
@@ -150,17 +121,6 @@ public class Product implements Serializable {
         return status;
     }
 
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public Integer getSupplierId() {
-        return supplierId;
-    }
 
     public void setStatus(boolean status) {
         this.status = status;
@@ -178,17 +138,6 @@ public class Product implements Serializable {
         return stock;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
 
     public void setStock(Integer stock) {
         this.stock = stock;

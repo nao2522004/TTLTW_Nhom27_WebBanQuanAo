@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,21 +9,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AProductDao {
-    public Map<Integer, Product> listProduct;
+    public Map<Integer, AProduct> listProduct;
 
     public AProductDao() {
         listProduct = getAllProducts();
     }
 
-    public Map<Integer, Product> getAllProducts() {
-        Map<Integer, Product> products = new LinkedHashMap<>();
+    public Map<Integer, AProduct> getAllProducts() {
+        Map<Integer, AProduct> products = new LinkedHashMap<>();
         String sql = "SELECT * FROM products ORDER BY id DESC;";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    Product product = new Product();
+                    AProduct product = new AProduct();
                     product.setId(rs.getInt("id"));
                     product.setTypeId(rs.getInt("typeId"));
                     product.setCategoryId(rs.getInt("categoryId"));
@@ -51,35 +51,21 @@ public class AProductDao {
 
     public boolean update(Object obj, Integer id) {
         return JDBIConnector.get().withHandle(h -> {
-            Product product = (Product) obj;
+            AProduct product = (AProduct) obj;
             listProduct.replace(id, product);
-            String sql = "UPDATE products p\n" +
-                    "JOIN product_details pd ON p.id = pd.productId\n" +
-                    "JOIN categories c ON p.categoryId = c.id\n" +
-                    "JOIN types t ON p.typeId = t.id\n" +
-                    "JOIN suppliers s ON p.supplierId = s.id\n" +
-                    "SET\n" +
-                    "    p.typeId = (SELECT id FROM types WHERE name = ?),\n" +
-                    "    p.categoryId = (SELECT id FROM categories WHERE name = ?),\n" +
-                    "    p.supplierId = (SELECT id FROM suppliers WHERE supplierName = ?),\n" +
-                    "    p.productname = ?,\n" +
-                    "    p.description = ?,\n" +
-                    "    p.releaseDate = ?,\n" +
-                    "    p.unitSold = ?,\n" +
-                    "    p.unitPrice = ?,\n" +
-                    "    p.status = ?\n" +
-                    "WHERE p.id = ?;";
+            String sql = "UPDATE products SET id = ?, typeId = ?, categoryId = ?, supplierId = ?, productName = ?, description = ?, releaseDate = ?, unitSold = ?, unitPrice = ?, status = ? WHERE id = ?;";
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                ps.setString(1, product.getType());
-                ps.setString(2, product.getCategory());
-                ps.setString(3, product.getSupplier());
-                ps.setString(4, product.getName());
-                ps.setString(5, product.getDescription());
-                ps.setDate(6, product.getReleaseDate());
-                ps.setInt(7, product.getUnitSold());
-                ps.setDouble(8, product.getUnitPrice());
-                ps.setBoolean(9, product.isStatus());
-                ps.setInt(10 , id);
+                ps.setInt(1, product.getId());
+                ps.setInt(2, product.getTypeId());
+                ps.setInt(3, product.getCategoryId());
+                ps.setInt(4, product.getSupplierId());
+                ps.setString(5, product.getName());
+                ps.setString(6, product.getDescription());
+                ps.setDate(7, product.getReleaseDate());
+                ps.setInt(8, product.getUnitSold());
+                ps.setDouble(9, product.getUnitPrice());
+                ps.setBoolean(10, product.isStatus());
+                ps.setInt(11 , id);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
                 System.out.println("Loi khi update product: " + e.getMessage());
