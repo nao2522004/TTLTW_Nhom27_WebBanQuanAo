@@ -17,23 +17,7 @@ public class AProductDao {
 
     public Map<Integer, Product> getAllProducts() {
         Map<Integer, Product> products = new LinkedHashMap<>();
-        String sql = "SELECT\n" +
-                "    p.id AS id,\n" +
-                "    t.name AS type,\n" +
-                "    c.name AS category,\n" +
-                "    s.supplierName AS supplier,\n" +
-                "    p.productname AS name,\n" +
-                "    p.description AS description,\n" +
-                "    p.releaseDate AS releaseDate,\n" +
-                "    p.unitSold AS unitSold,\n" +
-                "    p.unitPrice AS unitPrice,\n" +
-                "    p.status AS status\n" +
-                "FROM products p\n" +
-                "JOIN product_details pd ON p.id = pd.productId\n" +
-                "JOIN categories c ON p.categoryId = c.id\n" +
-                "JOIN types t ON p.typeId = t.id\n" +
-                "JOIN suppliers s ON p.supplierId = s.id \n" +
-                "ORDER BY p.id DESC;  ";
+        String sql = "SELECT * FROM products ORDER BY id DESC;";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -41,10 +25,10 @@ public class AProductDao {
                 while (rs.next()) {
                     Product product = new Product();
                     product.setId(rs.getInt("id"));
-                    product.setType(rs.getString("type"));
-                    product.setCategory(rs.getString("category"));
-                    product.setSupplier(rs.getString("supplier"));
-                    product.setName(rs.getString("name"));
+                    product.setTypeId(rs.getInt("typeId"));
+                    product.setCategoryId(rs.getInt("categoryId"));
+                    product.setSupplierId(rs.getInt("supplierId"));
+                    product.setName(rs.getString("productName"));
                     product.setDescription(rs.getString("description"));
                     product.setReleaseDate(rs.getDate("releaseDate"));
                     product.setUnitSold(rs.getInt("unitSold"));
@@ -73,7 +57,7 @@ public class AProductDao {
                     "JOIN product_details pd ON p.id = pd.productId\n" +
                     "JOIN categories c ON p.categoryId = c.id\n" +
                     "JOIN types t ON p.typeId = t.id\n" +
-                    "JOIN suppliers s ON p.supplierId = s.id\n" +5
+                    "JOIN suppliers s ON p.supplierId = s.id\n" +
                     "SET\n" +
                     "    p.typeId = (SELECT id FROM types WHERE name = ?),\n" +
                     "    p.categoryId = (SELECT id FROM categories WHERE name = ?),\n" +

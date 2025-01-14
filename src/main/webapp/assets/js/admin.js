@@ -338,15 +338,12 @@ function fetchProducts() {
         type: 'GET',
         dataType: 'json',
         success: function (products) {
-
             const table = document.getElementById("products--table");
             const oldTbody = table.querySelector("tbody");
-
             // Xóa tbody cũ nếu có
             if (oldTbody) {
                 table.removeChild(oldTbody);
             }
-
             // Thêm tbody mới vào bảng
             table.appendChild(buildTableProduct(products));
         },
@@ -364,14 +361,16 @@ document.addEventListener('DOMContentLoaded', fetchProducts);
 const buildTableProduct = (products) => {
     const tbody = document.createElement("tbody");
 
+    console.log(JSON.stringify(products));
+
     let productContent = "";
     for (const product of products) {
         productContent += `
         <tr>
           <td>${product.id}</td>
-          <td>${product.type}</td>
-          <td>${product.category}</td>
-          <td>${product.supplier}</td>
+          <td>${product.typeId}</td>
+          <td>${product.categoryId}</td>
+          <td>${product.supplierId}</td>
           <td>${product.name}</td>
           <td>${product.description}</td>
           <td>${product.releaseDate}</td>
