@@ -53,12 +53,12 @@
                         </div>
                         <div class="col">
                             <div class="quantity-controls">
-                                <button class="btn-decrease" data-id="${cp.id}">-</button>
+                                <a href="updateCart?pid=${cp.id}&action=down" class="btn-decrease" data-id="${cp.id}">-</a>
                                 <span id="quantity-${cp.id}" class="quantity">${cp.quantity}</span>
-                                <button class="btn-increase" data-id="${cp.id}">+</button>
+                                <a href="updateCart?pid=${cp.id}&action=up" class="btn-increase" data-id="${cp.id}">+</a>
                             </div>
                         </div>
-                        <div class="product-price col" data-price="${cp.unitPrice * cp.quantity}"></div>
+                        <div class="product-price col" data-price="${cp.unitPrice}"></div>
                         <a href="del-cart?pid=${cp.id}">
                             <button class="close col">&#10005;</button>
                         </a>
@@ -177,59 +177,62 @@
     const quantityDisplays = document.querySelectorAll('.quantity');
     const priceDisplays = document.querySelectorAll('.product-price');
 
-    decreaseBtns.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            let productId = btn.getAttribute('data-id');
-            let currentQuantity = parseInt(quantityDisplays[index].textContent);
-            if (currentQuantity > 1) {
-                currentQuantity--;
-                quantityDisplays[index].textContent = currentQuantity;
+    <%--decreaseBtns.forEach((btn, index) => {--%>
+    <%--    btn.addEventListener('click', () => {--%>
+    <%--        let productId = btn.getAttribute('data-id');--%>
+    <%--        // let currentQuantity = parseInt(quantityDisplays[index].textContent);--%>
+    <%--        // if (currentQuantity > 1) {--%>
+    <%--        //     currentQuantity--;--%>
+    <%--        //     quantityDisplays[index].textContent = currentQuantity;--%>
+    <%--        //--%>
+    <%--        //     // Update the price for the product--%>
+    <%--        //     let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity + 1);--%>
+    <%--        //     let newPrice = unitPrice * currentQuantity;--%>
+    <%--        //     priceDisplays[index].setAttribute('data-price', newPrice);--%>
+    <%--        //     priceDisplays[index].textContent = formatPrice(newPrice);--%>
+    <%--        //--%>
+    <%--        //     // Update the cart data--%>
+    <%--        //     const cartData = getCartData();--%>
+    <%--        //     const productIndex = cartData.findIndex(p => p.id === productId);--%>
+    <%--        //     if (productIndex !== -1) {--%>
+    <%--        //         cartData[productIndex].quantity = currentQuantity;--%>
+    <%--        //     }--%>
+    <%--        //     saveCartData(cartData);--%>
+    <%--        //--%>
+    <%--        //     // Update the total price--%>
+    <%--        //     updateTotalPrice();--%>
+    <%--        // }--%>
+    <%--        fetch(`updateCart?pid=${productId}&action=up`, {--%>
+    <%--            method: 'POST',--%>
+    <%--        });--%>
+    <%--    });--%>
+    <%--});--%>
 
-                // Update the price for the product
-                let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity + 1);
-                let newPrice = unitPrice * currentQuantity;
-                priceDisplays[index].setAttribute('data-price', newPrice);
-                priceDisplays[index].textContent = formatPrice(newPrice);
-
-                // Update the cart data
-                const cartData = getCartData();
-                const productIndex = cartData.findIndex(p => p.id === productId);
-                if (productIndex !== -1) {
-                    cartData[productIndex].quantity = currentQuantity;
-                }
-                saveCartData(cartData);
-
-                // Update the total price
-                updateTotalPrice();
-            }
-        });
-    });
-
-    increaseBtns.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            let productId = btn.getAttribute('data-id');
-            let currentQuantity = parseInt(quantityDisplays[index].textContent);
-            currentQuantity++;
-            quantityDisplays[index].textContent = currentQuantity;
-
-            // Update the price for the product
-            let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity - 1);
-            let newPrice = unitPrice * currentQuantity;
-            priceDisplays[index].setAttribute('data-price', newPrice);
-            priceDisplays[index].textContent = formatPrice(newPrice);
-
-            // Update the cart data
-            const cartData = getCartData();
-            const productIndex = cartData.findIndex(p => p.id === productId);
-            if (productIndex !== -1) {
-                cartData[productIndex].quantity = currentQuantity;
-            }
-            saveCartData(cartData);
-
-            // Update the total price
-            updateTotalPrice();
-        });
-    });
+    // increaseBtns.forEach((btn, index) => {
+    //     btn.addEventListener('click', () => {
+    //         let productId = btn.getAttribute('data-id');
+    //         let currentQuantity = parseInt(quantityDisplays[index].textContent);
+    //         currentQuantity++;
+    //         quantityDisplays[index].textContent = currentQuantity;
+    //
+    //         // Update the price for the product
+    //         let unitPrice = parseFloat(priceDisplays[index].getAttribute('data-price')) / (currentQuantity - 1);
+    //         let newPrice = unitPrice * currentQuantity;
+    //         priceDisplays[index].setAttribute('data-price', newPrice);
+    //         priceDisplays[index].textContent = formatPrice(newPrice);
+    //
+    //         // Update the cart data
+    //         const cartData = getCartData();
+    //         const productIndex = cartData.findIndex(p => p.id === productId);
+    //         if (productIndex !== -1) {
+    //             cartData[productIndex].quantity = currentQuantity;
+    //         }
+    //         saveCartData(cartData);
+    //
+    //         // Update the total price
+    //         updateTotalPrice();
+    //     });
+    // });
 
     // Load cart data when the page is loaded
     document.addEventListener("DOMContentLoaded", loadCartData);

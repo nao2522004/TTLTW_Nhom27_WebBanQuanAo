@@ -15,11 +15,14 @@ public class NavController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String category = request.getParameter("category");
+        List<Product> products = (List<Product>) request.getAttribute("allProducts");
 
-        ProductService productService = new ProductService();
-        List<Product> allProducts = productService.getProductsByCategory(category);
+        if(products == null) {
+            ProductService productService = new ProductService();
+            products = productService.getProductsByCategory(category);
+        }
 
-        request.setAttribute("allProducts", allProducts);
+        request.setAttribute("allProducts", products);
         String page = "/".concat(category.toLowerCase()).concat(".jsp");
         request.getRequestDispatcher(page).forward(request, response);
     }

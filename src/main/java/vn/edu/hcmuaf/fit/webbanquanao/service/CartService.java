@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.CartDao;
+import vn.edu.hcmuaf.fit.webbanquanao.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.model.CartProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
@@ -12,17 +13,20 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class CartService {
 
-    Map<Integer, CartProduct> data ;
+    public Map<Integer, CartProduct> data ;
     CartDao dao;
+    ProductDAO productDAO;
 
 
     public CartService(){
         this.dao = new CartDao();
+        this.productDAO = new ProductDAO();
         this.data = dao.getCartProducts();
     }
     public boolean add(Product p){
         if (data.containsKey(p.getId())){
-            update(p.getId(), data.get(p.getId()).getQuantity()+p.getStock());
+            int qty = data.get(p.getId()).getQuantity()+p.getStock();
+            update(p.getId(), qty);
             return true;
         }
         data.put(p.getId(), convert(p));
@@ -33,9 +37,14 @@ public class CartService {
         if(!data.containsKey(id)){
             return false;
         }
-        CartProduct cp = data.get(id);
-        cp.setQuantity(quantity);
-        return true;
+        if(quantity > 0) {
+            CartProduct cp = data.get(id);
+            Product p = productDAO.getById(id);
+            cp.setQuantity(quantity);
+            cp.setUnitPrice(cp.getQuantity()*p.getUnitPrice());
+            return true;
+        }
+        return false;
     }
 
     public boolean remove(int id){
@@ -69,9 +78,9 @@ public class CartService {
         CartProduct result = new CartProduct();
         result.setId(p.getId());
         result.setName(p.getName());
-        result.setUnitPrice(p.getUnitPrice());
+        result.setQuantity(p.getStock());
+        result.setUnitPrice(result.getQuantity() * p.getUnitPrice());
         result.setImages(p.getImages());
-        result.setQuantity(1);
         result.setSizes(p.getSizes());
         result.setColors(p.getColors());
         return result;

@@ -47,9 +47,6 @@
                         <option value="default">Chọn tiêu chí sắp xếp</option>
                         <option value="priceAsc">Giá: Thấp đến Cao</option>
                         <option value="priceDesc">Giá: Cao đến Thấp</option>
-                        <option value="newest">Sản Phẩm Mới Nhất</option>
-                        <option value="bestSeller">Bán Chạy Nhất</option>
-                        <option value="highestRated">Đánh Giá Cao Nhất</option>
                     </select>
                 </div>
             </div>
@@ -58,17 +55,14 @@
         <div class="container-fluid">
             <div class="bottom">
                 <!-- Filter -->
-                <div class="filter">
+                <form action="productFilter" method="post" class="filter">
                     <!-- Loại Sản Phẩm -->
                     <div id="filter-category">
                         <h4>Loại Sản Phẩm <span class="arrow"><i
                                     class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
                         <div class="filter-content">
-                            <label><input type="checkbox" name="category" value="Shirts"> Áo</label>
-                            <label><input type="checkbox" name="category" value="Pants"> Quần</label>
-                            <label><input type="checkbox" name="category" value="Jackets"> Áo khoác</label>
-                            <label><input type="checkbox" name="category" value="Accessories"> Phụ kiện</label>
-                            <label><input type="checkbox" name="category" value="Shoes"> Giày</label>
+                            <label><input type="checkbox" name="type" value="Áo"> Áo</label>
+                            <label><input type="checkbox" name="type" value="Quần"> Quần</label>
                         </div>
                     </div>
 
@@ -82,17 +76,8 @@
                             <label><input type="checkbox" name="size" value="L"> L</label>
                             <label><input type="checkbox" name="size" value="XL"> XL</label>
                             <label><input type="checkbox" name="size" value="XXL"> XXL</label>
-                        </div>
-                    </div>
-
-                    <!-- Màu Sắc -->
-                    <div id="filter-color">
-                        <h4>Màu Sắc <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span></h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="color" value="Black"> Đen</label>
-                            <label><input type="checkbox" name="color" value="White"> Trắng</label>
-                            <label><input type="checkbox" name="color" value="Blue"> Xanh</label>
-                            <label><input type="checkbox" name="color" value="Gray"> Xám</label>
+                            <label><input type="checkbox" name="size" value="3XL"> 3XL</label>
+                            <label><input type="checkbox" name="size" value="4XL"> 4XL</label>
                         </div>
                     </div>
 
@@ -102,50 +87,15 @@
                         <div class="filter-content">
                             <input type="number" name="price-min" placeholder="Giá tối thiểu">
                             <input type="number" name="price-max" placeholder="Giá tối đa">
-                            <select name="price-sort">
-                                <option value="low-to-high">Thấp đến cao</option>
-                                <option value="high-to-low">Cao đến thấp</option>
-                            </select>
                         </div>
                     </div>
 
-                    <!-- Thương Hiệu -->
-                    <div id="filter-brand">
-                        <h4>Thương Hiệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="brand" value="Gucci"> Gucci</label>
-                            <label><input type="checkbox" name="brand" value="Louis"> Louis Vuitton</label>
-                            <label><input type="checkbox" name="brand" value="Balenciaga"> Balenciaga</label>
-                            <label><input type="checkbox" name="brand" value="Dior"> Dior</label>
-                            <label><input type="checkbox" name="brand" value="Chanel"> Chanel</label>
-                        </div>
+                    <input type="hidden" name="category" value="men">
+                    <!-- Button Submit -->
+                    <div class="filter-submit">
+                        <button type="submit" class="btn btn-primary btn-block">Lọc sản phẩm</button>
                     </div>
-
-                    <!-- Chất Liệu -->
-                    <div id="filter-material">
-                        <h4>Chất Liệu <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="material" value="Cotton"> Cotton</label>
-                            <label><input type="checkbox" name="material" value="Wool"> Len</label>
-                            <label><input type="checkbox" name="material" value="Leather"> Da</label>
-                            <label><input type="checkbox" name="material" value="Polyester"> Polyester</label>
-                        </div>
-                    </div>
-
-                    <!-- Phong Cách -->
-                    <div id="filter-style">
-                        <h4>Phong Cách <span class="arrow"><i class="fa-solid fa-chevron-down custom_icon"></i></span>
-                        </h4>
-                        <div class="filter-content">
-                            <label><input type="checkbox" name="style" value="Sporty"> Thể thao</label>
-                            <label><input type="checkbox" name="style" value="Business"> Công sở</label>
-                            <label><input type="checkbox" name="style" value="Casual"> Thường ngày</label>
-                            <label><input type="checkbox" name="style" value="High-fashion"> Thời trang cao cấp</label>
-                        </div>
-                    </div>
-                </div>
+                </form>
                 <!-- Right -->
                 <div class="list_products">
                     <div class="container mt-2">
