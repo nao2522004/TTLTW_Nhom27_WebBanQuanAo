@@ -26,7 +26,7 @@ function validateOtp() {
 
     if (otp.length === otpInputs.length && /^\d{6}$/.test(otp)) {
         // Chuyển hướng đến trang reset-password.jsp nếu mã OTP hợp lệ
-        window.location.href = 'reset-password.jspjsp';
+        window.location.href = 'reset-password.jsp';
     } else {
         alert("Vui lòng nhập đúng mã OTP gồm 6 chữ số!");
     }

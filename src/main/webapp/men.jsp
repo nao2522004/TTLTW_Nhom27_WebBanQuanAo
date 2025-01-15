@@ -130,8 +130,9 @@
                             <!-- Previous button -->
                             <li class="page-item <c:if test="${currentPage == 1}">disabled</c:if>">
                                 <a class="page-link"
-                                   href="javascript:void(0);"
-                                   aria-label="Previous">
+                                        href="navController?category=men&page=${currentPage - 1}"
+                                        aria-label="Previous"
+                                        id="previous-page">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </a>
                             </li>
@@ -140,17 +141,20 @@
                             <c:forEach var="i" begin="1" end="${totalPages}">
                                 <li class="page-item <c:if test="${i == currentPage}">active</c:if>">
                                     <a class="page-link"
-                                       href="<c:if test='${not empty filteredProducts}'>productFilter?category=men&page=${i}</c:if>
-                               <c:if test='${empty filteredProducts}'>navController?category=men&page=${i}</c:if>">${i}</a>
+                                            href="navController?category=men&page=${i}"
+                                            type="button"
+                                            data-page="${i}">
+                                            ${i}
+                                    </a>
                                 </li>
                             </c:forEach>
 
                             <!-- Next button -->
                             <li class="page-item <c:if test="${currentPage == totalPages}">disabled</c:if>">
                                 <a class="page-link"
-                                   href="javascript:void(0);"
-                                   aria-label="Next"
-                                    id="next-page">
+                                        href="navController?category=men&page=${currentPage + 1}"
+                                        aria-label="Next"
+                                        id="next-page">
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </a>
                             </li>
@@ -171,43 +175,43 @@
 
 <!-- Pagination -->
 <script>
-    $(document).ready(function() {
-        // Lấy danh sách sản phẩm từ request
-        var products = <%= jsonProducts %>;
-        // Chuyển danh sách sản phẩm thành JSON
-        var productsJson = JSON.stringify(products);
+    <%--$(document).ready(function() {--%>
+    <%--    // Lấy danh sách sản phẩm từ request--%>
+    <%--    var products = <%= jsonProducts %>;--%>
+    <%--    // Chuyển danh sách sản phẩm thành JSON--%>
+    <%--    var productsJson = JSON.stringify(products);--%>
 
-        // Xử lý click vào nút Previous
-        $('#next-page').on('click', function() {
-            var currentPage = ${currentPage};
-            var totalPages = ${totalPages};
-            var pageSize = ${pageSize};
-            var category = "${category}";
+    <%--    // Xử lý click vào nút Previous--%>
+    <%--    $('#next-page').on('click', function() {--%>
+    <%--        var currentPage = ${currentPage};--%>
+    <%--        var totalPages = ${totalPages};--%>
+    <%--        var pageSize = ${pageSize};--%>
+    <%--        var category = "${category}";--%>
 
-            if (currentPage < totalPages) {
-                // Tạo đối tượng chứa các tham số
-                var requestData = {
-                    category: category,
-                    page: currentPage + 1,
-                    pageSize: pageSize,
-                    products: productsJson // Giả sử jsonProducts đã được định nghĩa trong JSP
-                };
+    <%--        if (currentPage < totalPages) {--%>
+    <%--            // Tạo đối tượng chứa các tham số--%>
+    <%--            var requestData = {--%>
+    <%--                category: category,--%>
+    <%--                page: currentPage + 1,--%>
+    <%--                pageSize: pageSize,--%>
+    <%--                products: productsJson // Giả sử jsonProducts đã được định nghĩa trong JSP--%>
+    <%--            };--%>
 
-                $.ajax({
-                    url: "productPagination",  // Địa chỉ Servlet
-                    type: "POST",
-                    contentType: "application/json", // Gửi dưới dạng JSON
-                    data: JSON.stringify(requestData),  // Gửi dữ liệu JSON chứa thêm thông tin
-                    success: function(response) {
-                        alert("Products sent successfully: " + response.status);
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Error: " + error);
-                    }
-                });
-            }
-        });
-    });
+    <%--            $.ajax({--%>
+    <%--                url: "productPagination",  // Địa chỉ Servlet--%>
+    <%--                type: "POST",--%>
+    <%--                contentType: "application/json", // Gửi dưới dạng JSON--%>
+    <%--                data: JSON.stringify(requestData),  // Gửi dữ liệu JSON chứa thêm thông tin--%>
+    <%--                success: function(response) {--%>
+    <%--                    alert("Products sent successfully: " + response.status);--%>
+    <%--                },--%>
+    <%--                error: function(xhr, status, error) {--%>
+    <%--                    alert("Error: " + error);--%>
+    <%--                }--%>
+    <%--            });--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--});--%>
 
     // function changePage() {
     //     $.ajax({
@@ -223,6 +227,54 @@
     //         }
     //     });
     // }
+
+    <%--$(document).ready(function () {--%>
+    <%--    // Xử lý khi nhấn vào nút Previous--%>
+    <%--    $('#previous-page').on('click', function () {--%>
+    <%--        const currentPage = parseInt($('#pagination').data('current-page')); // Lấy số trang hiện tại--%>
+    <%--        if (currentPage > 1) {--%>
+    <%--            const newPage = currentPage - 1;--%>
+    <%--            loadPage(newPage);--%>
+    <%--        }--%>
+    <%--    });--%>
+
+    <%--    // Xử lý khi nhấn vào các nút số trang--%>
+    <%--    $('.page-link[data-page]').on('click', function () {--%>
+    <%--        const page = $(this).data('page'); // Lấy số trang từ data-page--%>
+    <%--        loadPage(page);--%>
+    <%--    });--%>
+
+    <%--    // Xử lý khi nhấn vào nút Next--%>
+    <%--    $('#next-page').on('click', function () {--%>
+    <%--        const currentPage = parseInt($('#pagination').data('current-page'));--%>
+    <%--        const totalPages = parseInt($('#pagination').data('total-pages')); // Tổng số trang--%>
+    <%--        if (currentPage < totalPages) {--%>
+    <%--            const newPage = currentPage + 1;--%>
+    <%--            loadPage(newPage);--%>
+    <%--        }--%>
+    <%--    });--%>
+
+    <%--    // Hàm tải trang--%>
+    <%--    function loadPage(page) {--%>
+    <%--        var category = "${category}";--%>
+    <%--        $.ajax({--%>
+    <%--            url: "/WebBanQuanAo/navController",--%>
+    <%--            type: "Post",--%>
+    <%--            data: {--%>
+    <%--              category: category,--%>
+    <%--              page: page--%>
+    <%--            },--%>
+    <%--            success: function (data) {--%>
+    <%--                const paginationContainer = document.querySelector('#pagination ul');--%>
+    <%--                paginationContainer.innerHTML = '';--%>
+    <%--                paginationContainer.innerHTML += data;--%>
+    <%--            },--%>
+    <%--            error: function (xhr, status, error) {--%>
+    <%--                console.error("Lỗi khi gửi yêu cầu:", error);--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    }--%>
+    <%--});--%>
 </script>
 </body>
 
