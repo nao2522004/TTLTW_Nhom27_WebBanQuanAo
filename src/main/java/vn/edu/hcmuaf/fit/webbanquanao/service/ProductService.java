@@ -71,6 +71,15 @@ public class ProductService {
         };
     }
 
+    // Search product by name
+    public List<Product> searchByName(String name) {
+        List<Product> list = new ArrayList<>();
+        dao.searchByName(name).forEach((key, value) -> {
+            list.add(value);
+        });
+        return list;
+    }
+
     // Get product by id
     public Product getDetail(int id){
         try {
@@ -82,6 +91,6 @@ public class ProductService {
 
     public static void main(String[] args) {
         ProductService service = new ProductService();
-        System.out.println(service.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M", "L", "XL"}, 480000.0, 500000.0));
+        System.out.println(service.searchByName("Quần tây"));
     }
 }

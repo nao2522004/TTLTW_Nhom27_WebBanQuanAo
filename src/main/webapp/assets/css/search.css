@@ -104,3 +104,11 @@ body {
     color: #fff;
     font-size: 1.5rem;
 }
+
+/*.product-card {*/
+/*    transition: opacity 0.3s ease-in-out;*/
+/*}*/
+
+.no-result {
+    color: var(--lighter-second-color);
+}
