@@ -22,6 +22,7 @@
     </nav>
   </div>
   <div class="group_icons">
+    <a href="productSearch"><i class="fa-solid fa-magnifying-glass custom_size"></i></a>
     <%
       User user = (User) session.getAttribute("auth"); // Kiểm tra người dùng trong session
       if (user != null) {
