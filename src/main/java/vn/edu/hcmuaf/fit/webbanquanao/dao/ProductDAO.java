@@ -384,6 +384,7 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        System.out.println(dao.searchByName("Quần tây"));
+        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M","L"}, null, 400000.0));
+//        System.out.println(dao.searchByName("Quần tây"));
     }
 }
