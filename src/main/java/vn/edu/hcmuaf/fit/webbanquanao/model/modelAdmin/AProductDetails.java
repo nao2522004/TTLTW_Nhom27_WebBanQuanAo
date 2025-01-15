@@ -13,13 +13,13 @@ public class AProductDetails implements Serializable {
     public AProductDetails() {
     }
 
-    public AProductDetails(Integer id, Integer productId, String size, Integer stock, String color, String image) {
+    public AProductDetails(Integer id, Integer productId, String size, Integer stock, String image, String color) {
         this.id = id;
         this.productId = productId;
         this.size = size;
         this.stock = stock;
-        this.color = color;
         this.image = image;
+        this.color = color;
     }
 
 

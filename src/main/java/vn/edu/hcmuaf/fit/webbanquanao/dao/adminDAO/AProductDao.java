@@ -71,7 +71,44 @@ public class AProductDao {
 
 
     public boolean create(Object obj) {
-        return false;
+        return JDBIConnector.get().withHandle(h -> {
+            AProduct product = (AProduct) obj;
+            listProduct.put(product.getId(), product);
+            String sql = "INSERT INTO products(typeId, categoryId, supplierId, productName, description, releaseDate, unitSold, unitPrice, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, product.getTypeId());
+                ps.setInt(2, product.getCategoryId());
+                ps.setInt(3, product.getSupplierId());
+                ps.setString(4, product.getName());
+                ps.setString(5, product.getDescription());
+                ps.setDate(6, product.getReleaseDate());
+                ps.setInt(7, product.getUnitSold());
+                ps.setDouble(8, product.getUnitPrice());
+                ps.setBoolean(9, product.isStatus());
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi them product: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
+    public boolean createProductDetails(Object obj) {
+        return JDBIConnector.get().withHandle(h -> {
+            AProductDetails productDetail = (AProductDetails) obj;
+            String sql = "INSERT INTO product_details(productId, size, stock, image, color) VALUES(?, ?, ?, ?, ?);";
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, productDetail.getProductId());
+                ps.setString(2, productDetail.getSize());
+                ps.setInt(3, productDetail.getStock());
+                ps.setString(4, productDetail.getImage());
+                ps.setString(5, productDetail.getColor());
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi them product details: " + e.getMessage());
+            }
+            return false;
+        });
     }
 
 
@@ -100,9 +137,40 @@ public class AProductDao {
         });
     }
 
+    public boolean updateProductDetails(Object obj, Integer id, Integer productId) {
+        return JDBIConnector.get().withHandle(h -> {
+            AProductDetails productDetail = (AProductDetails) obj;
+            String sql = "UPDATE product_details SET id = ?, productId = ?, size = ?, stock = ?, image = ?, color = ? WHERE id = ? AND productId = ?;";
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, productDetail.getId());
+                ps.setInt(2, productDetail.getProductId());
+                ps.setString(3, productDetail.getSize());
+                ps.setInt(4, productDetail.getStock());
+                ps.setString(5, productDetail.getImage());
+                ps.setString(6, productDetail.getColor());
+                ps.setInt(7, id);
+                ps.setInt(8, productId);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi update product details: " + e.getMessage());
+            }
+            return false;
+        });
+    }
 
-    public boolean delete(String userName) {
-        return false;
+
+    public boolean delete(Integer id) {
+        listProduct.remove(id);
+        String sql = "DELETE FROM products WHERE id = ?;";
+        return JDBIConnector.get().withHandle(h -> {
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, id);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi xoa product: " + e.getMessage());
+            }
+            return false;
+        });
     }
 
 }

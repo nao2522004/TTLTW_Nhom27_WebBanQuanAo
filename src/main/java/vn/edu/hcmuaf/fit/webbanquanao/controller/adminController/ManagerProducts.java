@@ -81,55 +81,57 @@ public class ManagerProducts extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//
-//        try {
-//            // Đọc dữ liệu JSON từ client
-//            StringBuilder jsonBuffer = new StringBuilder();
-//            String line;
-//            try (BufferedReader reader = request.getReader()) {
-//                while ((line = reader.readLine()) != null) {
-//                    jsonBuffer.append(line);
-//                }
-//            }
-//            String json = jsonBuffer.toString();
-//
-//            // Parse JSON thành đối tượng Product
-//            Gson gson = new Gson();
-//            Product product = gson.fromJson(json, Product.class);
-//
-//            // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
-//            if (product.getName() == null || product.getUnitPrice() == null) {
-//                throw new IllegalArgumentException("Tên sản phẩm và giá không được để trống");
-//            }
-//
-//            // Gọi service để thêm sản phẩm
-//            boolean isCreated = productService.createProduct(product);
-//
-//            // Phản hồi
-//            JsonObject jsonResponse = new JsonObject();
-//            if (isCreated) {
-//                jsonResponse.addProperty("message", "Sản phẩm đã được tạo thành công!");
-//                response.setStatus(HttpServletResponse.SC_CREATED);
-//            } else {
-//                jsonResponse.addProperty("message", "Không thể tạo sản phẩm. Lỗi dữ liệu");
-//                response.setStatus(HttpServletResponse.SC_CONFLICT);
-//            }
-//            response.getWriter().write(gson.toJson(jsonResponse));
-//        } catch (JsonSyntaxException e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            response.getWriter().write("{\"message\": \"Dữ liệu JSON không hợp lệ\"}");
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            response.getWriter().write("{\"message\": \"" + e.getMessage() + "\"}");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
-//        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            // Đọc dữ liệu JSON từ client
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+
+            // Cấu hình Gson
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd")  // Định dạng ngày tháng
+                    .create();
+            AProduct aproduct = gson.fromJson(json, AProduct.class);
+
+            // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
+            if (aproduct.getName() == null || aproduct.getUnitPrice() == 0) {
+                throw new IllegalArgumentException("Tên sản phẩm và giá không được để trống");
+            }
+
+            // Gọi service để thêm sản phẩm
+            boolean isCreated = productService.createProduct(aproduct);
+
+            // Phản hồi
+            JsonObject jsonResponse = new JsonObject();
+            if (isCreated) {
+                jsonResponse.addProperty("message", "Sản phẩm đã được tạo thành công!");
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } else {
+                jsonResponse.addProperty("message", "Không thể tạo sản phẩm. Lỗi dữ liệu");
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
+            response.getWriter().write(gson.toJson(jsonResponse));
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Dữ liệu JSON không hợp lệ\"}");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
     }
 
 
@@ -202,44 +204,44 @@ public class ManagerProducts extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        try {
-//            // Đọc dữ liệu JSON từ body
-//            StringBuilder jsonBuffer = new StringBuilder();
-//            String line;
-//            try (BufferedReader reader = request.getReader()) {
-//                while ((line = reader.readLine()) != null) {
-//                    jsonBuffer.append(line);
-//                }
-//            }
-//            String json = jsonBuffer.toString();
-//            // Parse JSON để lấy ID sản phẩm
-//            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
-//            Integer productId = jsonObject.get("id").getAsInt();
-//
-//            // Kiểm tra ID
-//            if (productId == null) {
-//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                response.getWriter().write("{\"message\": \"ID sản phẩm không được để trống\"}");
-//                return;
-//            }
-//
-//            // Gọi service để xóa sản phẩm
-//            boolean isDeleted = productService.deleteProduct(productId);
-//
-//            // Phản hồi
-//            if (isDeleted) {
-//                response.setStatus(HttpServletResponse.SC_OK);
-//                response.getWriter().write("{\"message\": \"Sản phẩm đã được xóa\"}");
-//            } else {
-//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//                response.getWriter().write("{\"message\": \"Không tìm thấy sản phẩm\"}");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
-//        }
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            // Đọc dữ liệu JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+            // Parse JSON để lấy ID sản phẩm
+            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+            Integer productId = jsonObject.get("id").getAsInt();
+
+            // Kiểm tra ID
+            if (productId == null) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"ID sản phẩm không được để trống\"}");
+                return;
+            }
+
+            // Gọi service để xóa sản phẩm
+            boolean isDeleted = productService.delete(productId);
+
+            // Phản hồi
+            if (isDeleted) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\": \"Sản phẩm đã được xóa\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"message\": \"Không tìm thấy sản phẩm\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
     }
 }

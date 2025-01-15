@@ -135,10 +135,7 @@ const buildTableOrderDetails = () => {
 // Lấy danh sách người dùng từ server
 function fetchUsers() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-users',
-        type: 'GET',
-        dataType: 'json',
-        success: function (users) {
+        url: '/WebBanQuanAo/admin/manager-users', type: 'GET', dataType: 'json', success: function (users) {
             const table = document.getElementById("users--table");
             const oldTbody = table.querySelector("tbody");
 
@@ -149,8 +146,7 @@ function fetchUsers() {
 
             // Thêm tbody mới vào bảng
             table.appendChild(buildTableUser(users));
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error('Error fetching users:', error);
             alert("Failed to fetch users. Please try again later.");
         }
@@ -227,8 +223,7 @@ function openEditPopup(event) {
     // Gửi yêu cầu AJAX để lấy dữ liệu người dùng theo username
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-users', // Đảm bảo rằng URL này khớp với mapping của servlet
-        type: 'GET',
-        data: {username: userName},  // Gửi username dưới dạng tham số truy vấn
+        type: 'GET', data: {username: userName},  // Gửi username dưới dạng tham số truy vấn
         success: function (data) {
             // Điền dữ liệu người dùng vào các trường trong form
             document.getElementById("edit-id").value = data.id;
@@ -241,8 +236,7 @@ function openEditPopup(event) {
             document.getElementById("edit-createdDate").value = data.createdAt;
             document.getElementById("edit-status").value = data.status;
             document.getElementById("edit-role").value = data.roleId;
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
             alert("Không thể lấy thông tin người dùng. Vui lòng thử lại.");
         }
@@ -277,16 +271,13 @@ function saveUserEdits(event) {
 
     // Gửi yêu cầu AJAX với JSON
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-users',
-        type: 'PUT',
-        contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
+        url: '/WebBanQuanAo/admin/manager-users', type: 'PUT', contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
         data: userJson, // Gửi JSON object
         success: function (response) {
             alert("Cập nhật thông tin người dùng thành công!");
             fetchUsers(); // Tải lại danh sách người dùng
             hideOverlay(); // Ẩn overlay
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error("Lỗi khi cập nhật thông tin người dùng:", error);
             alert("Không thể cập nhật thông tin người dùng. Vui lòng kiểm tra lại dữ liệu và thử lại.");
         }
@@ -302,11 +293,9 @@ function createUser(event) {
     const userData = Object.fromEntries(formData.entries());
 
     fetch('/WebBanQuanAo/admin/manager-users', {
-        method: 'POST',
-        headers: {
+        method: 'POST', headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
+        }, body: JSON.stringify(userData)
     })
         .then(response => {
             if (response.ok) return response.json();
@@ -333,10 +322,7 @@ function createUser(event) {
 // Lấy danh sách sản phẩm từ server
 function fetchProducts() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products',
-        type: 'GET',
-        dataType: 'json',
-        success: function (products) {
+        url: '/WebBanQuanAo/admin/manager-products', type: 'GET', dataType: 'json', success: function (products) {
             const table = document.getElementById("products--table");
             const oldTbody = table.querySelector("tbody");
             // Xóa tbody cũ nếu có
@@ -345,8 +331,7 @@ function fetchProducts() {
             }
             // Thêm tbody mới vào bảng
             table.appendChild(buildTableProduct(products));
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error('Lỗi khi lấy danh sách sản phẩm:', error);
             alert("Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.");
         }
@@ -419,8 +404,14 @@ const buildTableProduct = (products) => {
 
 // Hàm xóa sản phẩm
 function deleteProduct(event) {
-    const productId = event.target.getAttribute("data-product-id");
+    const productId = parseInt(event.target.getAttribute("data-product-id"), 10); // Chuyển đổi thành int
     console.log(JSON.stringify({id: productId}));
+
+    if (isNaN(productId)) { // Kiểm tra xem productId có phải là số hợp lệ không
+        alert("ID sản phẩm không hợp lệ.");
+        return;
+    }
+
     if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm ID: ${productId}?`)) {
         $.ajax({
             url: `/WebBanQuanAo/admin/manager-products?id=${productId}`,
@@ -439,6 +430,7 @@ function deleteProduct(event) {
     }
 }
 
+
 //---------------Edit sản phẩm--------------------//
 function openEditProductPopup(event) {
     const productId = event.target.getAttribute("data-product-id");
@@ -449,10 +441,7 @@ function openEditProductPopup(event) {
 
     // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm theo ID
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products',
-        type: 'GET',
-        data: {id: productId},
-        success: function (data) {
+        url: '/WebBanQuanAo/admin/manager-products', type: 'GET', data: {id: productId}, success: function (data) {
             // Điền dữ liệu sản phẩm vào các trường trong form
             document.getElementById("edit-idProduct").value = data.id;
             document.getElementById("edit-typeId").value = data.typeId;
@@ -463,9 +452,7 @@ function openEditProductPopup(event) {
 
             // Đoạn mã trong openEditProductPopup
             const releaseDate = new Date(data.releaseDate);
-            const formattedDate = releaseDate.getFullYear() + '-' +
-                ('0' + (releaseDate.getMonth() + 1)).slice(-2) + '-' +
-                ('0' + releaseDate.getDate()).slice(-2);
+            const formattedDate = releaseDate.getFullYear() + '-' + ('0' + (releaseDate.getMonth() + 1)).slice(-2) + '-' + ('0' + releaseDate.getDate()).slice(-2);
 
             document.getElementById("edit-releaseDate").value = formattedDate;
 
@@ -473,8 +460,7 @@ function openEditProductPopup(event) {
             document.getElementById("edit-unitSold").value = data.unitSold;
             document.getElementById("edit-unitPrice").value = data.unitPrice;
             document.getElementById("edit-statusProduct").value = data.status;
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
             alert("Không thể lấy thông tin sản phẩm. Vui lòng thử lại.");
         }
@@ -507,21 +493,15 @@ function saveProductEdits(event) {
     // Chuyển đổi đối tượng `product` thành JSON
     const productJson = JSON.stringify(product);
 
-    // Log để kiểm tra JSON đã tạo
-    console.log("JSON object gửi đi:", productJson);
-
     // Gửi yêu cầu AJAX với JSON
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products',
-        type: 'PUT',
-        contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
+        url: '/WebBanQuanAo/admin/manager-products', type: 'PUT', contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
         data: productJson, // Gửi JSON object
         success: function (response) {
             alert("Cập nhật thông tin sản phẩm thành công!");
             fetchProducts(); // Tải lại danh sách sản phẩm
             hideOverlay(); // Ẩn overlay
-        },
-        error: function (xhr, status, error) {
+        }, error: function (xhr, status, error) {
             console.error("Lỗi khi cập nhật thông tin sản phẩm:", error);
             alert("Không thể cập nhật thông tin sản phẩm. Vui lòng kiểm tra lại dữ liệu và thử lại.");
         }
@@ -539,30 +519,32 @@ function openProductDetails(event) {
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-productDetails',
         type: 'GET',
-        data: { id: productId },
+        data: {id: productId},
         success: function (data) {
             console.log(JSON.stringify(data));  // In ra dữ liệu nhận được từ server
-            // Giả sử `data` là mảng chứa các chi tiết sản phẩm
+
             if (data && data.length > 0) {
                 let productDetailListContent = '';
 
                 // Duyệt qua tất cả các chi tiết sản phẩm và tạo HTML để hiển thị
                 data.forEach(productDetail => {
                     productDetailListContent += `
-                        <tr>
-                            <td><input type="number" value="${productDetail.id}" disabled></td>
-                            <td><input type="number" value="${productDetail.productId}" disabled></td>
-                            <td><input type="text" value="${productDetail.size}" class="editable" data-id="${productDetail.id}" data-field="size"></td>
-                            <td><input type="number" value="${productDetail.stock}" class="editable" data-id="${productDetail.id}" data-field="stock"></td>
-                            <td><input type="text" value="${productDetail.color}" class="editable" data-id="${productDetail.id}" data-field="color"></td>
-                            <td><input type="text" value="${productDetail.image}" class="editable" data-id="${productDetail.id}" data-field="image"></td>
-                            <td><span type="submit" onclick="saveProductDetailEdits(event)" class="primary material-icons-sharp">save</span></td>
-                        </tr>
-                    `;
+                    <tr>
+                        <td><input type="number" value="${productDetail.id}" data-field="id" disabled></td>
+                        <td><input type="number" value="${productDetail.productId}" data-field="productId" disabled></td>
+                        <td><input type="text" value="${productDetail.size}" class="editable" data-id="${productDetail.id}" data-field="size"></td>
+                        <td><input type="number" value="${productDetail.stock}" class="editable" data-id="${productDetail.id}" data-field="stock"></td>
+                        <td><input type="text" value="${productDetail.image}" class="editable" data-id="${productDetail.id}" data-field="image"></td>
+                        <td><input type="text" value="${productDetail.color}" class="editable" data-id="${productDetail.id}" data-field="color"></td>
+                        <td><span onclick="saveProductDetailEdits(event)" class="primary material-icons-sharp">save</span></td>
+                    </tr>
+                   `;
+
                 });
 
-                // Điền dữ liệu vào bảng chi tiết sản phẩm
-                document.getElementById("product-details--table").innerHTML = productDetailListContent;
+                // Điền dữ liệu vào phần <tbody> của bảng
+                const tableBody = document.querySelector("#product-details--table tbody");
+                tableBody.innerHTML = productDetailListContent;
 
                 // Thêm sự kiện để chỉnh sửa các trường thông tin
                 const editableFields = document.querySelectorAll(".editable");
@@ -581,67 +563,39 @@ function openProductDetails(event) {
 }
 
 
-function handleFieldChange(event) {
-    const input = event.target;
-    const productDetailId = input.getAttribute("data-id");
-    const field = input.getAttribute("data-field");
-    const newValue = input.value;
-
-    // Gửi yêu cầu AJAX để cập nhật dữ liệu chi tiết sản phẩm
-    const updateData = {
-        id: productDetailId,
-        [field]: newValue
-    };
-
-    $.ajax({
-        url: '/WebBanQuanAo/admin/manager-productDetails',
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(updateData),
-        success: function (response) {
-            alert("Cập nhật thành công!");
-        },
-        error: function (xhr, status, error) {
-            console.error("Lỗi khi cập nhật thông tin chi tiết sản phẩm:", error);
-            alert("Không thể cập nhật thông tin. Vui lòng thử lại.");
-        }
-    });
-}
-
-
-
 function saveProductDetailEdits(event) {
-    // Ngăn hành vi submit mặc định của form
-    event.preventDefault();
+    event.preventDefault()
 
-    // Lấy các giá trị từ các trường nhập liệu
+    // Lấy hàng chứa nút "save" được nhấn
+    const row = event.target.closest("tr");
+
+    // Lấy các giá trị từ các trường trong hàng
     const productDetail = {
-        id: parseInt(document.getElementById("edit-detail-id").value),
-        productId: parseInt(document.getElementById("edit-productId").value),
-        size: document.getElementById("edit-size").value,
-        stock: parseInt(document.getElementById("edit-stock").value),
-        color: document.getElementById("edit-color").value,
-        image: document.getElementById("edit-image").value
+        id: parseInt(row.querySelector("input[data-field='id']").value),
+        productId: parseInt(row.querySelector("input[data-field='productId']").value),
+        size: row.querySelector("input[data-field='size']").value,
+        stock: parseInt(row.querySelector("input[data-field='stock']").value),
+        image: row.querySelector("input[data-field='image']").value,
+        color: row.querySelector("input[data-field='color']").value
     };
 
-    // Kiểm tra các giá trị bắt buộc có hợp lệ hay không
+    console.log(JSON.stringify(productDetail));
+
+    // Kiểm tra các giá trị bắt buộc
     if (!productDetail.size || !productDetail.color) {
         alert("Vui lòng điền đầy đủ thông tin kích thước và màu sắc.");
         return;
     }
 
-    // Chuyển đổi đối tượng `productDetail` thành JSON
-    const productDetailJson = JSON.stringify(productDetail);
-
     // Gửi yêu cầu AJAX để lưu chi tiết sản phẩm
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-product-details', // Đảm bảo đường dẫn chính xác
+        url: '/WebBanQuanAo/admin/manager-productDetails', // Đảm bảo đường dẫn chính xác
         type: 'PUT',
         contentType: 'application/json',
-        data: productDetailJson,
+        data: JSON.stringify(productDetail),
         success: function (response) {
             alert("Cập nhật chi tiết sản phẩm thành công!");
-            hideOverlay(); // Ẩn overlay sau khi lưu
+            // Thêm logic cập nhật giao diện nếu cần thiết
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi cập nhật chi tiết sản phẩm:", error);
@@ -660,6 +614,16 @@ function createProduct(event) {
     const formData = new FormData(form);
 
     const productData = Object.fromEntries(formData.entries());
+
+    // Chuyển các giá trị của các select thành số (parseInt)
+    productData.typeId = parseInt(productData.typeId);
+    productData.categoryId = parseInt(productData.categoryId);
+    productData.supplierId = parseInt(productData.supplierId);
+    productData.unitSold = parseInt(productData.unitSold);
+    productData.unitPrice = parseFloat(productData.unitPrice);
+    productData.status = productData.status === 'true'; // Trạng thái là boolean
+
+    console.log(JSON.stringify(productData));
 
     fetch('/WebBanQuanAo/admin/manager-products', {
         method: 'POST',
@@ -680,6 +644,45 @@ function createProduct(event) {
             alert(err.message || 'Không thể tạo sản phẩm. Vui lòng thử lại.');
         });
 }
+
+// Thêm chi tiết sản phẩm mới
+function createProductDetails(event) {
+    event.preventDefault();
+
+    const form = document.getElementById('add-productDetails-form');
+    const formData = new FormData(form);
+
+    const productDetails = Object.fromEntries(formData.entries());
+
+    // Chuyển các giá trị của các input thành đúng kiểu dữ liệu (parseInt, parseFloat, hoặc boolean)
+    productDetails.productId = parseInt(productDetails.productId);
+    productDetails.size = productDetails.size;  // Chắc chắn size là chuỗi không có khoảng trắng thừa
+    productDetails.stock = parseInt(productDetails.stock);
+    productDetails.color = productDetails.color;  // Loại bỏ khoảng trắng thừa
+    productDetails.image = productDetails.image.trim();  // Đảm bảo đường dẫn hình ảnh không có khoảng trắng
+
+    console.log(JSON.stringify(productDetails));
+
+    fetch('/WebBanQuanAo/admin/manager-productDetails', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productDetails)
+    })
+        .then(response => {
+            if (response.ok) return response.json();
+            return response.json().then(err => Promise.reject(err));
+        })
+        .then(data => {
+            alert(data.message || 'Chi tiết sản phẩm đã được tạo thành công!');
+        })
+        .catch(err => {
+            console.error('Lỗi:', err);
+            alert(err.message || 'Không thể tạo chi tiết sản phẩm. Vui lòng thử lại.');
+        });
+}
+
 
 /*--------------------------------------------------------
 ---------------------------------------------------------
