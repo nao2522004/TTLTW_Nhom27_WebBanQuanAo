@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public class AOrder implements Serializable {
     Integer id;
-    Integer userId;
-    Integer paymentId;
-    Integer couponId;
+    String firstName;
+    String paymentMethod;
+    String code;
     LocalDateTime orderDate;
     double totalPrice;
     boolean status;
@@ -15,11 +15,11 @@ public class AOrder implements Serializable {
     public AOrder() {
     }
 
-    public AOrder(Integer id, Integer userId, Integer paymentId, Integer couponId, LocalDateTime orderDate, double totalPrice, boolean status) {
+    public AOrder(Integer id, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, boolean status) {
         this.id = id;
-        this.userId = userId;
-        this.paymentId = paymentId;
-        this.couponId = couponId;
+        this.firstName = firstName;
+        this.paymentMethod = paymentMethod;
+        this.code = code;
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
         this.status = status;
@@ -29,16 +29,16 @@ public class AOrder implements Serializable {
         return id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getfirstName() {
+        return firstName;
     }
 
-    public Integer getPaymentId() {
-        return paymentId;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public Integer getCouponId() {
-        return couponId;
+    public String getCode() {
+        return code;
     }
 
     public LocalDateTime getOrderDate() {
@@ -57,16 +57,16 @@ public class AOrder implements Serializable {
         this.id = id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setPaymentId(Integer paymentId) {
-        this.paymentId = paymentId;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public void setCouponId(Integer couponId) {
-        this.couponId = couponId;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setOrderDate(LocalDateTime orderDate) {
@@ -79,18 +79,5 @@ public class AOrder implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "AOrder{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", paymentId=" + paymentId +
-                ", couponId=" + couponId +
-                ", orderDate=" + orderDate +
-                ", totalPrice=" + totalPrice +
-                ", status=" + status +
-                '}';
     }
 }
