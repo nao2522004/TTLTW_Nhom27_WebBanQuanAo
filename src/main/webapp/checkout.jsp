@@ -21,40 +21,40 @@
             <hr>
         </div>
         <div class="row">
-            <div class="col-md-4 order-md-2 mb-4">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted header-text" style=" color: #335d4a !important">Giỏ Hàng Của Bạn</span>
-                    <span class="badge badge-secondary badge-pill"></span>
-                </h4>
-                <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
-                            <h6 class="my-0 gr-text"></h6>
-                            <small class="text-muted"></small>
-                        </div>
-                        <span class="text-muted"></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                            <h6 class="my-0 gr-text text-custom">Giao Hàng</h6>
-                        </div>
-                        <span class="text-success" style=" color: #335d4a !important"></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                            <h6 class="my-0 gr-text text-custom">Mã Giảm Giá</h6>
-                        </div>
-                        <span class="text-success" style=" color: #335d4a !important"></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="my-0 gr-text">Tổng Tiền</span>
-                        <strong></strong>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-8 order-md-1">
+<%--            <div class="col-md-4 order-md-2 mb-4">--%>
+<%--                <h4 class="d-flex justify-content-between align-items-center mb-3">--%>
+<%--                    <span class="text-muted header-text" style=" color: #335d4a !important">Giỏ Hàng Của Bạn</span>--%>
+<%--                    <span class="badge badge-secondary badge-pill"></span>--%>
+<%--                </h4>--%>
+<%--                <ul class="list-group mb-3">--%>
+<%--                    <li class="list-group-item d-flex justify-content-between lh-condensed">--%>
+<%--                        <div>--%>
+<%--                            <h6 class="my-0 gr-text"></h6>--%>
+<%--                            <small class="text-muted"></small>--%>
+<%--                        </div>--%>
+<%--                        <span class="text-muted"></span>--%>
+<%--                    </li>--%>
+<%--                    <li class="list-group-item d-flex justify-content-between bg-light">--%>
+<%--                        <div class="text-success">--%>
+<%--                            <h6 class="my-0 gr-text text-custom">Giao Hàng</h6>--%>
+<%--                        </div>--%>
+<%--                        <span class="text-success" style=" color: #335d4a !important"></span>--%>
+<%--                    </li>--%>
+<%--                    <li class="list-group-item d-flex justify-content-between bg-light">--%>
+<%--                        <div class="text-success">--%>
+<%--                            <h6 class="my-0 gr-text text-custom">Mã Giảm Giá</h6>--%>
+<%--                        </div>--%>
+<%--                        <span class="text-success" style=" color: #335d4a !important"></span>--%>
+<%--                    </li>--%>
+<%--                    <li class="list-group-item d-flex justify-content-between">--%>
+<%--                        <span class="my-0 gr-text">Tổng Tiền</span>--%>
+<%--                        <strong></strong>--%>
+<%--                    </li>--%>
+<%--                </ul>--%>
+<%--            </div>--%>
+            <div class="col-md-8 order-md-1 mx-auto">
                 <h4 class="mb-3 header-text" style=" color: #335d4a !important">Địa Chỉ Thanh Toán</h4>
-                <form class="needs-validation" novalidate>
+                <form class="needs-validation" novalidate method="post">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName"><i class="fa-solid fa-id-card"></i> Họ</label>
@@ -171,29 +171,29 @@
                             <input type="text" class="form-control" id="address2" placeholder="Số căn hộ/phòng ">
                         </div>
                     </div>
-                    <hr class="mb-4">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="same-address">
-                        <label class="custom-control-label" for="same-address">Dùng địa chỉ thanh toán làm địa chỉ
-                            giao
-                            hàng</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="save-info">
-                        <label class="custom-control-label" for="save-info">Lưu thông tin này cho lần sau</label>
-                    </div>
-                    <hr class="mb-4">
-                    <div>
-                        <h4 class="mb-3 header-text" style=" color: #335d4a !important">Phương Thức Thanh Toán</h4>
-                        <div>
-                            <img src="assets/imgs/CheckOut/logo_1.png" alt="">
-                            <img src="assets/imgs/CheckOut/logo_2.png" alt="">
-                            <img src="assets/imgs/CheckOut/logo_3.png" alt="">
-                            <img src="assets/imgs/CheckOut/logo_6.webp" alt="">
-                            <img src="assets/imgs/CheckOut/logo_4.png" alt="">
-                            <img src="assets/imgs/CheckOut/logo_5.jpg" alt="">
-                        </div>
-                    </div>
+<%--                    <hr class="mb-4">--%>
+<%--                    <div class="custom-control custom-checkbox">--%>
+<%--                        <input type="checkbox" class="custom-control-input" id="same-address">--%>
+<%--                        <label class="custom-control-label" for="same-address">Dùng địa chỉ thanh toán làm địa chỉ--%>
+<%--                            giao--%>
+<%--                            hàng</label>--%>
+<%--                    </div>--%>
+<%--                    <div class="custom-control custom-checkbox">--%>
+<%--                        <input type="checkbox" class="custom-control-input" id="save-info">--%>
+<%--                        <label class="custom-control-label" for="save-info">Lưu thông tin này cho lần sau</label>--%>
+<%--                    </div>--%>
+<%--                    <hr class="mb-4">--%>
+<%--                    <div>--%>
+<%--                        <h4 class="mb-3 header-text" style=" color: #335d4a !important">Phương Thức Thanh Toán</h4>--%>
+<%--                        <div>--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_1.png" alt="">--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_2.png" alt="">--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_3.png" alt="">--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_6.webp" alt="">--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_4.png" alt="">--%>
+<%--                            <img src="assets/imgs/CheckOut/logo_5.jpg" alt="">--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
                     <!-- <div class="d-block my-3">
                         <div class="custom-control custom-radio">
                             <input id="credit" name="paymentMethod" type="radio" class="custom-control-input"
@@ -220,56 +220,64 @@
                             <label class="custom-control-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
                         </div>
                     </div> -->
-                    <div class="md-6 mb-3">
-                        <label for="paymentMethod" class="lb-text"></label>
-                        <select class="custom-select d-block w-100 large-select" id="paymentMethod" name="paymentMethod"
-                                required>
-                            <option value="">Chọn phương thức thanh toán</option>
-                            <option value="credit">Thẻ tín dụng</option>
-                            <option value="debit">Thẻ ghi nợ</option>
-                            <option value="momo">Momo</option>
-                            <option value="zalopay">Zalo Pay</option>
-                            <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Vui lòng chọn phương thức thanh toán
-                        </div>
-                    </div>
+<%--                    <div class="md-6 mb-3">--%>
+<%--                        <label for="paymentMethod" class="lb-text"></label>--%>
+<%--                        <select class="custom-select d-block w-100 large-select" id="paymentMethod" name="paymentMethod"--%>
+<%--                                required>--%>
+<%--                            <option value="">Chọn phương thức thanh toán</option>--%>
+<%--                            <option value="credit">Thẻ tín dụng</option>--%>
+<%--                            <option value="debit">Thẻ ghi nợ</option>--%>
+<%--                            <option value="momo">Momo</option>--%>
+<%--                            <option value="zalopay">Zalo Pay</option>--%>
+<%--                            <option value="cod">Thanh toán khi nhận hàng (COD)</option>--%>
+<%--                        </select>--%>
+<%--                        <div class="invalid-feedback">--%>
+<%--                            Vui lòng chọn phương thức thanh toán--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-name">Tên trên thẻ</label>
-                            <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                            <small class="text-muted">Họ và tên đầy đủ hiển thị trên thẻ</small>
-                            <div class="invalid-feedback">
-                                Tên trên thẻ là bắt buộc
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-number">Số thẻ tín dụng</label>
-                            <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                            <div class="invalid-feedback">
-                                Số thẻ tín dụng là bắt buộc
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Ngày hết hạn</label>
-                            <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required>
-                            <div class="invalid-feedback">
-                                Ngày hết hạn là bắt buộc
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-cvv">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="* * *" required>
-                            <div class="invalid-feedback">
-                                Mã bảo mật là bắt buộc
-                            </div>
-                        </div>
-                    </div>
+<%--                    <div class="row">--%>
+<%--                        <div class="col-md-6 mb-3">--%>
+<%--                            <label for="cc-name">Tên trên thẻ</label>--%>
+<%--                            <input type="text" class="form-control" id="cc-name" placeholder="" required>--%>
+<%--                            <small class="text-muted">Họ và tên đầy đủ hiển thị trên thẻ</small>--%>
+<%--                            <div class="invalid-feedback">--%>
+<%--                                Tên trên thẻ là bắt buộc--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="col-md-6 mb-3">--%>
+<%--                            <label for="cc-number">Số thẻ tín dụng</label>--%>
+<%--                            <input type="text" class="form-control" id="cc-number" placeholder="" required>--%>
+<%--                            <div class="invalid-feedback">--%>
+<%--                                Số thẻ tín dụng là bắt buộc--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <div class="row">--%>
+<%--                        <div class="col-md-3 mb-3">--%>
+<%--                            <label for="cc-expiration">Ngày hết hạn</label>--%>
+<%--                            <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required>--%>
+<%--                            <div class="invalid-feedback">--%>
+<%--                                Ngày hết hạn là bắt buộc--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="col-md-3 mb-3">--%>
+<%--                            <label for="cc-cvv">CVV</label>--%>
+<%--                            <input type="text" class="form-control" id="cc-cvv" placeholder="* * *" required>--%>
+<%--                            <div class="invalid-feedback">--%>
+<%--                                Mã bảo mật là bắt buộc--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
                     <hr class="mb-4">
+                    <input type="hidden" name="totalPrice" value="${totalPrice}">
+                    <%-- Hiển thị thông báo nếu có --%>
+                    <c:if test="${not empty message}">
+                        <div style="color: #335d4a; font-weight: bold; margin-top: 20px;" class="text-center" >
+                                ${message}
+                        </div>
+                    </c:if>
+
                     <button class="btn btn-primary btn-lg btn-block" type="submit">THANH TOÁN</button>
                 </form>
                 <div class="back-to-shop text-muted"><a href="cart.jsp">&leftarrow; Trở về giỏ hàng</a>

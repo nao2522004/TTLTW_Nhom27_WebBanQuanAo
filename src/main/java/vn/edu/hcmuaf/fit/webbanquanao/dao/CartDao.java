@@ -4,9 +4,9 @@ import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.CartProduct;
 
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CartDao {
@@ -73,5 +73,47 @@ public class CartDao {
             return cps;
         });
 
+    }
+
+    // Add to Order
+    public boolean addToOrder(int userId, int paymentId, int couponId, Date orderDate, double totalPrice, boolean status, List<CartProduct> items) {
+        String orderQuery = "INSERT INTO orders (userId, paymentId, couponId, orderDate, totalPrice, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String orderItemQuery = "INSERT INTO orderitem (orderId, productId, quantity, unitPrice, discount) VALUES (?, ?, ?, ?, ?)";
+
+        return conn.get().withHandle(h -> {
+            try (PreparedStatement orderStmt = h.getConnection().prepareStatement(orderQuery, Statement.RETURN_GENERATED_KEYS)) {
+                orderStmt.setInt(1, userId);
+                orderStmt.setInt(2, paymentId);
+                orderStmt.setInt(3, couponId);
+                orderStmt.setDate(4, orderDate);
+                orderStmt.setDouble(5, totalPrice);
+                orderStmt.setBoolean(6, status);
+                orderStmt.executeUpdate();
+
+                ResultSet generatedKeys = orderStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int orderId = generatedKeys.getInt(1);
+
+                    try (PreparedStatement orderItemStmt = h.getConnection().prepareStatement(orderItemQuery)) {
+                        for (CartProduct item : items) {
+                            orderItemStmt.setInt(1, orderId);
+                            orderItemStmt.setInt(2, item.getId());
+                            orderItemStmt.setInt(3, item.getQuantity());
+                            orderItemStmt.setDouble(4, item.getUnitPrice());
+                            orderItemStmt.setDouble(5, 0.0);
+                            orderItemStmt.addBatch();
+                        }
+                        orderItemStmt.executeBatch();
+                    }
+
+                    return true;
+                } else {
+                    throw new SQLException("Failed to retrieve the orderId.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
     }
 }

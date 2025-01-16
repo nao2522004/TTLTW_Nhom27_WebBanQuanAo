@@ -98,9 +98,31 @@
                         </p>
                     </div>
                 </div>
-                <a href="checkout.jsp">
-                    <button class="btn btn-lg">THANH TOÁN</button>
-                </a>
+                <c:set var="totalPrice" value="0" />
+                <c:forEach items="${sessionScope.cart.list}" var="cp">
+                    <c:set var="totalPrice" value="${totalPrice + cp.unitPrice}" />
+                </c:forEach>
+                <!-- Thông báo yêu cầu đăng nhập -->
+
+                <!-- Thông báo yêu cầu đăng nhập -->
+                <c:if test="${empty sessionScope.auth}">
+                    <div style="display: flex; justify-content: center; align-items: center; height: 70px;">
+                        <span>Bạn cần <a href="login.jsp" style="text-decoration: none; color: #f6f1eb;">đăng nhập</a> để thanh toán.</span>
+                    </div>
+                </c:if>
+
+
+
+                <c:if test="${empty sessionScope.auth}">
+                    <button class="btn btn-lg btn-block mt-4" type="button" disabled>THANH TOÁN</button>
+                </c:if>
+                <c:if test="${not empty sessionScope.auth}">
+                    <a href="payments?totalPrice=${totalPrice}">
+                        <button class="btn btn-lg btn-block mt-4">THANH TOÁN</button>
+                    </a>
+                </c:if>
+
+
             </c:if>
         </div>
     </div>

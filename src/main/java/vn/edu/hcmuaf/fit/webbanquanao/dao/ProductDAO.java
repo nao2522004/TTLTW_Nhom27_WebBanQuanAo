@@ -105,7 +105,7 @@ public class ProductDAO {
                 "JOIN suppliers s ON p.supplierId = s.id " +
                 "JOIN orderitem oi ON p.id = oi.productId " +
                 "JOIN orders o ON oi.orderId = o.id " +
-                "WHERE MONTH(oi.orderDate) = MONTH(CURDATE()) AND YEAR(oi.orderDate) = YEAR(CURDATE()) " +
+                "WHERE MONTH(o.orderDate) = MONTH(CURDATE()) AND YEAR(o.orderDate) = YEAR(CURDATE()) " +
                 "ORDER BY p.unitSold DESC";
 
         return getProductsByQuery(query);

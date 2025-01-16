@@ -5,6 +5,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.model.CartProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.model.Product;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,16 @@ public class CartService {
         return total.get();
     }
 
+    // Add to Order
+    public boolean addToOrder(int userId, int paymentId, int couponId, Date orderDate, double totalPrice, boolean status) {
+        Map<Integer, CartProduct> data = this.data;
+        List<CartProduct> items = new ArrayList<>();
+        data.forEach((key, value) ->{
+            items.add(value);
+        });
+
+        return dao.addToOrder(userId, paymentId, couponId, orderDate, totalPrice, status, items);
+    }
 
     public CartProduct convert(Product p){
         CartProduct result = new CartProduct();
@@ -85,5 +96,4 @@ public class CartService {
         result.setColors(p.getColors());
         return result;
     }
-
 }
