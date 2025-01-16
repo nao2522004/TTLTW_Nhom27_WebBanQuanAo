@@ -98,7 +98,11 @@
                         </p>
                     </div>
                 </div>
-                <a href="checkout.jsp">
+                <c:set var="totalPrice" value="0" />
+                <c:forEach items="${sessionScope.cart.list}" var="cp">
+                    <c:set var="totalPrice" value="${totalPrice + cp.unitPrice}" />
+                </c:forEach>
+                <a href="payments?totalPrice=${totalPrice}">
                     <button class="btn btn-lg">THANH TOÁN</button>
                 </a>
             </c:if>
