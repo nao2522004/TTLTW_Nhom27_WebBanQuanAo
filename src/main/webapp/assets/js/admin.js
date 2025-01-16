@@ -1,3 +1,44 @@
+// =============== Xử lý sự kiện showMain cho menu============//
+document.addEventListener("DOMContentLoaded", function () {
+    // Hiển thị phần tử main đầu tiên khi tải trang
+    const dashboard = document.getElementById("dashboard");
+    if (dashboard) {
+        // Đảm bảo rằng chỉ có dashboard được hiển thị ban đầu
+        dashboard.classList.add("block");
+    }
+
+    // Ẩn các phần tử main khác nếu có
+    document.querySelectorAll("main").forEach((main) => {
+        if (main.id !== "dashboard") {
+            main.classList.remove("block");
+        }
+    });
+});
+
+
+function showMain(event, mainId) {
+    event.preventDefault();
+
+    // Xóa class active khỏi tất cả các thẻ a
+    document.querySelectorAll("aside .sidebar a").forEach((link) => {
+        link.classList.remove("active");
+    });
+
+    // Thêm class active vào thẻ a được nhấn
+    event.currentTarget.classList.add("active");
+
+    // Ẩn tất cả các thẻ main
+    document.querySelectorAll("main").forEach((main) => {
+        main.classList.remove("block");
+    });
+
+    // Hiển thị thẻ main được chọn
+    const targetMain = document.getElementById(mainId);
+    if (targetMain) {
+        targetMain.classList.add("block");
+    }
+}
+
 // Executes when document is loaded
 document.addEventListener("DOMContentLoaded", (ev) => {
     // Recent Orders Data
@@ -927,34 +968,6 @@ themeToggler.addEventListener("click", () => {
     themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
 });
 
-// =============== Xử lý sự kiện showMain cho menu============//
-document.addEventListener("DOMContentLoaded", function () {
-    // Hiển thị phần tử main đầu tiên khi tải trang
-    document.getElementById("dashboard").classList.add("block");
-});
-
-function showMain(event, mainId) {
-    event.preventDefault();
-
-    // Xóa class active khỏi tất cả các thẻ a
-    document.querySelectorAll("aside .sidebar a").forEach((link) => {
-        link.classList.remove("active");
-    });
-
-    // Thêm class active vào thẻ a được nhấn
-    event.currentTarget.classList.add("active");
-
-    // Ẩn tất cả các thẻ main
-    document.querySelectorAll("main").forEach((main) => {
-        main.classList.remove("block");
-    });
-
-    // Hiển thị thẻ main được chọn
-    const targetMain = document.getElementById(mainId);
-    if (targetMain) {
-        targetMain.classList.add("block");
-    }
-}
 
 //========== start Xu ly su kien cho order detail ============//
 function hideOverlay(event) {
