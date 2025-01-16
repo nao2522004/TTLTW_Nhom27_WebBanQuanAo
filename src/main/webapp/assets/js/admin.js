@@ -41,8 +41,6 @@ function showMain(event, mainId) {
 
 // Executes when document is loaded
 document.addEventListener("DOMContentLoaded", (ev) => {
-    // Recent Orders Data
-    document.getElementById("recent-orders--table").appendChild(buildTableBody());
 
     // Orders Data
     document.getElementById("orders--table").appendChild(buildTableOrder());

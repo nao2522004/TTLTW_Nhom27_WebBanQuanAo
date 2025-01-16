@@ -179,14 +179,14 @@
             <table id="recent-orders--table">
                 <thead>
                 <tr>
-                    <th>Mã Đơn Hàng</th>
-                    <th>Khách Hàng</th>
-                    <th>SDT</th>
-                    <th>Địa Chỉ</th>
+                    <th>Mã</th>
+                    <th>Mã Kh</th>
+                    <th>Thanh toán</th>
+                    <th>Mã Giảm giá </th>
                     <th>Ngày Tạo</th>
                     <th>Tổng Tiền</th>
-                    <th>Thanh Toán</th>
                     <th>Trạng Thái</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <!-- Add tbody here | JS insertion -->

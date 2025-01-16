@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AOrderDao {
-    Map<Integer, AOrder> listOrders;
+    public Map<Integer, AOrder> listOrders;
 
     public AOrderDao() {
         listOrders = getAllOrders();
@@ -18,7 +18,7 @@ public class AOrderDao {
     public Map<Integer, AOrder> getAllOrders() {
         Map<Integer, AOrder> orders = new LinkedHashMap<>();
 
-        String sql = "SELECT * FROM orders ORDERS BY id DESC;";
+        String sql = "SELECT * FROM orders ORDERS;";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -41,5 +41,5 @@ public class AOrderDao {
         });
     }
 
-    
+
 }
