@@ -82,7 +82,7 @@ public class ManagerOrders extends HttpServlet {
             AOrder order = gson.fromJson(json, AOrder.class);
 
             // Kiểm tra các trường dữ liệu
-            if (order.getUserId() == null || order.getOrderDate() == null || order.getTotalPrice() == 0) {
+            if (order.getfirstName() == null || order.getOrderDate() == null || order.getTotalPrice() == 0) {
                 throw new IllegalArgumentException("Thông tin đơn hàng không đầy đủ");
             }
 

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class AOrder implements Serializable {
     Integer id;
-    String username;
+    String firstName;
     String paymentMethod;
     String code;
     LocalDateTime orderDate;
@@ -15,9 +15,9 @@ public class AOrder implements Serializable {
     public AOrder() {
     }
 
-    public AOrder(Integer id, String username, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, boolean status) {
+    public AOrder(Integer id, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, boolean status) {
         this.id = id;
-        this.username = username;
+        this.firstName = firstName;
         this.paymentMethod = paymentMethod;
         this.code = code;
         this.orderDate = orderDate;
@@ -29,8 +29,8 @@ public class AOrder implements Serializable {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getfirstName() {
+        return firstName;
     }
 
     public String getPaymentMethod() {
@@ -57,8 +57,8 @@ public class AOrder implements Serializable {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setfirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setPaymentMethod(String paymentMethod) {

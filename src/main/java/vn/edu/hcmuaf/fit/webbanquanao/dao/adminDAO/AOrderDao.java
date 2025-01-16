@@ -18,7 +18,11 @@ public class AOrderDao {
     public Map<Integer, AOrder> getAllOrders() {
         Map<Integer, AOrder> orders = new LinkedHashMap<>();
 
-        String sql = "SELECT * FROM orders ORDERS;";
+        String sql = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" +
+                "from orders o\n" +
+                "INNER JOIN payments p on o.paymentId = p.id\n" +
+                "INNER JOIN coupons c on o.couponId = c.id\n" +
+                "INNER JOIN users u on o.userId = u.id";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -26,9 +30,9 @@ public class AOrderDao {
                 while (rs.next()) {
                     AOrder order = new AOrder();
                     order.setId(rs.getInt("id"));
-                    order.setUserId(rs.getInt("userId"));
-                    order.setPaymentId(rs.getInt("paymentId"));
-                    order.setCouponId(rs.getInt("couponId"));
+                    order.setfirstName(rs.getString("firstName"));
+                    order.setPaymentMethod(rs.getString("paymentMethod"));
+                    order.setCode(rs.getString("code"));
                     order.setOrderDate(rs.getTimestamp("orderDate").toLocalDateTime());
                     order.setTotalPrice(rs.getDouble("totalPrice"));
                     order.setStatus(rs.getBoolean("status"));
