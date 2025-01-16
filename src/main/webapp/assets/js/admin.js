@@ -132,62 +132,76 @@ const buildTableOrderDetails = () => {
 ---------------------------------------------------------
 ----------------------------------------------------------*/
 
-// Lấy danh sách người dùng từ server
+/// Lấy danh sách người dùng từ server và khởi tạo DataTables
 function fetchUsers() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-users', type: 'GET', dataType: 'json', success: function (users) {
-            const table = document.getElementById("users--table");
-            const oldTbody = table.querySelector("tbody");
+        url: '/WebBanQuanAo/admin/manager-users',
+        type: 'GET',
+        dataType: 'json',
+        success: function (users) {
+            const table = $("#users--table");
 
-            // Xóa tbody cũ nếu có
-            if (oldTbody) {
-                table.removeChild(oldTbody);
+            // Xóa DataTables nếu đã được khởi tạo trước đó
+            if ($.fn.DataTable.isDataTable(table)) {
+                table.DataTable().destroy(); // Hủy DataTables
+                table.find("tbody").empty(); // Xóa dữ liệu cũ
             }
 
-            // Thêm tbody mới vào bảng
-            table.appendChild(buildTableUser(users));
-        }, error: function (xhr, status, error) {
+            // Thêm dữ liệu mới vào bảng
+            const tbody = buildTableUser(users);
+            table.append(tbody);
+
+            // Khởi tạo lại DataTables với phân trang và tìm kiếm
+            table.DataTable({
+                searching: true, // Kích hoạt tìm kiếm
+                info: true, // Hiển thị thông tin tổng số bản ghi
+                order: [[0, 'asc']], // Sắp xếp mặc định theo cột đầu tiên (Id)
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/vi.json' // Ngôn ngữ Tiếng Việt
+                },
+                paging: true, // Kích hoạt phân trang
+                pageLength: 3, // Số bản ghi mỗi trang
+                lengthChange: true, // Kích hoạt thay đổi số lượng bản ghi mỗi trang
+            });
+        },
+        error: function (xhr, status, error) {
             console.error('Error fetching users:', error);
             alert("Failed to fetch users. Please try again later.");
         }
     });
 }
 
-
-// Khi DOM load, gọi fetchUsers để tải dữ liệu
-document.addEventListener('DOMContentLoaded', fetchUsers);
-
-// Tạo bảng từ danh sách người dùng
+// Tạo tbody từ danh sách người dùng
 const buildTableUser = (users) => {
-    const tbody = document.createElement("tbody");
-
     let userContent = "";
     for (const user of users) {
         userContent += `
-        <tr>
-          <td>${user.id}</td>
-          <td>${user.userName}</td>
-          <td>${user.lastName}</td>
-          <td>${user.firstName}</td>
-          <td>${user.email}</td>
-          <td>${user.avatar}</td>   
-          <td>${user.address}</td>
-          <td>${user.phone}</td>
-          <td>${user.createdAt}</td>
-          <td>${user.status}</td>
-          <td>${user.roleId}</td>
-          <td class="primary">
-            <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
-            <span onclick="deleteUser(event)" class="material-icons-sharp" data-username="${user.userName}"> delete </span>
-          </td>
-        </tr>
-      `;
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.userName}</td>
+                    <td>${user.firstName}</td>
+                     <td>${user.lastName}</td>
+                    <td>${user.email}</td>
+                    <td>${user.avatar}</td>   
+                    <td>${user.address}</td>
+                    <td>${user.phone}</td>
+                    <td>${user.createdAt}</td>
+                    <td>${user.status === 1 ? 'Hoạt Động' : 'Không Hoạt Động'}</td>
+                    <td>${user.roleId === 1 ? 'Admin' : 'User'}</td>
+                    <td class="primary">
+                        <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
+                        <span onclick="deleteUser(event)" class="material-icons-sharp" data-username="${user.userName}"> delete </span>
+                    </td>
+                </tr>
+            `;
     }
-
-    tbody.innerHTML = userContent;
-
-    return tbody;
+    return `<tbody>${userContent}</tbody>`;
 };
+
+// Khi DOM load, gọi fetchUsers để tải dữ liệu và khởi tạo DataTables
+document.addEventListener('DOMContentLoaded', fetchUsers);
+
+
 
 // Hàm xóa user
 function deleteUser(event) {
@@ -322,24 +336,41 @@ function createUser(event) {
 // Lấy danh sách sản phẩm từ server
 function fetchProducts() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products', type: 'GET', dataType: 'json', success: function (products) {
-            const table = document.getElementById("products--table");
-            const oldTbody = table.querySelector("tbody");
-            // Xóa tbody cũ nếu có
-            if (oldTbody) {
-                table.removeChild(oldTbody);
+        url: '/WebBanQuanAo/admin/manager-products',
+        type: 'GET',
+        dataType: 'json',
+        success: function (products) {
+            const table = $("#products--table");
+
+            // Xóa DataTables nếu đã được khởi tạo trước đó
+            if ($.fn.DataTable.isDataTable(table)) {
+                table.DataTable().destroy(); // Hủy DataTables
+                table.find("tbody").empty(); // Xóa dữ liệu cũ
             }
+
             // Thêm tbody mới vào bảng
-            table.appendChild(buildTableProduct(products));
-        }, error: function (xhr, status, error) {
+            const tbody = buildTableProduct(products);
+            table.append(tbody);
+
+            // Khởi tạo lại DataTables với phân trang và tìm kiếm
+            table.DataTable({
+                searching: true, // Kích hoạt tìm kiếm
+                info: true, // Hiển thị thông tin tổng số bản ghi
+                order: [[0, 'asc']], // Sắp xếp mặc định theo cột đầu tiên (Id)
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/vi.json' // Ngôn ngữ Tiếng Việt
+                },
+                paging: true, // Kích hoạt phân trang
+                pageLength: 5, // Số bản ghi mỗi trang
+                lengthChange: true, // Kích hoạt thay đổi số lượng bản ghi mỗi trang
+            });
+        },
+        error: function (xhr, status, error) {
             console.error('Lỗi khi lấy danh sách sản phẩm:', error);
             alert("Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.");
         }
     });
 }
-
-// Khi DOM load, gọi fetchProducts để tải dữ liệu
-document.addEventListener('DOMContentLoaded', fetchProducts);
 
 // Tạo bảng từ danh sách sản phẩm
 const buildTableProduct = (products) => {
@@ -401,6 +432,9 @@ const buildTableProduct = (products) => {
 
     return tbody;
 };
+
+// Khi DOM load, gọi fetchProducts để tải dữ liệu và khởi tạo DataTables
+document.addEventListener('DOMContentLoaded', fetchProducts);
 
 // Hàm xóa sản phẩm
 function deleteProduct(event) {
@@ -656,10 +690,10 @@ function createProductDetails(event) {
 
     // Chuyển các giá trị của các input thành đúng kiểu dữ liệu (parseInt, parseFloat, hoặc boolean)
     productDetails.productId = parseInt(productDetails.productId);
-    productDetails.size = productDetails.size;  // Chắc chắn size là chuỗi không có khoảng trắng thừa
+    productDetails.size = productDetails.size;
     productDetails.stock = parseInt(productDetails.stock);
-    productDetails.color = productDetails.color;  // Loại bỏ khoảng trắng thừa
-    productDetails.image = productDetails.image.trim();  // Đảm bảo đường dẫn hình ảnh không có khoảng trắng
+    productDetails.color = productDetails.color;
+    productDetails.image = productDetails.image.trim();
 
     console.log(JSON.stringify(productDetails));
 
@@ -686,9 +720,9 @@ function createProductDetails(event) {
 
 /*--------------------------------------------------------
 ---------------------------------------------------------
- 
-                       Manager Others  
- 
+
+                       Manager Others
+
 ---------------------------------------------------------
 ----------------------------------------------------------*/
 
