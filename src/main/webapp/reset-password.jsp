@@ -36,20 +36,39 @@
 
     <div class="container active no-padding">
         <div class="form-box">
-            <form action="your-password-reset-endpoint" method="POST" onsubmit="return showConfirmationPopup(event)">
+            <form action="ResetPassword" method="POST">
                 <h1>Xác Nhận Lại Mật Khẩu</h1>
                 <div class="input-box">
-                    <input type="password" placeholder="Mật Khẩu Mới" required>
+                    <input type="email" name="email" value="${email}" placeholder="Email" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" name="newPassword" id="newPassword" placeholder="Mật Khẩu Mới" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Xác Nhận Lại Mật Khẩu" required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this)">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Xác Nhận Lại Mật Khẩu" required>
+                    <button type="button" class="toggle-password"  onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
+                <!-- Hiển thị thông báo lỗi hoặc thành công -->
+                <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
+                <% String successMessage = (String) request.getAttribute("successMessage"); %>
+
+                <% if (errorMessage != null) { %>
+                <div class="alert alert-danger">
+                    <%= errorMessage %>
+                </div>
+                <% } %>
+
+                <% if (successMessage != null) { %>
+                <div class="alert alert-success">
+                    <%= successMessage %>
+                </div>
+                <% } %>
                 <button type="submit" class="btn btn-primary btn-lg">Xác Nhận</button>
                 <div class="info-box">
                     <p>Bạn có thể liên hệ với chúng tôi qua email để nhận sự hỗ trợ <a
@@ -59,13 +78,6 @@
         </div>
     </div>
 
-    <!-- Popup thông báo -->
-    <div class="popup" id="confirmationPopup">
-        <div class="popup-content">
-            <p>Mật khẩu của bạn đã được cập nhật thành công!</p>
-            <button type="button" class="btn btn-primary" onclick="redirectToHome()">Quay về Trang Chủ</button>
-        </div>
-    </div>
 
     <div>
         <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>

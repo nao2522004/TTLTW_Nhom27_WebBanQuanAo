@@ -1,7 +1,7 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : localhost_3306
+ Source Server         : localhost
  Source Server Type    : MariaDB
  Source Server Version : 100432 (10.4.32-MariaDB)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 16/01/2025 15:47:05
+ Date: 16/01/2025 21:15:32
 */
 
 SET NAMES utf8mb4;
@@ -168,12 +168,11 @@ CREATE TABLE `coupons`  (
   `discount` float NOT NULL,
   `decription` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coupons
 -- ----------------------------
-INSERT INTO `coupons` VALUES (1, 'abc', 10, 0.2, 'Ưu đãi, giảm giá đặc biệt');
 
 -- ----------------------------
 -- Table structure for favourite
@@ -231,16 +230,11 @@ CREATE TABLE `orderitem`  (
   INDEX `productId`(`productId`) USING BTREE,
   CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orderitem
 -- ----------------------------
-INSERT INTO `orderitem` VALUES (1, 1, 1, '2025-01-16 15:38:23', 1, 274550.00, 0, b'1');
-INSERT INTO `orderitem` VALUES (2, 2, 2, '2025-01-16 15:39:01', 1, 280000.00, 0, b'1');
-INSERT INTO `orderitem` VALUES (3, 3, 3, '2025-01-16 15:40:03', 1, 470000.00, 0, b'1');
-INSERT INTO `orderitem` VALUES (4, 4, 4, '2025-01-16 15:40:41', 1, 490000.00, 0, b'1');
-INSERT INTO `orderitem` VALUES (5, 5, 5, '2025-01-16 15:40:55', 1, 369000.00, 0, b'1');
 
 -- ----------------------------
 -- Table structure for orders
@@ -262,16 +256,11 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`paymentId`) REFERENCES `payments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1, 2, 1, NULL, '2025-01-16 15:36:28', 274550.00, b'1', 0.00);
-INSERT INTO `orders` VALUES (2, 2, 2, NULL, '2025-01-16 15:36:52', 280000.00, b'1', 0.00);
-INSERT INTO `orders` VALUES (3, 2, 1, NULL, '2025-01-16 15:37:12', 470000.00, b'1', 0.00);
-INSERT INTO `orders` VALUES (4, 2, 1, NULL, '2025-01-16 15:37:38', 490000.00, b'1', 0.00);
-INSERT INTO `orders` VALUES (5, 2, 1, NULL, '2025-01-16 15:37:47', 369000.00, b'1', 0.00);
 
 -- ----------------------------
 -- Table structure for payments
@@ -281,13 +270,11 @@ CREATE TABLE `payments`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `paymentMethod` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of payments
 -- ----------------------------
-INSERT INTO `payments` VALUES (1, 'Cash on delivery');
-INSERT INTO `payments` VALUES (2, 'Online payment');
 
 -- ----------------------------
 -- Table structure for product_details
@@ -342,7 +329,7 @@ INSERT INTO `product_details` VALUES (31, 5, 'XXL', 11, 'p5n4.webp', 'Xám');
 INSERT INTO `product_details` VALUES (32, 5, 'M', 7, 'p5n2.webp', 'Đen');
 INSERT INTO `product_details` VALUES (33, 5, 'XL', 19, 'p5n5.webp', 'Đen');
 INSERT INTO `product_details` VALUES (34, 5, 'XXL', 9, 'p5n5.webp', 'Đen');
-INSERT INTO `product_details` VALUES (35, 5, 'L', 16, 'p5n6.webp', 'Xám');
+INSERT INTO `product_details` VALUES (35, 5, 'L', 15, 'p5n6.webp', 'Xám');
 
 -- ----------------------------
 -- Table structure for products
@@ -366,7 +353,7 @@ CREATE TABLE `products`  (
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_ibfk_3` FOREIGN KEY (`supplierId`) REFERENCES `suppliers` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of products
@@ -375,7 +362,7 @@ INSERT INTO `products` VALUES (1, 2, 4, 1, 'Quần tây PEALO form cạp cao có
 INSERT INTO `products` VALUES (2, 2, 4, 1, 'Quần kaki ống suông nam PEALO', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-17', 40, 280000.00, b'1');
 INSERT INTO `products` VALUES (3, 2, 4, 2, 'Quần tây quần vải cạp ống rộng', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-10-14', 100, 470000.00, b'1');
 INSERT INTO `products` VALUES (4, 2, 4, 3, 'Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp', 'Tên sản phẩm: Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp BBrand... (Rút gọn nếu cần)', '2024-11-19', 80, 490000.00, b'1');
-INSERT INTO `products` VALUES (5, 2, 4, 4, 'QUẦN DÁNG XUÔNG XẾP LY BY RUYCH.', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-10-07', 110, 369000.00, b'1');
+INSERT INTO `products` VALUES (5, 2, 4, 4, 'QUẦN DÁNG XUÔNG XẾP LY BY RUYCH.', 'Size: M, L, XL...\n... (Rút gọn nếu cần)', '2024-10-07', 110, 369000.00, b'0');
 
 -- ----------------------------
 -- Table structure for resetpasswordtokens
@@ -387,10 +374,11 @@ CREATE TABLE `resetpasswordtokens`  (
   `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
   `expiredAt` datetime NOT NULL,
+  `isUsed` bit(1) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `userId`(`userId`) USING BTREE,
   CONSTRAINT `resetpasswordtokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of resetpasswordtokens
@@ -423,12 +411,11 @@ CREATE TABLE `sales`  (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sales
 -- ----------------------------
-INSERT INTO `sales` VALUES (1, 'Black Friday', 'Ngày lễ mua sắm', '2025-01-16', '2025-01-31');
 
 -- ----------------------------
 -- Table structure for sales_product
@@ -446,11 +433,6 @@ CREATE TABLE `sales_product`  (
 -- ----------------------------
 -- Records of sales_product
 -- ----------------------------
-INSERT INTO `sales_product` VALUES (1, 1);
-INSERT INTO `sales_product` VALUES (2, 1);
-INSERT INTO `sales_product` VALUES (3, 1);
-INSERT INTO `sales_product` VALUES (4, 1);
-INSERT INTO `sales_product` VALUES (5, 1);
 
 -- ----------------------------
 -- Table structure for shipping
@@ -515,12 +497,12 @@ INSERT INTO `types` VALUES (2, 'Quần');
 DROP TABLE IF EXISTS `userdetails`;
 CREATE TABLE `userdetails`  (
   `user_id` int(11) NOT NULL,
-  `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `birth_date` date NOT NULL,
-  `height` decimal(5, 2) NOT NULL,
-  `weight` decimal(5, 2) NOT NULL,
+  `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `birth_date` date NULL DEFAULT NULL,
+  `height` decimal(5, 2) NULL DEFAULT NULL,
+  `weight` decimal(5, 2) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`) USING BTREE,
-  CONSTRAINT `UserDetails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `userdetails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -553,7 +535,7 @@ CREATE TABLE `users`  (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES (1, 'admin', 'admin', 'Mạnh', 'Hoàng Lê Nguyên', 'admin@gmail.com', 'anhday', 'DakNong', '099999999', b'1', '2024-12-24 22:34:35', 1);
-INSERT INTO `users` VALUES (2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', 'luatday@gmail.com', 'luatday', 'SaiGon', '011111111', b'1', '2024-12-24 22:35:54', 2);
-INSERT INTO `users` VALUES (3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', 'namday', 'SaiGon', '022222222', b'1', '2024-12-24 22:37:22', 2);
+INSERT INTO `users` VALUES (2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', 'luatday@gmail.com', 'luatday', 'SaiGon', '88888', b'1', '2024-12-24 00:00:00', 2);
+INSERT INTO `users` VALUES (3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'nam784412@gmail.com', 'namday', 'SaiGon', '8888888', b'1', '2024-12-24 00:00:00', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
