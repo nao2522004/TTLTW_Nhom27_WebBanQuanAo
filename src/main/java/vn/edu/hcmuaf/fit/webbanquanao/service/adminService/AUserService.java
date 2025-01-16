@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.service.adminService;
 
 import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AUserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.util.Map;
 
@@ -37,6 +38,11 @@ public class AUserService {
         if(uDao.listUser.containsKey(username))
             return uDao.delete(username);
         return false;
+    }
+
+    public Integer getRoleIdByUserName(String username) {
+        AUserDao uDao = new AUserDao();
+        return uDao.listUser.get(username).getRoleId();
     }
 
 

@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrder;
+import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrderItem;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,11 +19,7 @@ public class AOrderDao {
     public Map<Integer, AOrder> getAllOrders() {
         Map<Integer, AOrder> orders = new LinkedHashMap<>();
 
-        String sql = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" +
-                "from orders o\n" +
-                "INNER JOIN payments p on o.paymentId = p.id\n" +
-                "INNER JOIN coupons c on o.couponId = c.id\n" +
-                "INNER JOIN users u on o.userId = u.id";
+        String sql = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" + "from orders o\n" + "INNER JOIN payments p on o.paymentId = p.id\n" + "INNER JOIN coupons c on o.couponId = c.id\n" + "INNER JOIN users u on o.userId = u.id";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -45,16 +42,35 @@ public class AOrderDao {
         });
     }
 
-    public boolean update(Object obj, Integer id){
+    public Map<Integer, AOrderItem> getAllOrderItems(Integer id) {
+        Map<Integer, AOrderItem> orderItems = new LinkedHashMap<>();
+        String sql = "select oi.id, oi.orderId, p.productName, oi.quantity, oi.unitPrice, oi.discount\n" + "from orderitem oi\n" + "INNER JOIN products p on oi.productId = p.id\n" + "WHERE oi.orderId = ?";
+        return JDBIConnector.get().withHandle(h -> {
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    AOrderItem orderItem = new AOrderItem();
+                    orderItem.setId(rs.getInt("id"));
+                    orderItem.setOrderId(rs.getInt("orderId"));
+                    orderItem.setProductName(rs.getString("productName"));
+                    orderItem.setQuantity(rs.getInt("quantity"));
+                    orderItem.setUnitPrice(rs.getDouble("unitPrice"));
+                    orderItem.setDiscount(rs.getDouble("discount"));
+                    orderItems.put(orderItem.getId(), orderItem);
+                }
+            } catch (Exception e) {
+                System.out.println("Loi khi lay danh sach chi tiet don hang: " + e.getMessage());
+            }
+            return orderItems;
+        });
+    }
+
+    public boolean update(Object obj, Integer id) {
         return JDBIConnector.get().withHandle(h -> {
             AOrder order = (AOrder) obj;
             listOrders.replace(id, order);
-            String sql = "UPDATE orders o " +
-                    "INNER JOIN payments p ON o.paymentId = p.id " +
-                    "INNER JOIN coupons c ON o.couponId = c.id " +
-                    "INNER JOIN users u ON o.userId = u.id " +
-                    "SET u.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " +
-                    "WHERE o.id = ?";
+            String sql = "UPDATE orders o " + "INNER JOIN payments p ON o.paymentId = p.id " + "INNER JOIN coupons c ON o.couponId = c.id " + "INNER JOIN users u ON o.userId = u.id " + "SET u.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " + "WHERE o.id = ?";
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
                 ps.setString(1, order.getFirstName());
                 ps.setString(2, order.getPaymentMethod());
@@ -71,18 +87,45 @@ public class AOrderDao {
         });
     }
 
-    public boolean delete(Integer id) {
-       listOrders.remove(id);
-         String sql = "DELETE FROM orders WHERE id = ?";
-            return JDBIConnector.get().withHandle(h -> {
-                try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                    ps.setInt(1, id);
-                    return ps.executeUpdate() > 0;
-                } catch (Exception e) {
-                    System.out.println("Loi khi xoa don hang: " + e.getMessage());
-                }
+    public boolean updateOrderDetails(Object obj, Integer id, Integer orderId) {
+        return JDBIConnector.get().withHandle(h -> {
+            AOrderItem orderItem = (AOrderItem) obj;
+            String sql = "UPDATE orderitem " +
+                    "SET " +
+                    "    quantity = ?, " +
+                    "    unitPrice = ?, " +
+                    "    discount = ? " +
+                    "WHERE " +
+                    "    orderId = ? " +
+                    "    AND id = ?";
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, orderItem.getQuantity());
+                ps.setDouble(2, orderItem.getUnitPrice());
+                ps.setDouble(3, orderItem.getDiscount());
+                ps.setInt(4, orderId); // orderId phải đứng trước id
+                ps.setInt(5, id);      // id là chi tiết đơn hàng cụ thể
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu có ít nhất một hàng được cập nhật
+            } catch (Exception e) {
+                System.out.println("Lỗi khi cập nhật chi tiết đơn hàng: " + e.getMessage());
                 return false;
-            });
+            }
+        });
+    }
+
+
+    public boolean delete(Integer id) {
+        listOrders.remove(id);
+        String sql = "DELETE FROM orders WHERE id = ?";
+        return JDBIConnector.get().withHandle(h -> {
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, id);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi xoa don hang: " + e.getMessage());
+            }
+            return false;
+        });
     }
 
 

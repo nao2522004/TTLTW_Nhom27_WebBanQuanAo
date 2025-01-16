@@ -237,6 +237,33 @@
             </div>
         </div>
 
+        <!-- Popup chi tiết đơn hàng -->
+        <div class="overlay overlay-orderItemDetails">
+            <div class="recent-orders popup popup-orderItemDetails"
+                 style="position: relative; transform: translate(14%, 40%);">
+                <span onclick="hideOverlayOrderItemDetails(event)" class="material-icons-sharp close"> close </span>
+                <h2>Chi Tiết Đơn Hàng</h2>
+                <form id="order-item-detail-form">
+                    <table id="orderItem-details--table">
+                        <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Giảm giá</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
 
     </main>
 

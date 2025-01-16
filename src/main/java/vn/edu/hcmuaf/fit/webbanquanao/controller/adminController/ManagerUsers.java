@@ -188,20 +188,33 @@ public class ManagerUsers extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
+
             // Log dữ liệu JSON nhận được
             System.out.println("Received JSON: " + json);
+
             // Parse JSON để lấy username
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             String username = jsonObject.get("userName").getAsString();
+
             // Kiểm tra username
             if (username == null || username.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
                 return;
             }
-            // Gọi service để xóa user
+
+            // Kiểm tra nếu user có id = 1
             AUserService userService = new AUserService();
+            int userId = userService.getRoleIdByUserName(username); // Giả sử bạn có phương thức này trong service
+            if (userId == 1) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("{\"message\": \"Không thể xóa người dùng admin (người dùng hệ thống)\"}");
+                return;
+            }
+
+            // Gọi service để xóa user
             boolean isDeleted = userService.deleteUser(username);
+
             // Phản hồi
             if (isDeleted) {
                 response.setStatus(HttpServletResponse.SC_OK);
