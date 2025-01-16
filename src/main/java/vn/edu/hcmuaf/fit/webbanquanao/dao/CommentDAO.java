@@ -92,6 +92,26 @@ public class CommentDAO {
         });
     }
 
+    // Insert
+    public boolean add(String description, int rating, int userId, int productId) {
+        query = "INSERT INTO comment (userId, productId, content, rating) VALUES (?, ?, ?, ?)";
+
+        return conn.get().withHandle(h -> {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+                stmt.setInt(1, userId);
+                stmt.setInt(2, productId);
+                stmt.setString(3, description);
+                stmt.setInt(4, rating);
+
+                int rowsInserted = stmt.executeUpdate();
+                return rowsInserted > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return true;
+            }
+        });
+    }
+
     public static void main(String[] args) {
         CommentDAO dao = new CommentDAO();
         System.out.println(dao.getCommentByProductId(1));
