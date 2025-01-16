@@ -200,7 +200,7 @@ CREATE TABLE `orders` (
   `userId` int(11) NOT NULL,
   `paymentId` int(11) NOT NULL,
   `couponId` int(11) DEFAULT NULL,
-  `orderDate` datetime NOT NULL,
+  `orderDate` datetime NOT NULL DEFAULT current_timestamp(),
   `totalPrice` decimal(10,2) NOT NULL,
   `status` bit(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
@@ -391,15 +391,15 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `userName` varchar(30) NOT NULL,
   `password` varchar(64) NOT NULL,
-  `firstName` text NOT NULL,
-  `lastName` text NOT NULL,
-  `email` text NOT NULL,
-  `avatar` varchar(200) NOT NULL,
-  `address` text NOT NULL,
-  `phone` text NOT NULL,
-  `status` bit(1) NOT NULL,
+  `firstName` text NULL,
+  `lastName` text NULL,
+  `email` text NULL,
+  `avatar` varchar(200) NULL,
+  `address` text NULL,
+  `phone` text NULL,
+  `status` bit(1) NULL,
   `createdAt` datetime DEFAULT current_timestamp(),
-  `roleId` int(11) NOT NULL
+  `roleId` int(11) NOT NULL DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
