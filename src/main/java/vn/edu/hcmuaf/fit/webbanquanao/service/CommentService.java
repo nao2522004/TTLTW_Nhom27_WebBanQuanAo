@@ -31,4 +31,9 @@ public class CommentService {
         });
         return result;
     }
+
+    // Insert
+    public boolean add(String description, int rating, int userId, int productId) {
+        return dao.add(description, rating, userId, productId);
+    }
 }

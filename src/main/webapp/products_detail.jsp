@@ -9,7 +9,6 @@
     <title>Product Detail</title>
     <link rel="stylesheet" href="assets/css/products_detail.css">
     <link rel="stylesheet" href="assets/css/responsive_luat.css">
-    <script src="assets/ckeditor3.6.3/ckeditor/ckeditor.js"></script>
     <style>
         .comment-container {
             background-color: #fff;
@@ -267,26 +266,36 @@
                 </div>
             </div>
         </c:forEach>
+
+        <c:if test="${empty comments}">
+            <p class="text_content" style="font-size: 1.5rem">Hiện chưa có đánh giá nào về sản phẩm này.</p>
+        </c:if>
     </div>
     <!-- Customer comment here -->
-    <form action="productComment?action=insert" method="post" class="comment-container container mt-3" enctype="multipart/form-data">
-        <textarea rows="20" cols="20" name="description"></textarea>
+    <c:if test="${not empty sessionScope.auth}">
+        <form action="productDetail" method="post" class="comment-container container mt-3">
+            <textarea rows="20" cols="20" name="description" style="resize: none"></textarea>
 
-        <label for="rating">Đánh giá</label>
-        <select name="rating" id="rating" required>
-            <option value="1">1 sao</option>
-            <option value="2">2 sao</option>
-            <option value="3">3 sao</option>
-            <option value="4">4 sao</option>
-            <option value="5">5 sao</option>
-        </select>
+            <label for="rating">Đánh giá</label>
+            <select name="rating" id="rating" required>
+                <option value="" disabled selected>Chọn số sao</option>
+                <option value="1">1 sao</option>
+                <option value="2">2 sao</option>
+                <option value="3">3 sao</option>
+                <option value="4">4 sao</option>
+                <option value="5">5 sao</option>
+            </select>
 
-        <span id="file-name" class="file-name">Chưa có tệp nào được chọn</span>
-        <label for="image">Tải lên hình ảnh</label>
-        <input type="file" name="image" id="image" accept="image/*">
+                <%--        <span id="file-name" class="file-name">Chưa có tệp nào được chọn</span>--%>
+                <%--        <label for="image">Tải lên hình ảnh</label>--%>
+                <%--        <input type="file" name="image" id="image" accept="image/*">--%>
 
-        <button type="submit" name="comment-button" class="comment-button w-100 mt-3">Gửi đánh giá</button>
-    </form>
+            <input type="hidden" name="userId" value="${sessionScope.auth.id}">
+            <input type="hidden" name="pid" value="${p.id}">
+
+            <button type="submit" name="comment-button" class="comment-button w-100 mt-3">Gửi đánh giá</button>
+        </form>
+    </c:if>
 </section>
 
 <!-- Similar -->
@@ -408,9 +417,6 @@
         const fileName = this.files[0] ? this.files[0].name : "Chưa có tệp nào được chọn";
         document.getElementById('file-name').textContent = fileName;
     });
-
-    // Ckeditor
-    CKEDITOR.replace('description')
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/products_detail.js"></script>
 </body>
