@@ -68,7 +68,8 @@ body {
     width: 96%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto 23rem;
+    grid-template-columns: 14rem auto;
+    /*grid-template-columns: 14rem auto 23rem;*/
 }
 
 a {
@@ -143,6 +144,16 @@ b {
 /* START HANDLE A CART DETAILS */
 
 /* END HANDLE A CART DETAILS */
+
+/* Căn giữa tiêu đề cột */
+#products--table th, #users--table th{
+    text-align: center;
+}
+
+/* Căn giữa dữ liệu trong các ô của bảng */
+#products--table td, #users--table td {
+    text-align: center;
+}
 
 /* START ADD PRODUCT */
 #add-product-form, #add-user-form, #add-other-form, #add-productDetails-form, #add-order-form {
@@ -789,7 +800,7 @@ main .popup td input {
 @media screen and (max-width: 1200px) {
     .container--admin {
         width: 94%;
-        grid-template-columns: 7rem auto 23rem;
+        grid-template-columns: 7rem auto;
     }
 
     aside .logo h2 {
