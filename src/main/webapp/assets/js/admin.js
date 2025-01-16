@@ -169,6 +169,30 @@ function openOrderDetails(event) {
     });
 }
 
+// Hàm xóa đơn hàng
+function deleteOrder(event) {
+    const orderId = event.target.getAttribute("data-orderId"); // Lấy id của đơn hàng
+    console.log(JSON.stringify({ id: orderId }));
+
+    if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng với ID: ${orderId}?`)) {
+        $.ajax({
+            url: `/WebBanQuanAo/admin/manager-orders?id=${orderId}`, // Đường dẫn API xóa đơn hàng
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ id: orderId }), // Gửi ID đơn hàng dưới dạng JSON
+            success: function (response) {
+                alert(response.message || "Xóa đơn hàng thành công!");
+                fetchOrders(); // Refresh danh sách đơn hàng sau khi xóa
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi xóa đơn hàng:', error);
+                alert(xhr.responseJSON?.message || "Không thể xóa đơn hàng. Vui lòng thử lại sau.");
+            }
+        });
+    }
+}
+
+
 // Mở popup chỉnh sửa đơn hàng
 function openEditOrderPopup(event) {
     const orderId = event.target.getAttribute("data-orderId");  // Lấy id đơn hàng từ thuộc tính data-order-id

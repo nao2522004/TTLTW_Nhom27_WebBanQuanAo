@@ -21,6 +21,11 @@ public class AOrderService {
         return aOrderDao.update(obj, id);
     }
 
+    public boolean deleteOrder(Integer id) {
+        if(!aOrderDao.listOrders.containsKey(id)) return false;
+        return aOrderDao.delete(id);
+    }
+
     public static void main(String[] args) {
         AOrderService a = new AOrderService();
         System.out.println(a.showOrders());

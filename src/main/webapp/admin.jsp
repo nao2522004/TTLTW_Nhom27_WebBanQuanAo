@@ -92,25 +92,25 @@
     <main id="dashboard">
         <h1>Bảng Thông Tin</h1>
 
-        <div class="dash-top">
+<%--        <div class="dash-top">--%>
 
 
-            <div class="date">
-                <input type="date"/>
-            </div>
+<%--            <div class="date">--%>
+<%--                <input type="date"/>--%>
+<%--            </div>--%>
 
-            <div class="search-card">
-                <form id="search-form">
-                    <div class="search-group">
-                        <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>
-                        <button type="submit" class="search-button">
-                            <span class="material-icons-sharp">search</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+<%--            <div class="search-card">--%>
+<%--                <form id="search-form">--%>
+<%--                    <div class="search-group">--%>
+<%--                        <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>--%>
+<%--                        <button type="submit" class="search-button">--%>
+<%--                            <span class="material-icons-sharp">search</span>--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
+<%--                </form>--%>
+<%--            </div>--%>
 
-        </div>
+<%--        </div>--%>
         <div class="insights">
             <!-- SALES -->
             <div class="sales">
@@ -180,12 +180,12 @@
                 <thead>
                 <tr>
                     <th>Mã</th>
-                    <th>Mã Kh</th>
+                    <th>Mã khách hàng</th>
                     <th>Thanh toán</th>
-                    <th>Mã Giảm giá </th>
+                    <th>Mã giảm giá </th>
                     <th>Ngày Tạo</th>
                     <th>Tổng Tiền</th>
-                    <th>Trạng Thái</th>
+                    <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
                 </thead>

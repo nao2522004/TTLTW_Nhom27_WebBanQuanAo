@@ -29,7 +29,7 @@ public class AOrder implements Serializable {
         return id;
     }
 
-    public String getfirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -57,7 +57,7 @@ public class AOrder implements Serializable {
         this.id = id;
     }
 
-    public void setfirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 

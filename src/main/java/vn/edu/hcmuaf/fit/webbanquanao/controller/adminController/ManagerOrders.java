@@ -82,7 +82,7 @@ public class ManagerOrders extends HttpServlet {
             AOrder order = gson.fromJson(json, AOrder.class);
 
             // Kiểm tra các trường dữ liệu
-            if (order.getfirstName() == null || order.getOrderDate() == null || order.getTotalPrice() == 0) {
+            if (order.getFirstName() == null || order.getOrderDate() == null || order.getTotalPrice() == 0) {
                 throw new IllegalArgumentException("Thông tin đơn hàng không đầy đủ");
             }
 
@@ -123,17 +123,17 @@ public class ManagerOrders extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
-            // Log JSON nhận được
-            System.out.println("JSON body received: " + json);
+//            // Log JSON nhận được
+//            System.out.println("JSON body received: " + json);
 
             // Parse JSON
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-            AOrder order = gson.fromJson(json,AOrder.class);
+            AOrder order = gson.fromJson(json, AOrder.class);
             // Log order nhận được
             System.out.println("Order received: " + order);
 
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
-            if (order.getId() == null || order.getfirstName() == null || order.getPaymentMethod() == null) {
+            if (order.getId() == null || order.getFirstName() == null || order.getPaymentMethod() == null) {
                 throw new IllegalArgumentException("Thiếu thông tin đơn hàng");
             }
 
@@ -166,7 +166,52 @@ public class ManagerOrders extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            // Đọc dữ liệu JSON từ body
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+            // Log dữ liệu JSON nhận được
+            System.out.println("Received JSON: " + json);
 
+            // Parse JSON để lấy ID đơn hàng
+            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+            Integer orderId = jsonObject.get("id").getAsInt();
+
+            // Kiểm tra ID đơn hàng
+            if (orderId == null || orderId <= 0) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"message\": \"ID đơn hàng không hợp lệ\"}");
+                return;
+            }
+
+            // Gọi service để xóa đơn hàng
+            AOrderService orderService = new AOrderService();
+            boolean isDeleted = orderService.deleteOrder(orderId);
+
+            // Phản hồi
+            if (isDeleted) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\": \"Xóa đơn hàng thành công\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"message\": \"Không tìm thấy đơn hàng\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
+    }
 
 }
 

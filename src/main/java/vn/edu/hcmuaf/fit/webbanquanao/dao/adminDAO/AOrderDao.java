@@ -30,7 +30,7 @@ public class AOrderDao {
                 while (rs.next()) {
                     AOrder order = new AOrder();
                     order.setId(rs.getInt("id"));
-                    order.setfirstName(rs.getString("firstName"));
+                    order.setFirstName(rs.getString("firstName"));
                     order.setPaymentMethod(rs.getString("paymentMethod"));
                     order.setCode(rs.getString("code"));
                     order.setOrderDate(rs.getTimestamp("orderDate").toLocalDateTime());
@@ -53,10 +53,10 @@ public class AOrderDao {
                     "INNER JOIN payments p ON o.paymentId = p.id " +
                     "INNER JOIN coupons c ON o.couponId = c.id " +
                     "INNER JOIN users u ON o.userId = u.id " +
-                    "SET o.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " +
+                    "SET u.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " +
                     "WHERE o.id = ?";
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                ps.setString(1, order.getfirstName());
+                ps.setString(1, order.getFirstName());
                 ps.setString(2, order.getPaymentMethod());
                 ps.setString(3, order.getCode());
                 ps.setDate(4, java.sql.Date.valueOf(order.getOrderDate().toLocalDate()));
@@ -69,6 +69,20 @@ public class AOrderDao {
             }
             return false;
         });
+    }
+
+    public boolean delete(Integer id) {
+       listOrders.remove(id);
+         String sql = "DELETE FROM orders WHERE id = ?";
+            return JDBIConnector.get().withHandle(h -> {
+                try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                    ps.setInt(1, id);
+                    return ps.executeUpdate() > 0;
+                } catch (Exception e) {
+                    System.out.println("Loi khi xoa don hang: " + e.getMessage());
+                }
+                return false;
+            });
     }
 
 
