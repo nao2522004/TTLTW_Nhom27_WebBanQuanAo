@@ -271,6 +271,13 @@
 <%--                    </div>--%>
                     <hr class="mb-4">
                     <input type="hidden" name="totalPrice" value="${totalPrice}">
+                    <%-- Hiển thị thông báo nếu có --%>
+                    <c:if test="${not empty message}">
+                        <div style="color: #335d4a; font-weight: bold; margin-top: 20px;" class="text-center" >
+                                ${message}
+                        </div>
+                    </c:if>
+
                     <button class="btn btn-primary btn-lg btn-block" type="submit">THANH TOÁN</button>
                 </form>
                 <div class="back-to-shop text-muted"><a href="cart.jsp">&leftarrow; Trở về giỏ hàng</a>
