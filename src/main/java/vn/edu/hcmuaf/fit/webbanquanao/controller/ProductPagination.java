@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.webbanquanao.controller;
 
 import com.google.gson.*;
-import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 @WebServlet(name = "productPagination", value = "/productPagination")
-public class productPagination extends HttpServlet {
+public class ProductPagination extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
