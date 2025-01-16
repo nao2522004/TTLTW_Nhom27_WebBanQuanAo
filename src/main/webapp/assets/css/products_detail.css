@@ -375,7 +375,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* ===================================================== Comments ===================================================== */
 #section_comments {
-    margin-top: 13rem;
+    margin-top: 7rem;
 }
 
 #section_comments h1 {
@@ -461,6 +461,16 @@ input[type="number"]::-webkit-outer-spin-button {
     cursor: pointer;
     font-size: 14px;
     padding: 5px 10px;
+}
+
+/* Comment button */
+.comment-container .comment-button {
+    height: 4rem;
+    font-size: 1.5rem;
+    background-color: var(--lighter-second-color);
+    color: #ffffff;
+    outline: none;
+    border: none;
 }
 
 /* =================================================== Section Similar =================================================== */

@@ -6,17 +6,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.Product" %>
 <%@ page import="java.util.List" %>
 
-<%--<%--%>
-<%--    ProductService service = new ProductService();--%>
-<%--    List<Product> list;--%>
-
-<%--    list = service.getSaleProducts();--%>
-<%--    request.setAttribute("saleProducts", list);--%>
-
-<%--    list = service.getBestSellingProducts();--%>
-<%--    request.setAttribute("bestSellingProducts", list);--%>
-<%--%>--%>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -133,11 +122,11 @@
                 <c:forEach var="p" items="${bestSellingProducts}" end="2">
                     <!-- Item 1 -->
                     <div class="col-md-4">
-                        <div class="item">
+                        <a href="productDetail?pid=${p.id}" class="item">
                             <img src="${pageContext.request.contextPath}/assets/product-imgs/${p.images[0]}" alt="Image 1">
                             <h4>${p.name}</h4>
                             <p><f:formatNumber value="${p.unitPrice}"/> đ</p>
-                        </div>
+                        </a>
                     </div>
                 </c:forEach>
 

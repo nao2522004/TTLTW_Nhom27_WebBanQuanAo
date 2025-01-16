@@ -26,11 +26,10 @@ public class ProductDetail extends HttpServlet {
             request.setAttribute("p", detail);
         }
 
-        request.getRequestDispatcher("products_detail.jsp").forward(request, response);
+        request.getRequestDispatcher("productComment").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
     }
 }

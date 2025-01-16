@@ -1,7 +1,7 @@
 /*
  Navicat Premium Dump SQL
 
- Source Server         : localhost
+ Source Server         : localhost_3306
  Source Server Type    : MariaDB
  Source Server Version : 100432 (10.4.32-MariaDB)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100432 (10.4.32-MariaDB)
  File Encoding         : 65001
 
- Date: 08/01/2025 14:06:17
+ Date: 16/01/2025 15:47:05
 */
 
 SET NAMES utf8mb4;
@@ -168,11 +168,12 @@ CREATE TABLE `coupons`  (
   `discount` float NOT NULL,
   `decription` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coupons
 -- ----------------------------
+INSERT INTO `coupons` VALUES (1, 'abc', 10, 0.2, 'Ưu đãi, giảm giá đặc biệt');
 
 -- ----------------------------
 -- Table structure for favourite
@@ -230,11 +231,16 @@ CREATE TABLE `orderitem`  (
   INDEX `productId`(`productId`) USING BTREE,
   CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orderitem
 -- ----------------------------
+INSERT INTO `orderitem` VALUES (1, 1, 1, '2025-01-16 15:38:23', 1, 274550.00, 0, b'1');
+INSERT INTO `orderitem` VALUES (2, 2, 2, '2025-01-16 15:39:01', 1, 280000.00, 0, b'1');
+INSERT INTO `orderitem` VALUES (3, 3, 3, '2025-01-16 15:40:03', 1, 470000.00, 0, b'1');
+INSERT INTO `orderitem` VALUES (4, 4, 4, '2025-01-16 15:40:41', 1, 490000.00, 0, b'1');
+INSERT INTO `orderitem` VALUES (5, 5, 5, '2025-01-16 15:40:55', 1, 369000.00, 0, b'1');
 
 -- ----------------------------
 -- Table structure for orders
@@ -256,11 +262,16 @@ CREATE TABLE `orders`  (
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`paymentId`) REFERENCES `payments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
+INSERT INTO `orders` VALUES (1, 2, 1, NULL, '2025-01-16 15:36:28', 274550.00, b'1', 0.00);
+INSERT INTO `orders` VALUES (2, 2, 2, NULL, '2025-01-16 15:36:52', 280000.00, b'1', 0.00);
+INSERT INTO `orders` VALUES (3, 2, 1, NULL, '2025-01-16 15:37:12', 470000.00, b'1', 0.00);
+INSERT INTO `orders` VALUES (4, 2, 1, NULL, '2025-01-16 15:37:38', 490000.00, b'1', 0.00);
+INSERT INTO `orders` VALUES (5, 2, 1, NULL, '2025-01-16 15:37:47', 369000.00, b'1', 0.00);
 
 -- ----------------------------
 -- Table structure for payments
@@ -270,11 +281,13 @@ CREATE TABLE `payments`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `paymentMethod` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of payments
 -- ----------------------------
+INSERT INTO `payments` VALUES (1, 'Cash on delivery');
+INSERT INTO `payments` VALUES (2, 'Online payment');
 
 -- ----------------------------
 -- Table structure for product_details
@@ -410,11 +423,12 @@ CREATE TABLE `sales`  (
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sales
 -- ----------------------------
+INSERT INTO `sales` VALUES (1, 'Black Friday', 'Ngày lễ mua sắm', '2025-01-16', '2025-01-31');
 
 -- ----------------------------
 -- Table structure for sales_product
@@ -432,6 +446,11 @@ CREATE TABLE `sales_product`  (
 -- ----------------------------
 -- Records of sales_product
 -- ----------------------------
+INSERT INTO `sales_product` VALUES (1, 1);
+INSERT INTO `sales_product` VALUES (2, 1);
+INSERT INTO `sales_product` VALUES (3, 1);
+INSERT INTO `sales_product` VALUES (4, 1);
+INSERT INTO `sales_product` VALUES (5, 1);
 
 -- ----------------------------
 -- Table structure for shipping
@@ -491,6 +510,24 @@ INSERT INTO `types` VALUES (1, 'Áo');
 INSERT INTO `types` VALUES (2, 'Quần');
 
 -- ----------------------------
+-- Table structure for userdetails
+-- ----------------------------
+DROP TABLE IF EXISTS `userdetails`;
+CREATE TABLE `userdetails`  (
+  `user_id` int(11) NOT NULL,
+  `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `birth_date` date NOT NULL,
+  `height` decimal(5, 2) NOT NULL,
+  `weight` decimal(5, 2) NOT NULL,
+  PRIMARY KEY (`user_id`) USING BTREE,
+  CONSTRAINT `UserDetails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of userdetails
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
@@ -520,19 +557,3 @@ INSERT INTO `users` VALUES (2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', 'lua
 INSERT INTO `users` VALUES (3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', 'namday', 'SaiGon', '022222222', b'1', '2024-12-24 22:37:22', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
-
--- ----------------------------
--- Table structure for types
--- ----------------------------
-
-DROP TABLE IF EXISTS `UserDetails`;
-CREATE TABLE `UserDetails` (
-    `user_id` int(11) NOT NULL,
-    `gender` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-    `birth_date` date NOT NULL,
-    `height` decimal(5,2) NOT NULL,
-    `weight` decimal(5,2) NOT NULL,
-    PRIMARY KEY (`user_id`),
-    CONSTRAINT `UserDetails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-

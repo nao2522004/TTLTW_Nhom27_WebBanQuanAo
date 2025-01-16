@@ -9,6 +9,123 @@
     <title>Product Detail</title>
     <link rel="stylesheet" href="assets/css/products_detail.css">
     <link rel="stylesheet" href="assets/css/responsive_luat.css">
+    <script src="assets/ckeditor3.6.3/ckeditor/ckeditor.js"></script>
+    <style>
+        .comment-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            padding: 15px;
+            margin: 0 auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-container label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: #333;
+        }
+
+        .comment-container textarea {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .comment-container textarea:focus {
+            /*border-color: #ff6600;*/
+            box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);
+        }
+
+        .comment-container select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #fff;
+            outline: none;
+        }
+
+        .comment-container input[type="file"] {
+            display: none;
+        }
+
+        .comment-container label[for="image"] {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #fff;
+            text-align: center;
+            cursor: pointer;
+            color: #333;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .comment-container label[for="image"]:hover {
+            background-color: var(--lighter1-second-color);
+            color: #fff;
+            /*box-shadow: 0 0 5px rgba(255, 102, 0, 0.5);*/
+        }
+
+        .comment-container label[for="image"]:active {
+            background-color: var(--lighter1-second-color);
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-container select,
+        .comment-container label[for="image"] {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .file-name {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+        }
+
+        .comment-container .comment-button {
+            background-color: var(--lighter-second-color);
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .comment-container .comment-button:hover {
+            /*background-color: #e55a00;*/
+            transform: translateY(-2px);
+        }
+
+        .comment-container .comment-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .comment-container .w-100 {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -125,69 +242,51 @@
     <h1 class="mb-5 pb-4 text-center">Đánh giá từ những khách hàng đã mua</h1>
     <!-- Review by customer -->
     <div class="review-container container">
-        <div class="item">
-            <div class="user-info">
-                <img src="assets/imgs/products%20detail/1.png" alt="User Avatar" class="avatar">
-                <div class="user-name">
-                    <span>Nguyễn Văn A</span>
-                    <div class="review-date">Thời gian: 22:11 2023-10-10</div>
+        <c:forEach var="c" items="${comments}">
+            <div class="item">
+                <div class="user-info">
+                    <img src="assets/imgs/products%20detail/1.png" alt="User Avatar" class="avatar">
+                    <div class="user-name">
+                        <span>${c.authorName}</span>
+                    </div>
+                </div>
+                <div class="rating">
+                    <c:forEach var="i" begin="1" end="${c.rating}">
+                        <i class="fa fa-star" style="color: gold;"></i>
+                    </c:forEach>
+                    <c:forEach var="i" begin="${c.rating + 1}" end="5">
+                        <i class="fa fa-star" style="color: #ccc;"></i>
+                    </c:forEach>
+                </div>
+                <div class="review-content">
+                    <p>${c.content}</p>
+                </div>
+                <div class="review-media">
+                    <img src="assets/imgs/products%20detail/2.webp" alt="Review Image 1">
+                    <img src="assets/imgs/products%20detail/3.jpg" alt="Review Image 2">
                 </div>
             </div>
-            <div class="rating">
-                <span>★★★★★</span>
-            </div>
-            <div class="review-content">
-                <p>Shop chuẩn bị hàng và giao hàng nhanh. Shipper vui tính nhiệt tình. Chất vải phù hợp với giá
-                    tiền,
-                    gửi
-                    đúng mẫu. Mẫu mã bạn nhà mình rất thích. Tặng shop 5 sao</p>
-            </div>
-            <div class="review-media">
-                <img src="assets/imgs/products%20detail/2.webp" alt="Review Image 1">
-                <img src="assets/imgs/products%20detail/3.jpg" alt="Review Image 2">
-            </div>
-        </div>
-        <div class="item">
-            <div class="user-info">
-                <img src="assets/imgs/products%20detail/1.png" alt="User Avatar" class="avatar">
-                <div class="user-name">
-                    <span>Hoàng Thái B</span>
-                    <div class="review-date">Thời gian: 22:11 2023-10-10</div>
-                </div>
-            </div>
-            <div class="rating">
-                <span>★★★★★</span>
-            </div>
-            <div class="review-content">
-                <p>Rất đẹp và hài lòng lần sau sẽ ủng hộ shop tiếp</p>
-            </div>
-            <div class="review-media">
-                <img src="assets/imgs/products%20detail/6.webp" alt="Review Image 1">
-                <img src="assets/imgs/products%20detail/7.webp" alt="Review Image 2">
-            </div>
-        </div>
-        <div class="item">
-            <div class="user-info">
-                <img src="assets/imgs/products%20detail/1.png" alt="User Avatar" class="avatar">
-                <div class="user-name">
-                    <span>Lý Thành C</span>
-                    <div class="review-date">Thời gian: 22:11 2023-10-10</div>
-                </div>
-            </div>
-            <div class="rating">
-                <span>★★★★</span>
-            </div>
-            <div class="review-content">
-                <p>Vải dầy, cạp to dầy, mặc thoải mãi rộng, vừa hết lạnh, ko biết có ấm ko. Shop tư vấn sai nên quần
-                    dài quá luôn, shop nên tham khảo nhiều hơn, muốn cho 2 sao nhưng thấy cũng oki mặc ở nhà nên 4
-                    sao nha</p>
-            </div>
-            <div class="review-media">
-                <img src="assets/imgs/products%20detail/4.webp" alt="Review Image 1">
-                <img src="assets/imgs/products%20detail/5.webp" alt="Review Image 2">
-            </div>
-        </div>
+        </c:forEach>
     </div>
+    <!-- Customer comment here -->
+    <form action="productComment?action=insert" method="post" class="comment-container container mt-3" enctype="multipart/form-data">
+        <textarea rows="20" cols="20" name="description"></textarea>
+
+        <label for="rating">Đánh giá</label>
+        <select name="rating" id="rating" required>
+            <option value="1">1 sao</option>
+            <option value="2">2 sao</option>
+            <option value="3">3 sao</option>
+            <option value="4">4 sao</option>
+            <option value="5">5 sao</option>
+        </select>
+
+        <span id="file-name" class="file-name">Chưa có tệp nào được chọn</span>
+        <label for="image">Tải lên hình ảnh</label>
+        <input type="file" name="image" id="image" accept="image/*">
+
+        <button type="submit" name="comment-button" class="comment-button w-100 mt-3">Gửi đánh giá</button>
+    </form>
 </section>
 
 <!-- Similar -->
@@ -303,8 +402,16 @@
             quantityInput.value = currentValue - 1;
         }
     });
-</script>
 
+    // Alert add file in comment
+    document.getElementById('image').addEventListener('change', function () {
+        const fileName = this.files[0] ? this.files[0].name : "Chưa có tệp nào được chọn";
+        document.getElementById('file-name').textContent = fileName;
+    });
+
+    // Ckeditor
+    CKEDITOR.replace('description')
+</script>
 <script src="${pageContext.request.contextPath}/assets/js/products_detail.js"></script>
 </body>
 
