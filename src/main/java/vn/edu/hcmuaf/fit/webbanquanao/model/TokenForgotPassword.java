@@ -4,25 +4,24 @@ import java.time.LocalDateTime;
 
 public class TokenForgotPassword {
     private int id, userId;
-    private boolean isUser;
+    private boolean isUsed;
     private String token;
-    private LocalDateTime expiresAt;
+    private LocalDateTime expiredAt;
 
     public TokenForgotPassword() {};
 
-    public TokenForgotPassword(int id, int userId, boolean isUser, String token, LocalDateTime expiresAt) {
+    public TokenForgotPassword(int id, boolean isUsed, int userId, String token, LocalDateTime expiredAt) {
         this.id = id;
+        this.isUsed = isUsed;
         this.userId = userId;
-        this.isUser = isUser;
         this.token = token;
-        this.expiresAt = expiresAt;
+        this.expiredAt = expiredAt;
     }
 
-    public TokenForgotPassword( int userId, boolean isUser, String token, LocalDateTime expiresAt) {
+    public TokenForgotPassword( int userId, String token, LocalDateTime expiredAt) {
         this.userId = userId;
-        this.isUser = isUser;
         this.token = token;
-        this.expiresAt = expiresAt;
+        this.expiredAt = expiredAt;
     }
 
     public int getId() {
@@ -41,14 +40,6 @@ public class TokenForgotPassword {
         this.userId = userId;
     }
 
-    public boolean isUser() {
-        return isUser;
-    }
-
-    public void setUser(boolean user) {
-        isUser = user;
-    }
-
     public String getToken() {
         return token;
     }
@@ -58,11 +49,18 @@ public class TokenForgotPassword {
     }
 
     public LocalDateTime getExpiresAt() {
-        return expiresAt;
+        return expiredAt;
     }
 
-    public void setExpiresAt(LocalDateTime expiresAt) {
-        this.expiresAt = expiresAt;
+    public void setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
+    public boolean isIsUsed() {
+        return isUsed;
+    }
+    public void setIsUser(boolean isUsed) {
+        this.isUsed = isUsed;
     }
 
     @Override
@@ -70,9 +68,11 @@ public class TokenForgotPassword {
         return "TokenForgotPassword{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", isUser=" + isUser +
+                ", isUsed=" + isUsed +
                 ", token='" + token + '\'' +
-                ", expiresAt=" + expiresAt +
+                ", expiredAt=" + expiredAt +
                 '}';
     }
+
+
 }

@@ -26,13 +26,19 @@
                 </div>
 
 
-                <!-- Hiển thị thông báo thành công hoặc lỗi -->
-                <c:if test="${not empty message}">
-                    <div class="alert alert-success">${message}</div>
-                </c:if>
-                <c:if test="${not empty error}">
-                    <div class="alert alert-danger">${error}</div>
-                </c:if>
+                <%-- Hiển thị thông báo nếu có --%>
+                <%
+                    String message = (String) request.getAttribute("message");
+                %>
+
+                <%-- Kiểm tra và hiển thị thông báo --%>
+                <% if (message != null) { %>
+                <div style="margin-top: 10px; color: <%= message.contains("successfully") ? "#0f5132" : "red" %>">
+                    <%= message %>
+                </div>
+                <% } %>
+
+
 
                 <button type="submit" class="btn btn-primary btn-lg" onclick="openOtpPopup()">Gửi Mã OTP</button>
                 <p>Quay lại trang <a href="login.jsp" style="color: #335d4a !important;">Đăng Nhập</a></p>
