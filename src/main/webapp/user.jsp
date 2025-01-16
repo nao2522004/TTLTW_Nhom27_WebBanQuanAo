@@ -68,9 +68,21 @@
                    value="<%= ((User) session.getAttribute("auth")).getLastName() + ' ' + ((User) session.getAttribute("auth")).getFirstName() %>" required>
           </div>
           <div class="form-group">
+            <label for="gmail">Email</label>
+            <input type="text" class="form-control" id="gmail" name="gmail"
+                   value="<%= ((User) session.getAttribute("auth")).getEmail() %>" required>
+          </div>
+
+          <div class="form-group">
             <label for="phone">Số điện thoại</label>
             <input type="text" class="form-control" id="phone" name="phone"
                    value="<%= ((User) session.getAttribute("auth")).getPhone() %>" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Địa chỉ</label>
+            <input type="text" class="form-control" id="address" name="address"
+                   value="<%= ((User) session.getAttribute("auth")).getAddress() %>" required>
           </div>
          
 
@@ -81,9 +93,9 @@
         <h4 class="font-weight-bold mt-5 mb-4 text-second-color">Thông tin đăng nhập</h4>
         <div class="inform-login">
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email"
-                   value="<%= ((User) session.getAttribute("auth")).getEmail() %>" readonly>
+            <label for="userName">User name</label>
+            <input type="text" class="form-control" id="userName"
+                   value="<%= ((User) session.getAttribute("auth")).getUserName() %>" readonly>
           </div>
           <div class="form-group">
             <label for="password">Mật khẩu</label>

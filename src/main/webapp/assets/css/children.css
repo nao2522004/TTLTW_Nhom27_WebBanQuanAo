@@ -37,7 +37,7 @@
 }
 
 #section_all_products .top .sort label {
-    width: 12rem;
+    width: 13rem;
 }
 
 #section_all_products .top .sort select {
@@ -111,6 +111,17 @@
     transform: rotate(180deg);
 }
 
+#section_all_products .filter-submit .btn {
+    margin-top: 1rem;
+    background-color: var(--lighter-second-color);
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
 /* List Products */
 #section_all_products .list_products {
     width: 80%;
@@ -120,9 +131,11 @@
 
 /* Product cards */
 #section_all_products .list_products .product-card {
-    padding: 15px;
+    padding: 0;
     border-radius: 8px;
     transition: box-shadow 0.3s;
+    text-decoration: none;
+    color: black;
     cursor: pointer !important;
 }
 
@@ -164,53 +177,63 @@
 }
 
 /* Pagination */
-#pagination {
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%);
+#pagination .custom-pagination .page-link i {
+    font-size: 16px;
+    vertical-align: middle;
+    color: #3f3f3f;
+    transition: color 0.2s ease-in-out;
 }
 
-#pagination .product-pagination {
+#pagination .custom-pagination .page-link {
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-top: 20px;
-    font-size: 1.5rem;
-}
-
-#pagination .pagination-btn,
-#pagination .page-number {
-    padding: 1rem;
-    cursor: pointer;
-    color: #333;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    min-width: 5rem;
-    text-align: center;
 }
 
-#pagination .pagination-btn {
-    outline: none;
-    border: none;
-    background: none;
+#pagination .custom-pagination .page-link i:hover {
+    color: #234f45;
 }
 
-#pagination .page-number.active {
-    background-color: var(--second-color);
-    color: white;
-    font-weight: bold;
+#pagination .custom-pagination .pagination {
+    background-color: #f9f6f3;
+    padding: 10px 20px;
+    border-radius: 10px;
 }
 
-#pagination .dots {
-    border: none;
+#pagination .custom-pagination .page-item {
+    margin: 0 5px;
+}
+
+#pagination .custom-pagination .page-link {
+    color: #3f3f3f;
     background-color: transparent;
-    cursor: default;
-    pointer-events: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 5px 12px;
+    transition: all 0.2s ease-in-out;
 }
 
-#pagination_numbers {
-    display: flex;
-    align-items: center;
+#pagination .custom-pagination .page-link:hover {
+    color: #3f3f3f;
+    text-decoration: none;
+    transform: scale(1.1);
+}
+
+#pagination .custom-pagination .page-item.active .page-link {
+    background-color: #234f45;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#pagination .custom-pagination .page-item.disabled .page-link {
+    color: #ddd;
+    cursor: not-allowed;
+}
+
+#pagination .custom-pagination .dots {
+    cursor: default;
+    color: #3f3f3f;
+    pointer-events: none;
 }

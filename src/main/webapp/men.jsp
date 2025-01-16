@@ -2,11 +2,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-    // Chuyển đổi allProducts thành JSON
-    Gson gson = new Gson();
-    String jsonProducts = gson.toJson(request.getAttribute("allProducts"));
-%>
 <!DOCTYPE html>
 <html lang="en">
 
