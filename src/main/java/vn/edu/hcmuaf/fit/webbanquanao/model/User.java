@@ -51,6 +51,9 @@ public class User implements Serializable {
         this.roleId = roleId;
     }
 
+    public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone, Integer roleId) {
+    }
+
     public Integer getId() {
         return id;
     }

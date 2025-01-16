@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webbanquanao.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.TokenForgotPassword;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
@@ -18,6 +19,55 @@ public class UserDao {
     public UserDao() {
         dbConnect = new JDBIConnector();
     }
+    // Đăng ký người dùng mới (mã hóa mật khẩu)
+    public boolean registerUser(User user) {
+        String sql = "INSERT INTO users (avatar, password, fullName, gmail, phone, address, notificationCheck, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
+
+        return dbConnect.get().withHandle(handle -> {
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                ps.setString(1, user.getAvatar());
+                ps.setString(2, hashedPassword);
+                ps.setString(3, user.getFirstName());
+                ps.setString(3, user.getLastName());
+                ps.setString(4, user.getEmail());
+                ps.setInt(5, user.getPhone());
+                ps.setString(6, user.getAddress());
+                ps.setInt(7, user.getRoleId());
+
+                return ps.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
+
+    // Kiểm tra xem email đã tồn tại chưa
+    public boolean isEmailExist(String email) {
+        String sql = "SELECT * FROM users WHERE gmail = ?";
+
+        return dbConnect.get().withHandle(handle -> {
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
+                // Gắn giá trị cho tham số email
+                ps.setString(1, email);
+
+                // Thực thi câu lệnh SQL và kiểm tra xem có dòng nào trả về
+                try (ResultSet rs = ps.executeQuery()) {
+                    return rs.next(); // Nếu có ít nhất một kết quả, tức là email đã tồn tại
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false; // Trả về false nếu có lỗi
+            }
+        });
+    }
+
     public void updatePassword(String email, String password) {
         String sql = "UPDATE users SET password = ? WHERE email = ?";
 

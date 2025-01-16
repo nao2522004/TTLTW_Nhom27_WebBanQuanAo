@@ -76,19 +76,35 @@
 
 
         <!-- Register -->
-        <div class="form-box register">
+        <div class="form-box register" action="signupController" method="POST">
             <form action="">
                 <h1>Đăng Ký</h1>
+
+                <%
+                    // Lấy thông báo lỗi từ session
+                    String signupError = (String) session.getAttribute("error");
+                    String fullname = request.getParameter("fullName");
+                    String gmail = request.getParameter("gmailRe");
+
+                    // Nếu không có giá trị trong session, gán signupError là chuỗi trống
+                    if (signupError == null) signupError = "";
+                    if (fullname == null) fullname = "";
+                    if (gmail == null) gmail = "";
+                %>
+                <!-- Hiển thị thông báo lỗi nếu có -->
+                <% if (!signupError.isEmpty()) { %>
+                <p class="error-message register animation" style="--i:17; --j:0"><%= signupError %></p>
+                <% } %>
                 <div class="input-box">
                     <input type="text" name="username" placeholder="Họ và Tên" required>
                     <i class="fa-solid fa-user"></i>
                 </div>
                 <div class="input-box">
-                    <input type="text" placeholder="Email/Số Điện Thoại" required>
+                    <input type="text" placeholder="Email/Số Điện Thoại" value="<%=gmail%>" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" placeholder="Mật Khẩu" required>
+                    <input type="password" id="confirmPasswordRe" name="confirmPasswordRe" placeholder="Mật Khẩu" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>

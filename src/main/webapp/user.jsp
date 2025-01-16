@@ -72,30 +72,8 @@
             <input type="text" class="form-control" id="phone" name="phone"
                    value="<%= ((User) session.getAttribute("auth")).getPhone() %>" required>
           </div>
-          <div class="form-group">
-            <label for="gender">Giới tính</label>
-            <select class="form-control" id="gender" name="gender" style="padding: 0;">
-              <option >Chưa cập nhật!</option>
-              <option value="Nam" >Nam</option>
-              <option value="Nữ" >Nữ</option>
-              <option value="Khác" >Khác</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="dob">Ngày sinh</label>
-            <input type="date" class="form-control" id="dob" name="dob"
-                   value="">
-          </div>
-          <div class="form-group">
-            <label for="height">Chiều cao (cm)</label>
-            <input type="number" class="form-control" id="height" name="height"
-                   value="" placeholder="Chưa cập nhật!">
-          </div>
-          <div class="form-group">
-            <label for="weight">Cân nặng (kg)</label>
-            <input type="number" class="form-control" id="weight" name="weight"
-                   value="" placeholder="Chưa cập nhật!">
-          </div>
+         
+
           <button type="submit" class="btn btn-second-color">Cập nhật</button>
         </form>
 
