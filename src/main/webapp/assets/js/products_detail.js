@@ -45,24 +45,24 @@ $('#carousel_similar').carousel({
 
 // ===================================================== Pop Up =====================================================
 
-const openPopupBtn = document.getElementById("open-popup");
-const closePopupBtn = document.getElementById("close-popup");
-const popup = document.getElementById("popup");
-const overlay = document.getElementById("popup-overlay");
-
-openPopupBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    popup.style.display = "block";
-    overlay.style.display = "block";
-});
-
-const closePopup = () => {
-    popup.style.display = "none";
-    overlay.style.display = "none";
-};
-
-closePopupBtn.addEventListener("click", closePopup);
-overlay.addEventListener("click", closePopup);
+// const openPopupBtn = document.getElementById("open-popup");
+// const closePopupBtn = document.getElementById("close-popup");
+// const popup = document.getElementById("popup");
+// const overlay = document.getElementById("popup-overlay");
+//
+// openPopupBtn.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     popup.style.display = "block";
+//     overlay.style.display = "block";
+// });
+//
+// const closePopup = () => {
+//     popup.style.display = "none";
+//     overlay.style.display = "none";
+// };
+//
+// closePopupBtn.addEventListener("click", closePopup);
+// overlay.addEventListener("click", closePopup);
 
 // ===================================================== Quantity =====================================================
 

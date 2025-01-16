@@ -100,7 +100,7 @@ body {
 
 #section_sale .item img {
     width: 100%;
-    height: auto;
+    height: 25rem;
     margin-bottom: 15px;
 }
 
@@ -113,6 +113,22 @@ body {
     font-size: 1.5rem;
     text-align: start;
     font-weight: 700;
+}
+
+#section_sale a {
+    color: #000000;
+}
+
+#section_sale a:hover {
+    text-decoration: none;
+}
+
+#section_sale a img {
+    transition: transform .3s ease;
+}
+
+#section_sale a:hover img {
+    transform: scale(0.98);
 }
 
 /* ========================== Section Collection ========================== */
@@ -215,7 +231,7 @@ body {
 
 #section_new_arrivals .item img {
     width: 100%;
-    height: auto;
+    height: 35rem;
     margin-bottom: 15px;
 }
 
@@ -229,4 +245,20 @@ body {
     text-align: start;
     font-weight: 700;
     color: #333;
+}
+
+#section_new_arrivals a {
+    color: #000000;
+}
+
+#section_new_arrivals a:hover {
+    text-decoration: none;
+}
+
+#section_new_arrivals a img {
+    transition: transform .3s ease;
+}
+
+#section_new_arrivals a:hover img {
+    transform: scale(0.98);
 }
