@@ -43,10 +43,10 @@
                 <h3>Bảng thông tin</h3>
             </a>
 
-            <a href="#" onclick="showMain(event, 'manager_orders')">
-                <span class="material-icons-sharp"> receipt_long </span>
-                <h3>Đơn hàng</h3>
-            </a>
+<%--            <a href="#" onclick="showMain(event, 'manager_orders')">--%>
+<%--                <span class="material-icons-sharp"> receipt_long </span>--%>
+<%--                <h3>Đơn hàng</h3>--%>
+<%--            </a>--%>
             <a href="admin/manager-users" onclick="showMain(event, 'admin/manager-users')">
                 <span class="material-icons-sharp"> person_outline </span>
                 <h3>Người dùng</h3>
@@ -194,28 +194,50 @@
             <a href="#">Show All</a>
         </div>
 
-        <!-- product-order--details -->
+        <!-- edit order -->
         <div class="overlay">
             <div class="recent-orders popup">
                 <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
-                <h2>Chi Tiết Đơn Hàng</h2>
-                <table id="orders-details--table">
-                    <thead>
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Mã Sản Phẩm</th>
-                        <th>Tên Sản Phẩm</th>
-                        <th>Size</th>
-                        <th>Màu</th>
-                        <th>Số Lượng</th>
-                        <th>Đơn Giá</th>
-                    </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
+                <h2>Chỉnh Sửa Đơn Hàng</h2>
+                <form id="order-edit-form">
+                    <table id="order_edit--table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tên</th>
+                            <th>Phương Thức Thanh Toán</th>
+                            <th>Mã Giảm Giá</th>
+                            <th>Ngày Tạo</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td><input type="number" name="id" id="edit-idOrder" readonly></td>
+                            <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
+                            <td><input type="text" name="paymentMethod" id="edit-paymentMethod" required></td>
+                            <td><input type="text" name="code" id="edit-code"></td>
+                            <td><input type="datetime-local" name="orderDate" id="edit-orderDate" required></td>
+                            <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
+                            <td>
+                                <select name="status" id="edit-statusOrder" required>
+                                    <option value="true">Đã giao hàng</option>
+                                    <option value="false">Chưa Xử Lý</option>
+                                </select>
+                            </td>
+                            <td><span type="submit" onclick="saveOrderEdits(event)" class="primary material-icons-sharp">save</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </form>
             </div>
         </div>
+
+
     </main>
 
 
@@ -225,8 +247,8 @@
                    Manager Orders
 ---------------------------------------------------------
 ---------------------------------------------------------->
-    <main id="manager_orders">
-        <h1>Quản lý đơn hàng</h1>
+<%--    <main id="manager_orders">--%>
+<%--        <h1>Quản lý đơn hàng</h1>--%>
 
 <%--        <div class="dash-top">--%>
 
@@ -311,49 +333,49 @@
 <%--            </div>--%>
 <%--        </div>--%>
 
-        <div class="recent-orders">
-            <h1 style="text-align: center;">Danh Sách Đơn Hàng</h1>
-            <table id="orders--table">
-                <thead>
-                <tr>
-                    <th>Mã Đơn Hàng</th>
-                    <th>Khách Hàng</th>
-                    <th>SDT</th>
-                    <th>Địa Chỉ</th>
-                    <th>Ngày Tạo</th>
-                    <th>Tổng Tiền</th>
-                    <th>Thanh Toán</th>
-                    <th>Trạng Thái</th>
-                </tr>
-                </thead>
-                <!-- Add tbody here | JS insertion -->
-            </table>
-            <a href="#">Show All</a>
-        </div>
+<%--        <div class="recent-orders">--%>
+<%--            <h1 style="text-align: center;">Danh Sách Đơn Hàng</h1>--%>
+<%--            <table id="orders--table">--%>
+<%--                <thead>--%>
+<%--                <tr>--%>
+<%--                    <th>Mã Đơn Hàng</th>--%>
+<%--                    <th>Khách Hàng</th>--%>
+<%--                    <th>SDT</th>--%>
+<%--                    <th>Địa Chỉ</th>--%>
+<%--                    <th>Ngày Tạo</th>--%>
+<%--                    <th>Tổng Tiền</th>--%>
+<%--                    <th>Thanh Toán</th>--%>
+<%--                    <th>Trạng Thái</th>--%>
+<%--                </tr>--%>
+<%--                </thead>--%>
+<%--                <!-- Add tbody here | JS insertion -->--%>
+<%--            </table>--%>
+<%--            <a href="#">Show All</a>--%>
+<%--        </div>--%>
 
-        <!-- product-order--details -->
-        <div class="overlay">
-            <div class="recent-orders popup">
-                <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>
-                <h2>Chi Tiết Đơn Hàng</h2>
-                <table id="orders-details--table">
-                    <thead>
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Mã Sản Phẩm</th>
-                        <th>Tên Sản Phẩm</th>
-                        <th>Size</th>
-                        <th>Màu</th>
-                        <th>Số Lượng</th>
-                        <th>Đơn Giá</th>
-                    </tr>
-                    </thead>
-                    <!-- Add tbody here | JS insertion -->
-                </table>
-                <a href="#">Show All</a>
-            </div>
-        </div>
-    </main>
+<%--        <!-- product-order--details -->--%>
+<%--        <div class="overlay">--%>
+<%--            <div class="recent-orders popup">--%>
+<%--                <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>--%>
+<%--                <h2>Chi Tiết Đơn Hàng</h2>--%>
+<%--                <table id="orders-details--table">--%>
+<%--                    <thead>--%>
+<%--                    <tr>--%>
+<%--                        <th>Ảnh</th>--%>
+<%--                        <th>Mã Sản Phẩm</th>--%>
+<%--                        <th>Tên Sản Phẩm</th>--%>
+<%--                        <th>Size</th>--%>
+<%--                        <th>Màu</th>--%>
+<%--                        <th>Số Lượng</th>--%>
+<%--                        <th>Đơn Giá</th>--%>
+<%--                    </tr>--%>
+<%--                    </thead>--%>
+<%--                    <!-- Add tbody here | JS insertion -->--%>
+<%--                </table>--%>
+<%--                <a href="#">Show All</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </main>--%>
 
     <!--------------------------------------------------------
 ---------------------------------------------------------

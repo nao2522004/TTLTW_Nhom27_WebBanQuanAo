@@ -80,4 +80,17 @@ public class AOrder implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "AOrder{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", code='" + code + '\'' +
+                ", orderDate=" + orderDate +
+                ", totalPrice=" + totalPrice +
+                ", status=" + status +
+                '}';
+    }
 }

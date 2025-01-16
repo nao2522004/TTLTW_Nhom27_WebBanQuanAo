@@ -82,86 +82,165 @@ document.addEventListener("DOMContentLoaded", (ev) => {
 ----------------------------------------------------------*/
 
 // ===============Recent_oder_data===============//
-const buildTableBody = () => {
-    const recentOrderData = RECENT_ORDER_DATA;
+// Lấy danh sách đơn hàng từ server và khởi tạo DataTables
+function fetchOrders() {
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-orders', // Địa chỉ URL của API
+        type: 'GET',
+        dataType: 'json',
+        success: function (orders) {
+            const table = $("#recent-orders--table");
 
-    const tbody = document.createElement("tbody");
+            // Xóa DataTables nếu đã được khởi tạo trước đó
+            if ($.fn.DataTable.isDataTable(table)) {
+                table.DataTable().destroy(); // Hủy DataTables
+                table.find("tbody").empty(); // Xóa dữ liệu cũ
+            }
 
-    let bodyContent = "";
-    for (const row of recentOrderData) {
-        bodyContent += `
-       <tr>
-          <td>${row.orderId}</td>
-          <td>${row.userName}</td>
-          <td>${row.userPhone}</td>
-          <td>${row.userAdress}</td>
-          <td>${row.creationDate}</td>
-          <td>${row.totalPrice}</td>
-          <td>${row.payment}</td>
-          <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary" onclick="showOverlay(event)">Chi Tiết</td>
-        </tr>
-      `;
+            // Thêm dữ liệu mới vào bảng
+            const tbody = buildTableOrders(orders);
+            table.append(tbody);
+
+            // Khởi tạo lại DataTables với phân trang và tìm kiếm
+            table.DataTable({
+                searching: true, // Kích hoạt tìm kiếm
+                info: true, // Hiển thị thông tin tổng số bản ghi
+                order: [[0, 'asc']], // Sắp xếp mặc định theo cột đầu tiên (Id)
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/vi.json' // Ngôn ngữ Tiếng Việt
+                },
+                paging: true, // Kích hoạt phân trang
+                pageLength: 5, // Số bản ghi mỗi trang
+                lengthChange: true, // Kích hoạt thay đổi số lượng bản ghi mỗi trang
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching orders:', error);
+            alert("Failed to fetch orders. Please try again later.");
+        }
+    });
+}
+
+// Tạo tbody từ danh sách đơn hàng
+const buildTableOrders = (orders) => {
+    let orderContent = "";
+    for (const order of orders) {
+        orderContent += `
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.firstName}</td>
+                <td>${order.paymentMethod}</td>
+                <td>${order.code}</td>
+                <td>${order.orderDate}</td>
+                <td>${order.totalPrice} VND</td>
+                <td>${order.status === true ? 'Đã Giao Hàng' : 'Chưa Xử Lý'}</td>
+                <td class="primary">
+                    <span onclick="openEditOrderPopup(event)" class="material-icons-sharp" data-orderId="${order.id}"> edit </span>
+                    <span onclick="deleteOrder(event)" class="material-icons-sharp" data-orderId="${order.id}">delete</span>
+                    <span onclick="openOrderDetails(event)" class="material-icons-sharp" data-orderId="${order.id}"> info </span>
+                </td>
+            </tr>
+        `;
     }
-
-    tbody.innerHTML = bodyContent;
-
-    return tbody;
+    return `<tbody>${orderContent}</tbody>`;
 };
+ // Khi DOM load, gọi fetchOrders để tải dữ liệu và khởi tạo DataTables
+ document.addEventListener('DOMContentLoaded', fetchOrders);
 
-// ===============Oder_data===============//
-const buildTableOrder = () => {
-    const orderData = ORDER_DATA;
 
-    const tbody = document.createElement("tbody");
+// Mở popup chi tiết đơn hàng khi nhấn vào icon "visibility"
+function openOrderDetails(event) {
+    const orderId = event.target.dataset.orderid;
+    // Gọi API để lấy chi tiết đơn hàng và hiển thị trong bảng chi tiết
+    $.ajax({
+        url: `/WebBanQuanAo/admin/manager-orders/${orderId}`, // API lấy chi tiết đơn hàng
+        type: 'GET',
+        dataType: 'json',
+        success: function (orderDetails) {
+            const table = $("#orders-details--table");
+            const tbody = buildOrderDetails(orderDetails);
+            table.append(tbody);
+            showOverlay(); // Hiển thị overlay chi tiết
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching order details:', error);
+            alert("Failed to fetch order details. Please try again later.");
+        }
+    });
+}
 
-    let OrderContent = "";
-    for (const row of orderData) {
-        OrderContent += `
-        <tr>
-          <td>${row.orderId}</td>
-          <td>${row.userName}</td>
-          <td>${row.userPhone}</td>
-          <td>${row.userAdress}</td>
-          <td>${row.creationDate}</td>
-          <td>${row.totalPrice}</td>
-          <td>${row.payment}</td>
-          <td class="${row.statusColor}">${row.status}</td>
-          <td class="primary" onclick="showOverlay(event)">Chi Tiết</td>
-        </tr>
-      `;
-    }
+// Mở popup chỉnh sửa đơn hàng
+function openEditOrderPopup(event) {
+    const orderId = event.target.getAttribute("data-orderId");  // Lấy id đơn hàng từ thuộc tính data-order-id
 
-    tbody.innerHTML = OrderContent;
+    const main = event.target.closest("main");
+    const overlay = main.querySelector(".overlay");
+    overlay.style.display = "block"; // Hiển thị lớp phủ của main hiện tại
 
-    return tbody;
-};
+    // Gửi yêu cầu AJAX để lấy dữ liệu đơn hàng theo id
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-orders', // Đảm bảo URL này khớp với mapping của servlet
+        type: 'GET', data: {id: orderId},  // Gửi id dưới dạng tham số truy vấn
+        success: function (data) {
+            // Điền dữ liệu đơn hàng vào các trường trong form
+            document.getElementById("edit-idOrder").value = data.id;
+            document.getElementById("edit-firstNameOrder").value = data.firstName;
+            document.getElementById("edit-paymentMethod").value = data.paymentMethod;
+            document.getElementById("edit-code").value = data.code;
+            document.getElementById("edit-orderDate").value = data.orderDate;
+            document.getElementById("edit-totalPrice").value = data.totalPrice;
+            document.getElementById("edit-statusOrder").value = data.status ? 'true' : 'false';
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu đơn hàng:", error);
+            alert("Không thể lấy thông tin đơn hàng. Vui lòng thử lại.");
+        }
+    });
+}
 
-// ===============Order details data===============//
-const buildTableOrderDetails = () => {
-    const orderDetaisData = ORDER_DETAILS_DATA;
+// Lưu chỉnh sửa đơn hàng
+function saveOrderEdits(event) {
+    // Ngăn hành vi submit mặc định của form
+    event.preventDefault();
 
-    const tbody = document.createElement("tbody");
+    // Thu thập dữ liệu từ các trường nhập liệu
+    const order = {
+        id: parseInt(document.getElementById("edit-idOrder").value),
+        firstName: document.getElementById("edit-firstNameOrder").value,
+        paymentMethod: document.getElementById("edit-paymentMethod").value,
+        code: document.getElementById("edit-code").value,
+        orderDate: new Date(document.getElementById("edit-orderDate").value).toISOString(),
+        totalPrice: parseFloat(document.getElementById("edit-totalPrice").value),
+        status: document.getElementById("edit-statusOrder").value === "true",
+    };
 
-    let OrderDetaisContent = "";
-    for (const row of orderDetaisData) {
-        OrderDetaisContent += `
-        <tr>
-          <td>${row.proImg}</td>
-          <td>${row.proId}</td>
-          <td>${row.proName}</td>
-          <td>${row.proSize}</td>
-          <td>${row.proColor}</td>
-          <td>${row.proAmount}</td>
-          <td>${row.unitPrice}</td>
-        </tr>
-      `;
-    }
+    // Chuyển đổi đối tượng `order` thành JSON
+    const orderJson = JSON.stringify(order);
 
-    tbody.innerHTML = OrderDetaisContent;
+    // Log để kiểm tra JSON đã tạo
+    console.log("JSON object gửi đi:", orderJson);
 
-    return tbody;
-};
+    // Gửi yêu cầu AJAX với JSON
+    $.ajax({
+        url: '/WebBanQuanAo/admin/manager-orders',
+        type: 'PUT',
+        contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
+        data: orderJson, // Gửi JSON object
+        success: function (response) {
+            alert("Cập nhật thông tin đơn hàng thành công!");
+            fetchOrders(); // Tải lại danh sách đơn hàng
+            hideOverlay(); // Ẩn overlay
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật thông tin đơn hàng:", error);
+            alert("Không thể cập nhật thông tin đơn hàng. Vui lòng kiểm tra lại dữ liệu và thử lại.");
+        }
+    });
+}
+
+
+
+
 
 /*--------------------------------------------------------
 ---------------------------------------------------------
@@ -414,8 +493,6 @@ function fetchProducts() {
 // Tạo bảng từ danh sách sản phẩm
 const buildTableProduct = (products) => {
     const tbody = document.createElement("tbody");
-
-    console.log(JSON.stringify(products));
 
     let productContent = "";
     for (const product of products) {

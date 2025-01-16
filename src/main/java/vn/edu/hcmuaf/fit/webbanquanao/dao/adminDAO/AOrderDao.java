@@ -45,5 +45,31 @@ public class AOrderDao {
         });
     }
 
+    public boolean update(Object obj, Integer id){
+        return JDBIConnector.get().withHandle(h -> {
+            AOrder order = (AOrder) obj;
+            listOrders.replace(id, order);
+            String sql = "UPDATE orders o " +
+                    "INNER JOIN payments p ON o.paymentId = p.id " +
+                    "INNER JOIN coupons c ON o.couponId = c.id " +
+                    "INNER JOIN users u ON o.userId = u.id " +
+                    "SET o.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " +
+                    "WHERE o.id = ?";
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+                ps.setString(1, order.getfirstName());
+                ps.setString(2, order.getPaymentMethod());
+                ps.setString(3, order.getCode());
+                ps.setDate(4, java.sql.Date.valueOf(order.getOrderDate().toLocalDate()));
+                ps.setDouble(5, order.getTotalPrice());
+                ps.setBoolean(6, order.isStatus());
+                ps.setInt(7, id);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Loi khi cap nhat don hang: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
 
 }

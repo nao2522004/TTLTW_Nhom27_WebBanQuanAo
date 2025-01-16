@@ -16,6 +16,11 @@ public class AOrderService {
         return aOrderDao.listOrders;
     }
 
+    public boolean updateOrder(Object obj, Integer id) {
+        if(!aOrderDao.listOrders.containsKey(id)) return false;
+        return aOrderDao.update(obj, id);
+    }
+
     public static void main(String[] args) {
         AOrderService a = new AOrderService();
         System.out.println(a.showOrders());
