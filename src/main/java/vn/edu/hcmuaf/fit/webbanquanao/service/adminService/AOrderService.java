@@ -27,9 +27,9 @@ public class AOrderService {
         return aOrderDao.delete(id);
     }
 
-    public Map<Integer, AOrderItem> showOrderItem(Integer id) {
-        if (!aOrderDao.listOrders.containsKey(id)) return null;
-        return aOrderDao.getAllOrderItems(id);
+    public Map<Integer, AOrderItem> showOrderItem(Integer orderId) {
+        if (!aOrderDao.listOrders.containsKey(orderId)) return null;
+        return aOrderDao.getAllOrderItems(orderId);
     }
 
     public boolean updateOrderItem(AOrderItem orderItem, Integer id, Integer orderId) {

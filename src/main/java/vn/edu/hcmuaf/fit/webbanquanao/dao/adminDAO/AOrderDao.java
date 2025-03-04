@@ -42,12 +42,16 @@ public class AOrderDao {
         });
     }
 
-    public Map<Integer, AOrderItem> getAllOrderItems(Integer id) {
+    public Map<Integer, AOrderItem> getAllOrderItems(Integer orderId) {
         Map<Integer, AOrderItem> orderItems = new LinkedHashMap<>();
-        String sql = "select oi.id, oi.orderId, p.productName, oi.quantity, oi.unitPrice, oi.discount\n" + "from orderitem oi\n" + "INNER JOIN products p on oi.productId = p.id\n" + "WHERE oi.orderId = ?";
+        String sql = "SELECT oi.id, oi.orderId, p.productName, oi.quantity, oi.unitPrice, oi.discount " +
+                "FROM orderitem oi " +
+                "INNER JOIN products p ON oi.productId = p.id " +
+                "WHERE oi.orderId = ?";
+
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, id);
+                ps.setInt(1, orderId);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     AOrderItem orderItem = new AOrderItem();
@@ -60,11 +64,12 @@ public class AOrderDao {
                     orderItems.put(orderItem.getId(), orderItem);
                 }
             } catch (Exception e) {
-                System.out.println("Loi khi lay danh sach chi tiet don hang: " + e.getMessage());
+                System.out.println("Lỗi khi lấy danh sách chi tiết đơn hàng: " + e.getMessage());
             }
             return orderItems;
         });
     }
+
 
     public boolean update(Object obj, Integer id) {
         return JDBIConnector.get().withHandle(h -> {

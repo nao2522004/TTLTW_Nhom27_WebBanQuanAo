@@ -7,9 +7,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrderItem;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProductDetails;
 import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AOrderService;
-import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AProductService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,14 +29,14 @@ public class ManagerOrderDetails extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String productId = request.getParameter("id");
+        String orderid = request.getParameter("orderId");
 
-        if (productId != null && !productId.isEmpty()) {
+        if (orderid != null && !orderid.isEmpty()) {
             try {
-                int id = Integer.parseInt(productId);
+                int orderId = Integer.parseInt(orderid);
 
                 // Lấy chi tiết sản phẩm theo ID
-                Map<Integer, AOrderItem> orderItemMap = orderItemService.showOrderItem(id);
+                Map<Integer, AOrderItem> orderItemMap = orderItemService.showOrderItem(orderId);
                 List<AOrderItem> productDetailList = new ArrayList<>(orderItemMap.values());
 
                 Gson gson = new Gson();
