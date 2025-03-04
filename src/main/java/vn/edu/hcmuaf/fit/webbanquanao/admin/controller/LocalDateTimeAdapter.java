@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

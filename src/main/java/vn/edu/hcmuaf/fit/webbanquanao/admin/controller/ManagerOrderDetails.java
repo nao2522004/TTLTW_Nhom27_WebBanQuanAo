@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -6,8 +6,8 @@ import com.google.gson.JsonParseException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrderItem;
-import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AOrderService;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrderItem;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AOrderService;
 
 import java.io.BufferedReader;
 import java.io.IOException;

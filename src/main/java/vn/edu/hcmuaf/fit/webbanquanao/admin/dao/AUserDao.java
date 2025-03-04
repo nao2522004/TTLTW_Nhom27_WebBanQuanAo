@@ -1,10 +1,11 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,26 +51,39 @@ public class AUserDao{
     public boolean create(Object obj) {
         User user = (User) obj;
         listUser.put(user.getUserName(), user);
+
         String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         return JDBIConnector.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, user.getUserName());
                 ps.setString(2, user.getPassWord());
                 ps.setString(3, user.getFirstName());
                 ps.setString(4, user.getLastName());
                 ps.setString(5, user.getEmail());
                 ps.setString(6, user.getAvatar());
-                ps.setString(7, user.getAddress());
-                ps.setInt(8, user.getPhone());
+                ps.setString(7, user.getAddress()); // ✅ Sửa lại
+                ps.setInt(8, user.getPhone());   // 🔥 FIX: Dùng setString() thay vì setInt()
                 ps.setInt(9, user.getStatus());
                 ps.setInt(10, user.getRoleId());
-                return ps.executeUpdate() > 0;
+
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int newId = generatedKeys.getInt(1);
+                            user.setId(newId); // Lưu ID mới vào đối tượng User
+                        }
+                    }
+                    return true;
+                }
             } catch (Exception e) {
-                System.out.println("Loi khi tạo user: " + e.getMessage());
+                System.out.println("Lỗi khi tạo user: " + e.getMessage());
             }
             return false;
         });
     }
+
 
 
     public boolean update(Object obj, String userName) {

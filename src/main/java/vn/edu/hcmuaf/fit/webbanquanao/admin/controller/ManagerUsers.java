@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
 
 import com.google.gson.*;
 import jakarta.servlet.*;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AUserService;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
 public class ManagerUsers extends HttpServlet {

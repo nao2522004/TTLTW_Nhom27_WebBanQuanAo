@@ -1,8 +1,6 @@
-package vn.edu.hcmuaf.fit.webbanquanao.service.adminService;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AUserDao;
-import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
 
 import java.util.Map;
 

@@ -1,8 +1,8 @@
-package vn.edu.hcmuaf.fit.webbanquanao.service.adminService;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AOrderDao;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrder;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrderItem;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AOrderDao;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrderItem;
 
 import java.util.Map;
 
@@ -40,7 +40,8 @@ public class AOrderService {
     public static void main(String[] args) {
         AOrderService a = new AOrderService();
 
-        System.out.println(a.showOrderItem(7));
+        System.out.println(a.deleteOrder(17));
+
     }
 
 }

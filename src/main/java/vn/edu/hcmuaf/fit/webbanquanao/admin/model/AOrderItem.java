@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 
 public class AOrderItem {
     private Integer id;

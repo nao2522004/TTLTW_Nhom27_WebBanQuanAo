@@ -16,8 +16,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet"/>
     <!-- CSS native -->
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="admin/css/admin.css">
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
@@ -1239,15 +1239,16 @@
 <%--    </div>--%>
 </div>
 
-<script src="./assets/js/admin-data/recent-order-data.js"></script>
-<script src="./assets/js/admin-data/sales-analytics-data.js"></script>
-<script src="./assets/js/admin-data/update-data.js"></script>
-<script src="./assets/js/admin-data/user-data.js"></script>
-<script src="./assets/js/admin-data/product-data.js"></script>
-<script src="./assets/js/admin-data/order-data.js"></script>
-<script src="./assets/js/admin-data/order-details-data.js"></script>
-<script src="./assets/js/admin-data/others-data.js"></script>
-<script src="./assets/js/admin.js"></script>
+<script src="assets/js/admin-data/recent-order-data.js"></script>
+<script src="assets/js/admin-data/sales-analytics-data.js"></script>
+<script src="assets/js/admin-data/update-data.js"></script>
+
+<%-- JS --%>
+<script src="admin/js/admin.js"></script>
+<script src="admin/js/orders.js"></script>
+<script src="admin/js/orderDetails.js"></script>
+<script src="admin/js/users.js"></script>
+<script src="admin/js/products.js"></script>
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

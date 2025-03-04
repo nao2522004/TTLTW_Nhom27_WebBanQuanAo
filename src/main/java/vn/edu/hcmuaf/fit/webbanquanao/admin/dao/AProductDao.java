@@ -1,11 +1,12 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProductDetails;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProductDetails;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -73,9 +74,9 @@ public class AProductDao {
     public boolean create(Object obj) {
         return JDBIConnector.get().withHandle(h -> {
             AProduct product = (AProduct) obj;
-            listProduct.put(product.getId(), product);
             String sql = "INSERT INTO products(typeId, categoryId, supplierId, productName, description, releaseDate, unitSold, unitPrice, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setInt(1, product.getTypeId());
                 ps.setInt(2, product.getCategoryId());
                 ps.setInt(3, product.getSupplierId());
@@ -85,13 +86,25 @@ public class AProductDao {
                 ps.setInt(7, product.getUnitSold());
                 ps.setDouble(8, product.getUnitPrice());
                 ps.setBoolean(9, product.isStatus());
-                return ps.executeUpdate() > 0;
+
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int newId = generatedKeys.getInt(1);
+                            product.setId(newId);
+                            listProduct.put(newId, product); // Cập nhật danh sách sản phẩm trong bộ nhớ
+                        }
+                    }
+                    return true;
+                }
             } catch (Exception e) {
-                System.out.println("Loi khi them product: " + e.getMessage());
+                System.out.println("Lỗi khi thêm sản phẩm: " + e.getMessage());
             }
             return false;
         });
     }
+
 
     public boolean createProductDetails(Object obj) {
         return JDBIConnector.get().withHandle(h -> {

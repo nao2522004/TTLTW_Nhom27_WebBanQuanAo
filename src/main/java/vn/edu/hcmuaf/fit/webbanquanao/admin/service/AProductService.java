@@ -1,11 +1,10 @@
-package vn.edu.hcmuaf.fit.webbanquanao.service.adminService;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
-import vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO.AProductDao;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProduct;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AProductDetails;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AProductDao;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProductDetails;
 
 
-import java.sql.Date;
 import java.util.Map;
 
 public class AProductService {

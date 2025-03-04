@@ -1,8 +1,8 @@
-package vn.edu.hcmuaf.fit.webbanquanao.dao.adminDAO;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrder;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrderItem;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrderItem;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

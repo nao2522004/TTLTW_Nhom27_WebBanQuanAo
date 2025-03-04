@@ -1,11 +1,11 @@
-package vn.edu.hcmuaf.fit.webbanquanao.controller.adminController;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
 
 import com.google.gson.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.model.modelAdmin.AOrder;
-import vn.edu.hcmuaf.fit.webbanquanao.service.adminService.AOrderService;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AOrderService;
 
 import java.io.*;
 import java.time.LocalDateTime;
