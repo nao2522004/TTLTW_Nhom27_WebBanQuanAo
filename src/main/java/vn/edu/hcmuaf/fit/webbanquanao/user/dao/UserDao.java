@@ -10,14 +10,50 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class UserDao {
 
     JDBIConnector dbConnect;
 
+    public Map<String, User> listUser;
+
     public UserDao() {
         dbConnect = new JDBIConnector();
+        listUser = getAllUser();
     }
+
+    public Map<String, User> getAllUser() {
+        Map<String, User> users = new LinkedHashMap<>();
+        String sql = "SELECT * FROM users ORDER BY id DESC";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUserName(rs.getString("userName"));
+                    user.setPassWord(rs.getString("passWord"));
+                    user.setFirstName(rs.getString("firstName"));
+                    user.setLastName(rs.getString("lastName"));
+                    user.setEmail(rs.getString("email"));
+                    user.setAvatar(rs.getString("avatar"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getInt("phone"));
+                    user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                    user.setStatus(rs.getInt("status"));
+                    user.setRoleId(rs.getInt("roleId"));
+                    users.put(user.getUserName(), user);
+                }
+            } catch (Exception e) {
+                System.out.println("Loi khi lay danh sach user: " + e.getMessage());
+            }
+            return users;
+        });
+    }
+
     // Đăng ký người dùng mới (mã hóa mật khẩu)
     public boolean registerUser(User user) {
         String sql = "INSERT INTO users (avatar, password, fullName, gmail, phone, address, notificationCheck, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -108,6 +144,7 @@ public class UserDao {
             return null; // Trả về null nếu không tìm thấy hoặc xảy ra lỗi
         });
     }
+
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
@@ -146,6 +183,40 @@ public class UserDao {
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println(e);
+            }
+            return null;
+        });
+    }
+
+    // Đổi mật khẩu trong trang cá nhân
+    public boolean changePassword(String userName, String passWord) {
+        return JDBIConnector.get().withHandle(handle -> {
+            String sql = "UPDATE users SET passWord = ? WHERE userName = ?";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, passWord);
+                ps.setString(2, userName);
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu có ít nhất 1 hàng được cập nhật
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false; // Trả về false nếu có lỗi
+            }
+        });
+    }
+
+    public String getPassWordByUserName(String userName) {
+        String sql = "SELECT passWord FROM users WHERE userName = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getString("passWord");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             return null;
         });
