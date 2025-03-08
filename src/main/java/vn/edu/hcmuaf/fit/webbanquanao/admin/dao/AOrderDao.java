@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrderItem;
 

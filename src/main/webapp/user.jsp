@@ -1,4 +1,4 @@
-<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.model.User" %>
+<%@ page import="vn.edu.hcmuaf.fit.webbanquanao.user.model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">

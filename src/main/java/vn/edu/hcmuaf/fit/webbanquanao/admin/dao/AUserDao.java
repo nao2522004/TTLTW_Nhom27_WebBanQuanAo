@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
-import vn.edu.hcmuaf.fit.webbanquanao.db.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
 public class ManagerUsers extends HttpServlet {
@@ -27,7 +28,7 @@ public class ManagerUsers extends HttpServlet {
         // Kiểm tra xem có tham số 'username' hay không
         if (username != null && !username.isEmpty()) {
             // Nếu có username, tìm người dùng theo username
-            vn.edu.hcmuaf.fit.webbanquanao.model.User user = userService.getUserByUsername(username);
+            User user = userService.getUserByUsername(username);
             if (user != null) {
                 // Tạo Gson với TypeAdapter cho LocalDateTime
                 Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
@@ -46,8 +47,8 @@ public class ManagerUsers extends HttpServlet {
             }
         } else {
             // Nếu không có 'username', trả về tất cả người dùng
-            Map<String, vn.edu.hcmuaf.fit.webbanquanao.model.User> users = userService.showUser();
-            List<vn.edu.hcmuaf.fit.webbanquanao.model.User> userList = users.values().stream().collect(Collectors.toList());
+            Map<String, User> users = userService.showUser();
+            List<User> userList = users.values().stream().collect(Collectors.toList());
 
             // Tạo Gson với TypeAdapter cho LocalDateTime
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
@@ -82,7 +83,7 @@ public class ManagerUsers extends HttpServlet {
 
             // Parse JSON thành đối tượng User
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-            vn.edu.hcmuaf.fit.webbanquanao.model.User user = gson.fromJson(json, vn.edu.hcmuaf.fit.webbanquanao.model.User.class);
+            User user = gson.fromJson(json, User.class);
 
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
             if (user.getUserName() == null || user.getPassWord() == null) {
@@ -138,7 +139,7 @@ public class ManagerUsers extends HttpServlet {
             System.out.println("JSON body received: " + json);
             // Parse JSON
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-            vn.edu.hcmuaf.fit.webbanquanao.model.User user = gson.fromJson(json, vn.edu.hcmuaf.fit.webbanquanao.model.User.class);
+            User user = gson.fromJson(json, User.class);
             // Log user nhận được
             System.out.println("User received: " + user);
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null

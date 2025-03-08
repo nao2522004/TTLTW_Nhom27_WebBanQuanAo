@@ -1,30 +1,31 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.util.Map;
 
 
 public class AUserService {
 
-    public Map<String, vn.edu.hcmuaf.fit.webbanquanao.model.User> showUser() {
+    public Map<String, User> showUser() {
         AUserDao uDao = new AUserDao();
         return uDao.listUser;
     }
 
-    public boolean updateUser(vn.edu.hcmuaf.fit.webbanquanao.model.User user, String userName) {
+    public boolean updateUser(User user, String userName) {
         AUserDao uDao = new AUserDao();
         return uDao.update(user, getUserByUsername(userName).getUserName());
     }
 
-    public boolean createUser(vn.edu.hcmuaf.fit.webbanquanao.model.User user) {
+    public boolean createUser(User user) {
         AUserDao uDao = new AUserDao();
         if(uDao.listUser.containsKey(user.getUserName()))
             return false;
         return uDao.create(user);
     }
 
-    public vn.edu.hcmuaf.fit.webbanquanao.model.User getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         AUserDao uDao = new AUserDao();
         if(!uDao.listUser.containsKey(username))
             return null;
