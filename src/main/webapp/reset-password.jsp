@@ -39,10 +39,6 @@
             <form action="ResetPassword" method="POST">
                 <h1>Xác Nhận Lại Mật Khẩu</h1>
                 <div class="input-box">
-                    <input type="email" name="email" value="${email}" placeholder="Email" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="input-box">
                     <input type="password" name="newPassword" id="newPassword" placeholder="Mật Khẩu Mới" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
@@ -87,6 +83,25 @@
 
     <!-- base js -->
     <script src="./assets/js/base.js"></script>
+
+    <script>
+        document.getElementById("password").addEventListener("input", function() {
+            var password = this.value;
+            var strength = document.getElementById("password-strength");
+
+            if (password.length < 6) {
+                strength.innerHTML = "Mật khẩu quá yếu!";
+                strength.style.color = "red";
+            } else if (password.match(/[A-Z]/) && password.match(/[0-9]/) && password.length >= 8) {
+                strength.innerHTML = "Mật khẩu mạnh!";
+                strength.style.color = "green";
+            } else {
+                strength.innerHTML = "Mật khẩu trung bình.";
+                strength.style.color = "orange";
+            }
+        });
+    </script>
+
 </body>
 
 </html>
