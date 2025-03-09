@@ -40,7 +40,7 @@ public class AOrderService {
     public static void main(String[] args) {
         AOrderService a = new AOrderService();
 
-        System.out.println(a.deleteOrder(17));
+        System.out.println(a.showOrders());
 
     }
 

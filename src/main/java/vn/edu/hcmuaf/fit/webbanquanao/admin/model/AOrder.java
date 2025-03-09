@@ -10,12 +10,12 @@ public class AOrder implements Serializable {
     String code;
     LocalDateTime orderDate;
     double totalPrice;
-    boolean status;
+    Integer status;
 
     public AOrder() {
     }
 
-    public AOrder(Integer id, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, boolean status) {
+    public AOrder(Integer id, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, Integer status) {
         this.id = id;
         this.firstName = firstName;
         this.paymentMethod = paymentMethod;
@@ -49,7 +49,7 @@ public class AOrder implements Serializable {
         return totalPrice;
     }
 
-    public boolean isStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -77,7 +77,7 @@ public class AOrder implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -32,7 +32,7 @@ public class AOrderDao {
                     order.setCode(rs.getString("code"));
                     order.setOrderDate(rs.getTimestamp("orderDate").toLocalDateTime());
                     order.setTotalPrice(rs.getDouble("totalPrice"));
-                    order.setStatus(rs.getBoolean("status"));
+                    order.setStatus(rs.getInt("status"));
                     orders.put(order.getId(), order);
                 }
             } catch (Exception e) {
@@ -82,7 +82,7 @@ public class AOrderDao {
                 ps.setString(3, order.getCode());
                 ps.setDate(4, java.sql.Date.valueOf(order.getOrderDate().toLocalDate()));
                 ps.setDouble(5, order.getTotalPrice());
-                ps.setBoolean(6, order.isStatus());
+                ps.setInt(6, order.getStatus());
                 ps.setInt(7, id);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {

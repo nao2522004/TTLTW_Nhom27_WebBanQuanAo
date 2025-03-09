@@ -6,7 +6,7 @@
 ---------------------------------------------------------
 ----------------------------------------------------------*/
 
-// ===============Recent_oder_data===============//
+// ===============Recent_order_data===============//
 // Lấy danh sách đơn hàng từ server và khởi tạo DataTables
 function fetchOrders() {
     $.ajax({
@@ -41,9 +41,24 @@ function fetchOrders() {
         },
         error: function (xhr, status, error) {
             console.error('Error fetching orders:', error);
-            alert("Failed to fetch orders. Please try again later.");
+            alert("Không thể lấy danh sách đơn hàng. Vui lòng thử lại.");
         }
     });
+}
+
+// Hàm chuyển đổi status từ số sang chuỗi tiếng Việt
+function getStatusText(status) {
+    const statusMap = {
+        0: "Chờ xử lý",
+        1: "Đang xử lý",
+        2: "Đã gửi hàng",
+        3: "Đã giao hàng",
+        4: "Đã hủy",
+        5: "Đã hoàn tiền",
+        6: "Thất bại",
+        7: "Tạm dừng"
+    };
+    return statusMap[status] || "Không xác định";
 }
 
 // Tạo tbody từ danh sách đơn hàng
@@ -58,7 +73,7 @@ const buildTableOrders = (orders) => {
                 <td>${order.code}</td>
                 <td>${order.orderDate}</td>
                 <td>${order.totalPrice} VND</td>
-                <td>${order.status === true ? 'Đã Giao Hàng' : 'Chưa Xử Lý'}</td>
+                <td>${getStatusText(order.status)}</td> <!-- Hiển thị trạng thái bằng tiếng Việt -->
                 <td class="primary">
                     <span onclick="openEditOrderPopup(event)" class="material-icons-sharp" data-orderId="${order.id}"> edit </span>
                     <span onclick="deleteOrder(event)" class="material-icons-sharp" data-orderId="${order.id}">delete</span>
@@ -69,6 +84,7 @@ const buildTableOrders = (orders) => {
     }
     return `<tbody>${orderContent}</tbody>`;
 };
+
 // Khi DOM load, gọi fetchOrders để tải dữ liệu và khởi tạo DataTables
 document.addEventListener('DOMContentLoaded', fetchOrders);
 
@@ -83,6 +99,7 @@ function deleteOrder(event) {
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify({ id: orderId }), // Gửi ID đơn hàng dưới dạng JSON
+            cache: false,
             success: function (response) {
                 alert(response.message || "Xóa đơn hàng thành công!");
                 fetchOrders(); // Refresh danh sách đơn hàng sau khi xóa
@@ -98,7 +115,7 @@ function deleteOrder(event) {
 
 // Mở popup chỉnh sửa đơn hàng
 function openEditOrderPopup(event) {
-    const orderId = event.target.getAttribute("data-orderId");  // Lấy id đơn hàng từ thuộc tính data-order-id
+    const orderId = event.target.getAttribute("data-orderId");  // Lấy id đơn hàng từ thuộc tính data-orderId
 
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");
@@ -107,7 +124,9 @@ function openEditOrderPopup(event) {
     // Gửi yêu cầu AJAX để lấy dữ liệu đơn hàng theo id
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-orders', // Đảm bảo URL này khớp với mapping của servlet
-        type: 'GET', data: {id: orderId},  // Gửi id dưới dạng tham số truy vấn
+        type: 'GET',
+        data: {id: orderId},  // Gửi id dưới dạng tham số truy vấn
+        cache: false,
         success: function (data) {
             // Điền dữ liệu đơn hàng vào các trường trong form
             document.getElementById("edit-idOrder").value = data.id;
@@ -116,7 +135,9 @@ function openEditOrderPopup(event) {
             document.getElementById("edit-code").value = data.code;
             document.getElementById("edit-orderDate").value = data.orderDate;
             document.getElementById("edit-totalPrice").value = data.totalPrice;
-            document.getElementById("edit-statusOrder").value = data.status ? 'true' : 'false';
+
+            // Gán giá trị status vào select dropdown
+            document.getElementById("edit-statusOrder").value = data.status;
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu đơn hàng:", error);
@@ -124,6 +145,7 @@ function openEditOrderPopup(event) {
         }
     });
 }
+
 
 // Lưu chỉnh sửa đơn hàng
 function saveOrderEdits(event) {
@@ -138,7 +160,7 @@ function saveOrderEdits(event) {
         code: document.getElementById("edit-code").value,
         orderDate: new Date(document.getElementById("edit-orderDate").value).toISOString(),
         totalPrice: parseFloat(document.getElementById("edit-totalPrice").value),
-        status: document.getElementById("edit-statusOrder").value === "true",
+        status: parseInt(document.getElementById("edit-statusOrder").value), // Chuyển đổi sang số nguyên
     };
 
     // Chuyển đổi đối tượng `order` thành JSON
@@ -153,6 +175,7 @@ function saveOrderEdits(event) {
         type: 'PUT',
         contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
         data: orderJson, // Gửi JSON object
+        cache: false,
         success: function (response) {
             alert("Cập nhật thông tin đơn hàng thành công!");
             fetchOrders(); // Tải lại danh sách đơn hàng

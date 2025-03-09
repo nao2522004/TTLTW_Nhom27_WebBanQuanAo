@@ -218,14 +218,27 @@
                         <tr>
                             <td><input type="number" name="id" id="edit-idOrder" readonly></td>
                             <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
-                            <td><input type="text" name="paymentMethod" id="edit-paymentMethod" required></td>
+                            <td>
+                                <select name="paymentMethod" id="edit-paymentMethod" required>
+                                    <option value="1">Tiền mặt</option>
+                                    <option value="2">Chuyển khoản</option>
+                                    <option value="3">Thẻ tín dụng</option>
+                                </select>
+                            </td>
+
                             <td><input type="text" name="code" id="edit-code"></td>
                             <td><input type="datetime-local" name="orderDate" id="edit-orderDate" required></td>
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
                                 <select name="status" id="edit-statusOrder" required>
-                                    <option value="true">Đã giao hàng</option>
-                                    <option value="false">Chưa Xử Lý</option>
+                                    <option value="0">Chờ xử lý</option>
+                                    <option value="1">Đang xử lý</option>
+                                    <option value="2">Đã gửi hàng</option>
+                                    <option value="3">Đã giao hàng</option>
+                                    <option value="4">Đã hủy</option>
+                                    <option value="5">Đã hoàn tiền</option>
+                                    <option value="6">Thất bại</option>
+                                    <option value="7">Tạm dừng</option>
                                 </select>
                             </td>
                             <td><span type="submit" onclick="saveOrderEdits(event)" class="primary material-icons-sharp">save</span></td>
