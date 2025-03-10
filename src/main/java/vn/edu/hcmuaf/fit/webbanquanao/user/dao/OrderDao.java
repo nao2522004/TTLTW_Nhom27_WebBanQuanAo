@@ -2,12 +2,11 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.Order;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.OrderDetail;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class OrderDao {
 
@@ -45,18 +44,29 @@ public class OrderDao {
     }
 
     public Map<Integer, Order> getAllOrdersByUserName(String userName) {
-        Map<Integer, Order> orders = new HashMap<Integer, Order>();
-        String sql = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" +
-                "from orders o\n" +
-                "INNER JOIN payments p on o.paymentId = p.id\n" +
-                "INNER JOIN coupons c on o.couponId = c.id\n" +
-                "INNER JOIN users u on o.userId = u.id\n" +
+        Map<Integer, Order> orders = new HashMap<>();
+
+        // Lấy danh sách đơn hàng
+        String sqlOrders = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status " +
+                "FROM orders o " +
+                "INNER JOIN payments p ON o.paymentId = p.id " +
+                "INNER JOIN coupons c ON o.couponId = c.id " +
+                "INNER JOIN users u ON o.userId = u.id " +
                 "WHERE u.userName = ?";
 
+        // Lấy danh sách order item
+        String sqlOrderItems = "SELECT oi.id, oi.orderId, p.productName, pd.color, pd.size, " +
+                "oi.quantity, oi.unitPrice, oi.discount " +
+                "FROM orderitem oi " +
+                "INNER JOIN products p ON oi.productId = p.id " +
+                "INNER JOIN product_details pd ON oi.productDetailId = pd.id " +
+                "WHERE oi.orderId = ?";
+
         return JDBIConnector.get().withHandle(h -> {
-            try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement ps = h.getConnection().prepareStatement(sqlOrders)) {
                 ps.setString(1, userName);
                 ResultSet rs = ps.executeQuery();
+
                 while (rs.next()) {
                     Order order = new Order();
                     order.setId(rs.getInt("id"));
@@ -66,12 +76,36 @@ public class OrderDao {
                     order.setOrderDate(rs.getTimestamp("orderDate").toLocalDateTime());
                     order.setTotalPrice(rs.getDouble("totalPrice"));
                     order.setStatus(rs.getInt("status"));
+
+                    // Lấy danh sách order items cho order này
+                    try (PreparedStatement psItems = h.getConnection().prepareStatement(sqlOrderItems)) {
+                        psItems.setInt(1, order.getId());
+                        ResultSet rsItems = psItems.executeQuery();
+
+                        List<OrderDetail> orderItems = new ArrayList<>();
+                        while (rsItems.next()) {
+                            OrderDetail item = new OrderDetail();
+                            item.setId(rsItems.getInt("id"));
+                            item.setOrderId(rsItems.getInt("orderId"));
+                            item.setProductName(rsItems.getString("productName"));
+                            item.setColor(rsItems.getString("color"));
+                            item.setSize(rsItems.getString("size"));
+                            item.setQuantity(rsItems.getInt("quantity"));
+                            item.setUnitPrice(rsItems.getDouble("unitPrice"));
+                            item.setDiscount(rsItems.getDouble("discount"));
+
+                            orderItems.add(item);
+                        }
+                        order.setOrderDetails(orderItems); // Thêm danh sách OrderItem vào Order
+                    }
+
                     orders.put(order.getId(), order);
                 }
             } catch (Exception e) {
-                System.out.println("Loi khi lay danh sach don hang: " + e.getMessage());
+                System.out.println("Lỗi khi lấy danh sách đơn hàng: " + e.getMessage());
             }
             return orders;
         });
     }
+
 }
