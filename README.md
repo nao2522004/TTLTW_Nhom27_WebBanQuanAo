@@ -1,4 +1,4 @@
-# LTW_Nhom13_WebBanQuanAo.
+# TTLTW_Nhom27_WebBanQuanAo.
 
 <table>
 <tbody>
@@ -16,6 +16,3 @@
 </tr>
 </tbody>
 </table>
-
-Dự án web bán quần áo được thực hiện bằng ngôn ngữ Html, css, javascript, java  
-[URL đến trang web](https://nao2522004.github.io/LTW_Nhom13_WebBanQuanAo./index.html)
