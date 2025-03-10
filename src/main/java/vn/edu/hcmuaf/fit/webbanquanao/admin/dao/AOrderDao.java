@@ -44,9 +44,10 @@ public class AOrderDao {
 
     public Map<Integer, AOrderItem> getAllOrderItems(Integer orderId) {
         Map<Integer, AOrderItem> orderItems = new LinkedHashMap<>();
-        String sql = "SELECT oi.id, oi.orderId, p.productName, oi.quantity, oi.unitPrice, oi.discount " +
+        String sql = "SELECT oi.id, oi.orderId, p.productName, pd.color, pd.size, oi.quantity, oi.unitPrice, oi.discount " +
                 "FROM orderitem oi " +
                 "INNER JOIN products p ON oi.productId = p.id " +
+                "INNER JOIN product_details pd on oi.productDetailId = pd.id " +
                 "WHERE oi.orderId = ?";
 
         return JDBIConnector.get().withHandle(h -> {
@@ -58,6 +59,8 @@ public class AOrderDao {
                     orderItem.setId(rs.getInt("id"));
                     orderItem.setOrderId(rs.getInt("orderId"));
                     orderItem.setProductName(rs.getString("productName"));
+                    orderItem.setColor(rs.getString("color"));
+                    orderItem.setSize(rs.getString("size"));
                     orderItem.setQuantity(rs.getInt("quantity"));
                     orderItem.setUnitPrice(rs.getDouble("unitPrice"));
                     orderItem.setDiscount(rs.getDouble("discount"));

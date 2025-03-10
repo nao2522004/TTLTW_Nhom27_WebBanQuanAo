@@ -18,6 +18,7 @@ function openOrderItemDetails(event) {
         url: '/WebBanQuanAo/admin/manager-orderDetails',
         type: 'GET',
         data: {orderId: orderId},
+        cache: false,
         success: function (data) {
             console.log(JSON.stringify(data)); // In ra dữ liệu nhận được từ server
 
@@ -31,6 +32,8 @@ function openOrderItemDetails(event) {
                         <td><input type="number" value="${orderItem.id}" data-field="id" disabled></td>
                         <td><input type="number" value="${orderItem.orderId}" data-field="orderId" disabled></td>
                         <td><input type="text" value="${orderItem.productName}" data-field="productName" disabled></td>
+                        <td><input type="text" value="${orderItem.color}" data-field="color" disabled></td>
+                        <td><input type="text" value="${orderItem.size}" data-field="size" disabled></td>
                         <td><input type="number" value="${orderItem.quantity}" class="editable" data-id="${orderItem.id}" data-field="quantity"></td>
                         <td><input type="number" value="${orderItem.unitPrice}" class="editable" data-id="${orderItem.id}" data-field="unitPrice"></td>
                         <td><input type="number" value="${orderItem.discount}" class="editable" data-id="${orderItem.id}" data-field="discount"></td>
@@ -72,6 +75,8 @@ function saveOrderItemEdits(event) {
         id: parseInt(row.querySelector("input[data-field='id']").value),
         orderId: parseInt(row.querySelector("input[data-field='orderId']").value),
         productName: row.querySelector("input[data-field='productName']").value,
+        color: row.querySelector("input[data-field='color']").value,
+        size: row.querySelector("input[data-field='size']").value,
         quantity: parseInt(row.querySelector("input[data-field='quantity']").value),
         unitPrice: parseFloat(row.querySelector("input[data-field='unitPrice']").value),
         discount: parseFloat(row.querySelector("input[data-field='discount']").value)
@@ -91,6 +96,7 @@ function saveOrderItemEdits(event) {
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(orderItemDetail),
+        cache: false,
         success: function (response) {
             alert("Cập nhật chi tiết đơn hàng thành công!");
             // Thêm logic cập nhật giao diện nếu cần thiết

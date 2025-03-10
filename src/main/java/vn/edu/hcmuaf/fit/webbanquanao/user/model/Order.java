@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Order implements Serializable {
     Integer id;
@@ -12,11 +13,12 @@ public class Order implements Serializable {
     LocalDateTime orderDate;
     double totalPrice;
     Integer status;
+    List<OrderDetail> orderDetails;
 
     public Order() {
     }
 
-    public Order(Integer id,String userName, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, Integer status) {
+    public Order(Integer id,String userName, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, Integer status, List<OrderDetail> orderDetails) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -25,6 +27,7 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.orderDetails = orderDetails;
     }
 
 
@@ -92,16 +95,26 @@ public class Order implements Serializable {
         this.status = status;
     }
 
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", code='" + code + '\'' +
                 ", orderDate=" + orderDate +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
+                ", orderDetails=" + orderDetails +
                 '}';
     }
 }
