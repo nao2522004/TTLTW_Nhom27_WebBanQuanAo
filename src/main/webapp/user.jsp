@@ -115,60 +115,16 @@
         </main>
 
 
-        <!-- Order History -->
+        <!-- Lịch sử đơn hàng -->
         <main id="order-container" class="col-md-9 p-4 bg-white rounded">
             <!-- Header -->
             <div id="order-header" class="d-flex justify-content-between align-items-center mb-4">
-                <h4 id="order-title" class="text-second-color">Lịch sử đơn hàng</h4>
-                <a href="return-policy.jsp" id="order-policy" class="btn">Chính sách đổi trả 30 ngày</a>
+                <h4 class="text-second-color">Lịch sử đơn hàng</h4>
+                <a href="return-policy.jsp" class="btn">Chính sách đổi trả 30 ngày</a>
             </div>
 
-            <!-- Order Example -->
-            <div id="order-12345" class="order-card bg-light p-4 rounded mb-4">
-                <!-- Order Info -->
-                <div id="order-info" class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 id="order-id" class="text-second-color">Đơn hàng #12345</h5>
-                        <p id="order-date" class="text-muted">Ngày đặt: 01/12/2024</p>
-                        <p id="order-status" class="text-muted">
-                            Trạng thái: <strong class="text-warning">Đang giao</strong>
-                        </p>
-                    </div>
-                    <div>
-                        <button id="order-cancel-btn" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
-                    </div>
-                </div>
-                <hr>
-                <!-- Product List -->
-                <ul id="order-product-list" class="list-group">
-                    <!-- Product 1 -->
-                    <li id="order-product-item-1"
-                        class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <img src="assets/imgs/Collection-running/epitem2.webp" alt="Sản phẩm 1"
-                                 class="order-product-img rounded mr-3">
-                            <div>
-                                <h6 id="product-name" class="mb-1">Sản phẩm 1</h6>
-                                <p id="product-qty" class="text-muted mb-0">Số lượng: 1</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p id="product-old-price" class="mb-1"><s>300.000đ</s></p>
-                            <p id="product-new-price" class="text-danger mb-0"><strong>200.000đ</strong></p>
-                        </div>
-                    </li>
-                </ul>
-                <!-- Shipping Fee & Total -->
-                <hr>
-                <div id="order-fee" class="d-flex justify-content-between">
-                    <p class="text-muted mb-0">Phí ship:</p>
-                    <p class="text-muted mb-0">50.000đ</p>
-                </div>
-                <div id="order-total-section" class="d-flex justify-content-between">
-                    <p class="font-weight-bold mb-0">Tổng cộng:</p>
-                    <p class="font-weight-bold mb-0" style="color: var(--second-color);">550.000đ</p>
-                </div>
-            </div>
+            <!-- Danh sách đơn hàng -->
+            <div id="order-list"></div>
         </main>
 
         <!-- Đánh giá và phản hồi -->
@@ -332,9 +288,6 @@
 
 <!-- Order history -->
 
-</div>
-
-
 <footer id="footer">
     <%@ include file="assets/includes/footer.jsp" %>
 </footer>
@@ -344,6 +297,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
 <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
+<script src="./user/js/orders-history.js"></script>
 
 
 <!-- base js -->
