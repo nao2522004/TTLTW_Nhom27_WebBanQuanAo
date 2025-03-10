@@ -119,8 +119,8 @@
         <main id="order-container" class="col-md-9 p-4 bg-white rounded">
             <!-- Header -->
             <div id="order-header" class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="text-second-color">Lịch sử đơn hàng</h4>
-                <a href="return-policy.jsp" class="btn">Chính sách đổi trả 30 ngày</a>
+                <h4 id="order-title" class="text-second-color">Lịch sử đơn hàng</h4>
+                <a href="return-policy.jsp" id="order-policy" class="btn">Chính sách đổi trả 30 ngày</a>
             </div>
 
             <!-- Danh sách đơn hàng -->
