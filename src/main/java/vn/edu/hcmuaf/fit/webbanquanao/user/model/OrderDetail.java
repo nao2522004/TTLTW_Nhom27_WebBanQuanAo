@@ -1,28 +1,29 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
+package vn.edu.hcmuaf.fit.webbanquanao.user.model;
 
-public class AOrderItem {
+public class OrderDetail {
     private Integer id;
     private Integer orderId;
     private String productName;
+    private Integer quantity;
     private String color;
     private String size;
-    private Integer quantity;
     private double unitPrice;
     private double discount;
 
-    public AOrderItem() {
+    public OrderDetail() {
     }
 
-    public AOrderItem(Integer id, Integer orderId, String productName, String color, String size, Integer quantity, double unitPrice, double discount) {
+    public OrderDetail(Integer id, Integer orderId, String productName, Integer quantity, String color, String size, double unitPrice, double discount) {
         this.id = id;
         this.orderId = orderId;
         this.productName = productName;
+        this.quantity = quantity;
         this.color = color;
         this.size = size;
-        this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.discount = discount;
     }
+
 
     public Integer getId() {
         return id;
@@ -48,6 +49,14 @@ public class AOrderItem {
         this.productName = productName;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public String getColor() {
         return color;
     }
@@ -62,14 +71,6 @@ public class AOrderItem {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public double getUnitPrice() {
@@ -90,13 +91,13 @@ public class AOrderItem {
 
     @Override
     public String toString() {
-        return "AOrderItem{" +
+        return "OrderDetail{" +
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
                 ", color='" + color + '\'' +
                 ", size='" + size + '\'' +
-                ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 ", discount=" + discount +
                 '}';

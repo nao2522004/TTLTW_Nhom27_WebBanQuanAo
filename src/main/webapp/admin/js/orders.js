@@ -13,6 +13,7 @@ function fetchOrders() {
         url: '/WebBanQuanAo/admin/manager-orders', // Địa chỉ URL của API
         type: 'GET',
         dataType: 'json',
+        cache: false,
         success: function (orders) {
             const table = $("#recent-orders--table");
 

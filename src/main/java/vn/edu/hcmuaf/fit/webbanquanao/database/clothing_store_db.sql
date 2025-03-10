@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 02:00 PM
+-- Generation Time: Mar 10, 2025 at 02:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -195,21 +195,22 @@ CREATE TABLE `orderitem` (
   `productId` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `unitPrice` decimal(10,2) NOT NULL,
-  `discount` float NOT NULL DEFAULT 0
+  `discount` float NOT NULL DEFAULT 0,
+  `productDetailId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `orderitem`
 --
 
-INSERT INTO `orderitem` (`id`, `orderId`, `productId`, `quantity`, `unitPrice`, `discount`) VALUES
-(6, 10, 1, 3, 823650.00, 0.2),
-(7, 11, 2, 2, 560000.00, 0),
-(8, 11, 3, 1, 470000.00, 0),
-(9, 11, 4, 2, 980000.00, 0),
-(10, 12, 1, 1, 274550.00, 0),
-(11, 13, 1, 2, 549100.00, 0),
-(12, 13, 2, 5, 1400000.00, 0);
+INSERT INTO `orderitem` (`id`, `orderId`, `productId`, `quantity`, `unitPrice`, `discount`, `productDetailId`) VALUES
+(6, 10, 1, 3, 823650.00, 0.2, 1),
+(7, 11, 2, 2, 560000.00, 0, 7),
+(8, 11, 3, 1, 470000.00, 0, 13),
+(9, 11, 4, 2, 980000.00, 0, 21),
+(10, 12, 1, 1, 274550.00, 0, 1),
+(11, 13, 1, 2, 549100.00, 0, 1),
+(12, 13, 2, 5, 1400000.00, 0, 7);
 
 -- --------------------------------------------------------
 
@@ -232,10 +233,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`) VALUES
-(7, 2, 2, 2, '2025-01-16 00:00:00', 250000.00, 2),
+(7, 2, 2, 2, '2025-01-15 00:00:00', 250000.00, 2),
 (8, 3, 2, 2, '2025-01-16 00:00:00', 250000.00, 4),
 (10, 2, 1, 1, '2025-01-17 00:00:00', 823650.00, 0),
-(11, 2, 1, 1, '2025-01-17 00:00:00', 2010000.00, 0),
+(11, 2, 1, 1, '2025-01-16 00:00:00', 2010000.00, 0),
 (12, 1, 1, 1, '2025-01-16 00:00:00', 274550.00, 1),
 (13, 1, 1, 1, '2025-01-17 00:00:00', 1949100.00, 0);
 
@@ -508,6 +509,11 @@ INSERT INTO `sales_product` (`productId`, `saleId`) VALUES
 (2, 1),
 (3, 1),
 (4, 1),
+(5, 1),
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
 (5, 1);
 
 -- --------------------------------------------------------
@@ -664,7 +670,8 @@ ALTER TABLE `notifications`
 ALTER TABLE `orderitem`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `orderId` (`orderId`) USING BTREE,
-  ADD KEY `productId` (`productId`) USING BTREE;
+  ADD KEY `productId` (`productId`) USING BTREE,
+  ADD KEY `fk_orderitem_productDetail` (`productDetailId`);
 
 --
 -- Indexes for table `orders`
@@ -928,6 +935,7 @@ ALTER TABLE `notifications`
 -- Constraints for table `orderitem`
 --
 ALTER TABLE `orderitem`
+  ADD CONSTRAINT `fk_orderitem_productDetail` FOREIGN KEY (`productDetailId`) REFERENCES `product_details` (`id`),
   ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
 

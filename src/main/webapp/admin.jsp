@@ -180,7 +180,7 @@
                 <thead>
                 <tr>
                     <th>Mã</th>
-                    <th>Mã khách hàng</th>
+                    <th>Khách hàng</th>
                     <th>Thanh toán</th>
                     <th>Mã giảm giá </th>
                     <th>Ngày Tạo</th>
@@ -262,7 +262,9 @@
                         <tr>
                             <th>Mã</th>
                             <th>Mã đơn hàng</th>
-                            <th>Tên sản phẩm</th>
+                            <th>Sản phẩm</th>
+                            <th>Màu</th>
+                            <th>Kích cỡ</th>
                             <th>Số lượng</th>
                             <th>Đơn giá</th>
                             <th>Giảm giá</th>
