@@ -25,6 +25,82 @@
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/user.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
+
+    <style>
+        <%--css cho thanh search cua datable--%>
+
+        #order-table_filter{
+            display: flex;
+            justify-content: end;
+            position: relative;
+            bottom: 2.5rem;
+        }
+
+        #order-table_filter input {
+            padding: 0.5rem 1.5rem !important;
+            font-size: 1.4rem !important;
+            border: 2px solid #4A90E2 !important;
+            border-radius: 2rem !important;
+            outline: none !important;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+        }
+
+        /* Hiệu ứng khi focus vào ô tìm kiếm */
+        #order-table_filter input:focus {
+            border-color: #2C6CB0 !important;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.5) !important;
+        }
+
+        /* Tùy chỉnh nhãn 'Tìm kiếm:' */
+        #order-table_filter label {
+            font-size: 1.4rem !important;
+            font-weight: bold !important;
+            color: #333 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 1rem !important;
+        }
+
+        /* Css cho chon so luong hien thi */
+        #order-table_length{
+            margin-top: 2.5rem;
+        }
+
+        /* Tùy chỉnh phần select */
+        #order-table_length select {
+            padding: 0.6rem 1rem !important;
+            font-size: 1.4rem !important;
+            border: 2px solid #4A90E2 !important;
+            border-radius: 1.5rem !important;
+            outline: none !important;
+            background: #fff !important;
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+        }
+
+        /* Hiệu ứng khi focus vào select */
+        #order-table_length select:focus {
+            border-color: #2C6CB0 !important;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.5) !important;
+        }
+
+        /* Tùy chỉnh phần label */
+        #order-table_length label {
+            font-size: 1.4rem !important;
+            font-weight: bold !important; /
+            color: #333 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 1rem !important;
+        }
+
+        /* Tăng độ rộng của select */
+        #order-table_length select {
+            min-width: 8rem !important;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -34,7 +110,7 @@
 
 <div style="height: 12rem;"></div>
 
-<div class="container-fluid grid mt-5" style="position: relative;">
+<div class="container-fluid mt-5" style="position: relative; width: 1450px">
     <div class="row">
         <!-- Sidebar -->
         <div class="col-md-3 bg-light p-0 sidebar">
@@ -297,6 +373,10 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
 <script src="./assets/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
 <script src="./user/js/orders-history.js"></script>
 

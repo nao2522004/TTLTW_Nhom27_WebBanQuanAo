@@ -15,91 +15,82 @@ $(document).ready(function () {
                 return;
             }
 
-            let html = "";
+            // Sắp xếp đơn hàng theo ngày đặt hàng giảm dần (mới nhất lên đầu)
+            data.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+
+            let html = `<table id="order-table" class="table table-bordered" style="width: 100%; font-size: 1.4rem; text-align: center; vertical-align: middle;">`;
+            html += `<thead><tr>
+                <th>Đơn hàng</th>
+                <th>Ngày đặt</th>
+                <th>Thanh toán</th>
+                <th>Trạng thái</th>
+                <th>Sản phẩm</th>
+                <th>Tổng cộng</th>
+                <th>Hành động</th>
+            </tr></thead><tbody>`;
+
             data.forEach(order => {
+                const orderDate = new Date(order.orderDate);
+                const formattedDate = `${orderDate.getDate()}-${orderDate.getMonth() + 1}-${orderDate.getFullYear()}`;
+
+                let productHtml = "";
+                if (order.orderDetails && order.orderDetails.length > 0) {
+                    order.orderDetails.forEach(item => {
+                        productHtml += `
+                            <div class="d-flex align-items-center mb-2" style="text-align: left;">
+                                <img src="${item.imageUrl || 'assets/imgs/default.jpg'}" alt="${item.productName}"
+                                     class="order-product-img rounded mr-3" style="width: 80px; height: 80px;">
+                                <div>
+                                    <h3 style="font-size: 1.6rem;">${item.productName}</h3>
+                                    <p class="text-muted mb-0">Màu: ${item.color || 'Không rõ'}, Size: ${item.size || 'N/A'}</p>
+                                    <p class="text-muted mb-0">Số lượng: ${item.quantity}</p>
+                                    <p class="mb-1"><s>${item.unitPrice.toLocaleString()}đ</s></p>
+                                    <p class="text-danger mb-0"><strong>${(item.unitPrice - item.discount).toLocaleString()}đ</strong></p>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    productHtml = `<p>Không có sản phẩm nào.</p>`;
+                }
+
                 html += `
-                    <div class="order-card bg-light p-4 rounded mb-4">
-                        <!-- Thông tin đơn hàng -->
-                        <div id="order-info" class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h5 class="text-second-color">Đơn hàng #${order.id}</h5>
-                                <p class="text-muted">Khách hàng: ${order.firstName || 'Không rõ'}</p>
-                                <p class="text-muted">Ngày đặt: ${order.orderDate || 'N/A'}</p>
-                                <p class="text-muted">Thanh toán: ${order.paymentMethod || 'Không rõ'}</p>
-                                <p class="text-muted">
-                                    Trạng thái: 
-                                    <strong class="${order.status === 1 ? 'text-success' : 'text-warning'}">
-                                        ${order.status === 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}
-                                    </strong>
-                                </p>
-                            </div>
-                            <div>
-                                <button id="order-cancel-btn" class="btn btn-danger btn-sm" data-id="${order.id}">
-                                    Hủy đơn hàng
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- Danh sách sản phẩm (tĩnh, chưa có dữ liệu từ API) -->
-                        <ul id="order-product-list" class="list-group">
-                            <li id="order-product-item-1" class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <img src="assets/imgs/Collection-running/epitem2.webp" alt="Sản phẩm 1"
-                                         class="order-product-img rounded mr-3">
-                                    <div>
-                                        <h6 id="product-name" class="mb-1">Sản phẩm 1</h6>
-                                        <p id="product-qty" class="text-muted mb-0">Số lượng: 1</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p id="product-old-price" class="mb-1"><s>300.000đ</s></p>
-                                    <p id="product-new-price" class="text-danger mb-0"><strong>200.000đ</strong></p>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <hr>
-
-                        <!-- Phí ship & Tổng tiền -->
-                        <div id="order-fee" class="d-flex justify-content-between">
-                            <p class="text-muted mb-0">Phí ship:</p>
-                            <p class="text-muted mb-0">50.000đ</p>
-                        </div>
-                        <div id="order-total-section" class="d-flex justify-content-between">
-                            <p class="font-weight-bold mb-0">Tổng cộng:</p>
-                            <p class="font-weight-bold mb-0" style="color: var(--second-color);">
-                                ${order.totalPrice.toLocaleString()}đ
-                            </p>
-                        </div>
-                    </div>`;
+                    <tr>
+                        <td style="vertical-align: middle;">#${order.id}</td>
+                        <td style="vertical-align: middle;">${formattedDate || 'N/A'}</td>
+                        <td style="vertical-align: middle;">${order.paymentMethod || 'Không rõ'}</td>
+                        <td style="vertical-align: middle;"><span class="${order.status === 1 ? 'text-success' : 'text-warning'}">${order.status === 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}</span></td>
+                        <td style="text-align: left;">${productHtml}</td>
+                        <td style="vertical-align: middle;">${order.totalPrice.toLocaleString()}đ</td>
+                        <td style="vertical-align: middle;">
+                            <button id="order-cancel-btn" class="btn btn-danger btn-sm" data-id="${order.id}" style="font-size: 1.4rem;">Hủy đơn hàng</button>
+                        </td>
+                    </tr>`;
             });
 
+            html += `</tbody></table>`;
+
             $("#order-list").html(html);
+
+            // Khởi tạo DataTable với tìm kiếm và phân trang
+            $('#order-table').DataTable({
+                "paging": true,
+                "searching": true,
+                "pageLength": 5,
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ đơn hàng",
+                    "info": "Hiển thị _START_ đến _END_ của _TOTAL_ đơn hàng",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    }
+                }
+            });
         },
         error: function () {
             $("#order-list").html(`<p class="text-danger">Lỗi khi tải lịch sử đơn hàng!</p>`);
         }
     });
-
-    // Xử lý sự kiện hủy đơn hàng
-    // $(document).on("click", "#order-cancel-btn", function () {
-    //     let orderId = $(this).data("id");
-    //     if (confirm("Bạn có chắc chắn muốn hủy đơn hàng #" + orderId + "?")) {
-    //         $.ajax({
-    //             url: "/cancelOrder",
-    //             type: "POST",
-    //             data: { orderId: orderId },
-    //             success: function (response) {
-    //                 alert(response.message);
-    //                 location.reload();
-    //             },
-    //             error: function () {
-    //                 alert("Lỗi khi hủy đơn hàng!");
-    //             }
-    //         });
-    //     }
-    // });
-
 });
