@@ -19,7 +19,7 @@ public class OrderDao {
     public Map<Integer, Order> getAllOrdersOfUser() {
         Map<Integer, Order> orders = new LinkedHashMap<>();
 
-        String sql = "SELECT o.id, u.userName, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" + "from orders o\n" + "INNER JOIN payments p on o.paymentId = p.id\n" + "INNER JOIN coupons c on o.couponId = c.id\n" + "INNER JOIN users u on o.userId = u.id";
+        String sql = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status\n" + "from orders o\n" + "INNER JOIN payments p on o.paymentId = p.id\n" + "INNER JOIN coupons c on o.couponId = c.id\n" + "INNER JOIN users u on o.userId = u.id";
 
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
@@ -49,8 +49,8 @@ public class OrderDao {
         // Lấy danh sách đơn hàng
         String sqlOrders = "SELECT o.id, u.firstName, p.paymentMethod, c.code, o.orderDate, o.totalPrice, o.status " +
                 "FROM orders o " +
-                "INNER JOIN payments p ON o.paymentId = p.id " +
-                "INNER JOIN coupons c ON o.couponId = c.id " +
+                "LEFT JOIN payments p ON o.paymentId = p.id " +
+                "LEFT JOIN coupons c ON o.couponId = c.id " +
                 "INNER JOIN users u ON o.userId = u.id " +
                 "WHERE u.userName = ?";
 
@@ -58,8 +58,8 @@ public class OrderDao {
         String sqlOrderItems = "SELECT oi.id, oi.orderId, p.productName, pd.color, pd.size, " +
                 "oi.quantity, oi.unitPrice, oi.discount " +
                 "FROM orderitem oi " +
-                "INNER JOIN products p ON oi.productId = p.id " +
-                "INNER JOIN product_details pd ON oi.productDetailId = pd.id " +
+                "LEFT JOIN products p ON oi.productId = p.id " +
+                "LEFT JOIN product_details pd ON oi.productDetailId = pd.id " +
                 "WHERE oi.orderId = ?";
 
         return JDBIConnector.get().withHandle(h -> {
