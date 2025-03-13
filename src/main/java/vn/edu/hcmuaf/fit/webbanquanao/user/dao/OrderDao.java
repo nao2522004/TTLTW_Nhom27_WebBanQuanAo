@@ -108,4 +108,36 @@ public class OrderDao {
         });
     }
 
+    // Hủy đơn hàng theo id
+    public boolean cancelOrderById(int orderId) {
+        String checkStatusSQL = "SELECT status FROM orders WHERE id = ?";
+        String cancelOrderSQL = "UPDATE orders SET status = 0 WHERE id = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try {
+                // 1. Kiểm tra trạng thái đơn hàng
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(checkStatusSQL)) {
+                    ps.setInt(1, orderId);
+                    ResultSet rs = ps.executeQuery();
+                    if (!rs.next()) {
+                        return false;
+                    }
+                    int status = rs.getInt("status");
+                    if (status == 0 || status == 3) {
+                        return false;
+                    }
+                }
+                // 2. Tiến hành hủy đơn hàng (nếu hợp lệ)
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(cancelOrderSQL)) {
+                    ps.setInt(1, orderId);
+                    int rowsAffected = ps.executeUpdate();
+                    return rowsAffected > 0; // Thành công nếu có bản ghi được cập nhật
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
+
 }
