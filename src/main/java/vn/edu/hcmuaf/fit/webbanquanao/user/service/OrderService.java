@@ -16,6 +16,10 @@ public class OrderService {
         return dao.getAllOrdersByUserName(userName);
     }
 
+    public boolean cancelOrder(int orderId) {
+        return dao.cancelOrderById(orderId);
+    }
+
     public static void main(String[] args) {
         OrderService a = new OrderService();
 

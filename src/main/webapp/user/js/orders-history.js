@@ -62,7 +62,7 @@ $(document).ready(function () {
                         <td style="text-align: left;">${productHtml}</td>
                         <td style="vertical-align: middle;">${order.totalPrice.toLocaleString()}đ</td>
                         <td style="vertical-align: middle;">
-                            <button id="order-cancel-btn" class="btn btn-danger btn-sm" data-id="${order.id}" style="font-size: 1.4rem;">Hủy đơn hàng</button>
+                            <button onclick="cancelOrder(event)" id="order-cancel-btn" class="btn btn-danger btn-sm" data-orderId="${order.id}" style="font-size: 1.4rem;">Hủy đơn hàng</button>
                         </td>
                     </tr>`;
             });
@@ -94,3 +94,29 @@ $(document).ready(function () {
         }
     });
 });
+
+function cancelOrder(event) {
+    const orderId = event.target.getAttribute("data-orderId"); // Lấy id của đơn hàng
+    console.log(JSON.stringify({ id: orderId }));
+    if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+        return;
+    }
+    fetch('/WebBanQuanAo/user/orderController', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: orderId })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Đơn hàng đã được hủy thành công!');
+                // Xóa dòng chứa nút bấm (dùng event.target để xác định đúng nút)
+                event.target.closest('tr').remove();
+            } else {
+                alert('Hủy đơn hàng thất bại: ' + data.message);
+            }
+        })
+        .catch(() => {
+            alert('Đã xảy ra lỗi khi hủy đơn hàng.');
+        });
+}

@@ -50,14 +50,10 @@ function fetchOrders() {
 // Hàm chuyển đổi status từ số sang chuỗi tiếng Việt
 function getStatusText(status) {
     const statusMap = {
-        0: "Chờ xử lý",
+        0: "Đã hủy",
         1: "Đang xử lý",
-        2: "Đã gửi hàng",
-        3: "Đã giao hàng",
-        4: "Đã hủy",
-        5: "Đã hoàn tiền",
-        6: "Thất bại",
-        7: "Tạm dừng"
+        2: "Đang giao",
+        3: "Đã giao",
     };
     return statusMap[status] || "Không xác định";
 }

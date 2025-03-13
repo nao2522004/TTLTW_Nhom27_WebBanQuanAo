@@ -231,14 +231,10 @@
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
                                 <select name="status" id="edit-statusOrder" required>
-                                    <option value="0">Chờ xử lý</option>
+                                    <option value="0">Đã Hủy</option>
                                     <option value="1">Đang xử lý</option>
-                                    <option value="2">Đã gửi hàng</option>
+                                    <option value="2">Đang giao hàng</option>
                                     <option value="3">Đã giao hàng</option>
-                                    <option value="4">Đã hủy</option>
-                                    <option value="5">Đã hoàn tiền</option>
-                                    <option value="6">Thất bại</option>
-                                    <option value="7">Tạm dừng</option>
                                 </select>
                             </td>
                             <td><span type="submit" onclick="saveOrderEdits(event)" class="primary material-icons-sharp">save</span></td>
@@ -1267,7 +1263,6 @@
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
