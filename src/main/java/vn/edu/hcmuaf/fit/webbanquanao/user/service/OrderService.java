@@ -22,8 +22,7 @@ public class OrderService {
 
     public static void main(String[] args) {
         OrderService a = new OrderService();
-
-        System.out.println(a.getAllOrdersByUserName("admin"));
+        System.out.println(a.cancelOrder(12));
     }
 
 }

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function fetchOrdersForUser() {
     $.ajax({
         url: "/WebBanQuanAo/user/orderController",
         type: "GET",
@@ -58,7 +58,11 @@ $(document).ready(function () {
                         <td style="vertical-align: middle;">#${order.id}</td>
                         <td style="vertical-align: middle;">${formattedDate || 'N/A'}</td>
                         <td style="vertical-align: middle;">${order.paymentMethod || 'Không rõ'}</td>
-                        <td style="vertical-align: middle;"><span class="${order.status === 1 ? 'text-success' : 'text-warning'}">${order.status === 1 ? 'Đã thanh toán' : 'Chưa thanh toán'}</span></td>
+                        <td style="vertical-align: middle;">
+                            <span class="${getStatusColor(order.status)}">
+                            ${getStatusText(order.status)}
+                            </span>
+                        </td>
                         <td style="text-align: left;">${productHtml}</td>
                         <td style="vertical-align: middle;">${order.totalPrice.toLocaleString()}đ</td>
                         <td style="vertical-align: middle;">
@@ -93,30 +97,61 @@ $(document).ready(function () {
             $("#order-list").html(`<p class="text-danger">Lỗi khi tải lịch sử đơn hàng!</p>`);
         }
     });
+}
+
+// Gọi hàm khi tài liệu sẵn sàng
+$(document).ready(function () {
+    fetchOrdersForUser();
 });
 
+// Chuyển đổi status từ số sang chuỗi tiếng Việt
+function getStatusText(status) {
+    const statusMap = {
+        0: "Đã hủy",
+        1: "Đang xử lý",
+        2: "Đang giao",
+        3: "Đã giao",
+    };
+    return statusMap[status] || "Không xác định";
+}
+
+// Xác định màu sắc theo trạng thái đơn hàng
+function getStatusColor(status) {
+    const colorMap = {
+        0: "text-danger",    // Đã hủy (màu đỏ)
+        1: "text-warning",   // Đang xử lý (màu vàng)
+        2: "text-primary",   // Đang giao (màu xanh dương)
+        3: "text-success",   // Đã giao (màu xanh lá)
+    };
+    return colorMap[status] || "text-secondary"; // Không xác định (màu xám)
+}
+
 function cancelOrder(event) {
-    const orderId = event.target.getAttribute("data-orderId"); // Lấy id của đơn hàng
+    // Chuyển đổi orderId thành kiểu int
+    const orderId = parseInt(event.target.getAttribute("data-orderId"), 10);
+
     console.log(JSON.stringify({ id: orderId }));
     if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
         return;
     }
-    fetch('/WebBanQuanAo/user/orderController', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: orderId })
-    })
-        .then(response => response.json())
-        .then(data => {
+
+    $.ajax({
+        url: '/WebBanQuanAo/user/orderController',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ id: orderId }),
+        cache: false, // Tắt cache
+        success: function (data) {
             if (data.success) {
-                alert('Đơn hàng đã được hủy thành công!');
-                // Xóa dòng chứa nút bấm (dùng event.target để xác định đúng nút)
-                event.target.closest('tr').remove();
+                alert(data.message);
+                $(event.target).closest('tr').disable(); // Xóa dòng chứa nút bấm
+                fetchOrdersForUser()
             } else {
-                alert('Hủy đơn hàng thất bại: ' + data.message);
+                alert(data.message);
             }
-        })
-        .catch(() => {
+        },
+        error: function () {
             alert('Đã xảy ra lỗi khi hủy đơn hàng.');
-        });
+        }
+    });
 }
