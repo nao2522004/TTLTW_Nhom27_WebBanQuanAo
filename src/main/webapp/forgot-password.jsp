@@ -13,36 +13,30 @@
     <div>
         <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     </div>
-
     <div class="container active no-padding mx-auto">
         <div class="form-box">
             <form action="forgotPassword" method="POST">
                 <h1>Bạn Quên Mật Khẩu?</h1>
-                <p>Vui lòng nhập email hoặc nhập số điện thoại đã đăng ký của bạn để khôi phục mật khẩu</p>
+                <p>Vui lòng nhập email hoặc số điện thoại đã đăng ký của bạn để khôi phục mật khẩu</p>
 
                 <div class="input-box">
                     <input type="email" name="email" placeholder="Email" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
 
-
                 <%-- Hiển thị thông báo nếu có --%>
                 <%
                     String message = (String) request.getAttribute("message");
                 %>
-
-                <%-- Kiểm tra và hiển thị thông báo --%>
                 <% if (message != null) { %>
-                <div style="margin-top: 10px; color: <%= message.contains("successfully") ? "#0f5132" : "red" %>">
+                <div id="alertMessage" class="alert <%= message.contains("successfully") ? "alert-success" : "alert-danger" %> mt-3">
                     <%= message %>
                 </div>
                 <% } %>
 
-
-
-                <button type="submit" class="btn btn-primary btn-lg" onclick="openOtpPopup()">Gửi Mã OTP</button>
+                <button type="submit" class="btn btn-primary btn-lg">Xác nhận</button>
                 <p>Quay lại trang <a href="login.jsp" style="color: #335d4a !important;">Đăng Nhập</a></p>
-                <p>Hoặc đăng nhập bằng các tài khoản mạng xã hội </p>
+                <p>Hoặc đăng nhập bằng các tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-google"></i></a>
@@ -51,24 +45,19 @@
                 </div>
             </form>
         </div>
+    </div>
 
-<%--        <!-- Popup nhập mã OTP -->--%>
-<%--        <div class="otp-popup" id="otpPopup">--%>
-<%--            <div class="otp-content">--%>
-<%--                <h2>Nhập Mã OTP</h2>--%>
-<%--                <p>Mã OTP đã được gửi đến số điện thoại của bạn. Vui lòng nhập mã để tiếp tục.</p>--%>
-<%--                <div class="otp-input-box">--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                    <input type="text" maxlength="1" class="otp-input" />--%>
-<%--                </div>--%>
-<%--                <button type="button" class="btn btn-primary btn-lg" onclick="validateOtp()">Xác Nhận</button>--%>
-<%--                <button type="button" class="btn btn-secondary btn-lg" onclick="closeOtpPopup()">Hủy</button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+    <script>
+        // Ẩn thông báo sau 5 giây
+        setTimeout(function () {
+            var alertMessage = document.getElementById("alertMessage");
+            if (alertMessage) {
+                alertMessage.style.display = "none";
+            }
+        }, 5000);
+    </script>
+
+
     </div>
 
     <div>

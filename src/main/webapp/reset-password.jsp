@@ -44,27 +44,14 @@
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
+                <p id="passwordStrength"></p>
                 <div class="input-box">
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Xác Nhận Lại Mật Khẩu" required>
                     <button type="button" class="toggle-password"  onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
-                <!-- Hiển thị thông báo lỗi hoặc thành công -->
-                <% String errorMessage = (String) request.getAttribute("errorMessage"); %>
-                <% String successMessage = (String) request.getAttribute("successMessage"); %>
 
-                <% if (errorMessage != null) { %>
-                <div class="alert alert-danger">
-                    <%= errorMessage %>
-                </div>
-                <% } %>
-
-                <% if (successMessage != null) { %>
-                <div class="alert alert-success">
-                    <%= successMessage %>
-                </div>
-                <% } %>
                 <button type="submit" class="btn btn-primary btn-lg">Xác Nhận</button>
                 <div class="info-box">
                     <p>Bạn có thể liên hệ với chúng tôi qua email để nhận sự hỗ trợ <a
@@ -84,23 +71,30 @@
     <!-- base js -->
     <script src="./assets/js/base.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        document.getElementById("password").addEventListener("input", function() {
-            var password = this.value;
-            var strength = document.getElementById("password-strength");
-
-            if (password.length < 6) {
-                strength.innerHTML = "Mật khẩu quá yếu!";
-                strength.style.color = "red";
-            } else if (password.match(/[A-Z]/) && password.match(/[0-9]/) && password.length >= 8) {
-                strength.innerHTML = "Mật khẩu mạnh!";
-                strength.style.color = "green";
-            } else {
-                strength.innerHTML = "Mật khẩu trung bình.";
-                strength.style.color = "orange";
-            }
+        $(document).ready(function () {
+            $("#newPassword").on("input", function () {
+                var password = $(this).val();
+                var strengthMsg = "";
+                if (password.length < 8) {
+                    strengthMsg = "Mật khẩu phải có ít nhất 8 ký tự!";
+                } else if (!/[A-Z]/.test(password)) {
+                    strengthMsg = "Mật khẩu phải chứa ít nhất một chữ cái viết hoa!";
+                } else if (!/[0-9]/.test(password)) {
+                    strengthMsg = "Mật khẩu phải chứa ít nhất một chữ số!";
+                } else if (!/[^A-Za-z0-9]/.test(password)) {
+                    strengthMsg = "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!";
+                } else {
+                    strengthMsg = "Mật khẩu mạnh!";
+                }
+                $("#passwordStrength").text(strengthMsg);
+            });
         });
     </script>
+
+
+
 
 </body>
 

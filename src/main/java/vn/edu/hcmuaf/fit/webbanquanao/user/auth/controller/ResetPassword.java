@@ -18,6 +18,7 @@ import java.io.IOException;
 public class ResetPassword extends HttpServlet {
     UserDao userDao = new UserDao();
     TokenForgotDao tokenForgotDao = new TokenForgotDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("token");
@@ -30,7 +31,7 @@ public class ResetPassword extends HttpServlet {
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
                 return;
             }
-            if(resetService.isExpired(tokenForgotPassword.getExpiresAt())){
+            if (resetService.isExpired(tokenForgotPassword.getExpiresAt())) {
                 request.setAttribute("message", "token is expiry time");
                 request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
                 return;
@@ -40,28 +41,55 @@ public class ResetPassword extends HttpServlet {
             session.setAttribute("token", tokenForgotPassword.getToken());
             request.getRequestDispatcher("reset-password.jsp").forward(request, response);
             return;
-        } else { request.getRequestDispatcher("forgot-password.jsp").forward(request, response);}
+        } else {
+            request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
+        }
 
     }
+
+    //    @Override
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String email = request.getParameter("email");
+//        String newPassword = request.getParameter("newPassword");
+//        String confirmPassword = request.getParameter("confirmPassword");
+//
+//        if(!newPassword.equals(confirmPassword)){
+//            request.setAttribute("message", "Passwords do not match");
+//            request.setAttribute("email", email );
+//            request.getRequestDispatcher("reset-password.jsp").forward(request, response);
+//            return;
+//        }
+//        HttpSession session = request.getSession();
+//        TokenForgotPassword tokenForgotPassword = new TokenForgotPassword();
+//        tokenForgotPassword.setToken((String) session.getAttribute("token"));
+//        tokenForgotPassword.setIsUser(true);
+//        userDao.updatePassword(email, newPassword);
+//        userDao.updateStatus(String.valueOf(tokenForgotPassword));
+//
+//        response.sendRedirect("homePage");
+//    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        if(!newPassword.equals(confirmPassword)){
-            request.setAttribute("message", "Passwords do not match");
-            request.setAttribute("email", email );
+        if (!newPassword.equals(confirmPassword)) {
+            request.setAttribute("message", "Mật khẩu không khớp");
+            request.setAttribute("email", email);
             request.getRequestDispatcher("reset-password.jsp").forward(request, response);
             return;
         }
-        HttpSession session = request.getSession();
-        TokenForgotPassword tokenForgotPassword = new TokenForgotPassword();
-        tokenForgotPassword.setToken((String) session.getAttribute("token"));
-        tokenForgotPassword.setIsUser(true);
+
+        // Cập nhật mật khẩu với BCrypt
         userDao.updatePassword(email, newPassword);
-        userDao.updateStatus(tokenForgotPassword);
+
+        // Đánh dấu token là đã sử dụng
+        HttpSession session = request.getSession();
+        String token = (String) session.getAttribute("token");
+        userDao.updateTokenStatus(token);
 
         response.sendRedirect("homePage");
     }
+
 }
