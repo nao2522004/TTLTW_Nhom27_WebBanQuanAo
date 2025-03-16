@@ -39,6 +39,11 @@
             <form action="ResetPassword" method="POST">
                 <h1>Xác Nhận Lại Mật Khẩu</h1>
                 <div class="input-box">
+                    <input type="email" name="email" value="${email}" readonly>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+
+                <div class="input-box">
                     <input type="password" name="newPassword" id="newPassword" placeholder="Mật Khẩu Mới" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
