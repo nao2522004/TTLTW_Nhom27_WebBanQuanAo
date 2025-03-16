@@ -37,7 +37,7 @@ public class ResetPassword extends HttpServlet {
                 return;
             }
             User user = userDao.getUserById(tokenForgotPassword.getUserId());
-            request.setAttribute("email", user.getEmail());
+            session.setAttribute("email", user.getEmail()); // Lưu email vào session
             session.setAttribute("token", tokenForgotPassword.getToken());
             request.getRequestDispatcher("reset-password.jsp").forward(request, response);
             return;
@@ -47,49 +47,30 @@ public class ResetPassword extends HttpServlet {
 
     }
 
-    //    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String email = request.getParameter("email");
-//        String newPassword = request.getParameter("newPassword");
-//        String confirmPassword = request.getParameter("confirmPassword");
-//
-//        if(!newPassword.equals(confirmPassword)){
-//            request.setAttribute("message", "Passwords do not match");
-//            request.setAttribute("email", email );
-//            request.getRequestDispatcher("reset-password.jsp").forward(request, response);
-//            return;
-//        }
-//        HttpSession session = request.getSession();
-//        TokenForgotPassword tokenForgotPassword = new TokenForgotPassword();
-//        tokenForgotPassword.setToken((String) session.getAttribute("token"));
-//        tokenForgotPassword.setIsUser(true);
-//        userDao.updatePassword(email, newPassword);
-//        userDao.updateStatus(String.valueOf(tokenForgotPassword));
-//
-//        response.sendRedirect("homePage");
-//    }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email"); // Lấy email từ session
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
+        if (email == null) {
+            request.setAttribute("message", "Không xác định được email!");
+            request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
+            return;
+        }
+
         if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("message", "Mật khẩu không khớp");
-            request.setAttribute("email", email);
             request.getRequestDispatcher("reset-password.jsp").forward(request, response);
             return;
         }
 
-        // Cập nhật mật khẩu với BCrypt
         userDao.updatePassword(email, newPassword);
-
-        // Đánh dấu token là đã sử dụng
-        HttpSession session = request.getSession();
-        String token = (String) session.getAttribute("token");
-        userDao.updateTokenStatus(token);
+        System.out.println("New password updated for: " + email);
 
         response.sendRedirect("homePage");
     }
+
 
 }

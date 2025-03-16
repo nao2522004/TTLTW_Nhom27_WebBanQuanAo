@@ -29,11 +29,11 @@ public class TokenForgotDao {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, tokenForgotPassword.getToken());
                 ps.setTimestamp(2, Timestamp.valueOf(getFormatData(tokenForgotPassword.getExpiresAt()))); // expiredAt should be set properly
-                ps.setLong(3, tokenForgotPassword.getUserId()); // Make sure userId is correct
-                return ps.executeUpdate() > 0; // Return true if token was inserted successfully
+                ps.setLong(3, tokenForgotPassword.getUserId());
+                return ps.executeUpdate() > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false; // If insertion fails, return false
+                return false;
             }
         });
     }

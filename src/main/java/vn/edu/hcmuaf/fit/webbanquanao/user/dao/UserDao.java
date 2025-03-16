@@ -89,43 +89,30 @@ public class UserDao {
             try (Connection conn = handle.getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                // Gắn giá trị cho tham số email
                 ps.setString(1, email);
-
-                // Thực thi câu lệnh SQL và kiểm tra xem có dòng nào trả về
                 try (ResultSet rs = ps.executeQuery()) {
-                    return rs.next(); // Nếu có ít nhất một kết quả, tức là email đã tồn tại
+                    return rs.next();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false; // Trả về false nếu có lỗi
+                return false;
             }
         });
     }
 
-    //  Hàm băm mật khẩu bằng BCrypt trước khi lưu
-    public String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12));
-    }
 
-    // Hàm kiểm tra mật khẩu đã băm
-    public boolean checkPassword(String plainPassword, String hashedPassword) {
-        return BCrypt.checkpw(plainPassword, hashedPassword);
-    }
-
-    // Cập nhật mật khẩu với BCrypt
-    public void updatePassword(String email, String newPassword) {
-        String hashedPassword = hashPassword(newPassword);
+    public void updatePassword(String email, String password) {
         String sql = "UPDATE users SET password = ? WHERE email = ?";
 
         dbConnect.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, hashedPassword);
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, password);
                 ps.setString(2, email);
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.err.println("Lỗi cập nhật mật khẩu: " + e.getMessage());
+                System.out.println(e);
             }
             return null;
         });
@@ -134,66 +121,69 @@ public class UserDao {
     // Lấy người dùng theo email
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
-
         return dbConnect.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, email);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        return mapUser(rs);
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUserName(rs.getString("userName"));
+                        user.setPassWord(rs.getString("passWord"));
+                        user.setEmail(rs.getString("email"));
+
+                        return user;
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                System.err.println("Lỗi lấy người dùng theo email: " + e.getMessage());
+                System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
+                e.printStackTrace(); // In chi tiết lỗi để debug
             }
-            return null;
+            return null; // Trả về null nếu không tìm thấy hoặc xảy ra lỗi
         });
     }
 
-    // Lấy người dùng theo ID
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
         return dbConnect.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, id);
+                ps.setInt(1, id); // Sử dụng ID để tìm người dùng
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        return mapUser(rs);
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUserName(rs.getString("userName"));
+                        user.setPassWord(rs.getString("passWord"));
+                        user.setFirstName(rs.getString("firstName")); // Thêm thông tin nếu cần
+                        user.setLastName(rs.getString("lastName"));
+                        user.setEmail(rs.getString("email"));
+                        return user;
                     }
+
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                System.err.println("Lỗi lấy người dùng theo ID: " + e.getMessage());
+                System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
+                e.printStackTrace(); // In chi tiết lỗi để debug
             }
             return null;
         });
     }
 
-    // Hàm chung để map dữ liệu từ ResultSet vào User
-    private User mapUser(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setId(rs.getInt("id"));
-        user.setUserName(rs.getString("userName"));
-        user.setPassWord(rs.getString("password"));
-        user.setEmail(rs.getString("email"));
-        user.setFirstName(rs.getString("firstName"));
-        user.setLastName(rs.getString("lastName"));
-        return user;
-    }
 
     // Cập nhật trạng thái của token
-    public void updateTokenStatus(String token) {
-        String sql = "UPDATE resetpasswordtokens SET isUsed = TRUE WHERE token = ?";
-
+    public void updateStatus(TokenForgotPassword token) {
+        System.out.println("token=" + token);
+        String sql = "UPDATE users SET isUser = ? WHERE token = ?";
         dbConnect.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, token);
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setBoolean(1, token.isIsUsed());
+                ps.setString(2, token.getToken());
                 ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.err.println("Lỗi cập nhật trạng thái token: " + e.getMessage());
+                System.out.println(e);
             }
             return null;
         });
@@ -232,5 +222,6 @@ public class UserDao {
             return null;
         });
     }
+
 
 }
