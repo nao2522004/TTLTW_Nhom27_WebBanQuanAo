@@ -13,12 +13,13 @@ public class Order implements Serializable {
     LocalDateTime orderDate;
     double totalPrice;
     Integer status;
+    String cancelReason;
     List<OrderDetail> orderDetails;
 
     public Order() {
     }
 
-    public Order(Integer id,String userName, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, Integer status, List<OrderDetail> orderDetails) {
+    public Order(Integer id,String userName, String firstName, String paymentMethod, String code, LocalDateTime orderDate, double totalPrice, Integer status,String cancelReason, List<OrderDetail> orderDetails) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -27,6 +28,7 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.cancelReason = cancelReason;
         this.orderDetails = orderDetails;
     }
 
@@ -95,6 +97,14 @@ public class Order implements Serializable {
         this.status = status;
     }
 
+    public String getCancelReason() {
+        return cancelReason;
+    }
+
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
+    }
+
     public List<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
@@ -114,6 +124,7 @@ public class Order implements Serializable {
                 ", orderDate=" + orderDate +
                 ", totalPrice=" + totalPrice +
                 ", status=" + status +
+                ", cancelReason='" + cancelReason + '\'' +
                 ", orderDetails=" + orderDetails +
                 '}';
     }
