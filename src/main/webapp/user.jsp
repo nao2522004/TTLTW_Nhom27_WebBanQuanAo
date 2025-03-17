@@ -23,7 +23,7 @@
 
     <!-- CSS native -->
     <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/user.css">
+    <link rel="stylesheet" href="user/css/user.css">
     <link rel="stylesheet" href="./assets/css/header-footer.css">
 
     <style>

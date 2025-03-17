@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2025 at 02:37 PM
+-- Generation Time: Mar 17, 2025 at 03:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,10 +59,10 @@ CREATE TABLE `cart` (
 CREATE TABLE `cartdetail` (
   `id` int(11) NOT NULL,
   `cartId` int(11) NOT NULL,
-  `productId` int(11) NOT NULL,
   `couponId` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `unitPrice` decimal(10,2) NOT NULL
+  `unitPrice` decimal(10,2) NOT NULL,
+  `productDetailsId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
@@ -225,20 +225,22 @@ CREATE TABLE `orders` (
   `couponId` int(11) DEFAULT NULL,
   `orderDate` datetime NOT NULL DEFAULT current_timestamp(),
   `totalPrice` decimal(10,2) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `cancelReason` varchar(255) DEFAULT NULL COMMENT 'Lý do hủy đơn hàng'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`) VALUES
-(7, 2, 2, 2, '2025-01-15 00:00:00', 250000.00, 2),
-(8, 3, 2, 2, '2025-01-16 00:00:00', 250000.00, 4),
-(10, 2, 1, 1, '2025-01-17 00:00:00', 823650.00, 0),
-(11, 2, 1, 1, '2025-01-16 00:00:00', 2010000.00, 0),
-(12, 1, 1, 1, '2025-01-16 00:00:00', 274550.00, 1),
-(13, 1, 1, 1, '2025-01-17 00:00:00', 1949100.00, 0);
+INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`, `cancelReason`) VALUES
+(7, 2, 2, 2, '2025-01-15 00:00:00', 250000.00, 4, NULL),
+(8, 3, 2, 2, '2025-01-16 00:00:00', 250000.00, 4, NULL),
+(10, 2, 1, 1, '2025-01-17 00:00:00', 823650.00, 0, NULL),
+(11, 2, 1, 1, '2025-01-16 00:00:00', 2010000.00, 0, NULL),
+(12, 1, 1, 1, '2025-01-16 00:00:00', 274550.00, 0, NULL),
+(13, 1, 1, 1, '2025-01-17 00:00:00', 1949100.00, 0, NULL),
+(14, 1, 1, 1, '2025-03-12 00:00:00', 1070000.00, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -612,8 +614,8 @@ ALTER TABLE `cart`
 ALTER TABLE `cartdetail`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `cartId` (`cartId`) USING BTREE,
-  ADD KEY `productId` (`productId`) USING BTREE,
-  ADD KEY `couponId` (`couponId`) USING BTREE;
+  ADD KEY `couponId` (`couponId`) USING BTREE,
+  ADD KEY `fk_productDetails_cartdetail` (`productDetailsId`);
 
 --
 -- Indexes for table `categories`
@@ -818,7 +820,7 @@ ALTER TABLE `orderitem`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -895,8 +897,8 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `cartdetail`
   ADD CONSTRAINT `cartdetail_ibfk_1` FOREIGN KEY (`cartId`) REFERENCES `cart` (`id`),
-  ADD CONSTRAINT `cartdetail_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `cartdetail_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`);
+  ADD CONSTRAINT `cartdetail_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`),
+  ADD CONSTRAINT `fk_productDetails_cartdetail` FOREIGN KEY (`productDetailsId`) REFERENCES `product_details` (`id`);
 
 --
 -- Constraints for table `categories`

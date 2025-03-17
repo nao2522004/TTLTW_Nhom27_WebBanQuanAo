@@ -108,10 +108,10 @@ public class OrderDao {
         });
     }
 
-    // Hủy đơn hàng theo id
-    public boolean cancelOrderById(int orderId) {
+    // Hủy đơn hàng theo id và ghi lại lý do hủy
+    public boolean cancelOrderById(int orderId, String reason) {
         String checkStatusSQL = "SELECT status FROM orders WHERE id = ?";
-        String cancelOrderSQL = "UPDATE orders SET status = 0 WHERE id = ?";
+        String cancelOrderSQL = "UPDATE orders SET status = ?, cancelReason = ? WHERE id = ?";
 
         return JDBIConnector.get().withHandle(handle -> {
             try {
@@ -120,16 +120,19 @@ public class OrderDao {
                     ps.setInt(1, orderId);
                     ResultSet rs = ps.executeQuery();
                     if (!rs.next()) {
-                        return false;
+                        return false; // Không tìm thấy đơn hàng
                     }
                     int status = rs.getInt("status");
-                    if (status == 0 || status == 3) {
-                        return false;
+                    if (status == 0 || status == 3 || status == 4) {
+                        return false; // Không thể hủy các đơn đã hủy, đã giao, đã nhận
                     }
                 }
-                // 2. Tiến hành hủy đơn hàng (nếu hợp lệ)
+
+                // 2. Tiến hành hủy đơn hàng và lưu lý do
                 try (PreparedStatement ps = handle.getConnection().prepareStatement(cancelOrderSQL)) {
-                    ps.setInt(1, orderId);
+                    ps.setInt(1, 0);
+                    ps.setString(2, reason);  // Ghi lý do hủy
+                    ps.setInt(3, orderId);
                     int rowsAffected = ps.executeUpdate();
                     return rowsAffected > 0; // Thành công nếu có bản ghi được cập nhật
                 }
@@ -139,5 +142,43 @@ public class OrderDao {
             }
         });
     }
+
+
+    // Xác nhận đơn hàng theo id
+    public boolean completedOrderById(int orderId) {
+        String checkStatusSQL = "SELECT status FROM orders WHERE id = ?";
+        String completeOrderSQL = "UPDATE orders SET status = ? WHERE id = ? AND status = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try {
+                // 1. Kiểm tra trạng thái đơn hàng
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(checkStatusSQL)) {
+                    ps.setInt(1, orderId); // Chỉ cần truyền orderId để kiểm tra trạng thái
+                    ResultSet rs = ps.executeQuery();
+                    if (!rs.next()) {
+                        return false; // Không tìm thấy đơn hàng
+                    }
+                    int status = rs.getInt("status");
+                    if (status != 3) {
+                        return false; // Chỉ xác nhận nếu trạng thái là "Đang giao"
+                    }
+                }
+
+                // 2. Cập nhật trạng thái thành "Đã nhận hàng"
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(completeOrderSQL)) {
+                    ps.setInt(1, 4);        // Chuyển trạng thái thành "Đã nhận hàng"
+                    ps.setInt(2, orderId);  // Điều kiện cập nhật theo id đơn hàng
+                    ps.setInt(3, 3);        // Kiểm tra trạng thái hiện tại phải là "Đang giao"
+
+                    int rowsAffected = ps.executeUpdate();
+                    return rowsAffected > 0; // Thành công nếu có bản ghi được cập nhật
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false; // Xử lý lỗi
+            }
+        });
+    }
+
 
 }

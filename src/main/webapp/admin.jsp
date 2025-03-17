@@ -235,6 +235,7 @@
                                     <option value="1">Đang xử lý</option>
                                     <option value="2">Đang giao hàng</option>
                                     <option value="3">Đã giao hàng</option>
+                                    <option value="3">Đã nhận hàng</option>
                                 </select>
                             </td>
                             <td><span type="submit" onclick="saveOrderEdits(event)" class="primary material-icons-sharp">save</span></td>

@@ -251,14 +251,30 @@ h4 {
 
 #order-cancel-btn {
   font-size: 1.6rem; /* Điều chỉnh font-size */
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
+  background-color: transparent;
+  color: #dc3545; /* Màu đỏ cho nút hủy */
+  border: 2px solid #dc3545;
   padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#order-completed-btn {
+  font-size: 1.6rem; /* Điều chỉnh font-size */
+  background-color: transparent;
+  color: #28a745; /* Màu xanh lá cho nút hoàn thành */
+  border: 2px solid #28a745;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #order-cancel-btn:hover {
-  background-color: #b02a37;
+  background-color: #dc3545;
+  color: #fff;
+}
+
+#order-completed-btn:hover {
+  background-color: #28a745;
+  color: #fff;
 }
 
 #order-product-list {
@@ -522,6 +538,74 @@ h4 {
   font-size: 1.4rem;
   color: #777;
 }
+
+/* CSS cải thiện giao diện modal */
+.cancel-order-custom-modal .modal-content {
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: cancelFadeIn 0.3s ease-in-out;
+}
+
+.cancel-order-custom-modal .modal-header {
+  background-color: #f8f9fa;
+  border-bottom: none;
+  padding: 20px;
+}
+
+.cancel-order-custom-modal .modal-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.cancel-order-custom-modal .modal-body {
+  padding: 20px;
+}
+
+.cancel-order-custom-modal .modal-footer {
+  border-top: none;
+  padding: 15px 20px;
+}
+
+.cancel-order-custom-modal .form-group label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.cancel-order-custom-modal .form-control {
+  border-radius: 8px;
+  box-shadow: none;
+  transition: border-color 0.3s;
+}
+
+.cancel-order-custom-modal .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.cancel-order-custom-modal .btn-danger {
+  background-color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.cancel-order-custom-modal .btn-danger:hover {
+  background-color: #c82333;
+}
+
+.cancel-order-custom-modal .btn-secondary {
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+@keyframes cancelFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
