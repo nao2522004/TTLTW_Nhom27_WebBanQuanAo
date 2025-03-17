@@ -56,6 +56,7 @@
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
+                <p id="confirmPasswordMsg"></p>
 
                 <button type="submit" class="btn btn-primary btn-lg">Xác Nhận</button>
                 <div class="info-box">
@@ -82,20 +83,56 @@
             $("#newPassword").on("input", function () {
                 var password = $(this).val();
                 var strengthMsg = "";
+                var strengthColor = "red";
+
                 if (password.length < 8) {
-                    strengthMsg = "Mật khẩu phải có ít nhất 8 ký tự!";
+                    strengthMsg = "❌ Mật khẩu phải có ít nhất 8 ký tự!";
                 } else if (!/[A-Z]/.test(password)) {
-                    strengthMsg = "Mật khẩu phải chứa ít nhất một chữ cái viết hoa!";
+                    strengthMsg = "❌ Mật khẩu phải chứa ít nhất một chữ cái viết hoa!";
                 } else if (!/[0-9]/.test(password)) {
-                    strengthMsg = "Mật khẩu phải chứa ít nhất một chữ số!";
+                    strengthMsg = "❌ Mật khẩu phải chứa ít nhất một chữ số!";
                 } else if (!/[^A-Za-z0-9]/.test(password)) {
-                    strengthMsg = "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!";
+                    strengthMsg = "⚠️ Mật khẩu nên chứa ít nhất một ký tự đặc biệt!";
+                    strengthColor = "orange";
                 } else {
-                    strengthMsg = "Mật khẩu mạnh!";
+                    strengthMsg = "✅ Mật khẩu mạnh!";
+                    strengthColor = "green";
                 }
-                $("#passwordStrength").text(strengthMsg);
+
+                $("#passwordStrength").text(strengthMsg).css("color", strengthColor);
+            });
+
+            $("#confirmPassword").on("input", function () {
+                validateConfirmPassword();
             });
         });
+
+        function validateConfirmPassword() {
+            var newPassword = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
+            var msg = "";
+            var color = "red";
+
+            if (confirmPassword.length > 0) {
+                if (newPassword !== confirmPassword) {
+                    msg = "❌ Mật khẩu xác nhận không khớp!";
+                } else {
+                    msg = "✅ Mật khẩu khớp!";
+                    color = "green";
+                }
+            }
+
+            $("#confirmPasswordMsg").text(msg).css("color", color);
+        }
+
+        function validateForm() {
+            if ($("#newPassword").val() !== $("#confirmPassword").val()) {
+                alert("Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.");
+                return false;
+            }
+            return true;
+        }
+
     </script>
 
 

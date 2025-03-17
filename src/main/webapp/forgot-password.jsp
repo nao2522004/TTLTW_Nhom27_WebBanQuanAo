@@ -25,11 +25,11 @@
                 </div>
 
                 <%-- Hiển thị thông báo nếu có --%>
-                <%
-                    String message = (String) request.getAttribute("message");
-                %>
+                <% String message = (String) request.getAttribute("message"); %>
                 <% if (message != null) { %>
-                <div id="alertMessage" class="alert <%= message.contains("successfully") ? "alert-success" : "alert-danger" %> mt-3">
+                <div id="alertMessage"
+                     class="alert <%= message.toLowerCase().contains("thành công") ? "alert-success" : "alert-danger" %> mt-3">
+                    <i class="fa-solid <%= message.toLowerCase().contains("thành công") ? "fa-check-circle" : "fa-exclamation-circle" %>"></i>
                     <%= message %>
                 </div>
                 <% } %>
@@ -48,17 +48,15 @@
     </div>
 
     <script>
-        // Ẩn thông báo sau 5 giây
-        setTimeout(function () {
-            var alertMessage = document.getElementById("alertMessage");
-            if (alertMessage) {
-                alertMessage.style.display = "none";
-            }
-        }, 5000);
-    </script>
+        $(document).ready(function () {
+            // Ẩn thông báo sau 5 giây với hiệu ứng fade out
+            setTimeout(function () {
+                $("#alertMessage").fadeOut("slow");
 
 
-    </div>
+
+
+            </div>
 
     <div>
         <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>
