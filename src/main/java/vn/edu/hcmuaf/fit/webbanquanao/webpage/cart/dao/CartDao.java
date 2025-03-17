@@ -1,10 +1,12 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartProduct;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,6 +116,38 @@ public class CartDao {
                 e.printStackTrace();
                 return false;
             }
+        });
+    }
+
+    // Get order by user ID
+    public List<CartDetail> getCartByUserId(int userId) {
+        List<CartDetail> re = new ArrayList<>();
+        query = "SELECT" +
+                " cd.productId," +
+                " cd.couponId," +
+                " cd.quantity," +
+                " cd.unitPrice" +
+                " FROM cart c" +
+                " JOIN cartdetail cd ON c.id = cd.cartId" +
+                " WHERE c.userId = ?";
+
+        return conn.get().withHandle(h -> {
+            try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+                stmt.setInt(1, userId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        int productId = rs.getInt("productId");
+                        int couponId = rs.getInt("couponId");
+                        int quantity = rs.getInt("quantity");
+                        double unitPrice = rs.getDouble("unitPrice");
+                        CartDetail c = new CartDetail(productId, couponId, quantity, unitPrice);
+                        re.add(c);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return re;
         });
     }
 }
