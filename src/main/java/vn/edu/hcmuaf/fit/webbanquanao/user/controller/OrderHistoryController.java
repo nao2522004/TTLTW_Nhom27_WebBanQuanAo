@@ -94,11 +94,19 @@ public class OrderHistoryController extends HttpServlet {
 
             // Xử lý theo loại hành động (cancel hoặc confirm)
             if ("cancel".equalsIgnoreCase(action)) {
-                isSuccess = orderService.cancelOrder(orderId);
+                // Kiểm tra và lấy lý do hủy đơn hàng
+                String reason = (String) requestData.get("cancelReason");
+                if (reason == null || reason.trim().isEmpty()) {
+                    throw new IllegalArgumentException("Lý do hủy không được để trống");
+                }
+
+                isSuccess = orderService.cancelOrder(orderId, reason);
                 response.put("message", isSuccess ? "Đơn hàng đã được hủy thành công" : "Không thể hủy đơn hàng. Vui lòng thử lại");
+
             } else if ("confirm".equalsIgnoreCase(action)) {
                 isSuccess = orderService.confirmOrder(orderId);
                 response.put("message", isSuccess ? "Đơn hàng đã được xác nhận đã nhận hàng" : "Không thể xác nhận đơn hàng. Vui lòng thử lại");
+
             } else {
                 throw new IllegalArgumentException("Hành động không hợp lệ");
             }
@@ -119,5 +127,6 @@ public class OrderHistoryController extends HttpServlet {
 
         resp.getWriter().write(gson.toJson(response));
     }
+
 
 }

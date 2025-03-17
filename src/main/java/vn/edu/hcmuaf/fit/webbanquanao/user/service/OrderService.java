@@ -16,17 +16,13 @@ public class OrderService {
         return dao.getAllOrdersByUserName(userName);
     }
 
-    public boolean cancelOrder(int orderId) {
-        return dao.cancelOrderById(orderId);
+    public boolean cancelOrder(int orderId, String reason) {
+        return dao.cancelOrderById(orderId, reason);
     }
 
     public boolean confirmOrder(int orderId) {
         return dao.completedOrderById(orderId);
     }
 
-    public static void main(String[] args) {
-        OrderService a = new OrderService();
-        System.out.println(a.cancelOrder(12));
-    }
 
 }

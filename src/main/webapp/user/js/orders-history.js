@@ -69,7 +69,7 @@ function fetchOrdersForUser() {
                         <td style="text-align: left;">${productHtml}</td>
                         <td style="vertical-align: middle;">${order.totalPrice.toLocaleString()}đ</td>
                         <td style="vertical-align: middle;">
-                            <button onclick="cancelOrder(event)" id="order-cancel-btn" class="btn btn-danger btn-sm" 
+                            <button onclick="openCancelReason(event)" id="order-cancel-btn" class="btn btn-danger btn-sm" 
                                 data-orderId="${order.id}" style="font-size: 1.4rem;" ${!isCancelable ? 'disabled' : ''}>
                                 Hủy đơn hàng
                             </button>
@@ -137,10 +137,58 @@ function getStatusColor(status) {
     return colorMap[status] || "text-secondary"; // Không xác định (màu xám)
 }
 
-function cancelOrder(event) {
-    const orderId = parseInt(event.target.getAttribute("data-orderId"), 10);
+// Mở modal nhập lý do hủy đơn hàng
+function openCancelReason(event) {
+    const orderId = event.target.getAttribute("data-orderId");
 
-    if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+    // Nếu modal đã tồn tại, chỉ cần cập nhật thông tin và hiển thị
+    let existingModal = document.getElementById("cancelOrderModal");
+    if (existingModal) {
+        document.getElementById("cancelOrderId").value = orderId;
+        $("#cancelOrderModal").modal("show");
+        return;
+    }
+
+// Tạo modal mới
+    const modalHtml = `
+    <div class="modal fade cancel-order-custom-modal" id="cancelOrderModal" tabindex="-1" role="dialog" aria-labelledby="cancelOrderLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelOrderLabel">Nhập lý do hủy đơn</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="cancelOrderForm" onsubmit="submitCancelOrder(event)">
+                        <input type="hidden" id="cancelOrderId" value="${orderId}">
+                        <div class="form-group">
+                            <label for="cancelReason">Lý do hủy đơn:</label>
+                            <textarea class="form-control" id="cancelReason" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML("beforeend", modalHtml);
+
+    // Hiển thị modal
+    $("#cancelOrderModal").modal("show");
+}
+
+// Xử lý gửi yêu cầu hủy đơn
+function submitCancelOrder(event) {
+    event.preventDefault();
+
+    const orderId = document.getElementById("cancelOrderId").value;
+    const reason = document.getElementById("cancelReason").value;
+
+    if (!reason.trim()) {
+        alert("Vui lòng nhập lý do hủy đơn hàng.");
         return;
     }
 
@@ -148,14 +196,14 @@ function cancelOrder(event) {
         url: '/WebBanQuanAo/user/orderController?action=cancel',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({id: orderId}),
-        cache: false,
+        data: JSON.stringify({ id: parseInt(orderId, 10), cancelReason: reason.trim() }),
         success: function (data) {
             alert(data.message);
-            fetchOrdersForUser();
+            $("#cancelOrderModal").modal("hide");
+            fetchOrdersForUser(); // Cập nhật lại danh sách đơn hàng
         },
         error: function () {
-            alert('Đã xảy ra lỗi khi hủy đơn hàng.');
+            alert("Đã xảy ra lỗi khi gửi yêu cầu hủy đơn hàng.");
         }
     });
 }
