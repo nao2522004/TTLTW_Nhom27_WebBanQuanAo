@@ -11,6 +11,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.service.ResetService;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 
 @WebServlet(name = "forgotPassword", value = "/forgotPassword")
@@ -25,33 +26,36 @@ public class ForgotPassword extends HttpServlet {
         UserDao userDao = new UserDao();
         String email = request.getParameter("email");
         User user = userDao.getUserByEmail(email);
+
         if (user == null || user.getId() == 0) {
-            request.setAttribute("message", "email not found or user id is invalid");
+            request.setAttribute("message", "⚠️ Email không tồn tại hoặc người dùng không hợp lệ!");
             request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             return;
         }
+
         ResetService resetService = new ResetService();
         String token = resetService.genarateToken();
-        String linkReset = "http://localhost:8080/WebBanQuanAo/ResetPassword?token="+token;
+        String linkReset = "http://localhost:8080/WebBanQuanAo/ResetPassword?email=" + URLEncoder.encode(email, "UTF-8") + "&token=" + token;
+
         TokenForgotPassword newTokenForgot = new TokenForgotPassword(user.getId(), token, resetService.expiresAt());
 
         // Tiến hành chèn vào cơ sở dữ liệu
         TokenForgotDao tokenForgotDao = new TokenForgotDao();
         boolean isInsert = tokenForgotDao.insertTokenForgot(newTokenForgot);
         if (!isInsert) {
-            request.setAttribute("message", "There was an error with the server. Please try again.");
+            request.setAttribute("message", "Đã có lỗi xảy ra trên máy chủ. Vui lòng thử lại sau!");
             request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             return;
         }
-
 
         boolean isSend = resetService.sendEmail(email, linkReset, user.getUserName());
         if (!isSend) {
-            request.setAttribute("message", "can not send request");
+            request.setAttribute("message", " Không thể gửi email yêu cầu. Vui lòng kiểm tra lại!");
             request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             return;
         }
-        request.setAttribute("message", "email request successfully");
+
+        request.setAttribute("message", "Yêu cầu đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email!");
         request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
     }
 }
