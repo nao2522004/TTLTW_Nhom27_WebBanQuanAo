@@ -251,14 +251,30 @@ h4 {
 
 #order-cancel-btn {
   font-size: 1.6rem; /* Điều chỉnh font-size */
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
+  background-color: transparent;
+  color: #dc3545; /* Màu đỏ cho nút hủy */
+  border: 2px solid #dc3545;
   padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#order-completed-btn {
+  font-size: 1.6rem; /* Điều chỉnh font-size */
+  background-color: transparent;
+  color: #28a745; /* Màu xanh lá cho nút hoàn thành */
+  border: 2px solid #28a745;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #order-cancel-btn:hover {
-  background-color: #b02a37;
+  background-color: #dc3545;
+  color: #fff;
+}
+
+#order-completed-btn:hover {
+  background-color: #28a745;
+  color: #fff;
 }
 
 #order-product-list {

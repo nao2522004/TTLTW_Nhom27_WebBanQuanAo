@@ -54,6 +54,7 @@ function getStatusText(status) {
         1: "Đang xử lý",
         2: "Đang giao",
         3: "Đã giao",
+        4: "Đã nhận hàng"
     };
     return statusMap[status] || "Không xác định";
 }
