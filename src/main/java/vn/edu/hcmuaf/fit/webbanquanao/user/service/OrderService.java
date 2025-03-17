@@ -20,6 +20,10 @@ public class OrderService {
         return dao.cancelOrderById(orderId);
     }
 
+    public boolean confirmOrder(int orderId) {
+        return dao.completedOrderById(orderId);
+    }
+
     public static void main(String[] args) {
         OrderService a = new OrderService();
         System.out.println(a.cancelOrder(12));

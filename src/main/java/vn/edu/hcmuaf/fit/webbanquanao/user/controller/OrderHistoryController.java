@@ -65,6 +65,9 @@ public class OrderHistoryController extends HttpServlet {
         Gson gson = new Gson();
 
         try {
+            // Lấy action từ URL (ví dụ: /orderController?action=cancel hoặc action=confirm)
+            String action = req.getParameter("action");
+
             // Đọc dữ liệu JSON từ request
             StringBuilder jsonBuffer = new StringBuilder();
             String line;
@@ -78,23 +81,30 @@ public class OrderHistoryController extends HttpServlet {
             Map<String, Object> requestData = gson.fromJson(jsonBuffer.toString(), Map.class);
 
             // Kiểm tra dữ liệu đầu vào
-            if (requestData == null || !requestData.containsKey("id")) {
+            if (requestData == null || !requestData.containsKey("id") || action == null) {
                 throw new IllegalArgumentException("Dữ liệu không hợp lệ");
             }
 
             // Chuyển đổi id từ Number sang int
             int orderId = ((Number) requestData.get("id")).intValue();
 
-            System.out.println("ID nhận được: " + orderId); // Log kiểm tra
+            System.out.println("ID nhận được: " + orderId + ", Hành động: " + action); // Log kiểm tra
 
-            // Gọi service để hủy đơn hàng
-            if (orderService.cancelOrder(orderId)) {
-                resp.setStatus(HttpServletResponse.SC_OK);
-                response.put("message", "Đơn hàng đã được hủy thành công");
+            boolean isSuccess = false;
+
+            // Xử lý theo loại hành động (cancel hoặc confirm)
+            if ("cancel".equalsIgnoreCase(action)) {
+                isSuccess = orderService.cancelOrder(orderId);
+                response.put("message", isSuccess ? "Đơn hàng đã được hủy thành công" : "Không thể hủy đơn hàng. Vui lòng thử lại");
+            } else if ("confirm".equalsIgnoreCase(action)) {
+                isSuccess = orderService.confirmOrder(orderId);
+                response.put("message", isSuccess ? "Đơn hàng đã được xác nhận đã nhận hàng" : "Không thể xác nhận đơn hàng. Vui lòng thử lại");
             } else {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.put("message", "Không thể hủy đơn hàng. Vui lòng thử lại");
+                throw new IllegalArgumentException("Hành động không hợp lệ");
             }
+
+            // Gửi phản hồi dựa trên kết quả xử lý
+            resp.setStatus(isSuccess ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);
         } catch (JsonSyntaxException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.put("message", "Dữ liệu JSON không hợp lệ");
@@ -102,7 +112,7 @@ public class OrderHistoryController extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.put("message", e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace(); // In chi tiết lỗi vào log để debug
+            e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.put("message", "Đã xảy ra lỗi trong quá trình xử lý yêu cầu");
         }

@@ -53,6 +53,9 @@ function fetchOrdersForUser() {
                     productHtml = `<p>Không có sản phẩm nào.</p>`;
                 }
 
+                const isCancelable = order.status !== 0 && order.status !== 3 && order.status !== 4;
+                const isConfirm = order.status === 3;
+
                 html += `
                     <tr>
                         <td style="vertical-align: middle;">#${order.id}</td>
@@ -66,7 +69,14 @@ function fetchOrdersForUser() {
                         <td style="text-align: left;">${productHtml}</td>
                         <td style="vertical-align: middle;">${order.totalPrice.toLocaleString()}đ</td>
                         <td style="vertical-align: middle;">
-                            <button onclick="cancelOrder(event)" id="order-cancel-btn" class="btn btn-danger btn-sm" data-orderId="${order.id}" style="font-size: 1.4rem;">Hủy đơn hàng</button>
+                            <button onclick="cancelOrder(event)" id="order-cancel-btn" class="btn btn-danger btn-sm" 
+                                data-orderId="${order.id}" style="font-size: 1.4rem;" ${!isCancelable ? 'disabled' : ''}>
+                                Hủy đơn hàng
+                            </button>
+                            <button onclick="completedOrder(event)" id="order-completed-btn" class="btn btn-success btn-sm" 
+                                data-orderId="${order.id}" style="font-size: 1.4rem; margin-top: 5px" ${!isConfirm ? 'disabled' : ''}>
+                                Đã nhận hàng
+                            </button>
                         </td>
                     </tr>`;
             });
@@ -111,6 +121,7 @@ function getStatusText(status) {
         1: "Đang xử lý",
         2: "Đang giao",
         3: "Đã giao",
+        4: "Đã nhận hàng"
     };
     return statusMap[status] || "Không xác định";
 }
@@ -127,31 +138,47 @@ function getStatusColor(status) {
 }
 
 function cancelOrder(event) {
-    // Chuyển đổi orderId thành kiểu int
     const orderId = parseInt(event.target.getAttribute("data-orderId"), 10);
 
-    console.log(JSON.stringify({ id: orderId }));
     if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
         return;
     }
 
     $.ajax({
-        url: '/WebBanQuanAo/user/orderController',
+        url: '/WebBanQuanAo/user/orderController?action=cancel',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ id: orderId }),
-        cache: false, // Tắt cache
+        data: JSON.stringify({id: orderId}),
+        cache: false,
         success: function (data) {
-            if (data.success) {
-                alert(data.message);
-                $(event.target).closest('tr').disable(); // Xóa dòng chứa nút bấm
-                fetchOrdersForUser()
-            } else {
-                alert(data.message);
-            }
+            alert(data.message);
+            fetchOrdersForUser();
         },
         error: function () {
             alert('Đã xảy ra lỗi khi hủy đơn hàng.');
+        }
+    });
+}
+
+function completedOrder(event) {
+    const orderId = parseInt(event.target.getAttribute("data-orderId"), 10);
+
+    if (!confirm('Bạn có chắc chắn xác nhận đã nhận hàng chứ?')) {
+        return;
+    }
+
+    $.ajax({
+        url: '/WebBanQuanAo/user/orderController?action=confirm',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({id: orderId}),
+        cache: false,
+        success: function (data) {
+            alert(data.message);
+            fetchOrdersForUser();
+        },
+        error: function () {
+            alert('Đã xảy ra lỗi khi xác nhận đã nhận hàng .');
         }
     });
 }

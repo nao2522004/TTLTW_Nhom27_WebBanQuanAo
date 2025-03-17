@@ -123,7 +123,7 @@ public class OrderDao {
                         return false;
                     }
                     int status = rs.getInt("status");
-                    if (status == 0 || status == 3) {
+                    if (status == 0 || status == 3 || status == 4) {
                         return false;
                     }
                 }
@@ -139,5 +139,42 @@ public class OrderDao {
             }
         });
     }
+
+    // Xác nhận đơn hàng theo id
+    public boolean completedOrderById(int orderId) {
+        String checkStatusSQL = "SELECT status FROM orders WHERE id = ?";
+        String completeOrderSQL = "UPDATE orders SET status = ? WHERE id = ? AND status = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try {
+                // 1. Kiểm tra trạng thái đơn hàng
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(checkStatusSQL)) {
+                    ps.setInt(1, orderId); // Chỉ cần truyền orderId để kiểm tra trạng thái
+                    ResultSet rs = ps.executeQuery();
+                    if (!rs.next()) {
+                        return false; // Không tìm thấy đơn hàng
+                    }
+                    int status = rs.getInt("status");
+                    if (status != 3) {
+                        return false; // Chỉ xác nhận nếu trạng thái là "Đang giao"
+                    }
+                }
+
+                // 2. Cập nhật trạng thái thành "Đã nhận hàng"
+                try (PreparedStatement ps = handle.getConnection().prepareStatement(completeOrderSQL)) {
+                    ps.setInt(1, 4);        // Chuyển trạng thái thành "Đã nhận hàng"
+                    ps.setInt(2, orderId);  // Điều kiện cập nhật theo id đơn hàng
+                    ps.setInt(3, 3);        // Kiểm tra trạng thái hiện tại phải là "Đang giao"
+
+                    int rowsAffected = ps.executeUpdate();
+                    return rowsAffected > 0; // Thành công nếu có bản ghi được cập nhật
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false; // Xử lý lỗi
+            }
+        });
+    }
+
 
 }
