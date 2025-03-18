@@ -24,8 +24,10 @@ public class ForgotPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDao userDao = new UserDao();
+
         String email = request.getParameter("email");
         User user = userDao.getUserByEmail(email);
+
 
         if (user == null || user.getId() == 0) {
             request.setAttribute("message", "⚠️ Email không tồn tại hoặc người dùng không hợp lệ!");

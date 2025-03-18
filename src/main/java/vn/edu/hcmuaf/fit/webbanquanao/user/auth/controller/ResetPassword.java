@@ -55,22 +55,30 @@ public class ResetPassword extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         if (email == null) {
-            request.setAttribute("message", "Không xác định được email!");
+            request.setAttribute("message", "⚠️ Không xác định được email!");
             request.getRequestDispatcher("forgot-password.jsp").forward(request, response);
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            request.setAttribute("message", "Mật khẩu không khớp");
+            request.setAttribute("message", "⚠️ Mật khẩu không khớp!");
             request.getRequestDispatcher("reset-password.jsp").forward(request, response);
             return;
         }
 
-        userDao.updatePassword(email, newPassword);
-        System.out.println("New password updated for: " + email);
+        // Mã hóa mật khẩu trước khi cập nhật
+        String hashedPassword = userDao.hashPassword(newPassword);
+
+        // Cập nhật mật khẩu mới vào database
+        TokenForgotPassword tokenForgotPassword = new TokenForgotPassword();
+        tokenForgotPassword.setToken((String) session.getAttribute("token"));
+        tokenForgotPassword.setIsUser(true);
+        userDao.updatePassword(email, hashedPassword);
+        userDao.updateStatus(tokenForgotPassword);
+
+        System.out.println("✅ Mật khẩu mới đã được cập nhật cho: " + email);
 
         response.sendRedirect("homePage");
     }
-
 
 }
