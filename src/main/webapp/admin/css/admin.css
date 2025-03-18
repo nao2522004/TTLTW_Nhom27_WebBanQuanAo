@@ -146,7 +146,7 @@ b {
 /* END HANDLE A CART DETAILS */
 
 /* Căn giữa tiêu đề cột */
-#products--table th, #users--table th, #recent-orders--table th{
+#products--table th, #users--table th, #recent-orders--table th {
     text-align: center;
 }
 
@@ -155,11 +155,47 @@ b {
     text-align: center;
 }
 
+/* overlay for add form user and product and product detais*/
+main .overlay-addUser, main .overlay-addProduct, main .overlay-addproductDetails {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Mờ nền */
+    display: none; /* Ẩn mặc định */
+    justify-content: center;
+    align-items: center; /* Căn giữa form */
+    z-index: 1000; /* Đảm bảo hiển thị trên cùng */
+}
+
 /* START ADD PRODUCT */
+#btn-addUser, #btn-addProduct, #btn-addProductDetails {
+    padding: 0 1.5rem;
+    background: transparent;
+    border-radius: var(--border-radius-3);
+    border: 2px dashed var(--color-primary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-containerAdd {
+    display: flex;
+    gap: 1rem;
+}
+
 #add-product-form, #add-user-form, #add-other-form, #add-productDetails-form, #add-order-form {
     display: grid;
     gap: 1.2rem;
     margin-top: 1rem;
+    position: absolute;
+    z-index: 2000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 81.5%;
 }
 
 #add-product-form, #add-user-form, #add-other-form, #add-productDetails-form, #add-order-form {
@@ -216,6 +252,8 @@ b {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    margin-top: 0.2rem;
 }
 
 #add-product-form .btn-primary:hover, #add-user-form .btn-primary:hover, #add-other-form .btn-primary:hover, #add-productDetails-form .btn-primary:hover, #add-order-form .btn-primary:hover {

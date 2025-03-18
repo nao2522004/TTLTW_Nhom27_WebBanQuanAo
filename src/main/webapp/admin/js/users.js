@@ -180,18 +180,31 @@ function saveUserEdits(event) {
 ---------------------------------------------------------
 ----------------------------------------------------------*/
 
+// Hiển thị form và lớp phủ
+function showAddUserForm() {
+    const overlay = document.querySelector(".overlay-addUser");
+    overlay.style.display = "flex"; // Hiển thị lớp phủ
+}
+
+// Ẩn form và lớp phủ
+function hideAddUserForm() {
+    const overlay = document.querySelector(".overlay-addUser");
+    const form = document.getElementById('add-user-form');
+    form.reset(); // Xóa dữ liệu form
+    overlay.style.display = "none"; // Ẩn lớp phủ
+}
+
 function createUser(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     const form = document.getElementById('add-user-form');
     const formData = new FormData(form);
-
     const userData = Object.fromEntries(formData.entries());
 
     fetch('/WebBanQuanAo/admin/manager-users', {
-        method: 'POST', headers: {
-            'Content-Type': 'application/json'
-        }, body: JSON.stringify(userData)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
     })
         .then(response => {
             if (response.ok) return response.json();
@@ -199,10 +212,26 @@ function createUser(event) {
         })
         .then(data => {
             alert(data.message || 'Người dùng đã được tạo thành công!');
-            fetchUsers()
+            fetchUsers(); // Tải lại danh sách người dùng
+            hideAddUserForm(); // Ẩn form sau khi thành công
         })
         .catch(err => {
             console.error('Error:', err);
             alert(err.message || 'Không thể tạo người dùng. Vui lòng thử lại.');
         });
 }
+
+window.addEventListener("DOMContentLoaded", hideAddUserForm);
+
+// Ẩn form khi click ra ngoài
+document.addEventListener("click", function(event) {
+    const overlay = document.querySelector(".overlay-addUser");
+    const form = document.getElementById("add-user-form");
+
+    // Nếu lớp phủ đang mở và click không nằm trong form
+    if (overlay.style.display === "flex" &&
+        !form.contains(event.target) &&
+        !event.target.closest("button")) {
+        hideAddUserForm();
+    }
+});

@@ -319,6 +319,20 @@ function saveProductDetailEdits(event) {
 ---------------------------------------------------------
 ----------------------------------------------------------*/
 
+// Hiển thị form thêm người dùng
+function showAddProductForm() {
+    const overlay = document.querySelector(".overlay-addProduct");
+    overlay.style.display = "flex"; // Hiển thị lớp phủ
+}
+
+
+function hideAddProductForm() {
+    const overlay = document.querySelector(".overlay-addProduct");
+    const form = document.getElementById("add-product-form");
+    form.reset(); // Xóa dữ liệu trong form
+    overlay.style.display = "none";
+}
+
 
 function createProduct(event) {
     event.preventDefault();
@@ -352,12 +366,49 @@ function createProduct(event) {
         .then(data => {
             alert(data.message || 'Sản phẩm đã được tạo thành công!');
             fetchProducts();
+            hideAddProductForm()
         })
         .catch(err => {
             console.error('Lỗi:', err);
             alert(err.message || 'Không thể tạo sản phẩm. Vui lòng thử lại.');
         });
 }
+
+window.addEventListener("DOMContentLoaded", hideAddProductForm);
+
+// Xử lý sự kiện click ra ngoài form để ẩn form
+document.addEventListener("click", function(event) {
+    const overlay = document.querySelector(".overlay-addProduct");
+    const form = document.getElementById("add-product-form");
+
+    // Kiểm tra nếu form đang hiển thị và click không nằm trong form hoặc nút hiển thị form
+    if (overlay.style.display === "flex" &&
+        !form.contains(event.target) &&
+        !event.target.closest("button")) {
+        hideAddProductForm();
+    }
+});
+
+/*--------------------------------------------------------
+---------------------------------------------------------
+
+                       Add Product Details
+
+---------------------------------------------------------
+----------------------------------------------------------*/
+function showAddProductDetailsForm() {
+    const overlay = document.querySelector(".overlay-addproductDetails");
+    overlay.style.display = "flex"; // Hiển thị lớp phủ
+}
+
+
+function hideAddProductDetailsForm() {
+    const overlay = document.querySelector(".overlay-addproductDetails");
+    const form = document.getElementById("add-productDetails-form");
+    form.reset(); // Xóa dữ liệu trong form
+    overlay.style.display = "none";
+}
+
 
 // Thêm chi tiết sản phẩm mới
 function createProductDetails(event) {
@@ -390,9 +441,26 @@ function createProductDetails(event) {
         })
         .then(data => {
             alert(data.message || 'Chi tiết sản phẩm đã được tạo thành công!');
+            fetchProducts()
+            hideAddProductDetailsForm()
         })
         .catch(err => {
             console.error('Lỗi:', err);
             alert(err.message || 'Không thể tạo chi tiết sản phẩm. Vui lòng thử lại.');
         });
 }
+
+window.addEventListener("DOMContentLoaded", hideAddProductDetailsForm);
+
+// Xử lý sự kiện click ra ngoài form để ẩn form
+document.addEventListener("click", function(event) {
+    const overlay = document.querySelector(".overlay-addproductDetails");
+    const form = document.getElementById("add-productDetails-form");
+
+    // Kiểm tra nếu form đang hiển thị và click không nằm trong form hoặc nút hiển thị form
+    if (overlay.style.display === "flex" &&
+        !form.contains(event.target) &&
+        !event.target.closest("button")) {
+        hideAddProductDetailsForm();
+    }
+});
