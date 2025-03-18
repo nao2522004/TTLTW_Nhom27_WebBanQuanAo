@@ -101,22 +101,21 @@ public class UserDao {
     }
 
 
-    public void updatePassword(String email, String password) {
-        String sql = "UPDATE users SET password = ? WHERE email = ?";
-
-        dbConnect.get().withHandle(handle -> {
-            try (Connection conn = handle.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, password);
+    public boolean updatePassword(String email, String hashedPassword) {
+        return JDBIConnector.get().withHandle(handle -> {
+            String sql = "UPDATE users SET password = ? WHERE email = ?";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, hashedPassword);
                 ps.setString(2, email);
-                ps.executeUpdate();
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println(e);
+                return false;
             }
-            return null;
         });
     }
+
 
     // Lấy người dùng theo email
     public User getUserByEmail(String email) {
@@ -223,5 +222,28 @@ public class UserDao {
         });
     }
 
+    public String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+    }
+
+    public boolean checkPassword(String inputPassword, String hashedPassword) {
+        return BCrypt.checkpw(inputPassword, hashedPassword);
+    }
+
+    public boolean addUser(User user) {
+        return JDBIConnector.get().withHandle(handle -> {
+            String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getEmail());
+                ps.setString(3, hashPassword(user.getPassWord()));
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
 
 }
