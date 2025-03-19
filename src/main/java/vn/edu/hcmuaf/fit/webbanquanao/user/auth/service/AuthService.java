@@ -1,24 +1,54 @@
 package vn.edu.hcmuaf.fit.webbanquanao.user.auth.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 public class AuthService {
 
-    public User checkLogin(String userName, String passWord) {
-        AUserDao uDao = new AUserDao(); // Khởi tạo UserDao
+    public User checkLogin(String userName, String inputPassword) {
+        AUserDao aUserDao = new AUserDao(); // Quản lý danh sách user
+        UserDao userDao = new UserDao(); // Làm việc với database
 
-        // Lấy User từ cơ sở dữ liệu thông qua UserDao
-        User user = uDao.listUser.get(userName);
+        // Lấy User từ danh sách user
+        User user = aUserDao.listUser.get(userName);
 
         if (user != null) {
-            // So sánh mật khẩu
-            if (user.getPassWord().equals(passWord)) {
-                user.setPassWord(null); // Xóa mật khẩu trước khi trả về
-                return user;
+            // Lấy mật khẩu từ database
+            String storedPassword = userDao.getPassWordByUserName(userName);
+
+            if (storedPassword == null) {
+                return null; // Nếu mật khẩu không tồn tại, trả về null
+            }
+
+            boolean isHashed = storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$");
+
+            if (isHashed) {
+                // Nếu mật khẩu đã mã hóa, kiểm tra bằng BCrypt
+                if (BCrypt.checkpw(inputPassword, storedPassword)) {
+                    user.setPassWord(null); // Xóa mật khẩu trước khi trả về
+                    return user;
+                } else {
+                    return null; // Sai mật khẩu
+                }
+            } else {
+                // Nếu mật khẩu chưa mã hóa, kiểm tra trực tiếp
+                if (storedPassword.equals(inputPassword)) {
+                    // Nếu đúng, cập nhật sang BCrypt
+                    System.out.println("Updating old password to hashed version...");
+                    String hashedPassword = BCrypt.hashpw(inputPassword, BCrypt.gensalt(12));
+                    userDao.changePassword(userName, hashedPassword); // Cập nhật mật khẩu mới vào database
+                    user.setPassWord(null);
+                    return user;
+                } else {
+                    return null; // Sai mật khẩu
+                }
             }
         }
-        return null;
+        return null; // Người dùng không tồn tại
     }
+
+
 
 }

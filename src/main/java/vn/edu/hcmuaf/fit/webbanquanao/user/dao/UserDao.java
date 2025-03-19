@@ -189,20 +189,21 @@ public class UserDao {
     }
 
     // Đổi mật khẩu trong trang cá nhân
-    public boolean changePassword(String userName, String passWord) {
+    public boolean changePassword(String userName, String hashedPassword) {
         return JDBIConnector.get().withHandle(handle -> {
-            String sql = "UPDATE users SET passWord = ? WHERE userName = ?";
+            String sql = "UPDATE users SET password = ? WHERE username = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, passWord);
+                ps.setString(1, hashedPassword); // Lưu mật khẩu đã mã hóa
                 ps.setString(2, userName);
                 int rowsAffected = ps.executeUpdate();
-                return rowsAffected > 0; // Trả về true nếu có ít nhất 1 hàng được cập nhật
+                return rowsAffected > 0;
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false; // Trả về false nếu có lỗi
+                return false;
             }
         });
     }
+
 
     public String getPassWordByUserName(String userName) {
         String sql = "SELECT passWord FROM users WHERE userName = ?";
