@@ -100,6 +100,35 @@
             min-width: 8rem !important;
         }
 
+        .input-box {
+            position: relative;
+        }
+        .input-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #888;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+            outline: none;
+        }
+
+        .toggle-password i {
+            font-size: 18px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -340,21 +369,30 @@
             </div>
             <div class="form-group">
                 <label for="currentPassword">Mật khẩu cũ</label>
-                <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ."
-                       required
-                >
+                <div class="input-box">
+                    <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>
+                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'currentPassword')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <label for="newPassword">Mật khẩu mới</label>
-                <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới."
-                       required
-                >
+                <div class="input-box">
+                    <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới." required>
+                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'newPassword')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Nhập lại mật khẩu</label>
-                <input type="password" class="form-control" id="confirmPassword"
-                       placeholder="Xác nhận lại mật khẩu." required
-                >
+                <div class="input-box">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận lại mật khẩu." required>
+                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'confirmPassword')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn btn-second-color">Cập nhật</button>
         </form>
@@ -380,7 +418,22 @@
 
 <script src="./user/js/orders-history.js"></script>
 
+<script>
+    function togglePassword(button) {
+        const input = button.previousElementSibling; // Lấy input trước nút
+        const icon = button.querySelector('i');
 
+        if (input.type === "password") {
+            input.type = "text"; // Hiện mật khẩu
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password"; // Ẩn mật khẩu
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
 <!-- base js -->
 <script src="./assets/js/base.js"></script>
 <script src="./assets/js/user.js"></script>
