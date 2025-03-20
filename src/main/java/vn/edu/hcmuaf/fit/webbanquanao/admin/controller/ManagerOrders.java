@@ -133,7 +133,7 @@ public class ManagerOrders extends HttpServlet {
             System.out.println("Order received: " + order);
 
             // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
-            if (order.getId() == null || order.getFirstName() == null || order.getPaymentMethod() == null) {
+            if (order.getId() == null || order.getFirstName() == null || order.getPaymentId() == null) {
                 throw new IllegalArgumentException("Thiếu thông tin đơn hàng");
             }
 
@@ -180,28 +180,26 @@ public class ManagerOrders extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
-            // Log dữ liệu JSON nhận được
-            System.out.println("Received JSON: " + json);
 
             // Parse JSON để lấy ID đơn hàng
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             Integer orderId = jsonObject.get("id").getAsInt();
 
-            // Kiểm tra ID đơn hàng
+            // Kiểm tra ID đơn hàng hợp lệ
             if (orderId == null || orderId <= 0) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"ID đơn hàng không hợp lệ\"}");
                 return;
             }
 
-            // Gọi service để xóa đơn hàng
+            // Gọi service để thực hiện xóa mềm
             AOrderService orderService = new AOrderService();
             boolean isDeleted = orderService.deleteOrder(orderId);
 
-            // Phản hồi
+            // Phản hồi kết quả cho client
             if (isDeleted) {
                 response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("{\"message\": \"Xóa đơn hàng thành công\"}");
+                response.getWriter().write("{\"message\": \"Xóa mềm đơn hàng thành công\"}");
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 response.getWriter().write("{\"message\": \"Không tìm thấy đơn hàng\"}");
@@ -209,9 +207,10 @@ public class ManagerOrders extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+            response.getWriter().write("{\"message\": \"Lỗi máy chủ: " + e.getMessage() + "\"}");
         }
     }
+
 
 }
 
