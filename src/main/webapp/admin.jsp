@@ -188,8 +188,8 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Tên</th>
-                            <th>Phương Thức Thanh Toán</th>
+                            <th>Khách hàng</th>
+                            <th>Thanh toán</th>
                             <th>Mã Giảm Giá</th>
                             <th>Ngày Tạo</th>
                             <th>Tổng Tiền</th>
@@ -200,10 +200,10 @@
 
                         <tbody>
                         <tr>
-                            <td><input type="number" name="id" id="edit-idOrder" readonly></td>
+                            <td style="width: 7%"><input type="number" name="id" id="edit-idOrder" readonly></td>
                             <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
                             <td>
-                                <select name="paymentMethod" id="edit-paymentMethod" required>
+                                <select name="paymentId" id="edit-paymentId" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
                                     <option value="1">Tiền mặt</option>
                                     <option value="2">Chuyển khoản</option>
                                     <option value="3">Thẻ tín dụng</option>
@@ -214,12 +214,13 @@
                             <td><input type="datetime-local" name="orderDate" id="edit-orderDate" required></td>
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
-                                <select name="status" id="edit-statusOrder" required>
+                                <select name="status" id="edit-statusOrder" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
                                     <option value="0">Đã Hủy</option>
                                     <option value="1">Đang xử lý</option>
                                     <option value="2">Đang giao hàng</option>
                                     <option value="3">Đã giao hàng</option>
-                                    <option value="3">Đã nhận hàng</option>
+                                    <option value="4">Đã nhận hàng</option>
+                                    <option value="5">Đã xóa</option>
                                 </select>
                             </td>
                             <td><span type="submit" onclick="saveOrderEdits(event)"
@@ -704,251 +705,6 @@
         </div>
 
     </main>
-
-
-    <!--------------------------------------------------------
----------------------------------------------------------
-
-                   Manager Others
-
----------------------------------------------------------
----------------------------------------------------------->
-    <%--    <main id="manager_others">--%>
-    <%--        <h1>Quản lý sản phẩm</h1>--%>
-
-    <%--        <div class="dash-top">--%>
-
-
-    <%--            <div class="date">--%>
-    <%--                <input type="date"/>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="search-card">--%>
-    <%--                <form id="search-form">--%>
-    <%--                    <div class="search-group">--%>
-    <%--                        <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>--%>
-    <%--                        <button type="submit" class="search-button">--%>
-    <%--                            <span class="material-icons-sharp">search</span>--%>
-    <%--                        </button>--%>
-    <%--                    </div>--%>
-    <%--                </form>--%>
-    <%--            </div>--%>
-
-    <%--        </div>--%>
-
-
-    <%--        <div class="recent-orders">--%>
-    <%--            <h2>Chương Trình Giảm Giá.</h2>--%>
-    <%--            <table id="sales--table">--%>
-    <%--                <thead>--%>
-    <%--                <tr>--%>
-    <%--                    <th>Mã</th>--%>
-    <%--                    <th>Tên</th>--%>
-    <%--                    <th>Ngày bắt đầu</th>--%>
-    <%--                    <th>Ngày kết thúc</th>--%>
-    <%--                    <th>Mô tả</th>--%>
-    <%--                    <th>Thao tác</th>--%>
-    <%--                </tr>--%>
-    <%--                </thead>--%>
-    <%--                <!-- Add tbody here | JS insertion -->--%>
-    <%--            </table>--%>
-    <%--            <a href="#">Show All</a>--%>
-    <%--        </div>--%>
-
-
-    <%--        <div class="recent-orders">--%>
-    <%--            <h2>Bộ sưu tầm.</h2>--%>
-    <%--            <table id="collections--table">--%>
-    <%--                <thead>--%>
-    <%--                <tr>--%>
-    <%--                    <th>Mã</th>--%>
-    <%--                    <th>Tên</th>--%>
-    <%--                    <th>Ngày bắt đầu</th>--%>
-    <%--                    <th>Mô tả</th>--%>
-    <%--                    <th>Thao tác</th>--%>
-    <%--                </tr>--%>
-    <%--                </thead>--%>
-    <%--                <!-- Add tbody here | JS insertion -->--%>
-    <%--            </table>--%>
-    <%--            <a href="#">Show All</a>--%>
-    <%--        </div>--%>
-
-    <%--        <!-- edit others -->--%>
-    <%--        <div class="overlay">--%>
-    <%--            <div class="recent-orders popup" style="top: -20rem;">--%>
-    <%--                <span onclick="hideOverlay(event)" class="material-icons-sharp close"> close </span>--%>
-    <%--                <h2>Chỉnh Sửa Chương Trình Giảm Giá</h2>--%>
-    <%--                <table id="sale_edit--table">--%>
-    <%--                    <thead>--%>
-    <%--                    <tr>--%>
-    <%--                        <th>Mã</th>--%>
-    <%--                        <th>Tên</th>--%>
-    <%--                        <th>Ngày bắt đầu</th>--%>
-    <%--                        <th>Ngày kết thúc</th>--%>
-    <%--                        <th>Mô tả</th>--%>
-    <%--                        <th>Thao tác</th>--%>
-    <%--                    </tr>--%>
-    <%--                    </thead>--%>
-    <%--                    <!-- Add tbody here | JS insertion -->--%>
-    <%--                </table>--%>
-    <%--                <h2 style="margin-top: 1rem;">Chỉnh Sửa Bộ Sưu Tập</h2>--%>
-    <%--                <table id="collection_edit--table">--%>
-    <%--                    <thead>--%>
-    <%--                    <tr>--%>
-    <%--                        <th>Mã</th>--%>
-    <%--                        <th>Tên</th>--%>
-    <%--                        <th>Ngày bắt đầu</th>--%>
-    <%--                        <th>Mô tả</th>--%>
-    <%--                        <th>Thao tác</th>--%>
-    <%--                    </tr>--%>
-    <%--                    </thead>--%>
-    <%--                    <!-- Add tbody here | JS insertion -->--%>
-    <%--                </table>--%>
-    <%--                <a href="#">Show All</a>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-    <%--    </main>--%>
-
-
-    <%--    <!------------------------------------ Add Others ------------------------------------>--%>
-    <%--    <main id="add_others">--%>
-    <%--        <!------------------------------------ Add Collections ------------------------------------>--%>
-    <%--        <h1>Thêm Bộ Sưu Tập</h1>--%>
-    <%--        <form id="add-product-form" action="/add-collection" method="POST">--%>
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="collections_name">Tên Bộ Sưu Tập</label>--%>
-    <%--                    <input type="text" id="collections_name" name="collections_name"--%>
-    <%--                           placeholder="Nhập tên bộ sưu tập." required>--%>
-    <%--                </div>--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="start_date">Ngày Bắt Đầu</label>--%>
-    <%--                    <input type="date" id="start_date" name="start_date" required>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="collections_description">Mô Tả Bộ Sưu Tập</label>--%>
-    <%--                    <textarea id="collections_description" name="collections_description"--%>
-    <%--                              placeholder="Nhập mô tả bộ sưu tập." required></textarea>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <button type="submit" class="btn-primary">--%>
-    <%--                <span class="material-icons-sharp"> add </span>--%>
-    <%--                <h3>Thêm Bộ Sưu Tập</h3>--%>
-    <%--            </button>--%>
-    <%--        </form>--%>
-
-    <%--        <!------------------------------------ Add Sales ------------------------------------>--%>
-    <%--        <h1>Thêm Chương Trình Khuyến Mãi</h1>--%>
-    <%--        <form id="add-product-form" action="/add-sales" method="POST">--%>
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="sales_name">Tên Chương Trình</label>--%>
-    <%--                    <input type="text" id="sales_name" name="sales_name" placeholder="Nhập tên chương trình."--%>
-    <%--                           required>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="start_date">Ngày Bắt Đầu</label>--%>
-    <%--                    <input type="date" id="start_date" name="start_date" required>--%>
-    <%--                </div>--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="end_date">Ngày Kết Thúc</label>--%>
-    <%--                    <input type="date" id="end_date" name="end_date" required>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="sales_description">Mô Tả Chương Trình</label>--%>
-    <%--                    <textarea id="sales_description" name="sales_description" placeholder="Nhập mô tả chương trình."--%>
-    <%--                              required></textarea>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-
-    <%--            <button type="submit" class="btn-primary">--%>
-    <%--                <span class="material-icons-sharp"> add </span>--%>
-    <%--                <h3>Thêm Chương Trình Khuyến Mãi</h3>--%>
-    <%--            </button>--%>
-    <%--        </form>--%>
-
-    <%--        <!-- Gui thong bao -->--%>
-    <%--        <h1>Gửi Thông Báo</h1>--%>
-    <%--        <form id="">--%>
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="notification-date">Ngày Thông Báo</label>--%>
-    <%--                    <input type="datetime-local" id="notification-date" name="notification-date" required>--%>
-    <%--                </div>--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="is-read">Trạng Thái Đọc</label>--%>
-    <%--                    <select id="is-read" name="is-read" required>--%>
-    <%--                        <option value="0">Chưa Đọc</option>--%>
-    <%--                        <option value="1">Đã Đọc</option>--%>
-    <%--                    </select>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <div class="form-group">--%>
-    <%--                <div class="form-group--items">--%>
-    <%--                    <label for="message">Nội Dung Thông Báo</label>--%>
-    <%--                    <textarea id="message" name="message" placeholder="Nhập nội dung thông báo."--%>
-    <%--                              required></textarea>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-
-    <%--            <button type="submit" class="btn-primary">--%>
-    <%--                <span class="material-icons-sharp"> send </span>--%>
-    <%--                <h3>Gửi Thông Báo</h3>--%>
-    <%--            </button>--%>
-    <%--        </form>--%>
-    <%--    </main>--%>
-
-
-    <%--    <div class="right">--%>
-    <%--        <div class="top">--%>
-    <%--            <button id="menu-btn">--%>
-    <%--                <span class="material-icons-sharp"> menu </span>--%>
-    <%--            </button>--%>
-    <%--            <div class="theme-toggler">--%>
-    <%--                <span class="material-icons-sharp active"> light_mode </span>--%>
-    <%--                <span class="material-icons-sharp"> dark_mode </span>--%>
-    <%--            </div>--%>
-    <%--            <div class="profile">--%>
-    <%--                <div class="info">--%>
-    <%--                    <p>Hey, <b>ManhDZ</b></p>--%>
-    <%--                    <small class="text-muted">Admin</small>--%>
-    <%--                </div>--%>
-    <%--                <div class="profile-photo">--%>
-    <%--                    <img src="assets/imgs/admin/logoadmin.jpg" alt="Profile Picture"/>--%>
-    <%--                </div>--%>
-    <%--            </div>--%>
-    <%--        </div>--%>
-
-    <%--        <div class="recent-updates">--%>
-    <%--            <h2>Cập Nhập Gần Đây</h2>--%>
-    <%--            <!-- Add updates div here | JS insertion -->--%>
-    <%--        </div>--%>
-
-    <%--        <div class="sales-analytics">--%>
-    <%--            <h2>Phân tích bán hàng</h2>--%>
-    <%--            <div id="analytics">--%>
-    <%--                <!-- Add items div here | JS insertion -->--%>
-    <%--            </div>--%>
-    <%--            <!-- <div class="item add-product">--%>
-    <%--                <div>--%>
-    <%--                    <span class="material-icons-sharp"> add </span>--%>
-    <%--                    <h3>Thêm Sản Phẩm</h3>--%>
-    <%--                </div>--%>
-    <%--            </div> -->--%>
-    <%--        </div>--%>
-    <%--    </div>--%>
 </div>
 
 <script src="assets/js/admin-data/recent-order-data.js"></script>

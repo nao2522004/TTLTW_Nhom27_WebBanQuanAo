@@ -54,7 +54,8 @@ function getStatusText(status) {
         1: "Đang xử lý",
         2: "Đang giao",
         3: "Đã giao",
-        4: "Đã nhận hàng"
+        4: "Đã nhận hàng",
+        5: "Đã xóa"
     };
     return statusMap[status] || "Không xác định";
 }
@@ -113,23 +114,30 @@ function deleteOrder(event) {
 
 // Mở popup chỉnh sửa đơn hàng
 function openEditOrderPopup(event) {
-    const orderId = event.target.getAttribute("data-orderId");  // Lấy id đơn hàng từ thuộc tính data-orderId
+    const orderId = event.target.getAttribute("data-orderId"); // Lấy id đơn hàng từ data-orderId
 
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");
-    overlay.style.display = "block"; // Hiển thị lớp phủ của main hiện tại
+    overlay.style.display = "block"; // Hiển thị lớp phủ
 
     // Gửi yêu cầu AJAX để lấy dữ liệu đơn hàng theo id
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-orders', // Đảm bảo URL này khớp với mapping của servlet
+        url: '/WebBanQuanAo/admin/manager-orders', // Đảm bảo URL khớp với servlet
         type: 'GET',
-        data: {id: orderId},  // Gửi id dưới dạng tham số truy vấn
+        data: { id: orderId },
         cache: false,
         success: function (data) {
             // Điền dữ liệu đơn hàng vào các trường trong form
             document.getElementById("edit-idOrder").value = data.id;
             document.getElementById("edit-firstNameOrder").value = data.firstName;
-            document.getElementById("edit-paymentMethod").value = data.paymentMethod;
+            // Tìm và chọn phương thức thanh toán theo paymentId
+            const paymentSelect = document.getElementById("edit-paymentId");
+            const paymentOption = paymentSelect.querySelector(`option[value="${data.paymentId}"]`);
+            if (paymentOption) {
+                paymentOption.selected = true; // Chọn đúng option
+            } else {
+                console.warn("Không tìm thấy phương thức thanh toán phù hợp:", data.paymentId);
+            }
             document.getElementById("edit-code").value = data.code;
             document.getElementById("edit-orderDate").value = data.orderDate;
             document.getElementById("edit-totalPrice").value = data.totalPrice;
@@ -145,6 +153,7 @@ function openEditOrderPopup(event) {
 }
 
 
+
 // Lưu chỉnh sửa đơn hàng
 function saveOrderEdits(event) {
     // Ngăn hành vi submit mặc định của form
@@ -154,7 +163,7 @@ function saveOrderEdits(event) {
     const order = {
         id: parseInt(document.getElementById("edit-idOrder").value),
         firstName: document.getElementById("edit-firstNameOrder").value,
-        paymentMethod: document.getElementById("edit-paymentMethod").value,
+        paymentId: parseInt(document.getElementById("edit-paymentId").value),
         code: document.getElementById("edit-code").value,
         orderDate: new Date(document.getElementById("edit-orderDate").value).toISOString(),
         totalPrice: parseFloat(document.getElementById("edit-totalPrice").value),

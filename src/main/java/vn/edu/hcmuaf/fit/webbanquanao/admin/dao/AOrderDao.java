@@ -77,11 +77,11 @@ public class AOrderDao {
     public boolean update(Object obj, Integer id) {
         return JDBIConnector.get().withHandle(h -> {
             AOrder order = (AOrder) obj;
-            listOrders.replace(id, order);
-            String sql = "UPDATE orders o " + "INNER JOIN payments p ON o.paymentId = p.id " + "INNER JOIN coupons c ON o.couponId = c.id " + "INNER JOIN users u ON o.userId = u.id " + "SET u.firstName = ?, p.paymentMethod = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " + "WHERE o.id = ?";
+            listOrders.replace(id, order); // cập nhập cache (listOrders)
+            String sql = "UPDATE orders o " + "INNER JOIN coupons c ON o.couponId = c.id " + "INNER JOIN users u ON o.userId = u.id " + "SET u.firstName = ?, o.paymentId = ?, c.code = ?, o.orderDate = ?, o.totalPrice = ?, o.status = ? " + "WHERE o.id = ?";
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
                 ps.setString(1, order.getFirstName());
-                ps.setString(2, order.getPaymentMethod());
+                ps.setInt(2, order.getPaymentId());
                 ps.setString(3, order.getCode());
                 ps.setDate(4, java.sql.Date.valueOf(order.getOrderDate().toLocalDate()));
                 ps.setDouble(5, order.getTotalPrice());
@@ -122,19 +122,21 @@ public class AOrderDao {
     }
 
 
-    public boolean delete(Integer id) {
-        listOrders.remove(id);
-        String sql = "DELETE FROM orders WHERE id = ?";
+    public boolean delete(Integer id, Integer status) {
+        // Xóa mềm: cập nhật cột status = 5 (Đã xóa)
+        String sql = "UPDATE orders SET status = ? WHERE id = ?";
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, id);
-                return ps.executeUpdate() > 0;
+                ps.setInt(1, status); // status = 5 là đã xóa
+                ps.setInt(2, id);
+                return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
             } catch (Exception e) {
-                System.out.println("Loi khi xoa don hang: " + e.getMessage());
+                System.out.println("Lỗi khi xóa mềm đơn hàng: " + e.getMessage());
             }
-            return false;
+            return false; // Trả về false nếu có lỗi
         });
     }
+
 
 
 }
