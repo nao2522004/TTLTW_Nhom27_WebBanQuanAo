@@ -216,6 +216,7 @@ public class ManagerProducts extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
+
             // Parse JSON để lấy ID sản phẩm
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             Integer productId = jsonObject.get("id").getAsInt();
@@ -227,21 +228,25 @@ public class ManagerProducts extends HttpServlet {
                 return;
             }
 
-            // Gọi service để xóa sản phẩm
+            // Gọi service để xóa mềm sản phẩm
             boolean isDeleted = productService.delete(productId);
 
-            // Phản hồi
-            if (isDeleted) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("{\"message\": \"Sản phẩm đã được xóa\"}");
-            } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().write("{\"message\": \"Không tìm thấy sản phẩm\"}");
+            // Kiểm tra nếu sản phẩm đã bị ẩn trước đó
+            if (!isDeleted) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.getWriter().write("{\"message\": \"Sản phẩm đã bị ẩn hoặc không tồn tại\"}");
+                return;
             }
+
+            // Phản hồi thành công
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("{\"message\": \"Sản phẩm đã được ẩn thành công\"}");
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+            response.getWriter().write("{\"message\": \"Lỗi xử lý yêu cầu: " + e.getMessage() + "\"}");
         }
     }
+
 }

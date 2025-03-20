@@ -53,14 +53,14 @@ const buildTableProduct = (products) => {
     let productContent = "";
     for (const product of products) {
         let typeIdOptionsForId = `
-            <select>
+            <select disabled>
                 <option value="1" ${product.typeId === 1 ? 'selected' : ''}>Áo</option>
                 <option value="2" ${product.typeId === 2 ? 'selected' : ''}>Quần</option>
             </select>
         `;
 
         let supplierOptionsForId = `
-            <select>
+            <select disabled>
                 <option value="1" ${product.supplierId === 1 ? 'selected' : ''}>PEALO</option>
                 <option value="2" ${product.supplierId === 2 ? 'selected' : ''}>B Brown Studio</option>
                 <option value="3" ${product.supplierId === 3 ? 'selected' : ''}>BBRAND</option>
@@ -69,7 +69,7 @@ const buildTableProduct = (products) => {
         `;
 
         let categoryOptionsForId = `
-            <select>
+            <select disabled>
                 <option value="1" ${product.categoryId === 1 ? 'selected' : ''}>Áo nam</option>
                 <option value="2" ${product.categoryId === 2 ? 'selected' : ''}>Áo Nữ</option>
                 <option value="3" ${product.categoryId === 3 ? 'selected' : ''}>Áo trẻ em</option>
@@ -78,6 +78,13 @@ const buildTableProduct = (products) => {
                 <option value="6" ${product.categoryId === 6 ? 'selected' : ''}>Quần trẻ em</option>
             </select>
         `;
+
+        let statusText = "";
+        switch (product.status) {
+            case 0: statusText = "Đã xóa"; break;
+            case 1: statusText = "Còn"; break;
+            case 2: statusText = "Hết"; break;
+        }
 
         productContent += `
         <tr>
@@ -90,7 +97,7 @@ const buildTableProduct = (products) => {
           <td>${product.releaseDate}</td>
           <td>${product.unitSold}</td>
           <td>${product.unitPrice}</td>
-          <td>${product.status ? 'Còn' : 'Hết'}</td>
+          <td>${statusText}</td>
           <td class="primary">
             <span onclick="openEditProductPopup(event)" class="material-icons-sharp" data-product-id="${product.id}"> edit </span>
             <span onclick="deleteProduct(event)" class="material-icons-sharp" data-product-id="${product.id}"> delete </span>
@@ -194,7 +201,7 @@ function saveProductEdits(event) {
         releaseDate: releaseDate, // Gắn giá trị đã định dạng
         unitSold: parseInt(document.getElementById("edit-unitSold").value),
         unitPrice: parseFloat(document.getElementById("edit-unitPrice").value).toFixed(2),
-        status: document.getElementById("edit-statusProduct").value === "true",
+        status: parseInt(document.getElementById("edit-statusProduct").value),
     };
 
     // Chuyển đổi đối tượng `product` thành JSON

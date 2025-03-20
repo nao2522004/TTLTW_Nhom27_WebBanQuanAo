@@ -13,12 +13,13 @@ public class AProduct implements Serializable {
     private Date releaseDate;
     private Integer unitSold;
     private double unitPrice;
-    private boolean status;
+    private Integer status;
+   
 
     public AProduct() {
     }
 
-    public AProduct(Integer id, Integer typeId, Integer categoryId, Integer supplierId, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status) {
+    public AProduct(Integer id, Integer typeId, Integer categoryId, Integer supplierId, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, Integer status) {
         this.id = id;
         this.typeId = typeId;
         this.categoryId = categoryId;
@@ -103,14 +104,13 @@ public class AProduct implements Serializable {
         this.unitPrice = unitPrice;
     }
 
-    public boolean isStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
-
 
     @Override
     public String toString() {
