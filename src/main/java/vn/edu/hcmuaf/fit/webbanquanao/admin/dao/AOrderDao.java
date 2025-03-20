@@ -131,7 +131,7 @@ public class AOrderDao {
                 ps.setInt(2, id);
                 return ps.executeUpdate() > 0; // Trả về true nếu cập nhật thành công
             } catch (Exception e) {
-                System.out.println("Lỗi khi xóa mềm đơn hàng: " + e.getMessage());
+                System.out.println("Lỗi khi vô hiệu hóa đơn hàng: " + e.getMessage());
             }
             return false; // Trả về false nếu có lỗi
         });

@@ -531,8 +531,9 @@
                     <div class="form-group--items">
                         <label for="product-status">Trạng thái</label>
                         <select id="product-status" name="status">
-                            <option value="true" selected>Còn</option>
-                            <option value="false">Hết</option>
+                            <option value="0">Đã xóa</option>
+                            <option value="1" selected>Còn hàng</option>
+                            <option value="2">Hết hàng</option>
                         </select>
                     </div>
                 </div>
@@ -664,8 +665,9 @@
                             <td><input type="number" name="unitPrice" id="edit-unitPrice" step="0.01" required></td>
                             <td>
                                 <select name="status" id="edit-statusProduct" required>
-                                    <option value="true">Còn</option>
-                                    <option value="false">Hết</option>
+                                    <option value="0">Đã xóa</option>
+                                    <option value="1">Còn</option>
+                                    <option value="2">Hết</option>
                                 </select>
                             </td>
                             <td><span type="submit" onclick="saveProductEdits(event)"
@@ -723,6 +725,10 @@
 
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<!-- DataTables CSS -->
+<link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
 
 </body>
 

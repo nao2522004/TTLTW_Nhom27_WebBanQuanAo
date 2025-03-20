@@ -60,7 +60,7 @@ public class AProductDao {
                     product.setReleaseDate(rs.getDate("releaseDate"));
                     product.setUnitSold(rs.getInt("unitSold"));
                     product.setUnitPrice(rs.getDouble("unitPrice"));
-                    product.setStatus(rs.getBoolean("status"));
+                    product.setStatus(rs.getInt("status"));
                     products.put(product.getId(), product);
                 }
             } catch (Exception e) {
@@ -85,7 +85,7 @@ public class AProductDao {
                 ps.setDate(6, product.getReleaseDate());
                 ps.setInt(7, product.getUnitSold());
                 ps.setDouble(8, product.getUnitPrice());
-                ps.setBoolean(9, product.isStatus());
+                ps.setInt(9, product.getStatus());
 
                 int affectedRows = ps.executeUpdate();
                 if (affectedRows > 0) {
@@ -140,7 +140,7 @@ public class AProductDao {
                 ps.setDate(7, product.getReleaseDate());
                 ps.setInt(8, product.getUnitSold());
                 ps.setDouble(9, product.getUnitPrice());
-                ps.setBoolean(10, product.isStatus());
+                ps.setInt(10, product.getStatus());
                 ps.setInt(11 , id);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
@@ -172,18 +172,19 @@ public class AProductDao {
     }
 
 
-    public boolean delete(Integer id) {
-        listProduct.remove(id);
-        String sql = "DELETE FROM products WHERE id = ?;";
+    public boolean delete(Integer id, int status) {
+        String sql = "UPDATE products SET status = ? WHERE id = ?";
         return JDBIConnector.get().withHandle(h -> {
             try (PreparedStatement ps = h.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, id);
+                ps.setInt(1, status);
+                ps.setInt(2, id);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
-                System.out.println("Loi khi xoa product: " + e.getMessage());
+                System.out.println("Lỗi khi cập nhật trạng thái sản phẩm: " + e.getMessage());
+                return false;
             }
-            return false;
         });
     }
+
 
 }

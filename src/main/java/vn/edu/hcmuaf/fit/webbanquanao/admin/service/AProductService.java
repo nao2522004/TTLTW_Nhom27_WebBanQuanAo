@@ -39,8 +39,13 @@ public class AProductService {
     }
 
     public boolean delete(Integer id) {
+        // status = 0 là đã ẩn (vô hiệu hóa)
         if (!productDao.listProduct.containsKey(id)) return false;
-        return productDao.delete(id);
+        AProduct product = productDao.listProduct.get(id);
+        if(product.getStatus() == 0) return false;
+        boolean isDeletedInDB = productDao.delete(id, 0);
+        if (isDeletedInDB) product.setStatus(0);
+        return isDeletedInDB;
     }
 
     public boolean createProduct(AProduct product) {
