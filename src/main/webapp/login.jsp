@@ -66,7 +66,10 @@
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="${pageContext.request.contextPath}/google-login">
+                        <i class="fa-brands fa-google"></i>
+                    </a>
+
                     <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 </div>
@@ -76,35 +79,32 @@
 
 
         <!-- Register -->
-        <div class="form-box register" action="signupController" method="POST">
-            <form action="">
+        <div class="form-box register" id="signup-form">
+            <form action="register" method="POST">
                 <h1>Đăng Ký</h1>
 
                 <%
                     // Lấy thông báo lỗi từ session
                     String signupError = (String) session.getAttribute("error");
-                    String fullname = request.getParameter("fullName");
-                    String gmail = request.getParameter("gmailRe");
+                    String email = request.getParameter("email");
 
                     // Nếu không có giá trị trong session, gán signupError là chuỗi trống
                     if (signupError == null) signupError = "";
-                    if (fullname == null) fullname = "";
-                    if (gmail == null) gmail = "";
+                    if (email == null) email = "";
                 %>
-                <!-- Hiển thị thông báo lỗi nếu có -->
+
                 <% if (!signupError.isEmpty()) { %>
-                <p class="error-message register animation" style="--i:17; --j:0"><%= signupError %></p>
+                <p class="error-message register animation"><%= signupError %></p>
+                <% session.removeAttribute("error"); %> <!-- Xóa lỗi sau khi hiển thị -->
                 <% } %>
+
                 <div class="input-box">
-                    <input type="text" name="username" placeholder="Họ và Tên" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Email/Số Điện Thoại" value="<%=gmail%>" required>
+                    <input type="email" name="email" placeholder="Email" value="<%= email %>" required>
                     <i class="fa-solid fa-envelope"></i>
                 </div>
+
                 <div class="input-box">
-                    <input type="password" id="confirmPasswordRe" name="confirmPasswordRe" placeholder="Mật Khẩu" required>
+                    <input type="password" id="password" name="password" placeholder="Mật Khẩu" required>
                     <button type="button" class="toggle-password" onclick="togglePassword(this)">
                         <i class="fa-solid fa-eye"></i>
                     </button>
@@ -119,7 +119,7 @@
                 </div>
             </form>
         </div>
-        <!-- END: Register -->
+
 
         <div class="toggle-box">
             <div class="toggle-panel toggle-left">
@@ -147,6 +147,8 @@
 
     <!-- base js -->
     <script src="./assets/js/base.js"></script>
+
+
 </body>
 
 </html>

@@ -54,9 +54,8 @@ public class UserDao {
         });
     }
 
-    // Đăng ký người dùng mới (mã hóa mật khẩu)
     public boolean registerUser(User user) {
-        String sql = "INSERT INTO users (avatar, password, fullName, email, phone, address, notificationCheck, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (avatar, password, firstName, lastName, email, phone, address, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
 
@@ -67,23 +66,35 @@ public class UserDao {
                 ps.setString(1, user.getAvatar());
                 ps.setString(2, hashedPassword);
                 ps.setString(3, user.getFirstName());
-                ps.setString(3, user.getLastName());
-                ps.setString(4, user.getEmail());
-                ps.setInt(5, user.getPhone());
-                ps.setString(6, user.getAddress());
-                ps.setInt(7, user.getRoleId());
+                ps.setString(4, user.getLastName());
+                ps.setString(5, user.getEmail());
 
-                return ps.executeUpdate() > 0;
+                // Kiểm tra nếu phone là null thì setNull, ngược lại thì setInt
+                if (user.getPhone() != null) {
+                    ps.setInt(6, user.getPhone());
+                } else {
+                    ps.setNull(6, java.sql.Types.INTEGER);
+                }
+
+                ps.setString(7, user.getAddress());
+                ps.setInt(8, user.getRoleId());
+
+                int rowsAffected = ps.executeUpdate();
+                System.out.println("Rows affected: " + rowsAffected);
+                return rowsAffected > 0;
+
             } catch (SQLException e) {
+                System.err.println("Lỗi khi đăng ký người dùng: " + e.getMessage());
                 e.printStackTrace();
                 return false;
             }
         });
     }
 
+
     // Kiểm tra xem email đã tồn tại chưa
     public boolean isEmailExist(String email) {
-        String sql = "SELECT * FROM users WHERE gmail = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
 
         return dbConnect.get().withHandle(handle -> {
             try (Connection conn = handle.getConnection();
@@ -117,7 +128,6 @@ public class UserDao {
     }
 
 
-    // Lấy người dùng theo email
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         return dbConnect.get().withHandle(handle -> {
@@ -129,18 +139,26 @@ public class UserDao {
                         user.setId(rs.getInt("id"));
                         user.setUserName(rs.getString("userName"));
                         user.setPassWord(rs.getString("passWord"));
+                        user.setFirstName(rs.getString("firstName"));
+                        user.setLastName(rs.getString("lastName"));
                         user.setEmail(rs.getString("email"));
-
+                        user.setAvatar(rs.getString("avatar"));
+                        user.setPhone(rs.getInt("phone"));
+                        user.setAddress(rs.getString("address"));
+                        user.setStatus(rs.getInt("status"));
+                        user.setRoleId(rs.getInt("roleId"));
+                        user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                         return user;
                     }
                 }
             } catch (SQLException e) {
                 System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
-                e.printStackTrace(); // In chi tiết lỗi để debug
+                e.printStackTrace();
             }
-            return null; // Trả về null nếu không tìm thấy hoặc xảy ra lỗi
+            return null;
         });
     }
+
 
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
@@ -206,7 +224,7 @@ public class UserDao {
 
 
     public String getPassWordByUserName(String userName) {
-        String sql = "SELECT passWord FROM users WHERE userName = ?";
+        String sql = "SELECT password FROM users WHERE userName = ?";
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
@@ -233,7 +251,7 @@ public class UserDao {
 
     public boolean addUser(User user) {
         return JDBIConnector.get().withHandle(handle -> {
-            String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO users (userName, email, password, firstName, lastName, phone, roleId, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, user.getUserName());
                 ps.setString(2, user.getEmail());
