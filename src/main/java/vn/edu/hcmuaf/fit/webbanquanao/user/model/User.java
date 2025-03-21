@@ -53,6 +53,11 @@ public class User implements Serializable {
     public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone, Integer roleId) {
     }
 
+    public User(String email, String passWord) {
+        this.email = email;
+        this.passWord = passWord;
+    }
+
     public Integer getId() {
         return id;
     }
