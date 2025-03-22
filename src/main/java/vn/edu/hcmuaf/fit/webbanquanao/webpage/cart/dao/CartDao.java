@@ -81,9 +81,9 @@ public class CartDao {
         List<CartProductDetail> re = new ArrayList<>();
         query = "SELECT" +
                 " cd.productId," +
-                " cd.couponId," +
+                " cd.productDetailId," +
                 " cd.quantity," +
-                " cd.unitPrice" +
+                " cd.unitPrice," +
                 " FROM cart c" +
                 " JOIN cartdetail cd ON c.id = cd.cartId" +
                 " WHERE c.userId = ?";
@@ -94,10 +94,10 @@ public class CartDao {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         int productId = rs.getInt("productId");
-                        int couponId = rs.getInt("couponId");
+                        int productDetailId = rs.getInt("productDetailId");
                         int quantity = rs.getInt("quantity");
                         double unitPrice = rs.getDouble("unitPrice");
-                        CartProductDetail c = new CartProductDetail(productId, couponId, quantity, unitPrice);
+                        CartProductDetail c = new CartProductDetail(productId, productDetailId, quantity, unitPrice);
                         re.add(c);
                     }
                 }

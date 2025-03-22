@@ -1,16 +1,26 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model;
 
-public class CartProductDetail {
+import java.io.Serializable;
+
+public class CartProductDetail implements Serializable {
+    private int productId;
     private int productDetailId;
-    private int couponId;
     private int quantity;
     private double unitPrice;
 
-    public CartProductDetail(int productDetailId, int couponId, int quantity, double unitPrice) {
+    public CartProductDetail(int productId, int productDetailId, int quantity, double unitPrice) {
+        this.productId = productId;
         this.productDetailId = productDetailId;
-        this.couponId = couponId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getProductDetailId() {
@@ -19,14 +29,6 @@ public class CartProductDetail {
 
     public void setProductDetailId(int productDetailId) {
         this.productDetailId = productDetailId;
-    }
-
-    public int getCouponId() {
-        return couponId;
-    }
-
-    public void setCouponId(int couponId) {
-        this.couponId = couponId;
     }
 
     public int getQuantity() {

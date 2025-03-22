@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CheckoutService;
 
 import java.io.IOException;
 
@@ -15,39 +17,29 @@ public class Checkout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. Lấy tổng tiền từ request
-//        String price = request.getParameter("price");
+        try {
+            // get userId from session
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("auth") == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            User user = (User) session.getAttribute("auth");
 
-        // 2. Xoá toàn bộ sản phẩm trong giỏ hàng
-        resetShoppingCart(request);
+            // checkout
+            boolean isSuccess = false;
+            CheckoutService service = new CheckoutService();
+            isSuccess = service.checkout(user.getId(), 1, 1);
 
-        // 3. Thêm toàn bộ sản phẩm vào đơn hàng
-        addToOrder(request);
-
-        // 4. Chuyển hướng người dùng đến trang theo dõi đơn hàng
-        directToOrderPage(response);
-    }
-
-    /**
-     * Xoá toàn bộ sản phẩm trong giỏ hàng của người dùng
-     */
-    private void resetShoppingCart(HttpServletRequest request) {
-        // Gọi class xử lý database để xoá giỏ hàng
-//        System.out.println("Giỏ hàng đã được xoá thành công!");
-    }
-
-    /**
-     * Thêm sản phẩm đã thanh toán vào đơn hàng
-     */
-    private void addToOrder(HttpServletRequest request) {
-        // Gọi class xử lý database để thêm dữ liệu vào bảng order
-//        System.out.println("Sản phẩm đã được thêm vào đơn hàng thành công!");
-    }
-
-    /**
-     * Chuyển hướng người dùng đến trang theo dõi đơn hàng
-     */
-    private void directToOrderPage(HttpServletResponse response) throws IOException {
-        response.sendRedirect("order.jsp");
+            // redirection
+            if (isSuccess) {
+                response.sendRedirect("homePage");
+            } else {
+                response.sendRedirect("checkout.jsp?error=checkout_failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("checkout.jsp?error=checkout_failed");
+        }
     }
 }
