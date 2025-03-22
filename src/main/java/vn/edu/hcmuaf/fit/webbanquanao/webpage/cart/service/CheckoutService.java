@@ -29,13 +29,13 @@ public class CheckoutService {
         List<CartProductDetail> products = dao.getCartByUserId(userId);
         double totalPrice = getTotalPrice(products);
 
-        // create new order and get new orderId
+        // create new order and get new orderId || get new orderId already exists
         int orderId = dao.createNewOrder(userId, paymentId, couponId, totalPrice);
 
         // move products from cart to orderItem
         boolean moved = false;
         for (CartProductDetail p : products) {
-            moved = dao.moveToOrder(orderId, p.getProductId(), p.getQuantity(), p.getUnitPrice(), 0.0f, p.getProductDetailId());
+            moved = dao.moveToOrder(orderId, p.getQuantity(), p.getUnitPrice(), 0.0f, p.getProductDetailId());
         }
 
         // remove products of cart
@@ -44,5 +44,10 @@ public class CheckoutService {
         }
 
         return false;
+    }
+
+    public static void main(String[] args) {
+        CheckoutService service = new CheckoutService();
+        System.out.println(service.checkout(2,1,1));
     }
 }

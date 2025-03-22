@@ -37,7 +37,7 @@ public class CartService {
 
         // add products to cart
         CartProduct cp = data.get(p.getId());
-        dao.add(cartId, 1, cp.getQuantity(), cp.getUnitPrice(), p.getProductDetailId());
+        dao.add(cartId, 1, cp.getQuantity(), p.getUnitPrice(), p.getProductDetailId());
 
         return true;
     }

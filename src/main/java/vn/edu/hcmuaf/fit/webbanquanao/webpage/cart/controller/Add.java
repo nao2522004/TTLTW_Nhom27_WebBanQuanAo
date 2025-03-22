@@ -19,22 +19,6 @@ import java.util.Collections;
 public class Add extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        ProductService service = new ProductService();
-//        String id = request.getParameter("pid");
-//        Product pro =  service.getDetail(Integer.parseInt(id));
-//        if (pro == null) {
-//            response.sendRedirect("productDetail?addCart=false");
-//        } else {
-//            HttpSession session = request.getSession(true);
-//            CartService cart = (CartService) session.getAttribute("cart");
-//            if (cart == null) {
-//                cart = new CartService();
-//            }
-//            cart.add(pro);
-//            session.setAttribute("cart", cart);
-//        }
-//
-//        response.sendRedirect("productDetail?addCart=ok&pid=" + id);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
