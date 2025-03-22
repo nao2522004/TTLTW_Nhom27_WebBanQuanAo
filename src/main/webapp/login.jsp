@@ -97,6 +97,22 @@
                 <p class="error-message register animation"><%= signupError %></p>
                 <% session.removeAttribute("error"); %> <!-- Xóa lỗi sau khi hiển thị -->
                 <% } %>
+                <div class="input-box">
+                    <input type="text" name="username" placeholder="Tên tài khoản" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div class="name-container">
+                    <div class="input-box">
+                        <input type="text" name="firstName" placeholder="Họ" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="input-box">
+                        <input type="text" name="lastName" placeholder="Tên" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
 
                 <div class="input-box">
                     <input type="email" name="email" placeholder="Email" value="<%= email %>" required>
