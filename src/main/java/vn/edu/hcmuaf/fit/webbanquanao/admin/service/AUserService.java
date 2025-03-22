@@ -34,9 +34,12 @@ public class AUserService {
 
     public boolean deleteUser(String username) {
         AUserDao uDao = new AUserDao();
-        if(uDao.listUser.containsKey(username))
-            return uDao.delete(username);
-        return false;
+        if(!uDao.listUser.containsKey(username)) return false;
+        User user = uDao.listUser.get(username);
+        if(user.getStatus() == 4) return false;
+        boolean isDeletedInDB = uDao.delete(username, 4);
+        if(isDeletedInDB) user.setStatus(4);
+        return isDeletedInDB;
     }
 
     public Integer getRoleIdByUserName(String username) {
