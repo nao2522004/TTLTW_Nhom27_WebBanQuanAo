@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,21 +11,21 @@ import java.util.Map;
 
 public class AUserDao{
 
-    public Map<String, User> listUser;
+    public Map<String, AUser> listUser;
 
     public AUserDao() {
         listUser = getAllUser();
     }
 
-    public Map<String, User> getAllUser() {
-        Map<String, User> users = new LinkedHashMap<>();
+    public Map<String, AUser> getAllUser() {
+        Map<String, AUser> users = new LinkedHashMap<>();
         String sql = "SELECT * FROM users ORDER BY id DESC";
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    User user = new User();
+                    AUser user = new AUser();
                     user.setId(rs.getInt("id"));
                     user.setUserName(rs.getString("userName"));
                     user.setPassWord(rs.getString("passWord"));
@@ -37,7 +37,7 @@ public class AUserDao{
                     user.setPhone(rs.getInt("phone"));
                     user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                     user.setStatus(rs.getInt("status"));
-                    user.setRoleId(rs.getInt("roleId"));
+//                    user.setRoleId(rs.getInt("roleId"));
                     users.put(user.getUserName(), user);
                 }
             } catch (Exception e) {
@@ -49,7 +49,7 @@ public class AUserDao{
 
 
     public boolean create(Object obj) {
-        User user = (User) obj;
+        AUser user = (AUser) obj;
         listUser.put(user.getUserName(), user);
 
         String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -65,7 +65,7 @@ public class AUserDao{
                 ps.setString(7, user.getAddress()); // ✅ Sửa lại
                 ps.setInt(8, user.getPhone());   // 🔥 FIX: Dùng setString() thay vì setInt()
                 ps.setInt(9, user.getStatus());
-                ps.setInt(10, user.getRoleId());
+//                ps.setInt(10, user.getRoleId());
 
                 int affectedRows = ps.executeUpdate();
                 if (affectedRows > 0) {
@@ -88,7 +88,7 @@ public class AUserDao{
 
     public boolean update(Object obj, String userName) {
         return JDBIConnector.get().withHandle(handle -> {
-            User user = (User) obj;
+            AUser user = (AUser) obj;
             listUser.replace(userName, user);
             String sql = "UPDATE users SET id = ?, userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ?, roleId = ? WHERE userName = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
@@ -102,7 +102,7 @@ public class AUserDao{
                 ps.setInt(8, user.getPhone());
                 ps.setInt(9, user.getStatus());
                 ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
-                ps.setInt(11, user.getRoleId());
+//                ps.setInt(11, user.getRoleId());
                 ps.setString(12, userName);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
@@ -129,7 +129,7 @@ public class AUserDao{
     }
 
 
-    public boolean updateUser(User user) {
+    public boolean updateUser(AUser user) {
         return JDBIConnector.get().withHandle(handle -> {
             listUser.replace(user.getUserName(), user);
             String sql = "UPDATE users SET userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ? WHERE userName = ?";

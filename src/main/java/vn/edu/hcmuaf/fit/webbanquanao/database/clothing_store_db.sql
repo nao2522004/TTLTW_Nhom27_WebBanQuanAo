@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2025 at 01:25 PM
+-- Generation Time: Mar 22, 2025 at 09:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -234,13 +234,13 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`, `cancelReason`) VALUES
-(7, 2, 2, 2, '2025-01-15 00:00:00', 250000.00, 4, NULL),
-(8, 3, 2, 2, '2025-01-16 00:00:00', 250000.00, 4, NULL),
-(10, 2, 1, 1, '2025-01-17 00:00:00', 823650.00, 0, 'bruh'),
-(11, 2, 1, 1, '2025-01-16 00:00:00', 2010000.00, 0, 'E muốn đấm thầy'),
+(7, 2, 1, 2, '2025-01-06 00:00:00', 250000.00, 5, NULL),
+(8, 3, 2, 2, '2025-01-15 00:00:00', 250000.00, 4, NULL),
+(10, 2, 1, 1, '2025-01-14 00:00:00', 823650.00, 2, 'bruh'),
+(11, 2, 1, 1, '2025-01-15 00:00:00', 2010000.00, 0, 'E muốn đấm thầy'),
 (12, 1, 1, 1, '2025-01-16 00:00:00', 274550.00, 0, NULL),
 (13, 1, 1, 1, '2025-01-17 00:00:00', 1949100.00, 0, NULL),
-(14, 1, 1, 1, '2025-03-12 00:00:00', 1070000.00, 0, NULL);
+(14, 1, 1, 1, '2025-03-12 00:00:00', 1070000.00, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -259,7 +259,31 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `paymentMethod`) VALUES
 (1, 'Tiền mặt'),
-(2, 'Chuyển khoản');
+(2, 'Chuyển khoản'),
+(3, 'Thẻ tín dụng');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`) VALUES
+(5, 'Manager_Oders'),
+(6, 'Manager_Products'),
+(4, 'Manager_Users'),
+(2, 'Read'),
+(1, 'Run'),
+(3, 'Write');
 
 -- --------------------------------------------------------
 
@@ -277,36 +301,35 @@ CREATE TABLE `products` (
   `releaseDate` date NOT NULL,
   `unitSold` int(11) NOT NULL DEFAULT 0,
   `unitPrice` decimal(10,2) NOT NULL,
-  `status` bit(1) NOT NULL,
-  `is_available` tinyint(1) DEFAULT 1
+  `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `typeId`, `categoryId`, `supplierId`, `productName`, `description`, `releaseDate`, `unitSold`, `unitPrice`, `status`, `is_available`) VALUES
-(1, 2, 4, 1, 'Quần tây PEALO form cạp cao có xếp li', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-15', 50, 274550.00, b'0', 1),
-(2, 2, 4, 1, 'Quần kaki ống suông nam PEALO', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-17', 40, 280000.00, b'1', 1),
-(3, 2, 4, 2, 'Quần tây quần vải cạp ống rộng', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-10-14', 100, 470000.00, b'1', 1),
-(4, 2, 4, 3, 'Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp', 'Tên sản phẩm: Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp BBrand... (Rút gọn nếu cần)', '2024-11-19', 80, 490000.00, b'1', 1),
-(5, 2, 4, 4, 'QUẦN DÁNG XUÔNG XẾP LY BY RUYCH.', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-10-07', 110, 369000.00, b'1', 1),
-(6, 2, 4, 3, 'Quần jean nam ống rộng JBAGY dáng suông cạp chun - JJ0107', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-02', 70, 200500.00, b'1', 1),
-(7, 2, 4, 1, 'Quần Jean Quần Bò Nam Ống Suông Phong Cách Retro Siêu Đẹp - Cam Kết Hàng Y Hình', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-11-12', 90, 150000.00, b'1', 1),
-(8, 2, 4, 3, 'Quần Jeans Dài Wash Phối Raglan Y2K Unisex Nam Nữ - QS06', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-11-11', 60, 350000.00, b'1', 1),
-(9, 1, 1, 2, 'Áo nỉ nam phong cách Hàn Quốc mẫu mới áo màu đơn giản', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-11-05', 75, 100000.00, b'1', 1),
-(10, 1, 1, 2, 'Áo Sơ Mi Tay Ngắn Dekace Premium Oxford Thêu LA', 'Tên sản phẩm: Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp BBrand... (Rút gọn nếu cần)', '2024-11-26', 40, 140000.00, b'1', 1),
-(11, 1, 1, 1, 'Áo Thun Oversize Scarlet - Local Brand Revvour', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-10-23', 67, 120000.00, b'1', 1),
-(12, 2, 4, 1, 'Nhật Bản Retro Rửa Đau Khổ Quần Jean Nam ins Đường Phố Cao Cấp Mặc Rời Thẳng Quần Ống Rộng Quần Thường Ngày', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-09', 55, 300000.00, b'1', 1),
-(13, 2, 5, 1, 'Chân Váy Dạ Chữ A Dáng Ngắn BlinkBae Họa Tiết Caro Chất Liệu Dạ Cao Cấp Cạp Chun Dễ Phối Đồ Siêu Cá Tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 34, 200000.00, b'1', 1),
-(14, 2, 5, 1, 'Cardigan Dài Tay Mỏng Ruby Cách Điệu, Áo Khoác Bó Sát Có Khóa Kéo Gợi Cảm Quyến Rũ', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-11-11', 67, 150000.00, b'1', 1),
-(15, 2, 5, 1, 'Set váy kèm áo croptop nữ tay dài kiểu trễ vai VENOM họa tiết kẻ sọc phong cách trẻ trung cá tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 89, 250000.00, b'1', 1),
-(16, 1, 2, 1, 'Áo croptop nữ CLOVER kiểu tay ngắn khoá kéo 2 đầu phối đinh phong cách cá tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-11', 100, 280000.00, b'1', 1),
-(17, 1, 2, 1, 'Áo croptop nữ kiểu tay dài CRIMSON phối ren lượn sóng tua rua phong cách sexy quyến rũ cá tính', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-02', 54, 170000.00, b'1', 1),
-(18, 1, 2, 1, 'Áo thun T-shirt Local Brand BlinkBae RETRO In Họa Tiết Chữ Chất Liệu Cotton Cao Cấp', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2025-01-13', 87, 220000.00, b'1', 1),
-(19, 1, 3, 1, 'Áo sơ mi bé trai Yuunie dài tay kẻ xanh phong cách Hàn Quốc chất liệu somi cotton mềm mại', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2025-01-14', 100, 190000.00, b'1', 1),
-(20, 1, 3, 1, 'Áo Sweater dài tay bé trai，Lớp lót lông cừu phong cách thu đông dày dặn, có in họa tiết phi hành gia', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 80, 240000.00, b'1', 1),
-(21, 1, 3, 1, 'Áo thun bé trai dài tay size đại 50kg Magickids áo cotton in chữ mềm mịn giữ nhiệt Quần áo trẻ em thu đông', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-12-18', 110, 210000.00, b'1', 1);
+INSERT INTO `products` (`id`, `typeId`, `categoryId`, `supplierId`, `productName`, `description`, `releaseDate`, `unitSold`, `unitPrice`, `status`) VALUES
+(1, 2, 4, 1, 'Quần tây PEALO form cạp cao có xếp li', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-15', 50, 274550.00, 0),
+(2, 2, 4, 1, 'Quần kaki ống suông nam PEALO', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-17', 40, 280000.00, 1),
+(3, 2, 4, 2, 'Quần tây quần vải cạp ống rộng', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-10-14', 100, 470000.00, 2),
+(4, 2, 4, 3, 'Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp', 'Tên sản phẩm: Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp BBrand... (Rút gọn nếu cần)', '2024-11-19', 80, 490000.00, 1),
+(5, 2, 4, 4, 'QUẦN DÁNG XUÔNG XẾP LY BY RUYCH.', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-10-07', 110, 369000.00, 1),
+(6, 2, 4, 3, 'Quần jean nam ống rộng JBAGY dáng suông cạp chun - JJ0107', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-02', 70, 200500.00, 1),
+(7, 2, 4, 1, 'Quần Jean Quần Bò Nam Ống Suông Phong Cách Retro Siêu Đẹp - Cam Kết Hàng Y Hình', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-11-12', 90, 150000.00, 1),
+(8, 2, 4, 3, 'Quần Jeans Dài Wash Phối Raglan Y2K Unisex Nam Nữ - QS06', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-11-11', 60, 350000.00, 1),
+(9, 1, 1, 2, 'Áo nỉ nam phong cách Hàn Quốc mẫu mới áo màu đơn giản', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2024-11-05', 75, 100000.00, 1),
+(10, 1, 1, 2, 'Áo Sơ Mi Tay Ngắn Dekace Premium Oxford Thêu LA', 'Tên sản phẩm: Quần Dài Ống Rộng Hàn Quốc Hàng Cao Cấp BBrand... (Rút gọn nếu cần)', '2024-11-26', 40, 140000.00, 1),
+(11, 1, 1, 1, 'Áo Thun Oversize Scarlet - Local Brand Revvour', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-10-23', 67, 120000.00, 1),
+(12, 2, 4, 1, 'Nhật Bản Retro Rửa Đau Khổ Quần Jean Nam ins Đường Phố Cao Cấp Mặc Rời Thẳng Quần Ống Rộng Quần Thường Ngày', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-09', 55, 300000.00, 1),
+(13, 2, 5, 1, 'Chân Váy Dạ Chữ A Dáng Ngắn BlinkBae Họa Tiết Caro Chất Liệu Dạ Cao Cấp Cạp Chun Dễ Phối Đồ Siêu Cá Tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 34, 200000.00, 1),
+(14, 2, 5, 1, 'Cardigan Dài Tay Mỏng Ruby Cách Điệu, Áo Khoác Bó Sát Có Khóa Kéo Gợi Cảm Quyến Rũ', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-11-11', 67, 150000.00, 1),
+(15, 2, 5, 1, 'Set váy kèm áo croptop nữ tay dài kiểu trễ vai VENOM họa tiết kẻ sọc phong cách trẻ trung cá tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 89, 250000.00, 1),
+(16, 1, 2, 1, 'Áo croptop nữ CLOVER kiểu tay ngắn khoá kéo 2 đầu phối đinh phong cách cá tính', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-11', 100, 280000.00, 1),
+(17, 1, 2, 1, 'Áo croptop nữ kiểu tay dài CRIMSON phối ren lượn sóng tua rua phong cách sexy quyến rũ cá tính', 'Mô tả sản phẩm: Quần kaki ống suông nam PEALO casual pants trơn basic chất liệu mới Loose Pants phong cách Minimalism Menswear... (Rút gọn nếu cần)', '2024-12-02', 54, 170000.00, 1),
+(18, 1, 2, 1, 'Áo thun T-shirt Local Brand BlinkBae RETRO In Họa Tiết Chữ Chất Liệu Cotton Cao Cấp', 'Size: M, L, XL...\r\n... (Rút gọn nếu cần)', '2025-01-13', 87, 220000.00, 1),
+(19, 1, 3, 1, 'Áo sơ mi bé trai Yuunie dài tay kẻ xanh phong cách Hàn Quốc chất liệu somi cotton mềm mại', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2025-01-14', 100, 190000.00, 1),
+(20, 1, 3, 1, 'Áo Sweater dài tay bé trai，Lớp lót lông cừu phong cách thu đông dày dặn, có in họa tiết phi hành gia', 'Quần tây quần vải cạp ống rộng - B Brown Wide Fit Trousers... (Rút gọn nếu cần)', '2024-12-10', 80, 240000.00, 1),
+(21, 1, 3, 1, 'Áo thun bé trai dài tay size đại 50kg Magickids áo cotton in chữ mềm mịn giữ nhiệt Quần áo trẻ em thu đông', 'Size: M, L, XL...\n... (Rút gọn nếu cần)', '2024-12-18', 110, 210000.00, 2);
 
 -- --------------------------------------------------------
 
@@ -469,7 +492,35 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `roleName`) VALUES
 (1, 'Admin'),
-(2, 'User');
+(2, 'Customer'),
+(3, 'Viewer');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_permissions`
+--
+
+CREATE TABLE `role_permissions` (
+  `roleId` int(11) NOT NULL,
+  `permissionId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `role_permissions`
+--
+
+INSERT INTO `role_permissions` (`roleId`, `permissionId`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -576,22 +627,50 @@ CREATE TABLE `users` (
   `avatar` varchar(200) DEFAULT NULL,
   `address` text DEFAULT NULL,
   `phone` text DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL,
-  `createdAt` datetime DEFAULT current_timestamp(),
-  `roleId` int(11) NOT NULL DEFAULT 2,
-  `is_active` tinyint(1) DEFAULT 1
+  `status` tinyint(1) NOT NULL COMMENT '0: Inactive (Chưa kích hoạt), 1: Active (Hoạt động), 2: Suspended (Bị khóa), 3: Banned (Bị cấm), 4: Deleted (Đã xóa)',
+  `createdAt` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `userName`, `password`, `firstName`, `lastName`, `email`, `avatar`, `address`, `phone`, `status`, `createdAt`, `roleId`, `is_active`) VALUES
-(1, 'admin', 'admin', 'Mạnh', 'Hoàng Lê Nguyên', 'admin@gmail.com', 'anhday', 'DakNong', '099999999', b'1', '2024-12-24 22:34:35', 1, 1),
-(2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', '22130157@hcmuaf.edu.vn', '', 'SaiGon', '11111111', b'1', '2024-12-24 00:00:00', 2, 1),
-(3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', 'namday', 'SaiGon', '022222222', b'1', '2024-12-24 22:37:22', 2, 1),
-(4, 'Manh', 'user3', 'Mạnh', 'Hoàng Lê Nguyên', '22130163@st.hcmuaf.edu.vn', 'manhday', 'DakNong', '097777777', b'1', '2025-01-17 03:50:34', 2, 1),
-(6, 'anhmanhdeptrai', 'manh', 'Hoàng Lê Nguyên', 'Mạnh', 'manh2522004@gmail.com', 'bruh', 'Đak Nong', '0', b'1', '2025-03-18 15:27:08', 1, 1);
+INSERT INTO `users` (`id`, `userName`, `password`, `firstName`, `lastName`, `email`, `avatar`, `address`, `phone`, `status`, `createdAt`) VALUES
+(1, 'admin', '$2a$12$rXmhHS9ZGL7yWgXO4TQnZuJCuJDTWqHGU2HDUe4pNz7XuEebRy89y', 'Mạnh', 'Hoàng Lê Nguyên', 'admin@gmail.com', 'anhday', 'DakNong', '099999999', 1, '2024-12-24 22:34:35'),
+(2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', '22130157@hcmuaf.edu.vn', '', 'SaiGon', '11111111', 1, '2024-12-24 00:00:00'),
+(3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', '', 'SaiGon', '22222222', 1, '2024-12-24 00:00:00'),
+(4, 'Manh', 'user3', 'Mạnh', 'Hoàng Lê Nguyên', '22130163@st.hcmuaf.edu.vn', 'manhday', 'DakNong', '097777777', 1, '2025-01-17 03:50:34'),
+(6, 'anhmanhdeptrai', 'manh', 'Hoàng Lê Nguyên', 'Mạnh', 'manh2522004@gmail.com', 'bruh', 'Đak Nong', '0', 1, '2025-03-18 15:27:08');
+
+--
+-- Triggers `users`
+--
+DELIMITER $$
+CREATE TRIGGER `Trg_afterInsert` AFTER INSERT ON `users` FOR EACH ROW BEGIN
+    INSERT INTO user_roles (userId, roleId)
+    VALUES (NEW.id, 2); -- Lấy id vừa được chèn
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `userId` int(11) NOT NULL,
+  `roleId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+INSERT INTO `user_roles` (`userId`, `roleId`) VALUES
+(1, 1),
+(2, 2);
 
 --
 -- Indexes for dumped tables
@@ -694,6 +773,13 @@ ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -721,6 +807,13 @@ ALTER TABLE `resetpasswordtokens`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD PRIMARY KEY (`roleId`,`permissionId`),
+  ADD KEY `rolepermissions_ibfk_2` (`permissionId`);
 
 --
 -- Indexes for table `sales`
@@ -752,8 +845,14 @@ ALTER TABLE `types`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `userName` (`userName`),
-  ADD KEY `roleId` (`roleId`) USING BTREE;
+  ADD UNIQUE KEY `userName` (`userName`);
+
+--
+-- Indexes for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`userId`,`roleId`),
+  ADD KEY `userroles_ibfk_2` (`roleId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -829,7 +928,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -853,7 +958,7 @@ ALTER TABLE `resetpasswordtokens`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sales`
@@ -973,6 +1078,13 @@ ALTER TABLE `resetpasswordtokens`
   ADD CONSTRAINT `resetpasswordtokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_permissions_ibfk_2` FOREIGN KEY (`permissionId`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `sales_product`
 --
 ALTER TABLE `sales_product`
@@ -980,10 +1092,11 @@ ALTER TABLE `sales_product`
   ADD CONSTRAINT `sales_product_ibfk_2` FOREIGN KEY (`saleId`) REFERENCES `sales` (`id`);
 
 --
--- Constraints for table `users`
+-- Constraints for table `user_roles`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`);
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_roles_ibfk_2` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
