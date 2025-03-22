@@ -18,19 +18,27 @@ public class CartService {
     CartDao dao;
     ProductDAO productDAO;
 
-
     public CartService(){
         this.dao = new CartDao();
         this.productDAO = new ProductDAO();
         this.data = dao.getCartProducts();
     }
-    public boolean add(Product p){
+
+    public boolean add(Product p, int userId){
         if (data.containsKey(p.getId())){
             int qty = data.get(p.getId()).getQuantity()+p.getStock();
             update(p.getId(), qty);
             return true;
         }
         data.put(p.getId(), convert(p));
+
+        // create cart
+        int cartId = dao.createCart(userId);
+
+        // add products to cart
+        CartProduct cp = data.get(p.getId());
+        dao.add(cartId, 1, cp.getQuantity(), cp.getUnitPrice(), p.getProductDetailId());
+
         return true;
     }
 

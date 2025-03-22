@@ -20,6 +20,50 @@ public class CartDao {
         conn = new JDBIConnector();
     }
 
+    // create new cart
+    public Integer createCart(int userId) {
+        query = "INSERT INTO cart (userId) VALUES (?)";
+
+        return conn.get().withHandle(h -> {
+            try(PreparedStatement stmt = h.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setInt(1, userId);
+                int rowAffected = stmt.executeUpdate();
+
+                if(rowAffected > 0) {
+                    try(ResultSet rs = stmt.getGeneratedKeys()) {
+                        if(rs.next()) {
+                            return rs.getInt(1);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
+
+    // add to cartDetail
+    public boolean add(int cartId, int couponId, int quantity, double unitPrice, int productDetailId) {
+        query = "INSERT INTO cartdetail (cartId, couponId, quantity, unitPrice, productDetailsId) VALUES (?, ?, ?, ?, ?)";
+
+        return conn.get().withHandle(h -> {
+            try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+                stmt.setInt(1, cartId);
+                stmt.setInt(2, couponId);
+                stmt.setInt(3, quantity);
+                stmt.setDouble(4, unitPrice);
+                stmt.setInt(5, productDetailId);
+
+                int rowAffected = stmt.executeUpdate();
+                return rowAffected > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
+
     public Map<Integer, CartProduct> getCartProducts(){
         Map<Integer, CartProduct> cps = new HashMap<>();
         query = "SELECT " +
@@ -29,7 +73,7 @@ public class CartDao {
                 "    pd.image AS img," +
                 "    cd.quantity AS quantity " +
                 "    cd.size AS size," +
-                "    cd.color AS color" +
+                "    cd.color AS color " +
                 "FROM " +
                 "    products p " +
                 "JOIN " +
@@ -109,7 +153,7 @@ public class CartDao {
     }
 
     // create new order
-    public int createNewOrder(int userId, int paymentId, int couponId, double totalPrice) {
+    public Integer createNewOrder(int userId, int paymentId, int couponId, double totalPrice) {
 
         query = "INSERT INTO orders (userId, paymentId, couponId, orderDate, totalPrice, status) VALUES (?, ?, ?, NOW(), ?, ?)";
 
