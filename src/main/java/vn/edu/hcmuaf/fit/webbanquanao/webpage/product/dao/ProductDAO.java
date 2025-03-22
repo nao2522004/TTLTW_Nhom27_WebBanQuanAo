@@ -42,7 +42,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -69,7 +70,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -97,7 +99,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -133,6 +136,7 @@ public class ProductDAO {
                     p.setUnitPrice(rs.getDouble("unitPrice"));
                     p.setStatus(rs.getBoolean("status"));
                     p.setStock(rs.getInt("stock"));
+                    p.setProductDetailId(rs.getInt("productDetailId"));
 
                     String size = rs.getString("size");
                     String image = rs.getString("image");
@@ -170,7 +174,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -236,7 +241,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -332,7 +338,8 @@ public class ProductDAO {
                 "   pd.size AS size," +
                 "   pd.stock AS stock," +
                 "   pd.image AS image," +
-                "   pd.color AS color " +
+                "   pd.color AS color, " +
+                "   pd.id AS productDetailId " +
                 "FROM products p " +
                 "JOIN product_details pd ON p.id = pd.productId " +
                 "JOIN categories c ON p.categoryId = c.id " +
@@ -384,7 +391,8 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M","L"}, null, 400000.0));
+//        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M","L"}, null, 400000.0));
 //        System.out.println(dao.searchByName("Quần tây"));
+        System.out.println(dao.getAllProducts());
     }
 }
