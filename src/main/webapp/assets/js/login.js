@@ -2,7 +2,7 @@ const container = document.querySelector('.container');
 const registerBtn = document.querySelector('.register-btn');
 const loginBtn = document.querySelector('.login-btn');
 const popup = document.getElementById('popup');
-const popupMessage = document.getElementById('popup-message');
+
 
 registerBtn.addEventListener('click' , () => {
     container.classList.add('active');
@@ -11,6 +11,23 @@ registerBtn.addEventListener('click' , () => {
 loginBtn.addEventListener('click' , () => {
     container.classList.remove('active');
 });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const container = document.querySelector(".container");
+//     const registerBtn = document.querySelector(".register-btn");
+//     const loginBtn = document.querySelector(".login-btn");
+//
+//     registerBtn.addEventListener("click", function () {
+//         console.log("Chuyển sang Đăng Ký");
+//         container.classList.add("active");
+//     });
+//
+//     loginBtn.addEventListener("click", function () {
+//         console.log("Chuyển sang Đăng Nhập");
+//         container.classList.remove("active");
+//     });
+// });
+
 
 
 function togglePassword(button) {

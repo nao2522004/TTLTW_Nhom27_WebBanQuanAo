@@ -55,7 +55,8 @@ public class UserDao {
     }
 
     public boolean registerUser(User user) {
-        String sql = "INSERT INTO users (avatar, password, firstName, lastName, email, phone, address, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 
         String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
 
@@ -63,21 +64,22 @@ public class UserDao {
             try (Connection conn = handle.getConnection();
                  PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                ps.setString(1, user.getAvatar());
-                ps.setString(2, hashedPassword);
-                ps.setString(3, user.getFirstName());
-                ps.setString(4, user.getLastName());
-                ps.setString(5, user.getEmail());
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getAvatar());
+                ps.setString(3, hashedPassword);
+                ps.setString(4, user.getFirstName());
+                ps.setString(5, user.getLastName());
+                ps.setString(6, user.getEmail());
 
-                // Kiểm tra nếu phone là null thì setNull, ngược lại thì setInt
                 if (user.getPhone() != null) {
-                    ps.setInt(6, user.getPhone());
+                    ps.setInt(7, user.getPhone());
                 } else {
-                    ps.setNull(6, java.sql.Types.INTEGER);
+                    ps.setNull(7, java.sql.Types.INTEGER);
                 }
 
-                ps.setString(7, user.getAddress());
-                ps.setInt(8, user.getRoleId());
+                ps.setString(8, user.getAddress());
+                ps.setInt(9, user.getRoleId());
+
 
                 int rowsAffected = ps.executeUpdate();
                 System.out.println("Rows affected: " + rowsAffected);
