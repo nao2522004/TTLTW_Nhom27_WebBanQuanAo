@@ -1,12 +1,12 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model;
 
-public class CartDetail {
+public class CartProductDetail {
     private int productDetailId;
     private int couponId;
     private int quantity;
     private double unitPrice;
 
-    public CartDetail(int productDetailId, int couponId, int quantity, double unitPrice) {
+    public CartProductDetail(int productDetailId, int couponId, int quantity, double unitPrice) {
         this.productDetailId = productDetailId;
         this.couponId = couponId;
         this.quantity = quantity;

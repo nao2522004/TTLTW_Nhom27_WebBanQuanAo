@@ -74,17 +74,6 @@ public class CartService {
         return total.get();
     }
 
-    // Add to Order
-    public boolean addToOrder(int userId, int paymentId, int couponId, Date orderDate, double totalPrice, boolean status) {
-        Map<Integer, CartProduct> data = this.data;
-        List<CartProduct> items = new ArrayList<>();
-        data.forEach((key, value) ->{
-            items.add(value);
-        });
-
-        return dao.addToOrder(userId, paymentId, couponId, orderDate, totalPrice, status, items);
-    }
-
     public CartProduct convert(Product p){
         CartProduct result = new CartProduct();
         result.setId(p.getId());

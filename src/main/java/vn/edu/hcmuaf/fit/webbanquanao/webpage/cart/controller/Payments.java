@@ -38,8 +38,8 @@ public class Payments extends HttpServlet {
         double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
         boolean status = false;
 
-        boolean addOrder = cart.addToOrder(userId, paymentId, couponId, orderDate, totalPrice, status);
-
+//        boolean addOrder = cart.addToOrder(userId, paymentId, couponId, orderDate, totalPrice, status);
+        boolean addOrder = false;
         if (addOrder) {
             request.setAttribute("message", "Thanh toán thành công! Đơn hàng của bạn đã được ghi nhận.");
         } else {

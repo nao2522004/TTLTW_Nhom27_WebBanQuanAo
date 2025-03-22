@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.checkout;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.service.CheckoutService;
 
 import java.io.IOException;
 
@@ -15,24 +16,26 @@ public class Checkout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get total price in order to transfer to payment pop-up
-        double totalPrice = (double) request.getAttribute("totalPrice");
+        try {
+            // Lấy userId từ session
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("auth") == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            int userId = (int) session.getAttribute("auth");
 
-        // Get information from user
-        // Checkout
-        // Remove all products from shopping cart
-        // Add all products to order
-    }
+            // Checkout
+            boolean isSuccess = false;
 
-    public boolean checkout() {
-        return false;
-    }
-
-    public boolean removeAllProducts() {
-        return false;
-    }
-
-    public boolean addAllProducts() {
-        return false;
+            if (isSuccess) {
+                response.sendRedirect("homePage");
+            } else {
+                response.sendRedirect("checkout.jsp?error=checkout_failed");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
     }
 }
