@@ -15,42 +15,13 @@ public class User implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private Integer roleId;
 
 
     public User() {
     }
 
-    public User(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
-        this.id = id;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.avatar = avatar;
-        this.address = address;
-        this.phone = phone;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.roleId = roleId;
-    }
 
-    public User(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, Integer roleId) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.avatar = avatar;
-        this.address = address;
-        this.phone = phone;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.roleId = roleId;
-    }
-
-    public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone, Integer roleId) {
+    public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone) {
     }
 
     public User(String userName, String firstName, String lastName, String email, String passWord) {
@@ -106,9 +77,6 @@ public class User implements Serializable {
         return createdAt;
     }
 
-    public Integer getRoleId() {
-        return roleId;
-    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -154,14 +122,9 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", passWord='" + passWord + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", avatar='" + avatar + '\'' + ", address='" + address + '\'' + ", phone=" + phone + ", status=" + status + ", createdAt=" + createdAt + ", roleId=" + roleId + '}';
+        return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", passWord='" + passWord + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", avatar='" + avatar + '\'' + ", address='" + address + '\'' + ", phone=" + phone + ", status=" + status + ", createdAt=" + '}';
     }
 }
