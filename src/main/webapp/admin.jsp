@@ -335,8 +335,11 @@
                     <div class="form-group--items">
                         <label for="addStatusUser">Trạng Thái</label>
                         <select id="addStatusUser" name="status" required>
+                            <option type="number" value="0">Chưa kích hoạt</option>
                             <option type="number" value="1">Hoạt Động</option>
-                            <option type="number" value="0">Không Hoạt Động</option>
+                            <option type="number" value="2">Bị khóa</option>
+                            <option type="number" value="3">Bị cấm</option>
+                            <option type="number" value="4">Đã xóa</option>
                         </select>
                     </div>
                     <div class="form-group--items">
@@ -417,8 +420,11 @@
                             <td><input type="datetime-local" name="createdDate" id="edit-createdDate" readonly></td>
                             <td>
                                 <select name="status" id="edit-status" required>
+                                    <option value="0">Chưa kích hoạt</option>
                                     <option value="1">Hoạt Động</option>
-                                    <option value="0">Không Hoạt Động</option>
+                                    <option value="2">Bị khoá</option>
+                                    <option value="3">Bị cấm</option>
+                                    <option value="4">Đã xóa</option>
                                 </select>
                             </td>
                             <td>

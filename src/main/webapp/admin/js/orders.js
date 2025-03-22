@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', fetchOrders);
 // Hàm xóa đơn hàng
 function deleteOrder(event) {
     const orderId = event.target.getAttribute("data-orderId"); // Lấy id của đơn hàng
-    console.log(JSON.stringify({ id: orderId }));
+    console.log(JSON.stringify({id: orderId}));
 
     if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng với ID: ${orderId}?`)) {
         $.ajax({
             url: `/WebBanQuanAo/admin/manager-orders?id=${orderId}`, // Đường dẫn API xóa đơn hàng
             type: 'DELETE',
             contentType: 'application/json',
-            data: JSON.stringify({ id: orderId }), // Gửi ID đơn hàng dưới dạng JSON
+            data: JSON.stringify({id: orderId}), // Gửi ID đơn hàng dưới dạng JSON
             cache: false,
             success: function (response) {
                 alert(response.message || "Xóa đơn hàng thành công!");
@@ -124,20 +124,22 @@ function openEditOrderPopup(event) {
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-orders', // Đảm bảo URL khớp với servlet
         type: 'GET',
-        data: { id: orderId },
+        data: {id: orderId},
         cache: false,
         success: function (data) {
             // Điền dữ liệu đơn hàng vào các trường trong form
             document.getElementById("edit-idOrder").value = data.id;
             document.getElementById("edit-firstNameOrder").value = data.firstName;
+
             // Tìm và chọn phương thức thanh toán theo paymentId
             const paymentSelect = document.getElementById("edit-paymentId");
             const paymentOption = paymentSelect.querySelector(`option[value="${data.paymentId}"]`);
-            if (paymentOption) {
+            if (paymentOption)
                 paymentOption.selected = true; // Chọn đúng option
-            } else {
+            else
                 console.warn("Không tìm thấy phương thức thanh toán phù hợp:", data.paymentId);
-            }
+
+
             document.getElementById("edit-code").value = data.code;
             document.getElementById("edit-orderDate").value = data.orderDate;
             document.getElementById("edit-totalPrice").value = data.totalPrice;
@@ -151,7 +153,6 @@ function openEditOrderPopup(event) {
         }
     });
 }
-
 
 
 // Lưu chỉnh sửa đơn hàng

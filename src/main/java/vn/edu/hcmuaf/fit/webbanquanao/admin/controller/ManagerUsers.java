@@ -179,6 +179,7 @@ public class ManagerUsers extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
         try {
             // Đọc dữ liệu JSON từ body
             StringBuilder jsonBuffer = new StringBuilder();
@@ -189,45 +190,43 @@ public class ManagerUsers extends HttpServlet {
                 }
             }
             String json = jsonBuffer.toString();
-
-            // Log dữ liệu JSON nhận được
             System.out.println("Received JSON: " + json);
 
             // Parse JSON để lấy username
             JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
             String username = jsonObject.get("userName").getAsString();
 
-            // Kiểm tra username
+            // Kiểm tra username hợp lệ
             if (username == null || username.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
                 return;
             }
 
-            // Kiểm tra nếu user có id = 1
+            // Kiểm tra quyền Admin (userId = 1 không được xóa)
             AUserService userService = new AUserService();
-            int userId = userService.getRoleIdByUserName(username); // Giả sử bạn có phương thức này trong service
+            int userId = userService.getRoleIdByUserName(username); // Đổi tên cho rõ hơn
             if (userId == 1) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("{\"message\": \"Không thể xóa người dùng admin (người dùng hệ thống)\"}");
                 return;
             }
 
-            // Gọi service để xóa user
+            // Gọi service để thực hiện xóa mềm
             boolean isDeleted = userService.deleteUser(username);
 
-            // Phản hồi
             if (isDeleted) {
                 response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("{\"message\": \"Xóa người dùng thành công\"}");
+                response.getWriter().write("{\"message\": \"Xóa mềm người dùng thành công\"}");
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().write("{\"message\": \"Không tìm thấy người dùng\"}");
+                response.getWriter().write("{\"message\": \"Không tìm thấy hoặc không thể xóa người dùng\"}");
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"message\": \"Có lỗi xảy ra trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+            response.getWriter().write("{\"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
         }
     }
+
 }

@@ -114,12 +114,12 @@ public class AUserDao{
 
 
 
-    public boolean delete(String userName) {
-        listUser.remove(userName);
+    public boolean delete(String userName, Integer status) {
         return JDBIConnector.get().withHandle(handle -> {
-            String sql = "DELETE FROM users WHERE userName = ?";
+            String sql = "UPDATE users SET status = ? WHERE userName = ?";
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, userName);
+                ps.setInt(1, status);
+                ps.setString(2, userName);
                 return ps.executeUpdate() > 0;
             } catch (Exception e) {
                 System.out.println("Lỗi khi xóa user: " + e.getMessage());
