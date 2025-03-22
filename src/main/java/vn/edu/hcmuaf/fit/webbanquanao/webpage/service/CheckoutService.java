@@ -1,24 +1,29 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao.CartDao;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.dao.CheckoutDAO;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartProductDetail;
+
+import java.util.List;
 
 public class CheckoutService {
-    CheckoutDAO dao;
 
     public CheckoutService() {
-        dao = new CheckoutDAO();
     }
 
-    public boolean checkout(int userId) {
-        CartDao cartDao = new CartDao();
-        CheckoutDAO checkoutDao = new CheckoutDAO();
+    public boolean checkout(int userId, int paymentId, int couponId, double totalPrice) {
+        CartDao dao = new CartDao();
         boolean re = false;
 
-        for (CartDetail cartDetail : cartDao.getCartByUserId(userId)) {
+        // get products of cart
+        List<CartProductDetail> products = dao.getCartByUserId(userId);
 
-        }
+        // create new order and get new orderId
+        int orderId = dao.createNewOrder(userId, paymentId, couponId, totalPrice);
+
+        // move products from cart to orderItem
+
+        // remove products of cart
+
         return re;
     }
 }

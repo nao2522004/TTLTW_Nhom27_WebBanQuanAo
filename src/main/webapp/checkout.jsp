@@ -54,7 +54,7 @@
             <%--            </div>--%>
             <div class="col-md-8 order-md-1 mx-auto">
                 <h4 class="mb-3 header-text" style=" color: #335d4a !important">Địa Chỉ Thanh Toán</h4>
-                <form class="needs-validation" novalidate method="post">
+                <form class="needs-validation" novalidate method="post" action="${pageContext.request.contextPath}/Checkout">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName"><i class="fa-solid fa-id-card"></i> Họ</label>

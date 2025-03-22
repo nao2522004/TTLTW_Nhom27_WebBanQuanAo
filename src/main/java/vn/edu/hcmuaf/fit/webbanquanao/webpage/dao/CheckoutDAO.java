@@ -12,6 +12,7 @@ public class CheckoutDAO {
         conn = new JDBIConnector();
     }
 
+    // add all products of a user cart to order
     public boolean addToOrder(int userId, int paymentId, Integer couponId, double totalPrice, int status,
                               int productId, int quantity, double unitPrice, float discount, int productDetailId) {
         sql1 = "INSERT INTO `orders` (`userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`) " +
