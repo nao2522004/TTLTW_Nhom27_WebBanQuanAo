@@ -49,6 +49,16 @@ function fetchUsers() {
 const buildTableUser = (users) => {
     let userContent = "";
     for (const user of users) {
+
+        let statusText = "";
+        switch (user.status){
+            case 0: statusText = "Chưa kích hoạt"; break;
+            case 1: statusText = "Hoat động"; break;
+            case 2: statusText = "Bị khóa"; break;
+            case 3: statusText = "Bị cấm"; break;
+            case 4: statusText = "Bị xóa"; break;
+        }
+
         userContent += `
                 <tr>
                     <td>${user.id}</td>
@@ -60,7 +70,7 @@ const buildTableUser = (users) => {
                     <td>${user.address}</td>
                     <td>${user.phone}</td>
                     <td>${user.createdAt}</td>
-                    <td>${user.status === 1 ? 'Hoạt Động' : 'Không Hoạt Động'}</td>
+                    <td>${statusText}</td>
                     <td>${user.roleId === 1 ? 'Admin' : 'User'}</td>
                     <td class="primary">
                         <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
@@ -122,7 +132,12 @@ function openEditPopup(event) {
             document.getElementById("edit-address").value = data.address;
             document.getElementById("edit-phone").value = data.phone;
             document.getElementById("edit-createdDate").value = data.createdAt;
-            document.getElementById("edit-status").value = data.status;
+
+            const selectStatus = document.getElementById("edit-status");
+            const optionStatus = selectStatus.querySelector(`option[value="${data.status}"]`);
+            if(optionStatus) optionStatus.selected = true;
+            else console.warn("Không tìm thấy trạng thái phù hợp:", data.status);
+
             document.getElementById("edit-role").value = data.roleId;
         }, error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
