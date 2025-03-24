@@ -3,33 +3,34 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 import java.io.Serializable;
 
 public class Role implements Serializable {
-    private Integer roleid;
-    private String nameRole;
+    private Integer id;
+    private String roleName;
 
 
     public Role() {
     }
 
-    public Role(String nameRole, Integer roleid) {
-        this.nameRole = nameRole;
-        this.roleid = roleid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setNameRole(String nameRole) {
-        this.nameRole = nameRole;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getNameRole() {
-        return nameRole;
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", roleName='" + roleName + '\'' +
+                '}';
     }
-
-
 }

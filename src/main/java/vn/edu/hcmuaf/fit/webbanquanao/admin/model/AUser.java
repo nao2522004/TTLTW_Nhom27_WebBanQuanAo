@@ -16,13 +16,13 @@ public class AUser implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private List<String> roles;
-
+    private String roleName;
+    private List<String> permissionName;
 
     public AUser() {
     }
 
-    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roles) {
+    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, String roleName, List<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -34,10 +34,11 @@ public class AUser implements Serializable {
         this.phone = phone;
         this.status = status;
         this.createdAt = createdAt;
-        this.roles = roles;
+        this.roleName = roleName;
+        this.permissionName = permissionName;
     }
 
-    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roles) {
+    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, String roleName, List<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -48,7 +49,8 @@ public class AUser implements Serializable {
         this.phone = phone;
         this.status = status;
         this.createdAt = createdAt;
-        this.roles = roles;
+        this.roleName = roleName;
+        this.permissionName = permissionName;
     }
 
     public Integer getId() {
@@ -139,12 +141,20 @@ public class AUser implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public List<String> getPermissionName() {
+        return permissionName;
+    }
+
+    public void setPermissionName(List<String> permissionName) {
+        this.permissionName = permissionName;
     }
 
     @Override
@@ -161,7 +171,8 @@ public class AUser implements Serializable {
                 ", phone=" + phone +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", roles=" + roles +
+                ", roleName='" + roleName + '\'' +
+                ", permissionName=" + permissionName +
                 '}';
     }
 }
