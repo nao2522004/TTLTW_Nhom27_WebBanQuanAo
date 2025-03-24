@@ -1,18 +1,18 @@
-package vn.edu.hcmuaf.fit.webbanquanao.user.auth.service;
+package vn.edu.hcmuaf.fit.webbanquanao.user.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 public class AuthService {
 
-    public User checkLogin(String userName, String inputPassword) {
+    public AUser checkLogin(String userName, String inputPassword) {
         AUserDao aUserDao = new AUserDao(); // Quản lý danh sách user
         UserDao userDao = new UserDao(); // Làm việc với database
 
         // Lấy User từ danh sách user
-        User user = aUserDao.listUser.get(userName);
+        AUser user = aUserDao.listUser.get(userName);
 
         if (user != null) {
             // Lấy mật khẩu từ database

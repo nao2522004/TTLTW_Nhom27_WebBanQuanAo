@@ -44,7 +44,7 @@ public class UserDao {
                     user.setPhone(rs.getInt("phone"));
                     user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                     user.setStatus(rs.getInt("status"));
-                    user.setRoleId(rs.getInt("roleId"));
+//                    user.setRoleId(rs.getInt("roleId"));
                     users.put(user.getUserName(), user);
                 }
             } catch (Exception e) {
@@ -77,7 +77,7 @@ public class UserDao {
                 }
 
                 ps.setString(7, user.getAddress());
-                ps.setInt(8, user.getRoleId());
+//                ps.setInt(8, user.getRoleId());
 
                 int rowsAffected = ps.executeUpdate();
                 System.out.println("Rows affected: " + rowsAffected);
@@ -146,7 +146,7 @@ public class UserDao {
                         user.setPhone(rs.getInt("phone"));
                         user.setAddress(rs.getString("address"));
                         user.setStatus(rs.getInt("status"));
-                        user.setRoleId(rs.getInt("roleId"));
+//                        user.setRoleId(rs.getInt("roleId"));
                         user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                         return user;
                     }
