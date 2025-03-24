@@ -50,6 +50,9 @@ public class VerifyOTPServlet extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         }
+        System.out.println("Stored OTP: " + storedOTP);
+        System.out.println("User input OTP: " + otpInput);
+
     }
 }
 

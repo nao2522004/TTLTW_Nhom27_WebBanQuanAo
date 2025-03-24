@@ -20,6 +20,7 @@ public class Product implements Serializable {
     private Integer stock;
     private List<String> images;
     private List<String> colors;
+    private Integer productDetailId;
 
     public Product() {
         this.sizes = new ArrayList<String>();
@@ -27,7 +28,25 @@ public class Product implements Serializable {
         this.colors = new ArrayList<String>();
     }
 
-    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status, List<String> sizes, Integer stock, List<String> imgs, List<String> colors) {
+    public Product(Product product) {
+        this.id = product.getId();
+        this.type = product.getType();
+        this.category = product.getCategory();
+        this.supplier = product.getSupplier();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.releaseDate = product.getReleaseDate();
+        this.unitSold = product.getUnitSold();
+        this.unitPrice = product.getUnitPrice();
+        this.status = product.isStatus();
+        this.sizes = product.getSizes();
+        this.stock = product.getStock();
+        this.images = product.getImages();
+        this.colors = product.getColors();
+        this.productDetailId = product.productDetailId;
+    }
+
+    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status, List<String> sizes, Integer stock, List<String> imgs, List<String> colors, Integer productDetailId) {
         this.id = id;
         this.type = type;
         this.category = category;
@@ -42,6 +61,7 @@ public class Product implements Serializable {
         this.stock = stock;
         this.images = imgs;
         this.colors = colors;
+        this.productDetailId = productDetailId;
     }
 
 
@@ -157,6 +177,14 @@ public class Product implements Serializable {
 
     public void setColors(List<String> colors) {
         this.colors = colors;
+    }
+
+    public Integer getProductDetailId() {
+        return productDetailId;
+    }
+
+    public void setProductDetailId(Integer productDetailId) {
+        this.productDetailId = productDetailId;
     }
 
     @Override

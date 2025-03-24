@@ -22,6 +22,7 @@ body {
     margin:20px;
     margin-top: 20rem;
     overflow: hidden;
+    transition: all 0.5s ease-in-out;
 }
 .no-padding {
     padding-right: 0 !important;
@@ -41,6 +42,11 @@ body {
     z-index: 1;
     transition: .6s ease-in-out 1.2s, visibility 0s 1s;
 }
+/* Khi chuyển sang đăng ký, mở rộng container */
+.container.active {
+    width: 950px !important;
+    height: 700px !important;
+}
 .container.active .form-box {
     right: 50%;
 }
@@ -54,7 +60,7 @@ body {
 }
 
 form {
-   width: 100%;
+    width: 100%;
 }
 
 .container h1 {
@@ -228,7 +234,7 @@ form {
     .container {
         height: calc(100vh - 40px);
     }
-    
+
     .form-box {
         bottom: 0;
         width: 100%;
@@ -293,5 +299,27 @@ form {
         font-size: 30px;
     }
 }
+.name-container {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.name-container .input-box {
+    flex: 1;
+    min-width: 100px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.name-container .input-box input {
+    width: 100%;
+    padding: 12px; /* Giữ padding đồng đều */
+}
+
+
+
+
 
 

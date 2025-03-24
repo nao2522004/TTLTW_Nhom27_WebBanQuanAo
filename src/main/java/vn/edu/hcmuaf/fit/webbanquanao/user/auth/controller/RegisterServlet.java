@@ -26,35 +26,52 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         HttpSession session = request.getSession();
 
-        if (email == null || email.trim().isEmpty()) {
-            session.setAttribute("error", "Email không hợp lệ!");
-            response.sendRedirect("login.jsp#signup-form"); // Quay lại form đăng ký
+        // Kiểm tra dữ liệu nhập vào
+        if (username == null || username.trim().isEmpty()) {
+            session.setAttribute("error", "Tên tài khoản không hợp lệ!");
+            response.sendRedirect("login.jsp#signup-form");
             return;
         }
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        if (firstName == null || firstName.trim().isEmpty()) {
+            session.setAttribute("error", "Họ không được để trống!");
+            response.sendRedirect("login.jsp#signup-form");
+            return;
+        }
+
+        if (lastName == null || lastName.trim().isEmpty()) {
+            session.setAttribute("error", "Tên không được để trống!");
+            response.sendRedirect("login.jsp#signup-form");
+            return;
+        }
+
+        if (email == null || email.trim().isEmpty() || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             session.setAttribute("error", "Email không hợp lệ!");
             response.sendRedirect("login.jsp#signup-form");
             return;
         }
 
-
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
         String otp = generateOTP();
         OTPStorage.storeOTP(email, otp);
         EmailService.sendEmail(email, "🔒 Xác thực tài khoản - Mã OTP của bạn", otp);
-        User tempUser = new User(email, hashedPassword);
+
+
+        User tempUser = new User(username, firstName, lastName, email, hashedPassword);
+        tempUser.setRoleId(2); // Giả sử 2 là role mặc định
         session.setAttribute("tempUser", tempUser);
 
         response.sendRedirect("verify.jsp");
-        System.out.println("Email nhập vào: " + request.getParameter("email"));
-
     }
+
 
     private String generateOTP() {
         Random random = new Random();
