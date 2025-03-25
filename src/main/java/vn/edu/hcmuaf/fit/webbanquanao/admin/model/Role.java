@@ -6,7 +6,6 @@ public class Role implements Serializable {
     private Integer id;
     private String roleName;
 
-
     public Role() {
     }
 

@@ -21,14 +21,17 @@ public class AUserDao{
 
     public Map<String, AUser> getAllUser() {
         Map<String, AUser> users = new LinkedHashMap<>();
-        String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
-                "u.avatar, u.address, u.phone, u.createdAt, u.status, r.roleName, p.permissionName " +
-                "FROM users u " +
-                "JOIN user_roles ur ON u.id = ur.userId " +
-                "JOIN roles r ON ur.roleId = r.id " +
-                "JOIN role_permissions rp ON r.id = rp.roleId " +
-                "JOIN permissions p ON rp.permissionId = p.id " +
-                "ORDER BY u.id DESC";
+        String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, \n" +
+                "       u.avatar, u.address, u.phone, u.createdAt, u.status,\n" +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName,\n" +
+                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName\n" +
+                "FROM users u\n" +
+                "JOIN user_roles ur ON u.id = ur.userId\n" +
+                "JOIN roles r ON ur.roleId = r.id\n" +
+                "JOIN role_permissions rp ON r.id = rp.roleId\n" +
+                "JOIN permissions p ON rp.permissionId = p.id\n" +
+                "GROUP BY u.id\n" +
+                "ORDER BY u.id DESC;";
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
@@ -50,11 +53,12 @@ public class AUserDao{
                         user.setPhone(rs.getInt("phone"));
                         user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                         user.setStatus(rs.getInt("status"));
-                        user.setRoleName(rs.getString("roleName"));
+                        user.setRoleName(new ArrayList<>());
                         user.setPermissionName(new ArrayList<>());
                         users.put(userName, user);
                     }
 
+                    user.getRoleName().add(rs.getString("roleName"));
                     user.getPermissionName().add(rs.getString("permissionName"));
                 }
             } catch (Exception e) {

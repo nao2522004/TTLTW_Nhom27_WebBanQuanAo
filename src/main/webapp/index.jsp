@@ -36,7 +36,7 @@
         <!-- Carousel captions -->
         <div class="carousel_caption">
              <h5>   <c:if test="${sessionScope.auth!=null}">
-                    <h1>Chào mừng ${sessionScope.auth.firstName} : ${sessionScope.auth.roleId}  đến với trang web của chúng tôi</h1>
+                    <h1>Chào mừng ${sessionScope.auth.firstName} đến với trang web của chúng tôi</h1>
                 </c:if> </h5>
             <p></p>
             <a href="#" class="btn btn-link">Discover</a>
