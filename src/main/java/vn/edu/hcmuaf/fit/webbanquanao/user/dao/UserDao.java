@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserDao {
@@ -285,4 +286,41 @@ public class UserDao {
         });
     }
 
+
+    public String getRoleNameByUserName(String userName) {
+        String sql = "SELECT r.roleName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id WHERE u.userName = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getString("roleName");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
+
+    public List<String> getPemissionNameByUserName(String userName) {
+        String sql = "SELECT p.permissionName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id JOIN role_permissions rp ON r.id = rp.roleId JOIN permissions p ON rp.permissionId = p.id WHERE u.userName = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            List<String> permissionNames = new ArrayList<>();
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        permissionNames.add(rs.getString("permissionName"));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return permissionNames;
+        });
+    }
 }
