@@ -14,8 +14,10 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+
+        // Kiểm tra nếu đã đăng nhập thì chuyển hướng về trang chính
         if (session.getAttribute("auth") != null) {
-            response.sendRedirect("./homePage");
+            response.sendRedirect(request.getContextPath() + "/homePage");
         } else {
             request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
@@ -31,19 +33,26 @@ public class LoginController extends HttpServlet {
 
         if (user != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("auth", user); // Lưu người dùng vào session
 
-            String role = user.getRoleName();
-            switch (role) {
-                case "ADMIN":
-                    response.sendRedirect(request.getContextPath() + "/admin.jsp");
-                    break;
-                default:
-                    response.sendRedirect(request.getContextPath() + "/homePage");
-                    break;
+            // Lưu thông tin người dùng, vai trò và quyền vào session
+            session.setAttribute("auth", user);
+            session.setAttribute("role", user.getRoleName());
+            session.setAttribute("permissions", user.getPermissionName());
+
+            // In ra console để kiểm tra
+            System.out.println("User: " + user.getUserName());
+            System.out.println("Role: " + user.getRoleName());
+            System.out.println("Permissions: " + user.getPermissionName());
+
+            // Điều hướng dựa trên vai trò của người dùng
+            if ("ADMIN".equalsIgnoreCase(user.getRoleName())) {
+                response.sendRedirect(request.getContextPath() + "/admin.jsp");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/homePage");
             }
         } else {
-            request.setAttribute("error", "Đăng nhập không thành công");
+            // Nếu đăng nhập thất bại, quay lại trang đăng nhập với thông báo lỗi
+            request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.");
             request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
     }
