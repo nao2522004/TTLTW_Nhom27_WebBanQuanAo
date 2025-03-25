@@ -38,9 +38,8 @@ public class RoleFilter implements Filter {
         // Kiểm tra quyền nếu đã đăng nhập
         if (userObj instanceof AUser) {
             AUser authUser = (AUser) userObj;
-            String role = authUser.getRoleName();
 
-            if (isAdminPage(requestURI, contextPath) && !"ADMIN".equals(role)) {
+            if (isAdminPage(requestURI, contextPath) && !"ADMIN".equals(authUser.hasRole("ADMIN"))) {
                 showAlertAndRedirect(httpResponse, "Bạn không có quyền truy cập!", contextPath + "/homePage");
                 return;
             }

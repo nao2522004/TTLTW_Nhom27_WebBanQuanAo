@@ -3,7 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.auth.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.service.AuthService;
 
 import java.io.IOException;
@@ -15,11 +15,11 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        // Kiểm tra nếu đã đăng nhập thì chuyển hướng về trang chính
+        // Kiểm tra nếu người dùng đã đăng nhập
         if (session.getAttribute("auth") != null) {
-            response.sendRedirect(request.getContextPath() + "/homePage");
+            response.sendRedirect(request.getContextPath() + "/homePage"); // Chuyển hướng đến homePage nếu đã đăng nhập
         } else {
-            request.getRequestDispatcher("./login.jsp").forward(request, response);
+            request.getRequestDispatcher("./login.jsp").forward(request, response); // Hiển thị trang đăng nhập nếu chưa đăng nhập
         }
     }
 
@@ -29,22 +29,17 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("passWord");
 
         AuthService service = new AuthService();
-        AUser user = service.checkLogin(userName, password);
+        User user = service.checkLogin(userName, password);
 
         if (user != null) {
             HttpSession session = request.getSession();
 
-            // Lưu thông tin người dùng, vai trò và quyền vào session
+            // Lưu thông tin người dùng vào session
             session.setAttribute("auth", user);
             session.setAttribute("role", user.getRoleName());
             session.setAttribute("permissions", user.getPermissionName());
 
-            // In ra console để kiểm tra
-            System.out.println("User: " + user.getUserName());
-            System.out.println("Role: " + user.getRoleName());
-            System.out.println("Permissions: " + user.getPermissionName());
-
-            // Điều hướng dựa trên vai trò của người dùng
+            // Chuyển hướng dựa trên vai trò của người dùng
             if ("ADMIN".equalsIgnoreCase(user.getRoleName())) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp");
             } else {

@@ -16,13 +16,13 @@ public class AUser implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private String roleName;
+    private List<String> roleName;
     private List<String> permissionName;
 
     public AUser() {
     }
 
-    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, String roleName, List<String> permissionName) {
+    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roleName, List<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -38,7 +38,7 @@ public class AUser implements Serializable {
         this.permissionName = permissionName;
     }
 
-    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, String roleName, List<String> permissionName) {
+    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roleName, List<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -141,11 +141,11 @@ public class AUser implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public String getRoleName() {
+    public List<String> getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(String roleName) {
+    public void setRoleName(List<String> roleName) {
         this.roleName = roleName;
     }
 
@@ -155,6 +155,32 @@ public class AUser implements Serializable {
 
     public void setPermissionName(List<String> permissionName) {
         this.permissionName = permissionName;
+    }
+
+    public boolean hasRole(String roleName) {
+        return this.roleName.contains(roleName);
+    }
+
+    public boolean hasPermission(String permissionName) {
+        return this.permissionName.contains(permissionName);
+    }
+
+    public boolean hasAnyRole(List<String> roleNames) {
+        for (String roleName : roleNames) {
+            if (hasRole(roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasAnyPermission(List<String> permissionNames) {
+        for (String permissionName : permissionNames) {
+            if (hasPermission(permissionName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
