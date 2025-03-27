@@ -26,14 +26,14 @@ public class User implements Serializable {
     public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone) {
     }
 
-    public User(String userName, String firstName, String lastName, String email, String passWord, ArrayList<String> roleName) {
+    public User(String userName, String firstName, String lastName, String email, String passWord) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.passWord = passWord;
-        this.roleName = roleName;
     }
+
 
     public Integer getId() {
         return id;

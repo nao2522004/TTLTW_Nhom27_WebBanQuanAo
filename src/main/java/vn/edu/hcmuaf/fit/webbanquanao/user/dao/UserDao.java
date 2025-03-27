@@ -7,10 +7,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public class UserDao {
@@ -74,48 +71,128 @@ public class UserDao {
             return users;
         });
     }
+    public String getRoleNameById(String roleName) {
+        String sql = "SELECT roleName FROM roles WHERE roleName = ?";
+
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, roleName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getString("roleName");
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("❌ Lỗi khi lấy roleName: " + e.getMessage());
+            }
+            System.out.println("⚠ Không tìm thấy role: " + roleName);
+            return null; // Trả về null nếu không tìm thấy
+        });
+    }
 
 
+    public boolean registerUser(User user) {
+        String userSql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String checkRoleSql = "SELECT COUNT(*) FROM user_roles WHERE userId = ? AND roleId = ?";
+        String insertRoleSql = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
 
-//    public boolean registerUser(User user) {
-//        String sql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//
-//
-//        String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
-//
-//        return dbConnect.get().withHandle(handle -> {
-//            try (Connection conn = handle.getConnection();
-//                 PreparedStatement ps = conn.prepareStatement(sql)) {
-//
-//                ps.setString(1, user.getUserName());
-//                ps.setString(2, user.getAvatar());
-//                ps.setString(3, hashedPassword);
-//                ps.setString(4, user.getFirstName());
-//                ps.setString(5, user.getLastName());
-//                ps.setString(6, user.getEmail());
-//
-//                if (user.getPhone() != null) {
-//                    ps.setInt(7, user.getPhone());
-//                } else {
-//                    ps.setNull(7, java.sql.Types.INTEGER);
-//                }
-//
-//
-//                ps.setString(7, user.getAddress());
-//                ps.setString(8, user.getAddress());
-//                ps.setInt(9, user.getRoleId());
-//
-//                int rowsAffected = ps.executeUpdate();
-//                System.out.println("Rows affected: " + rowsAffected);
-//                return rowsAffected > 0;
-//
-//            } catch (SQLException e) {
-//                System.err.println("Lỗi khi đăng ký người dùng: " + e.getMessage());
-//                e.printStackTrace();
-//                return false;
-//            }
-//        });
-//    }
+        String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
+
+        return dbConnect.get().withHandle(handle -> {
+            try (Connection conn = handle.getConnection()) {
+                conn.setAutoCommit(false);
+
+                try (PreparedStatement userPs = conn.prepareStatement(userSql, Statement.RETURN_GENERATED_KEYS)) {
+                    userPs.setString(1, user.getUserName());
+                    userPs.setString(2, user.getAvatar());
+                    userPs.setString(3, hashedPassword);
+                    userPs.setString(4, user.getFirstName());
+                    userPs.setString(5, user.getLastName());
+                    userPs.setString(6, user.getEmail());
+
+                    if (user.getPhone() != null) {
+                        userPs.setInt(7, user.getPhone());
+                    } else {
+                        userPs.setNull(7, java.sql.Types.INTEGER);
+                    }
+
+                    userPs.setString(8, user.getAddress());
+                    int status = (user.getStatus() != null) ? user.getStatus() : 0; // Mặc định trạng thái là 0 (Chưa kích hoạt)
+                    userPs.setInt(9, status);
+
+                    Timestamp createdAt = (user.getCreatedAt() != null) ?
+                            Timestamp.valueOf(user.getCreatedAt()) :
+                            new Timestamp(System.currentTimeMillis());
+                    userPs.setTimestamp(10, createdAt);
+
+                    int rowsAffected = userPs.executeUpdate();
+                    if (rowsAffected == 0) throw new SQLException("Tạo người dùng thất bại!");
+
+                    try (ResultSet generatedKeys = userPs.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int userId = generatedKeys.getInt(1);
+
+                            // 🔹 Lấy roleId của "USER"
+                            int roleId = getRoleId("USER");
+                            if (roleId == -1) {
+                                throw new SQLException("Không tìm thấy role 'USER'!");
+                            }
+
+                            // 🔹 Kiểm tra trước khi thêm vào user_roles
+                            try (PreparedStatement checkRolePs = conn.prepareStatement(checkRoleSql)) {
+                                checkRolePs.setInt(1, userId);
+                                checkRolePs.setInt(2, roleId);
+                                try (ResultSet rs = checkRolePs.executeQuery()) {
+                                    if (rs.next() && rs.getInt(1) > 0) {
+                                        System.out.println("User đã có vai trò này, không cần thêm!");
+                                    } else {
+                                        try (PreparedStatement rolePs = conn.prepareStatement(insertRoleSql)) {
+                                            rolePs.setInt(1, userId);
+                                            rolePs.setInt(2, roleId);
+                                            rolePs.executeUpdate();
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            throw new SQLException("Tạo người dùng thất bại, không có ID!");
+                        }
+                    }
+
+                    conn.commit();
+                    return true;
+                } catch (SQLException e) {
+                    conn.rollback();
+                    System.err.println("Lỗi khi đăng ký người dùng: " + e.getMessage());
+                    e.printStackTrace();
+                    return false;
+                }
+            } catch (SQLException e) {
+                System.err.println("Lỗi kết nối database: " + e.getMessage());
+                return false;
+            }
+        });
+    }
+
+
+    public int getRoleId(String roleName) {
+        String sql = "SELECT id FROM roles WHERE roleName = ?";
+
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, roleName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("❌ Lỗi khi lấy roleId: " + e.getMessage());
+            }
+            return -1; // Trả về -1 nếu không tìm thấy
+        });
+    }
+
 
 
     // Kiểm tra xem email đã tồn tại chưa
