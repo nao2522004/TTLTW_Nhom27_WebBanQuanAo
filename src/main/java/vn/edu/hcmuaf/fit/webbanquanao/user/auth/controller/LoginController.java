@@ -7,8 +7,6 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.service.AuthService;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {

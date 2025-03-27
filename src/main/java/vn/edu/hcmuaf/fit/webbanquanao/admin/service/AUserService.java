@@ -26,12 +26,12 @@ public class AUserService {
 //        return uDao.create(user);
 //    }
 
-//    public AUser getUserByUsername(String username) {
-//        AUserDao uDao = new AUserDao();
-//        if(!uDao.listUser.containsKey(username))
-//            return null;
-//        return uDao.listUser.get(username);
-//    }
+    public AUser getUserByUsername(String username) {
+        AUserDao uDao = new AUserDao();
+        if(!uDao.listUser.containsKey(username))
+            return null;
+        return uDao.listUser.get(username);
+    }
 
 //    public boolean deleteUser(String username) {
 //        AUserDao uDao = new AUserDao();
