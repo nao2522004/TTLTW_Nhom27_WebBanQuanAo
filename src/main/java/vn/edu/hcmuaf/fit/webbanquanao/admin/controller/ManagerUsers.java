@@ -1,70 +1,70 @@
-//package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
-//
-//import com.google.gson.*;
-//import jakarta.servlet.*;
-//import jakarta.servlet.http.*;
-//import jakarta.servlet.annotation.*;
-//
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.PrintWriter;
-//import java.time.LocalDateTime;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.stream.Collectors;
-//
-//import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
-//import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
-//
-//@WebServlet(name = "AdminUserController", value = "/admin/manager-users")
-//public class ManagerUsers extends HttpServlet {
-//
-//    @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        // Lấy tham số 'username' từ yêu cầu (nếu có)
-//        String username = request.getParameter("username");
-//        // Tạo đối tượng UserService để truy vấn dữ liệu người dùng
-//        AUserService userService = new AUserService();
-//        // Kiểm tra xem có tham số 'username' hay không
-//        if (username != null && !username.isEmpty()) {
-//            // Nếu có username, tìm người dùng theo username
-//            AUser user = userService.getUserByUsername(username);
-//            if (user != null) {
-//                // Tạo Gson với TypeAdapter cho LocalDateTime
-//                Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
-//                        .create();
-//                // Thiết lập kiểu dữ liệu trả về là JSON
-//                response.setContentType("application/json");
-//                response.setCharacterEncoding("UTF-8");
-//                PrintWriter out = response.getWriter();
-//                String json = gson.toJson(user); // Chuyển đổi đối tượng người dùng thành JSON
-//                out.print(json);
-//                out.flush();
-//            } else {
-//                // Nếu không tìm thấy người dùng, trả về lỗi 404
-//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//                response.getWriter().write("{\"message\": \"Khong tim thay user\"}");
-//            }
-//        } else {
-//            // Nếu không có 'username', trả về tất cả người dùng
-//            Map<String, AUser> users = userService.showUser();
-//            List<AUser> userList = users.values().stream().collect(Collectors.toList());
-//
-//            // Tạo Gson với TypeAdapter cho LocalDateTime
-//            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
-//                    .create();
-//
-//            // Thiết lập kiểu dữ liệu trả về là JSON
-//            response.setContentType("application/json");
-//            response.setCharacterEncoding("UTF-8");
-//
-//            PrintWriter out = response.getWriter();
-//            String json = gson.toJson(userList); // Sử dụng Gson đã đăng ký adapter
-//            out.print(json);
-//            out.flush();
-//        }
-//    }
-//
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+
+import com.google.gson.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
+
+@WebServlet(name = "AdminUserController", value = "/admin/manager-users")
+public class ManagerUsers extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy tham số 'username' từ yêu cầu (nếu có)
+        String username = request.getParameter("username");
+        // Tạo đối tượng UserService để truy vấn dữ liệu người dùng
+        AUserService userService = new AUserService();
+        // Kiểm tra xem có tham số 'username' hay không
+        if (username != null && !username.isEmpty()) {
+            // Nếu có username, tìm người dùng theo username
+            AUser user = userService.getUserByUsername(username);
+            if (user != null) {
+                // Tạo Gson với TypeAdapter cho LocalDateTime
+                Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
+                        .create();
+                // Thiết lập kiểu dữ liệu trả về là JSON
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter out = response.getWriter();
+                String json = gson.toJson(user); // Chuyển đổi đối tượng người dùng thành JSON
+                out.print(json);
+                out.flush();
+            } else {
+                // Nếu không tìm thấy người dùng, trả về lỗi 404
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"message\": \"Khong tim thay user\"}");
+            }
+        } else {
+            // Nếu không có 'username', trả về tất cả người dùng
+            Map<String, AUser> users = userService.showUser();
+            List<AUser> userList = users.values().stream().collect(Collectors.toList());
+
+            // Tạo Gson với TypeAdapter cho LocalDateTime
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()) // Đăng ký adapter
+                    .create();
+
+            // Thiết lập kiểu dữ liệu trả về là JSON
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            PrintWriter out = response.getWriter();
+            String json = gson.toJson(userList); // Sử dụng Gson đã đăng ký adapter
+            out.print(json);
+            out.flush();
+        }
+    }
+
 //    @Override
 //    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        response.setContentType("application/json");
@@ -173,60 +173,60 @@
 //            response.getWriter().write("{\"message\": \"Error processing request: " + e.getMessage() + "\"}");
 //        }
 //    }
+
+
+//    @Override
+//    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
 //
+//        try {
+//            // Đọc dữ liệu JSON từ body
+//            StringBuilder jsonBuffer = new StringBuilder();
+//            String line;
+//            try (BufferedReader reader = request.getReader()) {
+//                while ((line = reader.readLine()) != null) {
+//                    jsonBuffer.append(line);
+//                }
+//            }
+//            String json = jsonBuffer.toString();
+//            System.out.println("Received JSON: " + json);
 //
-////    @Override
-////    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-////        response.setContentType("application/json");
-////        response.setCharacterEncoding("UTF-8");
-////
-////        try {
-////            // Đọc dữ liệu JSON từ body
-////            StringBuilder jsonBuffer = new StringBuilder();
-////            String line;
-////            try (BufferedReader reader = request.getReader()) {
-////                while ((line = reader.readLine()) != null) {
-////                    jsonBuffer.append(line);
-////                }
-////            }
-////            String json = jsonBuffer.toString();
-////            System.out.println("Received JSON: " + json);
-////
-////            // Parse JSON để lấy username
-////            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
-////            String username = jsonObject.get("userName").getAsString();
-////
-////            // Kiểm tra username hợp lệ
-////            if (username == null || username.isEmpty()) {
-////                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-////                response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
-////                return;
-////            }
-////
-////            // Kiểm tra quyền Admin (userId = 1 không được xóa)
-////            AUserService userService = new AUserService();
-////            int userId = userService.getRoleIdByUserName(username); // Đổi tên cho rõ hơn
-////            if (userId == 1) {
-////                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-////                response.getWriter().write("{\"message\": \"Không thể xóa người dùng admin (người dùng hệ thống)\"}");
-////                return;
-////            }
-////
-////            // Gọi service để thực hiện xóa mềm
-////            boolean isDeleted = userService.deleteUser(username);
-////
-////            if (isDeleted) {
-////                response.setStatus(HttpServletResponse.SC_OK);
-////                response.getWriter().write("{\"message\": \"Xóa mềm người dùng thành công\"}");
-////            } else {
-////                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-////                response.getWriter().write("{\"message\": \"Không tìm thấy hoặc không thể xóa người dùng\"}");
-////            }
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-////            response.getWriter().write("{\"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
-////        }
-////    }
+//            // Parse JSON để lấy username
+//            JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
+//            String username = jsonObject.get("userName").getAsString();
 //
-//}
+//            // Kiểm tra username hợp lệ
+//            if (username == null || username.isEmpty()) {
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                response.getWriter().write("{\"message\": \"Tên người dùng không được để trống\"}");
+//                return;
+//            }
+//
+//            // Kiểm tra quyền Admin (userId = 1 không được xóa)
+//            AUserService userService = new AUserService();
+//            int userId = userService.getRoleIdByUserName(username); // Đổi tên cho rõ hơn
+//            if (userId == 1) {
+//                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                response.getWriter().write("{\"message\": \"Không thể xóa người dùng admin (người dùng hệ thống)\"}");
+//                return;
+//            }
+//
+//            // Gọi service để thực hiện xóa mềm
+//            boolean isDeleted = userService.deleteUser(username);
+//
+//            if (isDeleted) {
+//                response.setStatus(HttpServletResponse.SC_OK);
+//                response.getWriter().write("{\"message\": \"Xóa mềm người dùng thành công\"}");
+//            } else {
+//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//                response.getWriter().write("{\"message\": \"Không tìm thấy hoặc không thể xóa người dùng\"}");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            response.getWriter().write("{\"message\": \"Có lỗi xảy ra: " + e.getMessage() + "\"}");
+//        }
+//    }
+
+}

@@ -373,6 +373,7 @@
                     <th>SDT</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
+                    <th>Vai trò</th>
                     <th>Quyền</th>
                     <th>Hành động</th>
                 </tr>
@@ -401,6 +402,7 @@
                             <th>SDT</th>
                             <th>Ngày tạo</th>
                             <th>Trạng thái</th>
+                            <th>Vai trò</th>
                             <th>Quyền</th>
                             <th>Hành động</th>
                         </tr>

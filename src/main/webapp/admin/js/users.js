@@ -1,12 +1,4 @@
-/*--------------------------------------------------------
----------------------------------------------------------
-
-                       Manager User
-
----------------------------------------------------------
-----------------------------------------------------------*/
-
-/// Lấy danh sách người dùng từ server và khởi tạo DataTables
+// Lấy danh sách người dùng từ server và khởi tạo DataTables
 function fetchUsers() {
     $.ajax({
         url: '/WebBanQuanAo/admin/manager-users',
@@ -45,33 +37,52 @@ function fetchUsers() {
     });
 }
 
+// Hàm định dạng ngày từ ISO sang dd-MM-yyyy
+const formatDate = (isoString) => {
+    if (!isoString) return "N/A"; // Kiểm tra giá trị null hoặc undefined
+    const date = new Date(isoString);
+    const day = String(date.getDate()).padStart(2, '0'); // Đảm bảo 2 chữ số
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+};
+
 // Tạo tbody từ danh sách người dùng
 const buildTableUser = (users) => {
     let userContent = "";
     for (const user of users) {
-
         let statusText = "";
-        switch (user.status){
+        switch (user.status) {
             case 0: statusText = "Chưa kích hoạt"; break;
-            case 1: statusText = "Hoat động"; break;
+            case 1: statusText = "Hoạt động"; break;
             case 2: statusText = "Bị khóa"; break;
             case 3: statusText = "Bị cấm"; break;
             case 4: statusText = "Bị xóa"; break;
         }
+
+        // Xử lý roleName (danh sách role)
+        let roles = user.roleName && user.roleName.length > 0 ? user.roleName.join(", ") : "Không có";
+
+        // Xử lý permissionName (danh sách quyền)
+        let permissions = user.permissionName && user.permissionName.length > 0 ? user.permissionName.join(", ") : "Không có quyền";
+
+        // Kiểm tra phone có giá trị không
+        let phone = user.phone !== null ? user.phone : "N/A";
 
         userContent += `
                 <tr>
                     <td>${user.id}</td>
                     <td>${user.userName}</td>
                     <td>${user.firstName}</td>
-                     <td>${user.lastName}</td>
+                    <td>${user.lastName}</td>
                     <td>${user.email}</td>
                     <td>${user.avatar}</td>   
                     <td>${user.address}</td>
-                    <td>${user.phone}</td>
-                    <td>${user.createdAt}</td>
+                    <td>${phone}</td>
+                    <td>${formatDate(user.createdAt)}</td>
                     <td>${statusText}</td>
-                    <td>${user.roleId === 1 ? 'Admin' : 'User'}</td>
+                    <td>${roles}</td>
+                    <td>${permissions}</td>
                     <td class="primary">
                         <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
                         <span onclick="deleteUser(event)" class="material-icons-sharp" data-username="${user.userName}"> delete </span>
