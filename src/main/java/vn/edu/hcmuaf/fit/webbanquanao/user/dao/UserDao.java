@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.user.dao;
 
 import org.mindrot.jbcrypt.BCrypt;
-import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
@@ -11,10 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserDao {
 
@@ -30,13 +27,16 @@ public class UserDao {
     public Map<String, User> getAllUser() {
         Map<String, User> users = new LinkedHashMap<>();
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
-                "u.avatar, u.address, u.phone, u.createdAt, u.status, r.roleName, p.permissionName " +
+                "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName, " +
+                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName " +
                 "FROM users u " +
-                "JOIN user_roles ur ON u.id = ur.userId " +
-                "JOIN roles r ON ur.roleId = r.id " +
-                "JOIN role_permissions rp ON r.id = rp.roleId " +
-                "JOIN permissions p ON rp.permissionId = p.id " +
-                "ORDER BY u.id DESC";
+                "LEFT JOIN user_roles ur ON u.id = ur.userId " +
+                "LEFT JOIN roles r ON ur.roleId = r.id " +
+                "LEFT JOIN role_permissions rp ON r.id = rp.roleId " +
+                "LEFT JOIN permissions p ON rp.permissionId = p.id " +
+                "GROUP BY u.id " +
+                "ORDER BY u.id DESC;";
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
@@ -44,26 +44,29 @@ public class UserDao {
                 while (rs.next()) {
                     String userName = rs.getString("userName");
 
-                    User user = users.getOrDefault(userName, new User());
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUserName(userName);
+                    user.setPassWord(rs.getString("passWord"));
+                    user.setFirstName(rs.getString("firstName"));
+                    user.setLastName(rs.getString("lastName"));
+                    user.setEmail(rs.getString("email"));
+                    user.setAvatar(rs.getString("avatar"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getInt("phone"));
+                    user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                    user.setStatus(rs.getInt("status"));
 
-                    if (user.getId() == null) {
-                        user.setId(rs.getInt("id"));
-                        user.setUserName(userName);
-                        user.setPassWord(rs.getString("passWord"));
-                        user.setFirstName(rs.getString("firstName"));
-                        user.setLastName(rs.getString("lastName"));
-                        user.setEmail(rs.getString("email"));
-                        user.setAvatar(rs.getString("avatar"));
-                        user.setAddress(rs.getString("address"));
-                        user.setPhone(rs.getInt("phone"));
-                        user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
-                        user.setStatus(rs.getInt("status"));
-                        user.setRoleName(rs.getString("roleName"));
-                        user.setPermissionName(new ArrayList<>());
-                        users.put(userName, user);
-                    }
+                    // Kiểm tra null trước khi phân tách danh sách, dùng ArrayList thay vì List
+                    user.setRoleName(rs.getString("roleName") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("roleName").split(","))) :
+                            new ArrayList<>());
 
-                    user.getPermissionName().add(rs.getString("permissionName"));
+                    user.setPermissionName(rs.getString("permissionName") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("permissionName").split(","))) :
+                            new ArrayList<>());
+
+                    users.put(userName, user);
                 }
             } catch (Exception e) {
                 System.out.println("Lỗi khi lấy danh sách user: " + e.getMessage());
@@ -71,6 +74,8 @@ public class UserDao {
             return users;
         });
     }
+
+
 
 //    public boolean registerUser(User user) {
 //        String sql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, roleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -287,29 +292,30 @@ public class UserDao {
     }
 
 
-    public String getRoleNameByUserName(String userName) {
+    public ArrayList<String> getRoleNameByUserName(String userName) {
         String sql = "SELECT r.roleName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id WHERE u.userName = ?";
 
         return JDBIConnector.get().withHandle(handle -> {
+            ArrayList<String> roles = new ArrayList<>();
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, userName);
                 try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getString("roleName");
+                    while (rs.next()) {
+                       roles.add(rs.getString("roleName"));
                     }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return null;
+            return roles;
         });
     }
 
-    public List<String> getPemissionNameByUserName(String userName) {
-        String sql = "SELECT p.permissionName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id JOIN role_permissions rp ON r.id = rp.roleId JOIN permissions p ON rp.permissionId = p.id WHERE u.userName = ?";
+    public ArrayList<String> getPemissionNameByUserName(String userName) {
+        String sql = "SELECT DISTINCT p.permissionName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id JOIN role_permissions rp ON r.id = rp.roleId JOIN permissions p ON rp.permissionId = p.id WHERE u.userName = ?";
 
         return JDBIConnector.get().withHandle(handle -> {
-            List<String> permissionNames = new ArrayList<>();
+            ArrayList<String> permissionNames = new ArrayList<>();
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
                 ps.setString(1, userName);
                 try (ResultSet rs = ps.executeQuery()) {

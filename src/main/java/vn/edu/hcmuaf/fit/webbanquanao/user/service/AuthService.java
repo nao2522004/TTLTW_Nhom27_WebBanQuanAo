@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AuthService {
     private final UserDao aUserDao = new UserDao(); // Quản lý danh sách user
@@ -40,8 +40,8 @@ public class AuthService {
         }
 
         // Lấy vai trò và quyền
-        String roleName = userDao.getRoleNameByUserName(userName);
-        List<String> permissions = userDao.getPemissionNameByUserName(userName);
+        ArrayList<String> roleName = userDao.getRoleNameByUserName(userName);
+        ArrayList<String> permissions = userDao.getPemissionNameByUserName(userName);
 
         // Cập nhật thông tin vai trò và quyền vào đối tượng người dùng
         user.setRoleName(roleName);

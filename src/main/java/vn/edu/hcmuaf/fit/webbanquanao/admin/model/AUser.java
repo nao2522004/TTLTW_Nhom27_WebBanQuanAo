@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 
 public class AUser implements Serializable {
     private Integer id;
@@ -16,13 +16,13 @@ public class AUser implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private List<String> roleName;
-    private List<String> permissionName;
+    private ArrayList<String> roleName;
+    private ArrayList<String> permissionName;
 
     public AUser() {
     }
 
-    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roleName, List<String> permissionName) {
+    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, ArrayList<String> roleName, ArrayList<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -38,7 +38,7 @@ public class AUser implements Serializable {
         this.permissionName = permissionName;
     }
 
-    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, List<String> roleName, List<String> permissionName) {
+    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, ArrayList<String> roleName, ArrayList<String> permissionName) {
         this.id = id;
         this.userName = userName;
         this.firstName = firstName;
@@ -141,19 +141,19 @@ public class AUser implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public List<String> getRoleName() {
+    public ArrayList<String> getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(List<String> roleName) {
+    public void setRoleName(ArrayList<String> roleName) {
         this.roleName = roleName;
     }
 
-    public List<String> getPermissionName() {
+    public ArrayList<String> getPermissionName() {
         return permissionName;
     }
 
-    public void setPermissionName(List<String> permissionName) {
+    public void setPermissionName(ArrayList<String> permissionName) {
         this.permissionName = permissionName;
     }
 
@@ -165,7 +165,7 @@ public class AUser implements Serializable {
         return this.permissionName.contains(permissionName);
     }
 
-    public boolean hasAnyRole(List<String> roleNames) {
+    public boolean hasAnyRole(ArrayList<String> roleNames) {
         for (String roleName : roleNames) {
             if (hasRole(roleName)) {
                 return true;
@@ -174,7 +174,7 @@ public class AUser implements Serializable {
         return false;
     }
 
-    public boolean hasAnyPermission(List<String> permissionNames) {
+    public boolean hasAnyPermission(ArrayList<String> permissionNames) {
         for (String permissionName : permissionNames) {
             if (hasPermission(permissionName)) {
                 return true;
