@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Serializable {
@@ -16,8 +17,8 @@ public class User implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private String roleName;
-    private List<String> permissionName;
+    private ArrayList<String> roleName;
+    private ArrayList<String> permissionName;
 
     public User() {
     }
@@ -25,7 +26,7 @@ public class User implements Serializable {
     public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone) {
     }
 
-    public User(String userName, String firstName, String lastName, String email, String passWord, String roleName) {
+    public User(String userName, String firstName, String lastName, String email, String passWord, ArrayList<String> roleName) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -122,19 +123,19 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public String getRoleName() {
+    public List<String> getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(String roleName) {
+    public void setRoleName(ArrayList<String> roleName) {
         this.roleName = roleName;
     }
 
-    public List<String> getPermissionName() {
+    public ArrayList<String> getPermissionName() {
         return permissionName;
     }
 
-    public void setPermissionName(List<String> permissionName) {
+    public void setPermissionName(ArrayList<String> permissionName) {
         this.permissionName = permissionName;
     }
 

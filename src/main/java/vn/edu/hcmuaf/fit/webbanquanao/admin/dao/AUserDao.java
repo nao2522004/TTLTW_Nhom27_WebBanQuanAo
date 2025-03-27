@@ -8,10 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AUserDao{
+public class AUserDao {
 
     public Map<String, AUser> listUser;
 
@@ -21,16 +22,16 @@ public class AUserDao{
 
     public Map<String, AUser> getAllUser() {
         Map<String, AUser> users = new LinkedHashMap<>();
-        String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, \n" +
-                "       u.avatar, u.address, u.phone, u.createdAt, u.status,\n" +
-                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName,\n" +
-                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName\n" +
-                "FROM users u\n" +
-                "JOIN user_roles ur ON u.id = ur.userId\n" +
-                "JOIN roles r ON ur.roleId = r.id\n" +
-                "JOIN role_permissions rp ON r.id = rp.roleId\n" +
-                "JOIN permissions p ON rp.permissionId = p.id\n" +
-                "GROUP BY u.id\n" +
+        String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
+                "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName, " +
+                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName " +
+                "FROM users u " +
+                "LEFT JOIN user_roles ur ON u.id = ur.userId " +
+                "LEFT JOIN roles r ON ur.roleId = r.id " +
+                "LEFT JOIN role_permissions rp ON r.id = rp.roleId " +
+                "LEFT JOIN permissions p ON rp.permissionId = p.id " +
+                "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
         return JDBIConnector.get().withHandle(handle -> {
@@ -39,27 +40,29 @@ public class AUserDao{
                 while (rs.next()) {
                     String userName = rs.getString("userName");
 
-                    AUser user = users.getOrDefault(userName, new AUser());
+                    AUser user = new AUser();
+                    user.setId(rs.getInt("id"));
+                    user.setUserName(userName);
+                    user.setPassWord(rs.getString("passWord"));
+                    user.setFirstName(rs.getString("firstName"));
+                    user.setLastName(rs.getString("lastName"));
+                    user.setEmail(rs.getString("email"));
+                    user.setAvatar(rs.getString("avatar"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getInt("phone"));
+                    user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                    user.setStatus(rs.getInt("status"));
 
-                    if (user.getId() == null) {
-                        user.setId(rs.getInt("id"));
-                        user.setUserName(userName);
-                        user.setPassWord(rs.getString("passWord"));
-                        user.setFirstName(rs.getString("firstName"));
-                        user.setLastName(rs.getString("lastName"));
-                        user.setEmail(rs.getString("email"));
-                        user.setAvatar(rs.getString("avatar"));
-                        user.setAddress(rs.getString("address"));
-                        user.setPhone(rs.getInt("phone"));
-                        user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
-                        user.setStatus(rs.getInt("status"));
-                        user.setRoleName(new ArrayList<>());
-                        user.setPermissionName(new ArrayList<>());
-                        users.put(userName, user);
-                    }
+                    // Kiểm tra null trước khi phân tách danh sách, dùng ArrayList thay vì List
+                    user.setRoleName(rs.getString("roleName") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("roleName").split(","))) :
+                            new ArrayList<>());
 
-                    user.getRoleName().add(rs.getString("roleName"));
-                    user.getPermissionName().add(rs.getString("permissionName"));
+                    user.setPermissionName(rs.getString("permissionName") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("permissionName").split(","))) :
+                            new ArrayList<>());
+
+                    users.put(userName, user);
                 }
             } catch (Exception e) {
                 System.out.println("Lỗi khi lấy danh sách user: " + e.getMessage());
@@ -67,6 +70,7 @@ public class AUserDao{
             return users;
         });
     }
+
 
 //    public boolean create(Object obj) {
 //        AUser user = (AUser) obj;

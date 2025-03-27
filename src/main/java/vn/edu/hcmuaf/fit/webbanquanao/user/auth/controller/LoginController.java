@@ -7,6 +7,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.service.AuthService;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
@@ -36,11 +38,16 @@ public class LoginController extends HttpServlet {
 
             // Lưu thông tin người dùng vào session
             session.setAttribute("auth", user);
-            session.setAttribute("role", user.getRoleName());
+
+            // Chuyển đổi role và permission từ String sang List
+            session.setAttribute("roles", user.getRoleName());
             session.setAttribute("permissions", user.getPermissionName());
 
-            // Chuyển hướng dựa trên vai trò của người dùng
-            if ("ADMIN".equalsIgnoreCase(user.getRoleName())) {
+            System.out.println("roles: " + user.getRoleName());
+            System.out.println("permissions: " + user.getPermissionName());
+
+            // Kiểm tra nếu user có role ADMIN, chuyển hướng đến trang admin
+            if (user.getRoleName().contains("ADMIN")) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/homePage");
