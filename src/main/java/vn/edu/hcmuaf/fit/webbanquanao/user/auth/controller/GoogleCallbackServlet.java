@@ -16,14 +16,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 
 @WebServlet("/google-callback")
 public class GoogleCallbackServlet extends HttpServlet {
     private static final String CLIENT_ID = "YOUR_CLIENT_ID";
     private static final String CLIENT_SECRET = "YOUR_CLIENT_SECRET";
-    private static final String REDIRECT_URI = "http://localhost:8080/google-callback";
+    private static final String REDIRECT_URI = "http://localhost:8080/WebBanQuanAo/google-callback";
+    private UserDao userDao = new UserDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,22 +37,27 @@ public class GoogleCallbackServlet extends HttpServlet {
             return;
         }
 
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+        GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeFlow.Builder(
                 new NetHttpTransport(),
                 JacksonFactory.getDefaultInstance(),
                 CLIENT_ID,
                 CLIENT_SECRET,
-                Collections.singletonList("https://www.googleapis.com/auth/userinfo.email")
-        ).build();
+                Arrays.asList("https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile")
+        ).build().newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
 
-        GoogleTokenResponse tokenResponse = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
-        GoogleCredential credential = new GoogleCredential().setAccessToken(tokenResponse.getAccessToken());
-
-        // Lấy email từ Google API
         String email = GoogleUserInfo.getEmail(tokenResponse.getAccessToken());
+        String name = GoogleUserInfo.getFullName(tokenResponse.getAccessToken());
 
         HttpSession session = req.getSession();
-        session.setAttribute("auth", email);
-        resp.sendRedirect("homePage");
+
+        if (userDao.isEmailExist(email)) {
+            session.setAttribute("auth", email);
+        } else {
+            String username = email.split("@")[0];
+            userDao.createUser(username, name, email, null);
+            session.setAttribute("auth", email);
+        }
+
+        resp.sendRedirect("homePage.jsp");
     }
 }

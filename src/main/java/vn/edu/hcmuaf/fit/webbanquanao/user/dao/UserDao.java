@@ -8,6 +8,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class UserDao {
@@ -83,9 +84,9 @@ public class UserDao {
                     }
                 }
             } catch (SQLException e) {
-                System.err.println("❌ Lỗi khi lấy roleName: " + e.getMessage());
+                System.err.println("Lỗi khi lấy roleName: " + e.getMessage());
             }
-            System.out.println("⚠ Không tìm thấy role: " + roleName);
+            System.out.println("Không tìm thấy role: " + roleName);
             return null; // Trả về null nếu không tìm thấy
         });
     }
@@ -132,13 +133,13 @@ public class UserDao {
                         if (generatedKeys.next()) {
                             int userId = generatedKeys.getInt(1);
 
-                            // 🔹 Lấy roleId của "USER"
+                            //Lấy roleId của "USER"
                             int roleId = getRoleId("USER");
                             if (roleId == -1) {
                                 throw new SQLException("Không tìm thấy role 'USER'!");
                             }
 
-                            // 🔹 Kiểm tra trước khi thêm vào user_roles
+                            //Kiểm tra trước khi thêm vào user_roles
                             try (PreparedStatement checkRolePs = conn.prepareStatement(checkRoleSql)) {
                                 checkRolePs.setInt(1, userId);
                                 checkRolePs.setInt(2, roleId);
@@ -187,7 +188,7 @@ public class UserDao {
                     }
                 }
             } catch (SQLException e) {
-                System.err.println("❌ Lỗi khi lấy roleId: " + e.getMessage());
+                System.err.println("Lỗi khi lấy roleId: " + e.getMessage());
             }
             return -1; // Trả về -1 nếu không tìm thấy
         });
@@ -212,6 +213,71 @@ public class UserDao {
                 return false;
             }
         });
+    }
+    public boolean createUser(String username, String firstName, String lastName, String email) {
+        String sql = "INSERT INTO users (userName, firstName, lastName, email, password, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        String defaultPassword = BCrypt.hashpw("defaultPassword123", BCrypt.gensalt()); // Mật khẩu mặc định (nên gửi mail để user đổi)
+
+        return dbConnect.get().withHandle(handle -> {
+            try (Connection conn = handle.getConnection()) {
+                conn.setAutoCommit(false); // Bắt đầu transaction
+
+                try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                    ps.setString(1, username);
+                    ps.setString(2, firstName);
+                    ps.setString(3, lastName);
+                    ps.setString(4, email);
+                    ps.setString(5, defaultPassword); // Mật khẩu đã mã hóa
+                    ps.setInt(6, 1); // Mặc định status = 1 (active)
+                    ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+
+                    int rowsAffected = ps.executeUpdate();
+                    if (rowsAffected > 0) {
+                        try (ResultSet rs = ps.getGeneratedKeys()) {
+                            if (rs.next()) {
+                                int userId = rs.getInt(1);
+
+                                // Kiểm tra vai trò trước khi gán
+                                int roleId = getRoleId("USER");
+                                if (roleId == -1) {
+                                    throw new SQLException("Vai trò 'USER' không tồn tại!");
+                                }
+
+                                // Gán quyền mặc định cho user
+                                if (!assignRoleToUser(conn, userId, roleId)) {
+                                    throw new SQLException("Không thể gán vai trò cho user!");
+                                }
+
+                                conn.commit(); // Commit transaction nếu không có lỗi
+                                return true;
+                            }
+                        }
+                    }
+                    conn.rollback();
+                } catch (SQLException e) {
+                    conn.rollback(); // Hoàn tác nếu có lỗi
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
+    }
+
+    // Gán vai trò mặc định cho user
+    private boolean assignRoleToUser(Connection conn, int userId, int roleId) {
+        String sql = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ps.setInt(2, roleId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
