@@ -21,7 +21,7 @@ import java.util.Collections;
 public class GoogleLoginServlet extends HttpServlet {
     private static final String CLIENT_ID = "YOUR_CLIENT_ID";
     private static final String CLIENT_SECRET = "YOUR_CLIENT_SECRET";
-    private static final String REDIRECT_URI = "http://localhost:8080/google-callback";
+    private static final String REDIRECT_URI = "http://localhost:8080/WebBanQuanAo/google-callback";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

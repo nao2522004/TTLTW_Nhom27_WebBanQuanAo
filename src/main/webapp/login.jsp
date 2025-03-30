@@ -97,6 +97,7 @@
                 <p class="error-message register animation"><%= signupError %></p>
                 <% session.removeAttribute("error"); %> <!-- Xóa lỗi sau khi hiển thị -->
                 <% } %>
+
                 <div class="input-box">
                     <input type="text" name="username" placeholder="Tên tài khoản" required>
                     <i class="fa-solid fa-user"></i>
@@ -129,12 +130,13 @@
                 <p>hoặc đăng ký bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="google-login"><i class="fa-brands fa-google"></i></a>
                     <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </form>
         </div>
+
 
 
         <div class="toggle-box">
