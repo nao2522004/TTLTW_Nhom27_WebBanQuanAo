@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class User implements Serializable {
     private Integer id;
@@ -17,13 +18,13 @@ public class User implements Serializable {
     private Integer phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private ArrayList<String> roleName;
-    private ArrayList<String> permissionName;
+    private List<String> roles; // Danh sách role
+    private Map<String, Integer> permissions; // Key: Resource, Value: Quyền (rwx dưới dạng số)
 
     public User() {
     }
 
-    public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address,Integer phone) {
+    public User(String s, String password, String firstName, String lastName, String gmail, String avatar, String address, Integer phone) {
     }
 
     public User(String userName, String firstName, String lastName, String email, String passWord) {
@@ -123,25 +124,46 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public List<String> getRoleName() {
-        return roleName;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRoleName(ArrayList<String> roleName) {
-        this.roleName = roleName;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
-    public ArrayList<String> getPermissionName() {
-        return permissionName;
+    public Map<String, Integer> getPermissions() {
+        return permissions;
     }
 
-    public void setPermissionName(ArrayList<String> permissionName) {
-        this.permissionName = permissionName;
+    public void setPermissions(Map<String, Integer> permissions) {
+        this.permissions = permissions;
     }
+
+
+    // Kiểm tra role
+    public boolean hasRole(String role) {
+        return roles != null && roles.contains(role);
+    }
+
+    // Kiểm tra quyền theo bitwise (r=4, w=2, x=1)
+    public boolean hasPermission(String resource, String action) {
+        if (permissions == null || !permissions.containsKey(resource)) return false;
+
+        int permission = permissions.get(resource);
+        int requiredPermission = switch (action) {
+            case "GET" -> 4;
+            case "POST" -> 2;
+            case "DELETE" -> 1;
+            default -> 0;
+        };
+        return (permission & requiredPermission) == requiredPermission;
+    }
+
 
     @Override
     public String toString() {
-        return "AUser{" +
+        return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", passWord='" + passWord + '\'' +
@@ -150,11 +172,11 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", address='" + address + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", roleName='" + roleName + '\'' +
-                ", permissionName=" + permissionName +
+                ", roles=" + roles +
+                ", permissions=" + permissions +
                 '}';
     }
 }

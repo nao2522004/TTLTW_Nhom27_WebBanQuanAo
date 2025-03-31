@@ -2,7 +2,8 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AUser implements Serializable {
     private Integer id;
@@ -13,16 +14,18 @@ public class AUser implements Serializable {
     private String email;
     private String avatar;
     private String address;
-    private Integer phone;
+    private String phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private ArrayList<String> roleName;
-    private ArrayList<String> permissionName;
+    private List<String> roles; // Danh sách role
+    private Map<String, Integer> permissions; // Key: Resource, Value: Quyền (rwx dưới dạng số)
 
     public AUser() {
     }
 
-    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, ArrayList<String> roleName, ArrayList<String> permissionName) {
+    public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email,
+                 String avatar, String address, String phone, Integer status, LocalDateTime createdAt,
+                 List<String> roles, Map<String, Integer> permissions) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -34,25 +37,11 @@ public class AUser implements Serializable {
         this.phone = phone;
         this.status = status;
         this.createdAt = createdAt;
-        this.roleName = roleName;
-        this.permissionName = permissionName;
+        this.roles = roles;
+        this.permissions = permissions;
     }
 
-    public AUser(Integer id, String userName, String firstName, String lastName, String email, String avatar, String address, Integer phone, Integer status, LocalDateTime createdAt, ArrayList<String> roleName, ArrayList<String> permissionName) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.avatar = avatar;
-        this.address = address;
-        this.phone = phone;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.roleName = roleName;
-        this.permissionName = permissionName;
-    }
-
+    // Getter & Setter
     public Integer getId() {
         return id;
     }
@@ -117,11 +106,11 @@ public class AUser implements Serializable {
         this.address = address;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -141,46 +130,39 @@ public class AUser implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public ArrayList<String> getRoleName() {
-        return roleName;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRoleName(ArrayList<String> roleName) {
-        this.roleName = roleName;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
-    public ArrayList<String> getPermissionName() {
-        return permissionName;
+    public Map<String, Integer> getPermissions() {
+        return permissions;
     }
 
-    public void setPermissionName(ArrayList<String> permissionName) {
-        this.permissionName = permissionName;
+    public void setPermissions(Map<String, Integer> permissions) {
+        this.permissions = permissions;
     }
 
-    public boolean hasRole(String roleName) {
-        return this.roleName.contains(roleName);
+    // Kiểm tra role
+    public boolean hasRole(String role) {
+        return roles != null && roles.contains(role);
     }
 
-    public boolean hasPermission(String permissionName) {
-        return this.permissionName.contains(permissionName);
-    }
+    // Kiểm tra quyền theo bitwise (r=4, w=2, x=1)
+    public boolean hasPermission(String resource, String action) {
+        if (permissions == null || !permissions.containsKey(resource)) return false;
 
-    public boolean hasAnyRole(ArrayList<String> roleNames) {
-        for (String roleName : roleNames) {
-            if (hasRole(roleName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasAnyPermission(ArrayList<String> permissionNames) {
-        for (String permissionName : permissionNames) {
-            if (hasPermission(permissionName)) {
-                return true;
-            }
-        }
-        return false;
+        int permission = permissions.get(resource);
+        int requiredPermission = switch (action) {
+            case "Read" -> 4;
+            case "Write" -> 2;
+            case "Execute" -> 1;
+            default -> 0;
+        };
+        return (permission & requiredPermission) == requiredPermission;
     }
 
     @Override
@@ -188,17 +170,16 @@ public class AUser implements Serializable {
         return "AUser{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
-                ", passWord='" + passWord + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", address='" + address + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", roleName='" + roleName + '\'' +
-                ", permissionName=" + permissionName +
+                ", roles=" + roles +
+                ", permissions=" + permissions +
                 '}';
     }
 }

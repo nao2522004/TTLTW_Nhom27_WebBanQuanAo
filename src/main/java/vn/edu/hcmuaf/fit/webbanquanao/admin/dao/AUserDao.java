@@ -1,16 +1,11 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
-import vn.edu.hcmuaf.fit.webbanquanao.admin.model.Permission;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AUserDao {
 
@@ -24,13 +19,13 @@ public class AUserDao {
         Map<String, AUser> users = new LinkedHashMap<>();
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
-                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName, " +
-                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName " +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_permissions rp ON r.id = rp.roleId " +
-                "LEFT JOIN permissions p ON rp.permissionId = p.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
+                "LEFT JOIN resource res ON rr.resourceId = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -49,18 +44,29 @@ public class AUserDao {
                     user.setEmail(rs.getString("email"));
                     user.setAvatar(rs.getString("avatar"));
                     user.setAddress(rs.getString("address"));
-                    user.setPhone(rs.getInt("phone"));
+                    user.setPhone(rs.getString("phone"));
                     user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                     user.setStatus(rs.getInt("status"));
 
-                    // Kiểm tra null trước khi phân tách danh sách, dùng ArrayList thay vì List
-                    user.setRoleName(rs.getString("roleName") != null ?
-                            new ArrayList<>(Arrays.asList(rs.getString("roleName").split(","))) :
+                    // Xử lý danh sách role
+                    user.setRoles(rs.getString("roles") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("roles").split(","))) :
                             new ArrayList<>());
 
-                    user.setPermissionName(rs.getString("permissionName") != null ?
-                            new ArrayList<>(Arrays.asList(rs.getString("permissionName").split(","))) :
-                            new ArrayList<>());
+                    // Xử lý quyền theo dạng Map<Resource, Permission>
+                    Map<String, Integer> permissionsMap = new HashMap<>();
+                    if (rs.getString("permissions") != null) {
+                        String[] permissionsArray = rs.getString("permissions").split(",");
+                        for (String perm : permissionsArray) {
+                            String[] parts = perm.split(":");
+                            if (parts.length == 2) {
+                                String resource = parts[0];
+                                int permissionValue = Integer.parseInt(parts[1]);
+                                permissionsMap.put(resource, permissionValue);
+                            }
+                        }
+                    }
+                    user.setPermissions(permissionsMap);
 
                     users.put(userName, user);
                 }

@@ -15,11 +15,11 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        // Kiểm tra nếu người dùng đã đăng nhập
+        // Nếu đã đăng nhập, chuyển hướng đến trang chính
         if (session.getAttribute("auth") != null) {
-            response.sendRedirect(request.getContextPath() + "/homePage"); // Chuyển hướng đến homePage nếu đã đăng nhập
+            response.sendRedirect(request.getContextPath() + "/homePage");
         } else {
-            request.getRequestDispatcher("./login.jsp").forward(request, response); // Hiển thị trang đăng nhập nếu chưa đăng nhập
+            request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
     }
 
@@ -34,25 +34,24 @@ public class LoginController extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
 
-            // Lưu thông tin người dùng vào session
+            // Lưu thông tin user vào session
             session.setAttribute("auth", user);
+            session.setAttribute("roles", user.getRoles()); // Lưu danh sách roles
+            session.setAttribute("permissions", user.getPermissions()); // Lưu quyền dạng Map
 
-            // Chuyển đổi role và permission từ String sang List
-            session.setAttribute("roles", user.getRoleName());
-            session.setAttribute("permissions", user.getPermissionName());
+            System.out.println("Notify in LoginController:");
+            System.out.println("Login success: " + userName);
+            System.out.println("Roles: " + user.getRoles());
+            System.out.println("Permissions: " + user.getPermissions());
 
-            System.out.println("roles: " + user.getRoleName());
-            System.out.println("permissions: " + user.getPermissionName());
-
-            // Kiểm tra nếu user có role ADMIN, chuyển hướng đến trang admin
-            if (user.getRoleName().contains("ADMIN")) {
+            // Kiểm tra quyền admin
+            if (user.hasRole("Admin")) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/homePage");
             }
         } else {
-            // Nếu đăng nhập thất bại, quay lại trang đăng nhập với thông báo lỗi
-            request.setAttribute("error", "Đăng nhập không thành công. Vui lòng kiểm tra lại tên đăng nhập và mật khẩu.");
+            request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");
             request.getRequestDispatcher("./login.jsp").forward(request, response);
         }
     }
