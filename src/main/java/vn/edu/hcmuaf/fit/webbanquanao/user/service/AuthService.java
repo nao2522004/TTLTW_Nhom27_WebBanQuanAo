@@ -6,6 +6,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AuthService {
     private final UserDao aUserDao = new UserDao(); // Quản lý danh sách user
@@ -40,12 +42,14 @@ public class AuthService {
         }
 
         // Lấy vai trò và quyền
-        ArrayList<String> roleName = userDao.getRoleNameByUserName(userName);
-        ArrayList<String> permissions = userDao.getPemissionNameByUserName(userName);
+        List<String> roles = userDao.getRoleNameByUserName(userName);
+        Map<String, Integer> permissions = userDao.getPermissionByUserName(userName);
 
-        // Cập nhật thông tin vai trò và quyền vào đối tượng người dùng
-        user.setRoleName(roleName);
-        user.setPermissionName(permissions);
+
+        // Cập nhật vào đối tượng User
+        user.setRoles(roles);
+        user.setPermissions(permissions);
+
 
         user.setPassWord(null); // Xóa mật khẩu trước khi trả về
         return user;

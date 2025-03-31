@@ -4,12 +4,12 @@ import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class UserDao {
 
@@ -26,13 +26,13 @@ public class UserDao {
         Map<String, User> users = new LinkedHashMap<>();
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
-                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roleName, " +
-                "       GROUP_CONCAT(DISTINCT p.permissionName ORDER BY p.permissionName ASC) AS permissionName " +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_permissions rp ON r.id = rp.roleId " +
-                "LEFT JOIN permissions p ON rp.permissionId = p.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
+                "LEFT JOIN resource res ON rr.resourceId = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -55,14 +55,25 @@ public class UserDao {
                     user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
                     user.setStatus(rs.getInt("status"));
 
-                    // Kiểm tra null trước khi phân tách danh sách, dùng ArrayList thay vì List
-                    user.setRoleName(rs.getString("roleName") != null ?
-                            new ArrayList<>(Arrays.asList(rs.getString("roleName").split(","))) :
+                    // Xử lý danh sách role
+                    user.setRoles(rs.getString("roles") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("roles").split(","))) :
                             new ArrayList<>());
 
-                    user.setPermissionName(rs.getString("permissionName") != null ?
-                            new ArrayList<>(Arrays.asList(rs.getString("permissionName").split(","))) :
-                            new ArrayList<>());
+                    // Xử lý quyền theo dạng Map<Resource, Permission>
+                    Map<String, Integer> permissionsMap = new HashMap<>();
+                    if (rs.getString("permissions") != null) {
+                        String[] permissionsArray = rs.getString("permissions").split(",");
+                        for (String perm : permissionsArray) {
+                            String[] parts = perm.split(":");
+                            if (parts.length == 2) {
+                                String resource = parts[0];
+                                int permissionValue = Integer.parseInt(parts[1]);
+                                permissionsMap.put(resource, permissionValue);
+                            }
+                        }
+                    }
+                    user.setPermissions(permissionsMap);
 
                     users.put(userName, user);
                 }
@@ -72,6 +83,7 @@ public class UserDao {
             return users;
         });
     }
+
     public String getRoleNameById(String roleName) {
         String sql = "SELECT roleName FROM roles WHERE roleName = ?";
 
@@ -195,7 +207,6 @@ public class UserDao {
     }
 
 
-
     // Kiểm tra xem email đã tồn tại chưa
     public boolean isEmailExist(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
@@ -214,6 +225,7 @@ public class UserDao {
             }
         });
     }
+
     public boolean createUser(String username, String firstName, String lastName, String email) {
         String sql = "INSERT INTO users (userName, firstName, lastName, email, password, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -435,41 +447,57 @@ public class UserDao {
     }
 
 
-    public ArrayList<String> getRoleNameByUserName(String userName) {
-        String sql = "SELECT r.roleName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id WHERE u.userName = ?";
+        public List<String> getRoleNameByUserName(String userName) {
+            String sql = """
+        SELECT r.roleName 
+        FROM users u 
+        JOIN user_roles ur ON u.id = ur.userId 
+        JOIN roles r ON ur.roleId = r.id 
+        WHERE u.userName = ?
+    """;
 
-        return JDBIConnector.get().withHandle(handle -> {
-            ArrayList<String> roles = new ArrayList<>();
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+            List<String> roles = new ArrayList<>();
+            try (Connection conn = JDBIConnector.get().open().getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+
                 ps.setString(1, userName);
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
-                       roles.add(rs.getString("roleName"));
+                        roles.add(rs.getString("roleName"));
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(getClass().getName()).severe("Lỗi truy vấn roles: " + e.getMessage());
             }
             return roles;
-        });
-    }
+        }
+    public Map<String, Integer> getPermissionByUserName(String userName) {
+        String sql = """
+        SELECT res.resourceName, SUM(rr.permission) as permission
+        FROM users u
+        JOIN user_roles ur ON u.id = ur.userId
+        JOIN roles r ON ur.roleId = r.id
+        JOIN role_resource rr ON r.id = rr.roleId
+        JOIN resource res ON rr.resourceId = res.id
+        WHERE u.userName = ?
+        GROUP BY res.resourceName
+    """;
 
-    public ArrayList<String> getPemissionNameByUserName(String userName) {
-        String sql = "SELECT DISTINCT p.permissionName FROM users u JOIN user_roles ur ON u.id = ur.userId JOIN roles r ON ur.roleId = r.id JOIN role_permissions rp ON r.id = rp.roleId JOIN permissions p ON rp.permissionId = p.id WHERE u.userName = ?";
+        Map<String, Integer> permissions = new HashMap<>();
+        try (Connection conn = JDBIConnector.get().open().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        return JDBIConnector.get().withHandle(handle -> {
-            ArrayList<String> permissionNames = new ArrayList<>();
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, userName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        permissionNames.add(rs.getString("permissionName"));
-                    }
+            ps.setString(1, userName);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    permissions.put(rs.getString("resourceName"), rs.getInt("permission"));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            return permissionNames;
-        });
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).severe("Lỗi truy vấn permissions: " + e.getMessage());
+        }
+        return permissions;
     }
+
+
 }

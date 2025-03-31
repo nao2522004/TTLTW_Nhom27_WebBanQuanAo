@@ -6,8 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 @WebFilter("/*") // Áp dụng cho toàn bộ request
 public class AuthorizationFilter implements Filter {
@@ -25,19 +24,12 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = httpRequest.getSession();
 
         Object userObj = session.getAttribute("auth");
-
-        Object rolesObj = session.getAttribute("roles");
-        Object permissionsObj = session.getAttribute("permissions");
-
-        ArrayList<String> userRoles = (rolesObj instanceof ArrayList) ? (ArrayList<String>) rolesObj : new ArrayList<>();
-        ArrayList<String> userPermissions = (permissionsObj instanceof ArrayList) ? (ArrayList<String>) permissionsObj : new ArrayList<>();
-
-        System.out.println("roles filter: " + userRoles);
-        System.out.println("permissions filter: " + userPermissions);
-
+        Map<String, Integer> userPermissions = (Map<String, Integer>) session.getAttribute("permissions");
 
         String requestURI = httpRequest.getRequestURI();
         String contextPath = httpRequest.getContextPath();
+        String method = httpRequest.getMethod().toUpperCase();
+        String resource = extractResource(requestURI, contextPath);
 
         // Nếu là trang công khai -> Cho phép truy cập luôn
         if (isPublicPage(requestURI, contextPath)) {
@@ -47,39 +39,53 @@ public class AuthorizationFilter implements Filter {
 
         // Nếu chưa đăng nhập và vào trang admin -> Chặn lại
         if (userObj == null && isAdminPage(requestURI, contextPath)) {
-            showAlertAndRedirect(httpResponse, "Bạn chưa đăng nhập!", contextPath + "/login.jsp");
+            showAlertAndRedirect(httpResponse, "Thông báo từ AuthorizationFilter: Bạn chưa đăng nhập!", contextPath + "/login.jsp");
             return;
         }
 
         // Nếu đã đăng nhập, kiểm tra quyền
         if (userObj != null) {
-            boolean isAdmin = userRoles != null && userRoles.contains("ADMIN");
+            boolean isAdmin = session.getAttribute("roles") != null && session.getAttribute("roles").toString().contains("Admin");
 
             // Nếu truy cập admin nhưng không phải admin -> Chuyển về homePage
             if (isAdminPage(requestURI, contextPath) && !isAdmin) {
-                showAlertAndRedirect(httpResponse, "Bạn không có quyền truy cập trang admin!", contextPath + "/homePage");
+                showAlertAndRedirect(httpResponse, "Thông báo từ AuthorizationFilter: Bạn không có quyền truy cập trang admin!", contextPath + "/homePage");
                 return;
             }
 
-            // Xác định quyền cần kiểm tra theo phương thức HTTP
-            String method = httpRequest.getMethod().toUpperCase();
-            String requiredPermission = switch (method) {
-                case "GET" -> "READ";
-                case "POST" -> "RUN";
-                case "PUT", "DELETE" -> "WRITE";
-                default -> "READ";
+            // Xác định quyền cần kiểm tra
+            int requiredPermission = switch (method) {
+                case "GET" -> 4; // READ
+                case "POST" -> 1; // RUN
+                case "PUT", "DELETE" -> 2; // WRITE
+                default -> 4;
             };
 
-            // Nếu không phải admin, kiểm tra quyền truy cập
-            if (!isAdmin && requiredPermission.length() > 0 &&
-                    (userPermissions == null || !userPermissions.contains(requiredPermission))) {
-                showErrorMessage(httpRequest, httpResponse, "Bạn không có quyền thực hiện thao tác này.");
+            // Kiểm tra quyền với resource
+            if (!isAdmin && !hasPermission(userPermissions, resource, requiredPermission)) {
+                showErrorMessage(httpRequest, httpResponse, "Thông báo từ AuthorizationFilter: Bạn không có quyền thực hiện thao tác này.");
                 return;
             }
         }
 
         // Nếu đủ quyền thì tiếp tục
         chain.doFilter(request, response);
+    }
+
+    // Kiểm tra quyền dựa trên bitwise
+    private boolean hasPermission(Map<String, Integer> permissions, String resource, int requiredPermission) {
+        if (permissions == null || !permissions.containsKey(resource)) {
+            return false;
+        }
+        int permission = permissions.get(resource);
+        return (permission & requiredPermission) == requiredPermission;
+    }
+
+    // Trích xuất resource từ URL
+    private String extractResource(String requestURI, String contextPath) {
+        String path = requestURI.replaceFirst(contextPath, "");
+        String[] parts = path.split("/");
+        return (parts.length > 1) ? parts[1] : "homePage";
     }
 
     // Kiểm tra nếu URL là trang admin
