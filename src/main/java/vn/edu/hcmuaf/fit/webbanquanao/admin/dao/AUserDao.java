@@ -110,12 +110,19 @@ public class AUserDao {
 //
 //
 //
-//    public boolean update(Object obj, String userName) {
-//        return JDBIConnector.get().withHandle(handle -> {
-//            AUser user = (AUser) obj;
-//            listUser.replace(userName, user);
-//            String sql = "UPDATE users SET id = ?, userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ?, roleId = ? WHERE userName = ?";
-//            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+
+//public boolean update(Object obj, String userName) {
+//    return JDBIConnector.get().withHandle(handle -> {
+//        AUser user = (AUser) obj;
+//        listUser.replace(userName, user);
+//
+//        Connection conn = handle.getConnection();
+//        try {
+//            conn.setAutoCommit(false); // Bắt đầu transaction
+//
+//            // 1️⃣ Cập nhật thông tin user trong bảng `users`
+//            String updateUserSQL = "UPDATE users SET id = ?, userName = ?, firstName = ?, lastName = ?, email = ?, avatar = ?, address = ?, phone = ?, status = ?, createdAt = ? WHERE userName = ?";
+//            try (PreparedStatement ps = conn.prepareStatement(updateUserSQL)) {
 //                ps.setInt(1, user.getId());
 //                ps.setString(2, user.getUserName());
 //                ps.setString(3, user.getFirstName());
@@ -126,16 +133,77 @@ public class AUserDao {
 //                ps.setInt(8, user.getPhone());
 //                ps.setInt(9, user.getStatus());
 //                ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
-////                ps.setInt(11, user.getRoleId());
-//                ps.setString(12, userName);
-//                return ps.executeUpdate() > 0;
-//            } catch (Exception e) {
-//                System.out.println("Loi khi update user: " + e.getMessage());
+//                ps.setString(11, userName);
+//                ps.executeUpdate();
 //            }
-//            return false;
-//        });
-//    }
 //
+//            // 2️⃣ Xóa vai trò cũ trong bảng `user_roles`
+//            String deleteUserRolesSQL = "DELETE FROM user_roles WHERE userId = ?";
+//            try (PreparedStatement ps = conn.prepareStatement(deleteUserRolesSQL)) {
+//                ps.setInt(1, user.getId());
+//                ps.executeUpdate();
+//            }
+//
+//            // 3️⃣ Thêm vai trò mới vào `user_roles`
+//            String insertUserRolesSQL = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
+//            try (PreparedStatement ps = conn.prepareStatement(insertUserRolesSQL)) {
+//                for (String role : user.getRoleName()) {
+//                    int roleId = getRoleIdByName(role); // Chuyển roleName thành roleId
+//                    if (roleId != -1) {
+//                        ps.setInt(1, user.getId());
+//                        ps.setInt(2, roleId);
+//                        ps.addBatch();
+//                    }
+//                }
+//                ps.executeBatch();
+//            }
+//
+//            // 4️⃣ Xóa quyền cũ trong bảng `role_permissions`
+//            String deletePermissionsSQL = "DELETE FROM role_permissions WHERE roleId IN (SELECT roleId FROM user_roles WHERE userId = ?)";
+//            try (PreparedStatement ps = conn.prepareStatement(deletePermissionsSQL)) {
+//                ps.setInt(1, user.getId());
+//                ps.executeUpdate();
+//            }
+//
+//            // 5️⃣ Thêm quyền mới vào `role_permissions`
+//            String insertPermissionsSQL = "INSERT INTO role_permissions (roleId, permissionId) VALUES (?, ?)";
+//            try (PreparedStatement ps = conn.prepareStatement(insertPermissionsSQL)) {
+//                for (String permission : user.getPermissionName()) {
+//                    int permissionId = getPermissionIdByName(permission); // Chuyển permissionName thành permissionId
+//                    if (permissionId != -1) {
+//                        for (String role : user.getRoleName()) {
+//                            int roleId = getRoleIdByName(role);
+//                            if (roleId != -1) {
+//                                ps.setInt(1, roleId);
+//                                ps.setInt(2, permissionId);
+//                                ps.addBatch();
+//                            }
+//                        }
+//                    }
+//                }
+//                ps.executeBatch();
+//            }
+//
+//            conn.commit(); // Hoàn thành transaction
+//            return true;
+//        } catch (Exception e) {
+//            try {
+//                conn.rollback(); // Rollback nếu có lỗi
+//            } catch (SQLException ex) {
+//                System.out.println("Lỗi rollback: " + ex.getMessage());
+//            }
+//            System.out.println("Lỗi khi cập nhật user: " + e.getMessage());
+//            return false;
+//        } finally {
+//            try {
+//                conn.setAutoCommit(true); // Bật lại chế độ tự động commit
+//            } catch (SQLException e) {
+//                System.out.println("Lỗi khi bật lại AutoCommit: " + e.getMessage());
+//            }
+//        }
+//    });
+//}
+
 //
 //
 //    public boolean delete(String userName, Integer status) {

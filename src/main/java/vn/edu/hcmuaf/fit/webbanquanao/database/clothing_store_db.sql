@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 22, 2025 at 09:07 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th3 31, 2025 lúc 02:28 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `clothing_store_db`
+-- Cơ sở dữ liệu: `clothing_store_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `blogs`
+-- Cấu trúc bảng cho bảng `blogs`
 --
 
 CREATE TABLE `blogs` (
@@ -40,7 +40,7 @@ CREATE TABLE `blogs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
+-- Cấu trúc bảng cho bảng `cart`
 --
 
 CREATE TABLE `cart` (
@@ -53,7 +53,7 @@ CREATE TABLE `cart` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cartdetail`
+-- Cấu trúc bảng cho bảng `cartdetail`
 --
 
 CREATE TABLE `cartdetail` (
@@ -68,7 +68,7 @@ CREATE TABLE `cartdetail` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Cấu trúc bảng cho bảng `categories`
 --
 
 CREATE TABLE `categories` (
@@ -78,7 +78,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `categories`
+-- Đang đổ dữ liệu cho bảng `categories`
 --
 
 INSERT INTO `categories` (`id`, `typeId`, `name`) VALUES
@@ -92,7 +92,7 @@ INSERT INTO `categories` (`id`, `typeId`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `collections`
+-- Cấu trúc bảng cho bảng `collections`
 --
 
 CREATE TABLE `collections` (
@@ -105,7 +105,7 @@ CREATE TABLE `collections` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `collections_product`
+-- Cấu trúc bảng cho bảng `collections_product`
 --
 
 CREATE TABLE `collections_product` (
@@ -116,7 +116,7 @@ CREATE TABLE `collections_product` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comment`
+-- Cấu trúc bảng cho bảng `comment`
 --
 
 CREATE TABLE `comment` (
@@ -128,7 +128,7 @@ CREATE TABLE `comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `comment`
+-- Đang đổ dữ liệu cho bảng `comment`
 --
 
 INSERT INTO `comment` (`id`, `userId`, `productId`, `content`, `rating`) VALUES
@@ -137,7 +137,7 @@ INSERT INTO `comment` (`id`, `userId`, `productId`, `content`, `rating`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coupons`
+-- Cấu trúc bảng cho bảng `coupons`
 --
 
 CREATE TABLE `coupons` (
@@ -149,7 +149,7 @@ CREATE TABLE `coupons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `coupons`
+-- Đang đổ dữ liệu cho bảng `coupons`
 --
 
 INSERT INTO `coupons` (`id`, `code`, `remainingCount`, `discount`, `decription`) VALUES
@@ -160,7 +160,7 @@ INSERT INTO `coupons` (`id`, `code`, `remainingCount`, `discount`, `decription`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `favourite`
+-- Cấu trúc bảng cho bảng `favourite`
 --
 
 CREATE TABLE `favourite` (
@@ -172,7 +172,7 @@ CREATE TABLE `favourite` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notifications`
+-- Cấu trúc bảng cho bảng `notifications`
 --
 
 CREATE TABLE `notifications` (
@@ -186,7 +186,7 @@ CREATE TABLE `notifications` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderitem`
+-- Cấu trúc bảng cho bảng `orderitem`
 --
 
 CREATE TABLE `orderitem` (
@@ -200,7 +200,7 @@ CREATE TABLE `orderitem` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `orderitem`
+-- Đang đổ dữ liệu cho bảng `orderitem`
 --
 
 INSERT INTO `orderitem` (`id`, `orderId`, `productId`, `quantity`, `unitPrice`, `discount`, `productDetailId`) VALUES
@@ -215,7 +215,7 @@ INSERT INTO `orderitem` (`id`, `orderId`, `productId`, `quantity`, `unitPrice`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Cấu trúc bảng cho bảng `orders`
 --
 
 CREATE TABLE `orders` (
@@ -230,7 +230,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `orders`
+-- Đang đổ dữ liệu cho bảng `orders`
 --
 
 INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `totalPrice`, `status`, `cancelReason`) VALUES
@@ -245,7 +245,7 @@ INSERT INTO `orders` (`id`, `userId`, `paymentId`, `couponId`, `orderDate`, `tot
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
+-- Cấu trúc bảng cho bảng `payments`
 --
 
 CREATE TABLE `payments` (
@@ -254,7 +254,7 @@ CREATE TABLE `payments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `payments`
+-- Đang đổ dữ liệu cho bảng `payments`
 --
 
 INSERT INTO `payments` (`id`, `paymentMethod`) VALUES
@@ -265,30 +265,7 @@ INSERT INTO `payments` (`id`, `paymentMethod`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permissions`
---
-
-CREATE TABLE `permissions` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `permissions`
---
-
-INSERT INTO `permissions` (`id`, `name`) VALUES
-(5, 'Manager_Oders'),
-(6, 'Manager_Products'),
-(4, 'Manager_Users'),
-(2, 'Read'),
-(1, 'Run'),
-(3, 'Write');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
+-- Cấu trúc bảng cho bảng `products`
 --
 
 CREATE TABLE `products` (
@@ -305,7 +282,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `products`
+-- Đang đổ dữ liệu cho bảng `products`
 --
 
 INSERT INTO `products` (`id`, `typeId`, `categoryId`, `supplierId`, `productName`, `description`, `releaseDate`, `unitSold`, `unitPrice`, `status`) VALUES
@@ -334,7 +311,7 @@ INSERT INTO `products` (`id`, `typeId`, `categoryId`, `supplierId`, `productName
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product_details`
+-- Cấu trúc bảng cho bảng `product_details`
 --
 
 CREATE TABLE `product_details` (
@@ -347,7 +324,7 @@ CREATE TABLE `product_details` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `product_details`
+-- Đang đổ dữ liệu cho bảng `product_details`
 --
 
 INSERT INTO `product_details` (`id`, `productId`, `size`, `stock`, `image`, `color`) VALUES
@@ -456,7 +433,7 @@ INSERT INTO `product_details` (`id`, `productId`, `size`, `stock`, `image`, `col
 -- --------------------------------------------------------
 
 --
--- Table structure for table `resetpasswordtokens`
+-- Cấu trúc bảng cho bảng `resetpasswordtokens`
 --
 
 CREATE TABLE `resetpasswordtokens` (
@@ -468,7 +445,7 @@ CREATE TABLE `resetpasswordtokens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `resetpasswordtokens`
+-- Đang đổ dữ liệu cho bảng `resetpasswordtokens`
 --
 
 INSERT INTO `resetpasswordtokens` (`id`, `userId`, `token`, `createdAt`, `expiredAt`) VALUES
@@ -478,7 +455,30 @@ INSERT INTO `resetpasswordtokens` (`id`, `userId`, `token`, `createdAt`, `expire
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Cấu trúc bảng cho bảng `resource`
+--
+
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL,
+  `resource_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `resource`
+--
+
+INSERT INTO `resource` (`id`, `resource_name`) VALUES
+(4, 'Cart'),
+(2, 'Order'),
+(6, 'Payment'),
+(1, 'Product'),
+(5, 'Profile'),
+(3, 'UserManagement');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `roles`
 --
 
 CREATE TABLE `roles` (
@@ -487,45 +487,46 @@ CREATE TABLE `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `roles`
+-- Đang đổ dữ liệu cho bảng `roles`
 --
 
 INSERT INTO `roles` (`id`, `roleName`) VALUES
 (1, 'Admin'),
-(2, 'Customer'),
-(3, 'Viewer');
+(2, 'USER');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role_permissions`
+-- Cấu trúc bảng cho bảng `role_resource`
 --
 
-CREATE TABLE `role_permissions` (
-  `roleId` int(11) NOT NULL,
-  `permissionId` int(11) NOT NULL
+CREATE TABLE `role_resource` (
+  `role_id` int(11) NOT NULL,
+  `resource_id` int(11) NOT NULL,
+  `permission` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `role_permissions`
+-- Đang đổ dữ liệu cho bảng `role_resource`
 --
 
-INSERT INTO `role_permissions` (`roleId`, `permissionId`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(2, 1),
-(2, 2),
-(2, 3),
-(3, 2);
+INSERT INTO `role_resource` (`role_id`, `resource_id`, `permission`) VALUES
+(1, 1, 7),
+(1, 2, 7),
+(1, 3, 7),
+(1, 4, 7),
+(1, 5, 7),
+(1, 6, 7),
+(2, 1, 4),
+(2, 2, 6),
+(2, 4, 6),
+(2, 5, 6),
+(2, 6, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales`
+-- Cấu trúc bảng cho bảng `sales`
 --
 
 CREATE TABLE `sales` (
@@ -537,7 +538,7 @@ CREATE TABLE `sales` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `sales`
+-- Đang đổ dữ liệu cho bảng `sales`
 --
 
 INSERT INTO `sales` (`id`, `salesName`, `salesDescription`, `startDate`, `endDate`) VALUES
@@ -546,7 +547,7 @@ INSERT INTO `sales` (`id`, `salesName`, `salesDescription`, `startDate`, `endDat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sales_product`
+-- Cấu trúc bảng cho bảng `sales_product`
 --
 
 CREATE TABLE `sales_product` (
@@ -555,7 +556,7 @@ CREATE TABLE `sales_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `sales_product`
+-- Đang đổ dữ liệu cho bảng `sales_product`
 --
 
 INSERT INTO `sales_product` (`productId`, `saleId`) VALUES
@@ -573,7 +574,7 @@ INSERT INTO `sales_product` (`productId`, `saleId`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `suppliers`
+-- Cấu trúc bảng cho bảng `suppliers`
 --
 
 CREATE TABLE `suppliers` (
@@ -583,7 +584,7 @@ CREATE TABLE `suppliers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `suppliers`
+-- Đang đổ dữ liệu cho bảng `suppliers`
 --
 
 INSERT INTO `suppliers` (`id`, `supplierName`, `supplierImg`) VALUES
@@ -595,7 +596,7 @@ INSERT INTO `suppliers` (`id`, `supplierName`, `supplierImg`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `types`
+-- Cấu trúc bảng cho bảng `types`
 --
 
 CREATE TABLE `types` (
@@ -604,7 +605,7 @@ CREATE TABLE `types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `types`
+-- Đang đổ dữ liệu cho bảng `types`
 --
 
 INSERT INTO `types` (`id`, `name`) VALUES
@@ -614,7 +615,7 @@ INSERT INTO `types` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -632,18 +633,18 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 --
--- Dumping data for table `users`
+-- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`id`, `userName`, `password`, `firstName`, `lastName`, `email`, `avatar`, `address`, `phone`, `status`, `createdAt`) VALUES
 (1, 'admin', '$2a$12$rXmhHS9ZGL7yWgXO4TQnZuJCuJDTWqHGU2HDUe4pNz7XuEebRy89y', 'Mạnh', 'Hoàng Lê Nguyên', 'admin@gmail.com', 'anhday', 'DakNong', '099999999', 1, '2024-12-24 22:34:35'),
-(2, 'user1', 'user1', 'Luật', 'Hoàng Quốc', '22130157@hcmuaf.edu.vn', '', 'SaiGon', '11111111', 1, '2024-12-24 00:00:00'),
+(2, 'user1', '$2a$12$mr/Jje.hfP186bYtSBusHOdhOvLQrIhgTSFaUtUlGMrP7jEaz4jMC', 'Luật', 'Hoàng Quốc', '22130157@hcmuaf.edu.vn', '', 'SaiGon', '11111111', 1, '2024-12-24 00:00:00'),
 (3, 'user2', 'user2', 'Nam', 'Phạm Quốc Phương', 'namday@gmai.com', '', 'SaiGon', '22222222', 1, '2024-12-24 00:00:00'),
 (4, 'Manh', 'user3', 'Mạnh', 'Hoàng Lê Nguyên', '22130163@st.hcmuaf.edu.vn', 'manhday', 'DakNong', '097777777', 1, '2025-01-17 03:50:34'),
 (6, 'anhmanhdeptrai', 'manh', 'Hoàng Lê Nguyên', 'Mạnh', 'manh2522004@gmail.com', 'bruh', 'Đak Nong', '0', 1, '2025-03-18 15:27:08');
 
 --
--- Triggers `users`
+-- Bẫy `users`
 --
 DELIMITER $$
 CREATE TRIGGER `Trg_afterInsert` AFTER INSERT ON `users` FOR EACH ROW BEGIN
@@ -656,7 +657,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_roles`
+-- Cấu trúc bảng cho bảng `user_roles`
 --
 
 CREATE TABLE `user_roles` (
@@ -665,7 +666,7 @@ CREATE TABLE `user_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user_roles`
+-- Đang đổ dữ liệu cho bảng `user_roles`
 --
 
 INSERT INTO `user_roles` (`userId`, `roleId`) VALUES
@@ -673,25 +674,25 @@ INSERT INTO `user_roles` (`userId`, `roleId`) VALUES
 (2, 2);
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `blogs`
+-- Chỉ mục cho bảng `blogs`
 --
 ALTER TABLE `blogs`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `authorId` (`authorId`) USING BTREE;
 
 --
--- Indexes for table `cart`
+-- Chỉ mục cho bảng `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `userId` (`userId`) USING BTREE;
 
 --
--- Indexes for table `cartdetail`
+-- Chỉ mục cho bảng `cartdetail`
 --
 ALTER TABLE `cartdetail`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -700,27 +701,27 @@ ALTER TABLE `cartdetail`
   ADD KEY `fk_productDetails_cartdetail` (`productDetailsId`);
 
 --
--- Indexes for table `categories`
+-- Chỉ mục cho bảng `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `typeId` (`typeId`) USING BTREE;
 
 --
--- Indexes for table `collections`
+-- Chỉ mục cho bảng `collections`
 --
 ALTER TABLE `collections`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `collections_product`
+-- Chỉ mục cho bảng `collections_product`
 --
 ALTER TABLE `collections_product`
   ADD KEY `productId` (`productId`) USING BTREE,
   ADD KEY `collectionId` (`collectionId`) USING BTREE;
 
 --
--- Indexes for table `comment`
+-- Chỉ mục cho bảng `comment`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -728,13 +729,13 @@ ALTER TABLE `comment`
   ADD KEY `productId` (`productId`) USING BTREE;
 
 --
--- Indexes for table `coupons`
+-- Chỉ mục cho bảng `coupons`
 --
 ALTER TABLE `coupons`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `favourite`
+-- Chỉ mục cho bảng `favourite`
 --
 ALTER TABLE `favourite`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -742,14 +743,14 @@ ALTER TABLE `favourite`
   ADD KEY `productId` (`productId`) USING BTREE;
 
 --
--- Indexes for table `notifications`
+-- Chỉ mục cho bảng `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `userId` (`userId`) USING BTREE;
 
 --
--- Indexes for table `orderitem`
+-- Chỉ mục cho bảng `orderitem`
 --
 ALTER TABLE `orderitem`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -758,7 +759,7 @@ ALTER TABLE `orderitem`
   ADD KEY `fk_orderitem_productDetail` (`productDetailId`);
 
 --
--- Indexes for table `orders`
+-- Chỉ mục cho bảng `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -767,20 +768,13 @@ ALTER TABLE `orders`
   ADD KEY `couponId` (`couponId`) USING BTREE;
 
 --
--- Indexes for table `payments`
+-- Chỉ mục cho bảng `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `products`
+-- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`) USING BTREE,
@@ -789,219 +783,226 @@ ALTER TABLE `products`
   ADD KEY `products_ibfk_3` (`supplierId`) USING BTREE;
 
 --
--- Indexes for table `product_details`
+-- Chỉ mục cho bảng `product_details`
 --
 ALTER TABLE `product_details`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `productId_fk` (`productId`) USING BTREE;
 
 --
--- Indexes for table `resetpasswordtokens`
+-- Chỉ mục cho bảng `resetpasswordtokens`
 --
 ALTER TABLE `resetpasswordtokens`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `userId` (`userId`) USING BTREE;
 
 --
--- Indexes for table `roles`
+-- Chỉ mục cho bảng `resource`
+--
+ALTER TABLE `resource`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD UNIQUE KEY `resource_name` (`resource_name`);
+
+--
+-- Chỉ mục cho bảng `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `role_permissions`
+-- Chỉ mục cho bảng `role_resource`
 --
-ALTER TABLE `role_permissions`
-  ADD PRIMARY KEY (`roleId`,`permissionId`),
-  ADD KEY `rolepermissions_ibfk_2` (`permissionId`);
+ALTER TABLE `role_resource`
+  ADD PRIMARY KEY (`role_id`,`resource_id`),
+  ADD KEY `resource_id` (`resource_id`);
 
 --
--- Indexes for table `sales`
+-- Chỉ mục cho bảng `sales`
 --
 ALTER TABLE `sales`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `sales_product`
+-- Chỉ mục cho bảng `sales_product`
 --
 ALTER TABLE `sales_product`
   ADD KEY `productId` (`productId`) USING BTREE,
   ADD KEY `saleId` (`saleId`) USING BTREE;
 
 --
--- Indexes for table `suppliers`
+-- Chỉ mục cho bảng `suppliers`
 --
 ALTER TABLE `suppliers`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `types`
+-- Chỉ mục cho bảng `types`
 --
 ALTER TABLE `types`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `userName` (`userName`);
 
 --
--- Indexes for table `user_roles`
+-- Chỉ mục cho bảng `user_roles`
 --
 ALTER TABLE `user_roles`
   ADD PRIMARY KEY (`userId`,`roleId`),
   ADD KEY `userroles_ibfk_2` (`roleId`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `blogs`
+-- AUTO_INCREMENT cho bảng `blogs`
 --
 ALTER TABLE `blogs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `cart`
+-- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `cartdetail`
+-- AUTO_INCREMENT cho bảng `cartdetail`
 --
 ALTER TABLE `cartdetail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `collections`
+-- AUTO_INCREMENT cho bảng `collections`
 --
 ALTER TABLE `collections`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `comment`
+-- AUTO_INCREMENT cho bảng `comment`
 --
 ALTER TABLE `comment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `coupons`
+-- AUTO_INCREMENT cho bảng `coupons`
 --
 ALTER TABLE `coupons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `favourite`
+-- AUTO_INCREMENT cho bảng `favourite`
 --
 ALTER TABLE `favourite`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `notifications`
+-- AUTO_INCREMENT cho bảng `notifications`
 --
 ALTER TABLE `notifications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `orderitem`
+-- AUTO_INCREMENT cho bảng `orderitem`
 --
 ALTER TABLE `orderitem`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT for table `payments`
+-- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT for table `product_details`
+-- AUTO_INCREMENT cho bảng `product_details`
 --
 ALTER TABLE `product_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
--- AUTO_INCREMENT for table `resetpasswordtokens`
+-- AUTO_INCREMENT cho bảng `resetpasswordtokens`
 --
 ALTER TABLE `resetpasswordtokens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `roles`
+-- AUTO_INCREMENT cho bảng `resource`
+--
+ALTER TABLE `resource`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `sales`
+-- AUTO_INCREMENT cho bảng `sales`
 --
 ALTER TABLE `sales`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `suppliers`
+-- AUTO_INCREMENT cho bảng `suppliers`
 --
 ALTER TABLE `suppliers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `types`
+-- AUTO_INCREMENT cho bảng `types`
 --
 ALTER TABLE `types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `blogs`
+-- Các ràng buộc cho bảng `blogs`
 --
 ALTER TABLE `blogs`
   ADD CONSTRAINT `blogs_ibfk_1` FOREIGN KEY (`authorId`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `cart`
+-- Các ràng buộc cho bảng `cart`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `cartdetail`
+-- Các ràng buộc cho bảng `cartdetail`
 --
 ALTER TABLE `cartdetail`
   ADD CONSTRAINT `cartdetail_ibfk_1` FOREIGN KEY (`cartId`) REFERENCES `cart` (`id`),
@@ -1009,40 +1010,40 @@ ALTER TABLE `cartdetail`
   ADD CONSTRAINT `fk_productDetails_cartdetail` FOREIGN KEY (`productDetailsId`) REFERENCES `product_details` (`id`);
 
 --
--- Constraints for table `categories`
+-- Các ràng buộc cho bảng `categories`
 --
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `types` (`id`);
 
 --
--- Constraints for table `collections_product`
+-- Các ràng buộc cho bảng `collections_product`
 --
 ALTER TABLE `collections_product`
   ADD CONSTRAINT `collections_product_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `collections_product_ibfk_2` FOREIGN KEY (`collectionId`) REFERENCES `collections` (`id`);
 
 --
--- Constraints for table `comment`
+-- Các ràng buộc cho bảng `comment`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
 
 --
--- Constraints for table `favourite`
+-- Các ràng buộc cho bảng `favourite`
 --
 ALTER TABLE `favourite`
   ADD CONSTRAINT `favourite_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `favourite_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
 
 --
--- Constraints for table `notifications`
+-- Các ràng buộc cho bảng `notifications`
 --
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `orderitem`
+-- Các ràng buộc cho bảng `orderitem`
 --
 ALTER TABLE `orderitem`
   ADD CONSTRAINT `fk_orderitem_productDetail` FOREIGN KEY (`productDetailId`) REFERENCES `product_details` (`id`),
@@ -1050,7 +1051,7 @@ ALTER TABLE `orderitem`
   ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `products` (`id`);
 
 --
--- Constraints for table `orders`
+-- Các ràng buộc cho bảng `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
@@ -1058,7 +1059,7 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`couponId`) REFERENCES `coupons` (`id`);
 
 --
--- Constraints for table `products`
+-- Các ràng buộc cho bảng `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`typeId`) REFERENCES `types` (`id`),
@@ -1066,33 +1067,33 @@ ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`supplierId`) REFERENCES `suppliers` (`id`);
 
 --
--- Constraints for table `product_details`
+-- Các ràng buộc cho bảng `product_details`
 --
 ALTER TABLE `product_details`
   ADD CONSTRAINT `proid_fk` FOREIGN KEY (`productId`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `resetpasswordtokens`
+-- Các ràng buộc cho bảng `resetpasswordtokens`
 --
 ALTER TABLE `resetpasswordtokens`
   ADD CONSTRAINT `resetpasswordtokens_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `role_permissions`
+-- Các ràng buộc cho bảng `role_resource`
 --
-ALTER TABLE `role_permissions`
-  ADD CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `role_permissions_ibfk_2` FOREIGN KEY (`permissionId`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+ALTER TABLE `role_resource`
+  ADD CONSTRAINT `role_resource_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_resource_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `sales_product`
+-- Các ràng buộc cho bảng `sales_product`
 --
 ALTER TABLE `sales_product`
   ADD CONSTRAINT `sales_product_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `sales_product_ibfk_2` FOREIGN KEY (`saleId`) REFERENCES `sales` (`id`);
 
 --
--- Constraints for table `user_roles`
+-- Các ràng buộc cho bảng `user_roles`
 --
 ALTER TABLE `user_roles`
   ADD CONSTRAINT `user_roles_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
