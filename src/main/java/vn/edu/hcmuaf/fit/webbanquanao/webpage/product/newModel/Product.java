@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.newModel;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
@@ -17,6 +18,30 @@ public class Product {
     private List<ProductDetail> details;
 
     public Product() {}
+
+    // deep copy
+    public Product(Product otherProduct) {
+        this.id = otherProduct.id;
+        this.typeId = otherProduct.typeId;
+        this.categoryId = otherProduct.categoryId;
+        this.supplierId = otherProduct.supplierId;
+        this.productName = otherProduct.productName;
+        this.description = otherProduct.description;
+        this.releaseDate = (otherProduct.releaseDate != null) ? new Date(otherProduct.releaseDate.getTime()) : null;
+        this.unitSold = otherProduct.unitSold;
+        this.unitPrice = otherProduct.unitPrice;
+        this.status = otherProduct.status;
+
+        // detail list
+        if (otherProduct.details != null) {
+            this.details = new ArrayList<>();
+            for (ProductDetail detail : otherProduct.details) {
+                this.details.add(new ProductDetail(detail));
+            }
+        } else {
+            this.details = null;
+        }
+    }
 
     public Product(int id, int typeId, int categoryId, int supplierId, String productName, String description, Date releaseDate, int unitSold, double unitPrice, int status, List<ProductDetail> details) {
         this.id = id;
