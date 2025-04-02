@@ -36,6 +36,7 @@ public class Add extends HttpServlet {
         cartProduct.setSizes(Collections.singletonList(size));
         cartProduct.setStock(quantity);
 
+        // check login
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("auth") == null) {
             response.sendRedirect("login.jsp");
