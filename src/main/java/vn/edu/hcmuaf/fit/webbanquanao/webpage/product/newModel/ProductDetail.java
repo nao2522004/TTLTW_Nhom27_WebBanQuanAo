@@ -10,6 +10,16 @@ public class ProductDetail {
 
     public ProductDetail() {}
 
+    // deep copy
+    public ProductDetail(ProductDetail otherDetail) {
+        this.id = otherDetail.id;
+        this.productId = otherDetail.productId;
+        this.size = otherDetail.size;
+        this.stock = otherDetail.stock;
+        this.image = otherDetail.image;
+        this.color = otherDetail.color;
+    }
+
     public ProductDetail(int id, int productId, String size, int stock, String image, String color) {
         this.id = id;
         this.productId = productId;
