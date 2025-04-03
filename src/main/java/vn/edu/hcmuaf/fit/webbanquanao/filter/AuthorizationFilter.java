@@ -67,6 +67,8 @@ public class AuthorizationFilter implements Filter {
         User user = session != null ? (User) session.getAttribute("auth") : null;
         Map<String, Integer> permissions = session != null ?
                 (Map<String, Integer>) session.getAttribute("permissions") : null;
+        List<String> roles = session != null ?
+                (List<String>) session.getAttribute("roles") : null;
 
         // Kiểm tra quyền cho admin URLs
         if (isAdminUrl(path)) {
@@ -74,7 +76,7 @@ public class AuthorizationFilter implements Filter {
                 redirectToLogin(httpRequest, httpResponse);
                 return;
             }
-            if (!user.getRoles().contains("ADMIN")) {
+            if (!roles.contains("ADMIN")) {
                 showAccessDenied(httpRequest, httpResponse);
                 return;
             }
@@ -93,10 +95,6 @@ public class AuthorizationFilter implements Filter {
             redirectToLogin(httpRequest, httpResponse);
             return;
         }
-
-        // Thêm thông tin phân quyền vào request
-        request.setAttribute("currentUser", user);
-        request.setAttribute("userPermissions", permissions);
 
         // Tiến hành chuỗi lọc tiếp theo
         chain.doFilter(request, response);
@@ -147,6 +145,10 @@ public class AuthorizationFilter implements Filter {
     // Hiển thị thông báo lỗi 403 (Forbidden)
     private void showAccessDenied(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/error/403.jsp").forward(request, response);
+        // Thêm thông báo vào request attribute để hiển thị trên trang
+        request.setAttribute("errorMessage", "Bạn không có quyền hạn để truy cập trang này");
+
+        // Chuyển hướng đến trang thông báo
+        request.getRequestDispatcher("/error.jsp").forward(request, response);
     }
 }
