@@ -4,7 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
-import vn.edu.hcmuaf.fit.webbanquanao.user.service.AuthService;
+import vn.edu.hcmuaf.fit.webbanquanao.user.auth.service.AuthService;
 
 import java.io.IOException;
 

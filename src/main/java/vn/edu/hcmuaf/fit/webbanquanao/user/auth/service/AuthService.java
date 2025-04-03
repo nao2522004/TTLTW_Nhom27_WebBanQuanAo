@@ -1,11 +1,10 @@
-package vn.edu.hcmuaf.fit.webbanquanao.user.service;
+package vn.edu.hcmuaf.fit.webbanquanao.user.auth.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +44,9 @@ public class AuthService {
         List<String> roles = userDao.getRoleNameByUserName(userName);
         Map<String, Integer> permissions = userDao.getPermissionByUserName(userName);
 
-
         // Cập nhật vào đối tượng User
         user.setRoles(roles);
         user.setPermissions(permissions);
-
 
         user.setPassWord(null); // Xóa mật khẩu trước khi trả về
         return user;
