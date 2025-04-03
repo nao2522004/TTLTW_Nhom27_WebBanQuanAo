@@ -24,7 +24,12 @@
   <div class="group_icons">
     <a href="productSearch"><i class="fa-solid fa-magnifying-glass custom_size"></i></a>
     <%
-      User user = (User) session.getAttribute("auth"); // Kiểm tra người dùng trong session
+      Object authObj = session.getAttribute("auth");
+      User user = null;
+      if (authObj instanceof User) {
+        user = (User) authObj;
+      }
+
       if (user != null) {
     %>
     <!-- Nếu người dùng đã đăng nhập, chuyển đến trang người dùng -->
