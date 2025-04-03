@@ -51,6 +51,9 @@ public class AuthService {
         user.setPassWord(null); // Xóa mật khẩu trước khi trả về
         return user;
     }
+
+    public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+        System.out.println(userDao.getPermissionByUserName("admin"));
+    }
 }
-
-
