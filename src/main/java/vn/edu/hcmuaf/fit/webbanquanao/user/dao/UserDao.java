@@ -27,12 +27,12 @@ public class UserDao {
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
                 "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
-                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resource_name, ':', rr.permission) ORDER BY res.resource_name ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
-                "LEFT JOIN resource res ON rr.resourceId = res.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.role_id " +
+                "LEFT JOIN resource res ON rr.resource_id = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -84,26 +84,6 @@ public class UserDao {
         });
     }
 
-    public String getRoleNameById(String roleName) {
-        String sql = "SELECT roleName FROM roles WHERE roleName = ?";
-
-        return dbConnect.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, roleName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getString("roleName");
-                    }
-                }
-            } catch (SQLException e) {
-                System.err.println("Lỗi khi lấy roleName: " + e.getMessage());
-            }
-            System.out.println("Không tìm thấy role: " + roleName);
-            return null; // Trả về null nếu không tìm thấy
-        });
-    }
-
-
     public boolean registerUser(User user) {
         String userSql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String checkRoleSql = "SELECT COUNT(*) FROM user_roles WHERE userId = ? AND roleId = ?";
@@ -116,6 +96,7 @@ public class UserDao {
                 conn.setAutoCommit(false);
 
                 try (PreparedStatement userPs = conn.prepareStatement(userSql, Statement.RETURN_GENERATED_KEYS)) {
+                    // Thiết lập các tham số cho user
                     userPs.setString(1, user.getUserName());
                     userPs.setString(2, user.getAvatar());
                     userPs.setString(3, hashedPassword);
@@ -130,7 +111,7 @@ public class UserDao {
                     }
 
                     userPs.setString(8, user.getAddress());
-                    int status = (user.getStatus() != null) ? user.getStatus() : 0; // Mặc định trạng thái là 0 (Chưa kích hoạt)
+                    int status = (user.getStatus() != null) ? user.getStatus() : 0;
                     userPs.setInt(9, status);
 
                     Timestamp createdAt = (user.getCreatedAt() != null) ?
@@ -145,13 +126,13 @@ public class UserDao {
                         if (generatedKeys.next()) {
                             int userId = generatedKeys.getInt(1);
 
-                            //Lấy roleId của "USER"
-                            int roleId = getRoleId("USER");
+                            // Sử dụng phiên bản getRoleId mới với Connection
+                            int roleId = getRoleId(conn, "USER"); // Thay đổi ở đây
                             if (roleId == -1) {
                                 throw new SQLException("Không tìm thấy role 'USER'!");
                             }
 
-                            //Kiểm tra trước khi thêm vào user_roles
+                            // Kiểm tra và gán vai trò
                             try (PreparedStatement checkRolePs = conn.prepareStatement(checkRoleSql)) {
                                 checkRolePs.setInt(1, userId);
                                 checkRolePs.setInt(2, roleId);
@@ -188,24 +169,32 @@ public class UserDao {
     }
 
 
-    public int getRoleId(String roleName) {
+//        public int getRoleId(String roleName) {
+//        String sql = "SELECT id FROM roles WHERE roleName = ?";
+//
+//        return dbConnect.get().withHandle(handle -> {
+//            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+//                ps.setString(1, roleName);
+//                try (ResultSet rs = ps.executeQuery()) {
+//                    if (rs.next()) {
+//                        return rs.getInt("id");
+//                    }
+//                }
+//            } catch (SQLException e) {
+//                System.err.println("Lỗi khi lấy roleId: " + e.getMessage());
+//            }
+//            return -1; // Trả về -1 nếu không tìm thấy
+//        });
+//    }
+    private int getRoleId(Connection conn, String roleName) throws SQLException {
         String sql = "SELECT id FROM roles WHERE roleName = ?";
-
-        return dbConnect.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, roleName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("id");
-                    }
-                }
-            } catch (SQLException e) {
-                System.err.println("Lỗi khi lấy roleId: " + e.getMessage());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, roleName);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt("id") : -1;
             }
-            return -1; // Trả về -1 nếu không tìm thấy
-        });
+        }
     }
-
 
     // Kiểm tra xem email đã tồn tại chưa
     public boolean isEmailExist(String email) {
@@ -226,21 +215,21 @@ public class UserDao {
         });
     }
 
-    public boolean createUser(String username, String firstName, String lastName, String email) {
+    public boolean createUser(User user) {
         String sql = "INSERT INTO users (userName, firstName, lastName, email, password, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        String defaultPassword = BCrypt.hashpw("defaultPassword123", BCrypt.gensalt()); // Mật khẩu mặc định (nên gửi mail để user đổi)
+        String defaultPassword = BCrypt.hashpw("defaultPassword123", BCrypt.gensalt());
 
         return dbConnect.get().withHandle(handle -> {
             try (Connection conn = handle.getConnection()) {
-                conn.setAutoCommit(false); // Bắt đầu transaction
+                conn.setAutoCommit(false);
 
                 try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                    ps.setString(1, username);
-                    ps.setString(2, firstName);
-                    ps.setString(3, lastName);
-                    ps.setString(4, email);
-                    ps.setString(5, defaultPassword); // Mật khẩu đã mã hóa
+                    ps.setString(1, user.getUserName());
+                    ps.setString(2, user.getFirstName());
+                    ps.setString(3, user.getLastName());
+                    ps.setString(4, user.getEmail());
+                    ps.setString(5, defaultPassword);
                     ps.setInt(6, 1); // Mặc định status = 1 (active)
                     ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
 
@@ -250,49 +239,61 @@ public class UserDao {
                             if (rs.next()) {
                                 int userId = rs.getInt(1);
 
-                                // Kiểm tra vai trò trước khi gán
-                                int roleId = getRoleId("USER");
-                                if (roleId == -1) {
-                                    throw new SQLException("Vai trò 'USER' không tồn tại!");
-                                }
-
-                                // Gán quyền mặc định cho user
-                                if (!assignRoleToUser(conn, userId, roleId)) {
+                                // Gán vai trò USER cho người dùng mới
+                                if (!assignUserRole(conn, userId)) {
                                     throw new SQLException("Không thể gán vai trò cho user!");
                                 }
 
-                                conn.commit(); // Commit transaction nếu không có lỗi
+                                conn.commit();
                                 return true;
                             }
                         }
                     }
                     conn.rollback();
                 } catch (SQLException e) {
-                    conn.rollback(); // Hoàn tác nếu có lỗi
-                    e.printStackTrace();
+                    conn.rollback();
+                    throw new RuntimeException("Lỗi khi tạo user: " + e.getMessage(), e);
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException("Lỗi kết nối database: " + e.getMessage(), e);
             }
             return false;
         });
     }
 
-    // Gán vai trò mặc định cho user
-    private boolean assignRoleToUser(Connection conn, int userId, int roleId) {
-        String sql = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
+    private boolean assignUserRole(Connection conn, int userId) throws SQLException {
+        // Tìm ID của role USER
+        String findRoleSql = "SELECT id FROM roles WHERE roleName = 'USER'";
+        try (PreparedStatement ps = conn.prepareStatement(findRoleSql);
+             ResultSet rs = ps.executeQuery()) {
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userId);
-            ps.setInt(2, roleId);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            if (rs.next()) {
+                int roleId = rs.getInt("id");
+
+                // Kiểm tra xem đã gán role chưa
+                String checkSql = "SELECT 1 FROM user_roles WHERE userId = ? AND roleId = ?";
+                try (PreparedStatement checkPs = conn.prepareStatement(checkSql)) {
+                    checkPs.setInt(1, userId);
+                    checkPs.setInt(2, roleId);
+                    try (ResultSet checkRs = checkPs.executeQuery()) {
+                        if (checkRs.next()) {
+                            return true; // Đã tồn tại
+                        }
+                    }
+                }
+
+                // Nếu chưa tồn tại thì thêm mới
+                String insertSql = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
+                try (PreparedStatement insertPs = conn.prepareStatement(insertSql)) {
+                    insertPs.setInt(1, userId);
+                    insertPs.setInt(2, roleId);
+                    return insertPs.executeUpdate() > 0;
+                }
+            } else {
+                throw new SQLException("Không tìm thấy role USER trong hệ thống");
+            }
         }
     }
-
-
     public boolean updatePassword(String email, String hashedPassword) {
         return JDBIConnector.get().withHandle(handle -> {
             String sql = "UPDATE users SET password = ? WHERE email = ?";
@@ -447,41 +448,42 @@ public class UserDao {
     }
 
 
-        public List<String> getRoleNameByUserName(String userName) {
-            String sql = """
-        SELECT r.roleName 
-        FROM users u 
-        JOIN user_roles ur ON u.id = ur.userId 
-        JOIN roles r ON ur.roleId = r.id 
-        WHERE u.userName = ?
-    """;
+    public List<String> getRoleNameByUserName(String userName) {
+        String sql = """
+                    SELECT r.roleName 
+                    FROM users u 
+                    JOIN user_roles ur ON u.id = ur.userId 
+                    JOIN roles r ON ur.roleId = r.id 
+                    WHERE u.userName = ?
+                """;
 
-            List<String> roles = new ArrayList<>();
-            try (Connection conn = JDBIConnector.get().open().getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
+        List<String> roles = new ArrayList<>();
+        try (Connection conn = JDBIConnector.get().open().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-                ps.setString(1, userName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        roles.add(rs.getString("roleName"));
-                    }
+            ps.setString(1, userName);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    roles.add(rs.getString("roleName"));
                 }
-            } catch (SQLException e) {
-                Logger.getLogger(getClass().getName()).severe("Lỗi truy vấn roles: " + e.getMessage());
             }
-            return roles;
+        } catch (SQLException e) {
+            Logger.getLogger(getClass().getName()).severe("Lỗi truy vấn roles: " + e.getMessage());
         }
+        return roles;
+    }
+
     public Map<String, Integer> getPermissionByUserName(String userName) {
         String sql = """
-        SELECT res.resourceName, SUM(rr.permission) as permission
-        FROM users u
-        JOIN user_roles ur ON u.id = ur.userId
-        JOIN roles r ON ur.roleId = r.id
-        JOIN role_resource rr ON r.id = rr.roleId
-        JOIN resource res ON rr.resourceId = res.id
-        WHERE u.userName = ?
-        GROUP BY res.resourceName
-    """;
+                    SELECT res.resource_name, SUM(rr.permission) as permission
+                    FROM users u
+                    JOIN user_roles ur ON u.id = ur.userId
+                    JOIN roles r ON ur.roleId = r.id
+                    JOIN role_resource rr ON r.id = rr.role_id
+                    JOIN resource res ON rr.resource_id = res.id
+                    WHERE u.userName = ?
+                    GROUP BY res.resource_name
+                """;
 
         Map<String, Integer> permissions = new HashMap<>();
         try (Connection conn = JDBIConnector.get().open().getConnection();
@@ -490,7 +492,7 @@ public class UserDao {
             ps.setString(1, userName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    permissions.put(rs.getString("resourceName"), rs.getInt("permission"));
+                    permissions.put(rs.getString("resource_name"), rs.getInt("permission"));
                 }
             }
         } catch (SQLException e) {

@@ -35,12 +35,27 @@
 
         <!-- Carousel captions -->
         <div class="carousel_caption">
-             <h5>   <c:if test="${sessionScope.auth!=null}">
-                    <h1>Chào mừng ${sessionScope.auth.firstName} đến với trang web của chúng tôi</h1>
-                </c:if> </h5>
-            <p></p>
-            <a href="#" class="btn btn-link">Discover</a>
-        </div>
+            <div class="carousel_caption">
+                <h5>
+                    <c:if test="${sessionScope.auth != null}">
+                        <c:choose>
+                            <c:when test="${sessionScope.auth['class'].simpleName eq 'User'}">
+                                <h1>Chào mừng ${sessionScope.auth.firstName} đến với trang web của chúng tôi</h1>
+                            </c:when>
+                            <c:otherwise>
+                                <%-- Xử lý khi auth không phải là User object --%>
+                                <h1>Chào mừng đến với trang web của chúng tôi</h1>
+                                <%
+                                    // Log lỗi hoặc xóa session attribute không hợp lệ
+                                    session.removeAttribute("auth");
+                                %>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+                </h5>
+                <p></p>
+                <a href="#" class="btn btn-link">Discover</a>
+            </div>
 
         <!-- Controls -->
         <a class="carousel-control-prev" href="#customCarousel" role="button" data-slide="prev">
