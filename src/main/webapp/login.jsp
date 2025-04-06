@@ -61,6 +61,7 @@
                 <div class="forgot-link">
                     <a href="forgot-password.jsp">Quên mật khẩu?</a>
                 </div>
+                <input type="hidden" name="redirect" value="<%= request.getParameter("redirect") %>" />
                 <button type="submit" class="btn btn-primary btn-lg ">Đăng Nhập</button>
                 <p style="color: red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %></p>
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
