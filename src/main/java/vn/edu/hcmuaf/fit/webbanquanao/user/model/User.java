@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,10 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.passWord = passWord;
+        this.roles = new ArrayList<>();  // Khởi tạo roles là một ArrayList rỗng
+        this.permissions = new HashMap<>(); // Khởi tạo permissions là một HashMap rỗng
     }
+
 
 
     public Integer getId() {

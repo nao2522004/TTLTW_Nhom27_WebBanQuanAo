@@ -27,12 +27,12 @@ public class UserDao {
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
                 "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
-                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resource_name, ':', rr.permission) ORDER BY res.resource_name ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
-                "LEFT JOIN resource res ON rr.resourceId = res.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.role_id " +
+                "LEFT JOIN resource res ON rr.resource_id = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -169,23 +169,44 @@ public class UserDao {
     }
 
 
-//        public int getRoleId(String roleName) {
-//        String sql = "SELECT id FROM roles WHERE roleName = ?";
-//
-//        return dbConnect.get().withHandle(handle -> {
-//            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-//                ps.setString(1, roleName);
-//                try (ResultSet rs = ps.executeQuery()) {
-//                    if (rs.next()) {
-//                        return rs.getInt("id");
-//                    }
-//                }
-//            } catch (SQLException e) {
-//                System.err.println("Lỗi khi lấy roleId: " + e.getMessage());
-//            }
-//            return -1; // Trả về -1 nếu không tìm thấy
-//        });
-//    }
+    public String getRoleNameById(int roleId) {
+        String sql = "SELECT roleName FROM roles WHERE id = ?";
+        return dbConnect.get().withHandle(handle -> {
+        try (Connection conn = handle.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, roleId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("roleName");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if role not found
+        });
+    }
+
+    public int getRoleIdByName(String roleName) {
+        String sql = "SELECT id FROM roles WHERE roleName = ?";
+        return dbConnect.get().withHandle(handle -> {
+        try (Connection conn = handle.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, roleName);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if role not found
+        });
+    }
+
+
+
     private int getRoleId(Connection conn, String roleName) throws SQLException {
         String sql = "SELECT id FROM roles WHERE roleName = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -294,6 +315,7 @@ public class UserDao {
             }
         }
     }
+
     public boolean updatePassword(String email, String hashedPassword) {
         return JDBIConnector.get().withHandle(handle -> {
             String sql = "UPDATE users SET password = ? WHERE email = ?";
@@ -431,23 +453,6 @@ public class UserDao {
         return BCrypt.checkpw(inputPassword, hashedPassword);
     }
 
-    public boolean addUser(User user) {
-        return JDBIConnector.get().withHandle(handle -> {
-            String sql = "INSERT INTO users (userName, email, password, firstName, lastName, phone, roleId, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, user.getUserName());
-                ps.setString(2, user.getEmail());
-                ps.setString(3, hashPassword(user.getPassWord()));
-                int rowsAffected = ps.executeUpdate();
-                return rowsAffected > 0;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-        });
-    }
-
-
     public List<String> getRoleNameByUserName(String userName) {
         String sql = """
                     SELECT r.roleName 
@@ -475,14 +480,14 @@ public class UserDao {
 
     public Map<String, Integer> getPermissionByUserName(String userName) {
         String sql = """
-                    SELECT res.resourceName, SUM(rr.permission) as permission
+                    SELECT res.resource_name, SUM(rr.permission) as permission
                     FROM users u
                     JOIN user_roles ur ON u.id = ur.userId
                     JOIN roles r ON ur.roleId = r.id
                     JOIN role_resource rr ON r.id = rr.roleId
-                    JOIN resource res ON rr.resourceId = res.id
+                    JOIN resource res ON rr.resource_id = res.id
                     WHERE u.userName = ?
-                    GROUP BY res.resourceName
+                    GROUP BY res.resource_name
                 """;
 
         Map<String, Integer> permissions = new HashMap<>();
@@ -492,7 +497,7 @@ public class UserDao {
             ps.setString(1, userName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    permissions.put(rs.getString("resourceName"), rs.getInt("permission"));
+                    permissions.put(rs.getString("resource_name"), rs.getInt("permission"));
                 }
             }
         } catch (SQLException e) {
@@ -500,6 +505,7 @@ public class UserDao {
         }
         return permissions;
     }
+
 
 
 }
