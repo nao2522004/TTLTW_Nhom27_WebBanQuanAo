@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.newModel;
+package vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel;
 
 import java.sql.Date;
 import java.util.ArrayList;
