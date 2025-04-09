@@ -6,6 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
+    // Thêm sản phẩm vào giỏ hàng
+    public boolean addToCart(int productId, String color, String size, int quantity) {
+        boolean result = false;
+        return result;
+    }
+
+    // Cập nhật lại số lượng của một sản phẩm trong giỏ hàng
+    public boolean updateCart(int productId, int quantity) {
+        boolean result = false;
+        return result;
+    }
+
+    // Xoá một sản phẩm khỏi giỏ hàng
+    public boolean removeItem(int productId) {
+        boolean result = false;
+        return result;
+    }
+
     public Product getProductById(int id) throws SQLException {
         String sql = "SELECT * FROM products WHERE id = ?";
 
@@ -22,7 +40,7 @@ public class ProductDAO {
         return null;
     }
 
-    public List<Product> getAllProducts() throws SQLException {
+    public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
 
@@ -37,29 +55,17 @@ public class ProductDAO {
         return products;
     }
 
+    // Tính tổng tiền của tất cả sản phẩm trong giỏ hàng
+    public double getTotalPrice() {
+        double result = 0;
+        return result;
+    }
+
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
 //        product.setId(rs.getInt("id"));
 //        product.setName(rs.getString("name"));
 //        product.setPrice(rs.getDouble("price"));
-        // Các trường khác nếu có
         return product;
-    }
-
-    public void updateProductStock(int productId, int quantity) throws SQLException {
-        String sql = "UPDATE products SET stock = stock - ? WHERE id = ?";
-
-//        try (Connection conn = DBUtil.getConnection();
-//             PreparedStatement stmt = conn.prepareStatement(sql)) {
-//
-//            conn.setAutoCommit(false);
-//            stmt.setInt(1, quantity);
-//            stmt.setInt(2, productId);
-//            stmt.executeUpdate();
-//            conn.commit();
-//        } catch (SQLException e) {
-//            conn.rollback();
-//            throw e;
-//        }
     }
 }
