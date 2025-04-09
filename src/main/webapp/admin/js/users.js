@@ -60,11 +60,11 @@ const buildTableUser = (users) => {
             case 4: statusText = "Bị xóa"; break;
         }
 
-        // Xử lý roleName (danh sách role)
-        let roles = user.roleName && user.roleName.length > 0 ? user.roleName.join(", ") : "Không có";
-
-        // Xử lý permissionName (danh sách quyền)
-        let permissions = user.permissionName && user.permissionName.length > 0 ? user.permissionName.join(", ") : "Không có quyền";
+        // // Xử lý roleName (danh sách role)
+        // let roles = user.roleName && user.roleName.length > 0 ? user.roleName.join(", ") : "Không có";
+        //
+        // // Xử lý permissionName (danh sách quyền)
+        // let permissions = user.permissionName && user.permissionName.length > 0 ? user.permissionName.join(", ") : "Không có quyền";
 
         // Kiểm tra phone có giá trị không
         let phone = user.phone !== null ? user.phone : "N/A";
@@ -81,11 +81,10 @@ const buildTableUser = (users) => {
                     <td>${phone}</td>
                     <td>${formatDate(user.createdAt)}</td>
                     <td>${statusText}</td>
-                    <td>${roles}</td>
-                    <td>${permissions}</td>
                     <td class="primary">
                         <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
                         <span onclick="deleteUser(event)" class="material-icons-sharp" data-username="${user.userName}"> delete </span>
+                        <span onclick="openRolePermissionUser(event)" class="material-icons-sharp" data-username="${user.userName}"> security </span>
                     </td>
                 </tr>
             `;

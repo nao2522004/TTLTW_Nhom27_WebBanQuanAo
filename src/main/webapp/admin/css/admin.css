@@ -145,6 +145,15 @@ b {
 
 /* END HANDLE A CART DETAILS */
 
+.permission-input {
+    white-space: pre-line;
+    height: auto;
+    line-height: 1.4;
+    padding: 4px;
+    overflow-y: auto;
+}
+
+
 /* Căn giữa tiêu đề cột */
 #products--table th, #users--table th, #recent-orders--table th {
     text-align: center;

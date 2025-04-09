@@ -2,8 +2,6 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 public class AUser implements Serializable {
     private Integer id;
@@ -17,15 +15,12 @@ public class AUser implements Serializable {
     private String phone;
     private Integer status;
     private LocalDateTime createdAt;
-    private List<String> roles; // Danh sách role
-    private Map<String, Integer> permissions; // Key: Resource, Value: Quyền (rwx dưới dạng số)
 
     public AUser() {
     }
 
     public AUser(Integer id, String userName, String passWord, String firstName, String lastName, String email,
-                 String avatar, String address, String phone, Integer status, LocalDateTime createdAt,
-                 List<String> roles, Map<String, Integer> permissions) {
+                 String avatar, String address, String phone, Integer status, LocalDateTime createdAt) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -37,8 +32,6 @@ public class AUser implements Serializable {
         this.phone = phone;
         this.status = status;
         this.createdAt = createdAt;
-        this.roles = roles;
-        this.permissions = permissions;
     }
 
     // Getter & Setter
@@ -130,40 +123,6 @@ public class AUser implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
-    }
-
-    public Map<String, Integer> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Map<String, Integer> permissions) {
-        this.permissions = permissions;
-    }
-
-    // Kiểm tra role
-    public boolean hasRole(String role) {
-        return roles != null && roles.contains(role);
-    }
-
-    // Kiểm tra quyền theo bitwise (r=4, w=2, x=1)
-    public boolean hasPermission(String resource, String action) {
-        if (permissions == null || !permissions.containsKey(resource)) return false;
-
-        int permission = permissions.get(resource);
-        int requiredPermission = switch (action) {
-            case "Read" -> 4;
-            case "Write" -> 2;
-            case "Execute" -> 1;
-            default -> 0;
-        };
-        return (permission & requiredPermission) == requiredPermission;
-    }
 
     @Override
     public String toString() {
@@ -178,8 +137,6 @@ public class AUser implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
-                ", roles=" + roles +
-                ", permissions=" + permissions +
                 '}';
     }
 }

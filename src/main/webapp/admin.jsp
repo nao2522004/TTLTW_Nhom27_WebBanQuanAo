@@ -373,8 +373,6 @@
                     <th>SDT</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
-                    <th>Vai trò</th>
-                    <th>Quyền</th>
                     <th>Hành động</th>
                 </tr>
                 </thead>
@@ -441,6 +439,31 @@
                         </tbody>
                     </table>
 
+                </form>
+            </div>
+        </div>
+
+        <!-- Popup vai trò và quyền của user -->
+        <div class="overlay overlay-userRolePermissons">
+            <div class="recent-orders popup popup-userRolePermissons"
+                 style="position: relative; transform: translate(14%, 40%);">
+                <span onclick="hideOverlayuserRolePermissons(event)" class="material-icons-sharp close"> close </span>
+                <h2>Chi Tiết Đơn Hàng</h2>
+                <form id="userRolePermissons-form">
+                    <table id="userRolePermissons--table">
+                        <thead>
+                        <tr>
+                            <th>Tài khoản</th>
+                            <th>Tên</th>
+                            <th>Vai trò</th>
+                            <th>Quyền hạn</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript -->
+                        </tbody>
+                    </table>
                 </form>
             </div>
         </div>
@@ -726,7 +749,9 @@
 <script src="admin/js/orders.js"></script>
 <script src="admin/js/orderDetails.js"></script>
 <script src="admin/js/users.js"></script>
+<script src="admin/js/userRolePermission.js"></script>
 <script src="admin/js/products.js"></script>
+
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
 
 
 import java.util.Map;
@@ -33,6 +34,16 @@ public class AUserService {
         return uDao.listUser.get(username);
     }
 
+    public Map<String, AUserRolePermission> getUserRolePermissionByUsername(String username) {
+        AUserDao uDao = new AUserDao();
+        if(!uDao.listUser.containsKey(username))
+            return null;
+        return uDao.getRolePermission(username);
+    }
+
+
+
+
 //    public boolean deleteUser(String username) {
 //        AUserDao uDao = new AUserDao();
 //        if(!uDao.listUser.containsKey(username)) return false;
@@ -53,6 +64,8 @@ public class AUserService {
         AUserService userService = new AUserService();
 
         System.out.println(userService.showUser());
+
+        System.out.println(userService.getUserRolePermissionByUsername("admin"));
     }
 
 

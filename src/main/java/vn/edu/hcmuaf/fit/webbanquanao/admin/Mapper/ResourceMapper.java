@@ -10,7 +10,7 @@ public class ResourceMapper {
             Map.entry(Pattern.compile("^/order/.*$"), "Order"),    // Đơn hàng
             Map.entry(Pattern.compile("^/payment/.*$|^/payments$"), "Payment"), // Thanh toán
             Map.entry(Pattern.compile("^/product/.*$|^/productDetail$|^/productFilter$|^/productPagination$|^/productSearch$"), "Product"), // Sản phẩm
-            Map.entry(Pattern.compile("^/user/.*$|^/user.jsp"), "User") // Người dùng
+            Map.entry(Pattern.compile("^/user/.*$|^/user.jsp$|^/verify.jsp"), "User") // Người dùng
     );
 
     public static String getResource(String path) {
