@@ -203,7 +203,9 @@
                             <td style="width: 7%"><input type="number" name="id" id="edit-idOrder" readonly></td>
                             <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
                             <td>
-                                <select name="paymentId" id="edit-paymentId" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
+                                <select name="paymentId" id="edit-paymentId"
+                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        required>
                                     <option value="1">Tiền mặt</option>
                                     <option value="2">Chuyển khoản</option>
                                     <option value="3">Thẻ tín dụng</option>
@@ -214,7 +216,9 @@
                             <td><input type="datetime-local" name="orderDate" id="edit-orderDate" required></td>
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
-                                <select name="status" id="edit-statusOrder" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
+                                <select name="status" id="edit-statusOrder"
+                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        required>
                                     <option value="0">Đã Hủy</option>
                                     <option value="1">Đang xử lý</option>
                                     <option value="2">Đang giao hàng</option>
@@ -760,7 +764,6 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <!-- DataTables CSS -->
 <link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
-
 
 
 </body>

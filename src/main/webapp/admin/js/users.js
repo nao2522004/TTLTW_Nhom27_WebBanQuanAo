@@ -81,7 +81,7 @@ const buildTableUser = (users) => {
                     <td>${phone}</td>
                     <td>${formatDate(user.createdAt)}</td>
                     <td>${statusText}</td>
-                    <td class="primary">
+                    <td class="primary" style="width: 90px">
                         <span onclick="openEditPopup(event)" class="material-icons-sharp" data-username="${user.userName}"> edit </span>
                         <span onclick="deleteUser(event)" class="material-icons-sharp" data-username="${user.userName}"> delete </span>
                         <span onclick="openRolePermissionUser(event)" class="material-icons-sharp" data-username="${user.userName}"> security </span>
@@ -148,7 +148,6 @@ function openEditPopup(event) {
             if(optionStatus) optionStatus.selected = true;
             else console.warn("Không tìm thấy trạng thái phù hợp:", data.status);
 
-            document.getElementById("edit-role").value = data.roleId;
         }, error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
             alert("Không thể lấy thông tin người dùng. Vui lòng thử lại.");
@@ -173,7 +172,6 @@ function saveUserEdits(event) {
         phone: parseInt(document.getElementById("edit-phone").value),
         status: parseInt(document.getElementById("edit-status").value),
         createdAt: new Date(document.getElementById("edit-createdDate").value).toISOString(),
-        roleId: parseInt(document.getElementById("edit-role").value)
     };
 
     // Chuyển đổi đối tượng `user` thành JSON
