@@ -48,9 +48,13 @@ public class Cart extends HttpServlet {
     private void handleAdd(HttpServletRequest request, HttpServletResponse response, int productId) throws IOException {
         String color = request.getParameter("color");
         String size = request.getParameter("size");
+        double unitPrice = Double.parseDouble(request.getParameter("unitPrice"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
+        int couponId = Integer.parseInt(request.getParameter("couponId"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
 
-        cartService.addToCart(productId, color, size, quantity);
+        ProductDetail p = cartService.getProductDetailBySizeColor(color, size);
+        cartService.addToCart(userId, couponId, quantity, unitPrice, p.getId());
         response.sendRedirect(request.getContextPath() + "/productDetail?productId=" + productId); // Tải lại trang chi tiết sản phẩm, thông báo kết quả thêm
     }
 
