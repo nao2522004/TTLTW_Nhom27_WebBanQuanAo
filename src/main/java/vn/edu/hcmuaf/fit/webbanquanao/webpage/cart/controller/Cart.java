@@ -60,7 +60,8 @@ public class Cart extends HttpServlet {
 
     private void handleUpdate(HttpServletRequest request, HttpServletResponse response, int productId) throws IOException, ServletException {
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        cartService.updateCart(productId, quantity);
+        int cartDetailId = Integer.parseInt(request.getParameter("cartDetailId"));
+        cartService.updateCart(cartDetailId, quantity);
         doGet(request, response);// Tải lại giỏ hàng
     }
 

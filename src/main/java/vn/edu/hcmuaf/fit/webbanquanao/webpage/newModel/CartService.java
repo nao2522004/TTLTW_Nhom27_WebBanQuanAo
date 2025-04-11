@@ -12,7 +12,7 @@ public class CartService {
 
     // Lấy toàn bộ sản phẩm từ giỏ hàng
     public List<Product> getCart() {
-        List<Product> cart = cartDAO.getAllProducts();
+        List<Product> cart = new ArrayList<>();
         return cart;
     }
 
@@ -22,8 +22,8 @@ public class CartService {
     }
 
     // Cập nhật số lượng sản phẩm
-    public void updateCart(int productId, int quantity) {
-        cartDAO.updateCart(productId, quantity);
+    public void updateCart(int cartDetailId, int quantity) {
+        cartDAO.updateCart(cartDetailId, quantity);
     }
 
     // Xóa sản phẩm khỏi giỏ hàng
@@ -32,8 +32,8 @@ public class CartService {
     }
 
     // Tính tổng tiền
-    public double getCartTotal() {
-        return cartDAO.getTotalPrice();
+    public double getCartTotal(int userId) {
+        return cartDAO.getTotalPrice(userId);
     }
 
     // Lấy sản phẩm chi tiết dựa theo size và color

@@ -80,33 +80,37 @@ public class CartDAO {
     }
 
     // Cập nhật lại số lượng của một sản phẩm trong giỏ hàng
-    public boolean updateCart(int productId, int quantity) {
-        boolean result = false;
-        return result;
+    public boolean updateCart(int cartDetailId, int quantity) {
+        String sql = "UPDATE cartdetail SET quantity = ? WHERE id = ?";
+
+        return conn.get().withHandle(h -> {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+                stmt.setInt(1, quantity);
+                stmt.setInt(2, cartDetailId);
+                return stmt.executeUpdate() > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        });
     }
 
     // Xoá một sản phẩm khỏi giỏ hàng
-    public boolean removeItem(int productId) {
-        boolean result = false;
-        return result;
+    public boolean removeItem(int cartDetailId) {
+        String sql = "DELETE FROM cartdetail WHERE id = ?";
+
+        return conn.get().withHandle(h -> {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+               stmt.setInt(1, cartDetailId);
+               return stmt.executeUpdate() > 0;
+           } catch (SQLException e) {
+               e.printStackTrace();
+               return false;
+           }
+        });
     }
 
-    public Product getProductById(int id) throws SQLException {
-        String sql = "SELECT * FROM products WHERE id = ?";
-
-//        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-//             PreparedStatement stmt = conn.prepareStatement(sql)) {
-//
-//            stmt.setInt(1, id);
-//            try (ResultSet rs = stmt.executeQuery()) {
-//                if (rs.next()) {
-//                    return mapResultSetToProduct(rs);
-//                }
-//            }
-//        }
-        return null;
-    }
-
+    // Lấy ra chi tiết sản phẩm theo size và color
     public ProductDetail getProductDetailBySizeColor(String color, String size) {
         String sql = "SELECT * FROM product_details WHERE color = ? AND size = ?";
         ProductDetail productDetail = new ProductDetail();
@@ -131,25 +135,25 @@ public class CartDAO {
         });
     }
 
-    public List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products";
-
-//        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-//             Statement stmt = conn.createStatement();
-//             ResultSet rs = stmt.executeQuery(sql)) {
-//
-//            while (rs.next()) {
-//                products.add(mapResultSetToProduct(rs));
-//            }
-//        }
-        return products;
-    }
-
     // Tính tổng tiền của tất cả sản phẩm trong giỏ hàng
-    public double getTotalPrice() {
-        double result = 0;
-        return result;
+    public double getTotalPrice(int userId) {
+        String sql = "SELECT SUM(cd.unitPrice * cd.quantity) AS Total " +
+                        "FROM cartdetail cd " +
+                        "JOIN cart c ON cd.cartId = c.id " +
+                        "WHERE  c.userId = ?";
+
+        return conn.get().withHandle(h -> {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+               stmt.setInt(1, userId);
+               ResultSet rs = stmt.executeQuery();
+               if(rs.next()) {
+                   return rs.getDouble("Total");
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+           return 0.0;
+        });
     }
 
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
