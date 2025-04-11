@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
 
 
+import java.security.SecureRandom;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,12 +28,12 @@ public class UserDao {
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
                 "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
-                "       GROUP_CONCAT(DISTINCT CONCAT(res.resource_name, ':', rr.permission) ORDER BY res.resource_name ASC) AS permissions " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
                 "LEFT JOIN role_resource rr ON r.id = rr.role_id " +
-                "LEFT JOIN resource res ON rr.resource_id = res.id " +
+                "LEFT JOIN resource res ON rr.resourceId = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -204,6 +205,7 @@ public class UserDao {
         return -1; // Return -1 if role not found
         });
     }
+
 
 
 
@@ -480,12 +482,12 @@ public class UserDao {
 
     public Map<String, Integer> getPermissionByUserName(String userName) {
         String sql = """
-                    SELECT res.resource_name, SUM(rr.permission) as permission
+                    SELECT res.resourceName, SUM(rr.permission) as permission
                     FROM users u
                     JOIN user_roles ur ON u.id = ur.userId
                     JOIN roles r ON ur.roleId = r.id
                     JOIN role_resource rr ON r.id = rr.roleId
-                    JOIN resource res ON rr.resource_id = res.id
+                    JOIN resource res ON rr.resourceId = res.id
                     WHERE u.userName = ?
                     GROUP BY res.resource_name
                 """;
@@ -497,7 +499,7 @@ public class UserDao {
             ps.setString(1, userName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    permissions.put(rs.getString("resource_name"), rs.getInt("permission"));
+                    permissions.put(rs.getString("resourceName"), rs.getInt("permission"));
                 }
             }
         } catch (SQLException e) {
@@ -505,7 +507,4 @@ public class UserDao {
         }
         return permissions;
     }
-
-
-
 }
