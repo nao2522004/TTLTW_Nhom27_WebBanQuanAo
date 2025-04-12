@@ -457,9 +457,9 @@
                     <table id="userRolePermissons--table">
                         <thead>
                         <tr>
-                            <th>Tài khoản</th>
-                            <th>Tên</th>
-                            <th>Vai trò</th>
+                            <th style="width: 125px">Tài khoản</th>
+                            <th style="width: 125px">Tên</th>
+                            <th style="width: 150px; margin-right: 10px">Vai trò</th>
                             <th>Quyền hạn</th>
                             <th>Thao tác</th>
                         </tr>

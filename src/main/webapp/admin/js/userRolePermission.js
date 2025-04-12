@@ -19,17 +19,12 @@ function openRolePermissionUser(event) {
                 // Hiển thị thông tin cơ bản
                 tbody.innerHTML = `
                 <tr>
-                    <td><input type="text" value="${user.userName}" disabled></td>
-                    <td><input type="text" value="${user.firstName}" disabled></td>
+                    <td style="width: 125px"><input type="text" value="${user.userName}" disabled></td>
+                    <td style="width: 125px"><input type="text" value="${user.firstName}" disabled></td>
                     <td>
-                        <div class="role-tags-container">
-                            ${renderRoleTags(user.roles)}
+                        <div style="width: 150px; margin-right: 10px"" class="roles-container">
+                            ${renderRoles(user.roles)}
                         </div>
-                        <select class="role-select" multiple style="display: none;">
-                            <option value="ADMIN" ${user.roles.includes('ADMIN') ? 'selected' : ''}>Admin</option>
-                            <option value="STAFF" ${user.roles.includes('STAFF') ? 'selected' : ''}>Staff</option>
-                            <option value="USER" ${user.roles.includes('USER') ? 'selected' : ''}>User</option>
-                        </select>
                     </td>
                     <td>
                         <div class="permissions-container">
@@ -51,73 +46,43 @@ function openRolePermissionUser(event) {
     });
 }
 
-function renderRoleTags(roles) {
-    const roleNames = {
-        'ADMIN': 'Admin',
-        'STAFF': 'Nhân viên',
-        'USER': 'Người dùng'
-    };
+function renderRoles(roles) {
+    const allRoles = ['ADMIN', 'STAFF', 'USER'];
 
-    return roles.map(role => `
-        <span class="role-tag" data-role="${role}">
-            ${roleNames[role] || role}
-            <span class="remove-role" onclick="removeRole(event)">×</span>
-        </span>
-    `).join('');
-}
+    let html = '<table class="roles-table">';
+    html += '<tr><th>Vai trò</th><th>Chọn</th></tr>';
 
-function renderPermissions(permissions) {
-    let html = '<table class="permissions-table">';
-
-    // Header
-    html += '<tr><th>Tài nguyên</th><th>Đọc</th><th>Ghi</th><th>Thực thi</th></tr>';
-
-    // Mỗi dòng cho một resource
-    for (const [resource, permissionValue] of Object.entries(permissions)) {
+    allRoles.forEach(role => {
         html += `
         <tr>
-            <td>${resource}</td>
-            <td><input type="checkbox" ${(permissionValue & 1) ? 'checked' : ''} 
-                 data-resource="${resource}" data-permission="read"></td>
-            <td><input type="checkbox" ${(permissionValue & 2) ? 'checked' : ''} 
-                 data-resource="${resource}" data-permission="write"></td>
-            <td><input type="checkbox" ${(permissionValue & 4) ? 'checked' : ''} 
-                 data-resource="${resource}" data-permission="execute"></td>
+            <td>${role}</td>
+            <td>
+                <input type="checkbox" value="${role}" ${roles.includes(role) ? 'checked' : ''} disabled>
+            </td>
         </tr>
         `;
-    }
+    });
 
-    return html + '</table>';
+    html += '</table>';
+
+    return html;
 }
 
+// Chuyển đổi giữa chế độ chỉnh sửa và chế độ lưu
 function toggleEditRolePermission(event) {
     const row = event.target.closest("tr");
-    const tagsContainer = row.querySelector(".role-tags-container");
-    const select = row.querySelector(".role-select");
 
-    // Toggle giữa chế độ xem và chỉnh sửa
-    if (tagsContainer.style.display === 'none') {
-        tagsContainer.style.display = '';
-        select.style.display = 'none';
-        event.target.textContent = 'edit';
-        row.querySelector("span[onclick='saveUserRolePermission']").style.display = 'none';
-    } else {
-        tagsContainer.style.display = 'none';
-        select.style.display = 'block';
-        event.target.textContent = 'cancel';
-        row.querySelector("span[onclick='saveUserRolePermission']").style.display = 'inline';
-    }
-}
+    // Mở khóa checkbox role
+    const roleCheckboxes = row.querySelectorAll(".roles-table input[type='checkbox']");
+    roleCheckboxes.forEach(cb => cb.disabled = false);
 
-function removeRole(event) {
-    event.stopPropagation();
-    const roleTag = event.target.closest(".role-tag");
-    const role = roleTag.getAttribute("data-role");
-    const select = roleTag.closest("tr").querySelector(".role-select");
+    // Mở khóa checkbox permission
+    const permissionCheckboxes = row.querySelectorAll(".permissions-table input[type='checkbox']");
+    permissionCheckboxes.forEach(cb => cb.disabled = false);
 
-    // Bỏ chọn option tương ứng
-    const option = select.querySelector(`option[value="${role}"]`);
-    if (option) option.selected = false;
-
-    roleTag.remove();
+    // Nút Save/Edit
+    const saveBtn = row.querySelector("span[onclick='saveUserRolePermission(event)']");
+    const editBtn = row.querySelector("span[onclick='toggleEditRolePermission(event)']");
+    saveBtn.style.display = "inline";
+    editBtn.style.display = "none";
 }

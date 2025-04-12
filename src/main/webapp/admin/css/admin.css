@@ -145,7 +145,8 @@ b {
 
 /* END HANDLE A CART DETAILS */
 
-/* Css cho User Role Permissions */
+/* Css cho User Role Permissions in js*/
+/*Css for render permissions in manager user*/
 .permissions-table {
     width: 100%;
     border-collapse: collapse;
@@ -176,42 +177,54 @@ b {
     background: white !important;
 }
 
-.role-tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.role-tag {
-    background-color: #e0e0e0;
-    border-radius: 16px;
-    padding: 4px 12px;
-    font-size: 14px;
-    display: inline-flex;
-    align-items: center;
-}
-
-.role-tag .remove-role {
-    margin-left: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-}
-
-.role-select {
-    width: 100%;
-    min-height: 100px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-}
-
 /* Style cho checkbox */
 .permissions-table input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 16px !important;
+    height: 16px !important;
 }
 
+/* End Css for render permissions in manager user*/
+
+/* Css for render role in manager user*/
+/* Style for roles table (checkbox style) */
+.roles-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.roles-table th, .roles-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.roles-table th {
+    background-color: #f2f2f2;
+}
+
+.roles-table input{
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    -webkit-appearance: checkbox !important;
+    -moz-appearance: checkbox !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    margin: 0 !important;
+    border: 1px solid #767676 !important;
+    background: white !important;
+}
+
+.roles-table input[type="checkbox"] {
+    margin-right: 6px !important;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+/* End Css for render role in manager user*/
 /* Css cho User Role Permissions */
 
 
