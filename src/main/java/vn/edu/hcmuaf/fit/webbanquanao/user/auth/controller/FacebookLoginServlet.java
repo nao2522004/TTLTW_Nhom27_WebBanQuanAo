@@ -8,8 +8,8 @@ import java.io.IOException;
 
 @WebServlet(name = "login-facebook", value = "/login-facebook")
 public class FacebookLoginServlet extends HttpServlet {
-    private static final String CLIENT_ID = "your_client";
-    private static final String REDIRECT_URI = "";
+    private static final String CLIENT_ID = System.getenv("FACEBOOK_CLIENT_ID");
+    private static final String REDIRECT_URI = System.getenv("FACEBOOK_REDIRECT_URI");
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String fbAuthUrl = "https://www.facebook.com/v18.0/dialog/oauth?"
