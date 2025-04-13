@@ -404,8 +404,6 @@
                             <th>SDT</th>
                             <th>Ngày tạo</th>
                             <th>Trạng thái</th>
-                            <th>Vai trò</th>
-                            <th>Quyền</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>
@@ -431,12 +429,6 @@
                                     <option value="4">Đã xóa</option>
                                 </select>
                             </td>
-                            <td>
-                                <select name="role" id="edit-role" required>
-                                    <option value="1">Admin</option>
-                                    <option value="2">User</option>
-                                </select>
-                            </td>
                             <td><span type="submit" onclick="saveUserEdits(event)" class="primary material-icons-sharp">save</span>
                             </td>
                         </tr>
@@ -452,7 +444,7 @@
             <div class="recent-orders popup popup-userRolePermissons"
                  style="position: relative; transform: translate(14%, 40%);">
                 <span onclick="hideOverlayuserRolePermissons(event)" class="material-icons-sharp close"> close </span>
-                <h2>Chi Tiết Đơn Hàng</h2>
+                <h2>Quyền hạn người dùng</h2>
                 <form id="userRolePermissons-form">
                     <table id="userRolePermissons--table">
                         <thead>
