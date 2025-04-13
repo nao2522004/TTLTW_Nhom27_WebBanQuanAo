@@ -301,6 +301,11 @@ function hideOverlayOrderItemDetails(event) {
     overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
 }
 
+function hideOverlayuserRolePermissons(event) {
+    const overlay = event.target.closest("main").querySelector(".overlay-userRolePermissons");
+    overlay.style.display = "none"; // Ẩn overlay khi nhấn vào nó
+}
+
 function showOverlay(event) {
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");

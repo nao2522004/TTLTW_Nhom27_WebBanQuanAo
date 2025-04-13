@@ -37,7 +37,7 @@ public class AuthorizationFilter implements Filter {
     );
 
     // Các phần mở rộng tệp tĩnh cần bỏ qua
-    private static final Set<String> STATIC_EXTENSIONS = Set.of("css", "js", "jpg", "jpeg", "png", "gif", "ico", "woff", "woff2", "ttf", "svg", "map");
+    private static final Set<String> STATIC_EXTENSIONS = Set.of("css", "js", "jpg", "jpeg", "png", "gif", "ico", "woff", "woff2", "ttf", "svg", "map", "webp");
 
     private FilterConfig filterConfig;
 

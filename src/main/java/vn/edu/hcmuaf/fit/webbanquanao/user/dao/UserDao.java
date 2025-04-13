@@ -6,7 +6,6 @@ import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
 
 
-import java.security.SecureRandom;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -173,40 +172,38 @@ public class UserDao {
     public String getRoleNameById(int roleId) {
         String sql = "SELECT roleName FROM roles WHERE id = ?";
         return dbConnect.get().withHandle(handle -> {
-        try (Connection conn = handle.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, roleId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("roleName");
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, roleId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getString("roleName");
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null; // Return null if role not found
+            return null; // Return null if role not found
         });
     }
 
     public int getRoleIdByName(String roleName) {
         String sql = "SELECT id FROM roles WHERE roleName = ?";
         return dbConnect.get().withHandle(handle -> {
-        try (Connection conn = handle.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, roleName);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("id");
+            try (Connection conn = handle.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, roleName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1; // Return -1 if role not found
+            return -1; // Return -1 if role not found
         });
     }
-
-
 
 
     private int getRoleId(Connection conn, String roleName) throws SQLException {
@@ -489,7 +486,7 @@ public class UserDao {
                     JOIN role_resource rr ON r.id = rr.roleId
                     JOIN resource res ON rr.resourceId = res.id
                     WHERE u.userName = ?
-                    GROUP BY res.resource_name
+                    GROUP BY res.resourceName
                 """;
 
         Map<String, Integer> permissions = new HashMap<>();
