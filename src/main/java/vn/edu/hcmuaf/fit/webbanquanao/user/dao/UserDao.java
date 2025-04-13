@@ -27,12 +27,12 @@ public class UserDao {
         String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
                 "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
                 "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
-                "       GROUP_CONCAT(DISTINCT CONCAT(res.resource_name, ':', rr.permission) ORDER BY res.resource_name ASC) AS permissions " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_resource rr ON r.id = rr.role_id " +
-                "LEFT JOIN resource res ON rr.resource_id = res.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
+                "LEFT JOIN resource res ON rr.resourceId = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
 
@@ -83,7 +83,7 @@ public class UserDao {
             return users;
         });
     }
-
+    
     public boolean registerUser(User user) {
         String userSql = "INSERT INTO users (userName, avatar, password, firstName, lastName, email, phone, address, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String checkRoleSql = "SELECT COUNT(*) FROM user_roles WHERE userId = ? AND roleId = ?";
@@ -455,12 +455,12 @@ public class UserDao {
 
     public List<String> getRoleNameByUserName(String userName) {
         String sql = """
-                    SELECT r.roleName 
-                    FROM users u 
-                    JOIN user_roles ur ON u.id = ur.userId 
-                    JOIN roles r ON ur.roleId = r.id 
-                    WHERE u.userName = ?
-                """;
+        SELECT r.roleName 
+        FROM users u 
+        JOIN user_roles ur ON u.id = ur.userId 
+        JOIN roles r ON ur.roleId = r.id 
+        WHERE u.userName = ?
+    """;
 
         List<String> roles = new ArrayList<>();
         try (Connection conn = JDBIConnector.get().open().getConnection();
@@ -478,17 +478,18 @@ public class UserDao {
         return roles;
     }
 
+
     public Map<String, Integer> getPermissionByUserName(String userName) {
         String sql = """
-                    SELECT res.resource_name, SUM(rr.permission) as permission
-                    FROM users u
-                    JOIN user_roles ur ON u.id = ur.userId
-                    JOIN roles r ON ur.roleId = r.id
-                    JOIN role_resource rr ON r.id = rr.roleId
-                    JOIN resource res ON rr.resource_id = res.id
-                    WHERE u.userName = ?
-                    GROUP BY res.resource_name
-                """;
+        SELECT res.resourceName, SUM(rr.permission) as permission
+        FROM users u
+        JOIN user_roles ur ON u.id = ur.userId
+        JOIN roles r ON ur.roleId = r.id
+        JOIN role_resource rr ON r.id = rr.roleId
+        JOIN resource res ON rr.resourceId = res.id
+        WHERE u.userName = ?
+        GROUP BY res.resourceName
+    """;
 
         Map<String, Integer> permissions = new HashMap<>();
         try (Connection conn = JDBIConnector.get().open().getConnection();
@@ -497,7 +498,7 @@ public class UserDao {
             ps.setString(1, userName);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    permissions.put(rs.getString("resource_name"), rs.getInt("permission"));
+                    permissions.put(rs.getString("resourceName"), rs.getInt("permission"));
                 }
             }
         } catch (SQLException e) {
@@ -505,7 +506,6 @@ public class UserDao {
         }
         return permissions;
     }
-
 
 
 }

@@ -21,7 +21,6 @@ function openOrderItemDetails(event) {
         cache: false,
         success: function (data) {
             console.log(JSON.stringify(data)); // In ra dữ liệu nhận được từ server
-
             if (data && data.length > 0) {
                 let orderItemDetailListContent = '';
 

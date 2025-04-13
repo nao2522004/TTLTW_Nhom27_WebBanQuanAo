@@ -491,7 +491,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `roleName`) VALUES
-(1, 'Admin'),
+(1, 'ADMIN'),
 (2, 'USER');
 
 -- --------------------------------------------------------

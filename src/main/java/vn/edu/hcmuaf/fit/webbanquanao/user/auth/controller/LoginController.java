@@ -45,7 +45,7 @@ public class LoginController extends HttpServlet {
             System.out.println("Permissions: " + user.getPermissions());
 
             // Kiểm tra quyền admin
-            if (user.hasRole("Admin")) {
+            if (user.hasRole("ADMIN")) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/homePage");

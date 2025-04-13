@@ -203,7 +203,9 @@
                             <td style="width: 7%"><input type="number" name="id" id="edit-idOrder" readonly></td>
                             <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
                             <td>
-                                <select name="paymentId" id="edit-paymentId" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
+                                <select name="paymentId" id="edit-paymentId"
+                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        required>
                                     <option value="1">Tiền mặt</option>
                                     <option value="2">Chuyển khoản</option>
                                     <option value="3">Thẻ tín dụng</option>
@@ -214,7 +216,9 @@
                             <td><input type="datetime-local" name="orderDate" id="edit-orderDate" required></td>
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
-                                <select name="status" id="edit-statusOrder" style="display: flex !important; align-items: center !important; justify-content: center !important;" required>
+                                <select name="status" id="edit-statusOrder"
+                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        required>
                                     <option value="0">Đã Hủy</option>
                                     <option value="1">Đang xử lý</option>
                                     <option value="2">Đang giao hàng</option>
@@ -373,8 +377,6 @@
                     <th>SDT</th>
                     <th>Ngày tạo</th>
                     <th>Trạng thái</th>
-                    <th>Vai trò</th>
-                    <th>Quyền</th>
                     <th>Hành động</th>
                 </tr>
                 </thead>
@@ -402,8 +404,6 @@
                             <th>SDT</th>
                             <th>Ngày tạo</th>
                             <th>Trạng thái</th>
-                            <th>Vai trò</th>
-                            <th>Quyền</th>
                             <th>Hành động</th>
                         </tr>
                         </thead>
@@ -429,18 +429,37 @@
                                     <option value="4">Đã xóa</option>
                                 </select>
                             </td>
-                            <td>
-                                <select name="role" id="edit-role" required>
-                                    <option value="1">Admin</option>
-                                    <option value="2">User</option>
-                                </select>
-                            </td>
                             <td><span type="submit" onclick="saveUserEdits(event)" class="primary material-icons-sharp">save</span>
                             </td>
                         </tr>
                         </tbody>
                     </table>
 
+                </form>
+            </div>
+        </div>
+
+        <!-- Popup vai trò và quyền của user -->
+        <div class="overlay overlay-userRolePermissons">
+            <div class="recent-orders popup popup-userRolePermissons"
+                 style="position: relative; transform: translate(14%, 40%);">
+                <span onclick="hideOverlayuserRolePermissons(event)" class="material-icons-sharp close"> close </span>
+                <h2>Quyền hạn người dùng</h2>
+                <form id="userRolePermissons-form">
+                    <table id="userRolePermissons--table">
+                        <thead>
+                        <tr>
+                            <th style="width: 125px">Tài khoản</th>
+                            <th style="width: 125px">Tên</th>
+                            <th style="width: 150px; margin-right: 10px">Vai trò</th>
+                            <th>Quyền hạn</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Dữ liệu sẽ được chèn vào đây bằng JavaScript -->
+                        </tbody>
+                    </table>
                 </form>
             </div>
         </div>
@@ -726,7 +745,9 @@
 <script src="admin/js/orders.js"></script>
 <script src="admin/js/orderDetails.js"></script>
 <script src="admin/js/users.js"></script>
+<script src="admin/js/userRolePermission.js"></script>
 <script src="admin/js/products.js"></script>
+
 
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -735,7 +756,6 @@
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <!-- DataTables CSS -->
 <link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" rel="stylesheet">
-
 
 
 </body>
