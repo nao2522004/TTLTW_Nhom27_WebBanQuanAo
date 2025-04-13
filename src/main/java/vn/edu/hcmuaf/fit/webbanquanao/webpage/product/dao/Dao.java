@@ -1,8 +1,8 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.newModel.Product;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.newModel.ProductDetail;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel.ProductDetail;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -118,8 +118,6 @@ public class Dao {
             return products;
         });
     }
-
-    //
 
     public static void main(String[] args) {
         Dao dao = new Dao();
