@@ -12,9 +12,8 @@ public class CartService {
     }
 
     // Lấy toàn bộ sản phẩm từ giỏ hàng
-    public List<Product> getCart(int userId) {
-        List<Product> re = new ArrayList<>();
-        return re;
+    public List<CartItem> getCart(int userId) {
+        return cartDAO.getAllCartItems(userId);
     }
 
     // Thêm sản phẩm vào giỏ hàng
@@ -49,10 +48,12 @@ public class CartService {
 
     public static void main(String[] args) {
         CartService cartService = new CartService();
-        System.out.println(cartService.addToCart(2,1,4,274550.00,1));
-        System.out.println(cartService.addToCart(2,1,1,274550.00,2));
-        System.out.println(cartService.addToCart(2,1,1,274550.00,3));
-        System.out.println(cartService.addToCart(2,1,1,274550.00,4));
+//        System.out.println(cartService.addToCart(2,1,4,274550.00,1));
+//        System.out.println(cartService.addToCart(2,1,1,274550.00,2));
+//        System.out.println(cartService.addToCart(2,1,1,274550.00,3));
+//        System.out.println(cartService.addToCart(2,1,1,274550.00,4));
+//        System.out.println(cartService.getCart(2));
+
         System.out.println(cartService.getCart(2));
     }
 }

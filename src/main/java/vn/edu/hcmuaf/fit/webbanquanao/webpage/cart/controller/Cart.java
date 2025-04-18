@@ -21,7 +21,7 @@ public class Cart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Hiển thị giỏ hàng
         int userId = Integer.parseInt(request.getParameter("userId"));
-        List<Product> cart = cartService.getCart(userId);
+        List<CartItem> cart = cartService.getCart(userId);
         request.setAttribute("cart", cart);
         request.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(request, response);
     }

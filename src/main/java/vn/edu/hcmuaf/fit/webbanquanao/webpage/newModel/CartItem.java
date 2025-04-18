@@ -13,9 +13,11 @@ public class CartItem {
     private String image;
     private String color;
 
+    private String name;
+
     public CartItem() {}
 
-    public CartItem(int id, int cartId, int couponId, int quantity, double unitPrice, int productId, String size, int stock, String image, String color) {
+    public CartItem(int id, int cartId, int couponId, int quantity, double unitPrice, int productId, String size, int stock, String image, String color, String name) {
         this.id = id;
         this.cartId = cartId;
         this.couponId = couponId;
@@ -26,6 +28,7 @@ public class CartItem {
         this.stock = stock;
         this.image = image;
         this.color = color;
+        this.name = name;
     }
 
     public int getId() {
@@ -108,6 +111,14 @@ public class CartItem {
         this.color = color;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +
@@ -121,6 +132,7 @@ public class CartItem {
                 ", stock=" + stock +
                 ", image='" + image + '\'' +
                 ", color='" + color + '\'' +
-                '}';
+                ", name='" + name + '\'' +
+                "}\n";
     }
 }

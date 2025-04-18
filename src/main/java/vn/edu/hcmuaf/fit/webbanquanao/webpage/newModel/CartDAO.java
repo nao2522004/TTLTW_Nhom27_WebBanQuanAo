@@ -17,8 +17,46 @@ public class CartDAO {
         conn = new JDBIConnector();
     }
 
-    // Lấy ra các sản phẩm trong giỏ hàng
+    // Lấy ra tất cả các sản phẩm trong giỏ hàng
+    public List<CartItem> getAllCartItems(int userId) {
+        String sql = "SELECT cd.id, cd.cartId, cd.couponId, cd.quantity, cd.unitPrice, "
+                + "pd.productId, pd.size, pd.stock, pd.image, pd.color, "
+                + "p.productName as name "
+                + "FROM cart c "
+                + "JOIN cartdetail cd ON c.id = cd.cartId "
+                + "JOIN product_details pd ON cd.productDetailsId = pd.id "
+                + "JOIN products p ON pd.productId = p.id "
+                + "WHERE c.userId = ?";
 
+        return conn.get().withHandle(h -> {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+               stmt.setInt(1, userId);
+               try(ResultSet rs = stmt.executeQuery()) {
+                   List<CartItem> cartItems = new ArrayList<>();
+                   while (rs.next()) {
+                       CartItem item = new CartItem(
+                               rs.getInt("id"),
+                               rs.getInt("cartId"),
+                               rs.getInt("couponId"),
+                               rs.getInt("quantity"),
+                               rs.getDouble("unitPrice"),
+                               rs.getInt("productId"),
+                               rs.getString("size"),
+                               rs.getInt("stock"),
+                               rs.getString("image"),
+                               rs.getString("color"),
+                               rs.getString("name")
+                       );
+                       cartItems.add(item);
+                   }
+                   return cartItems;
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+               return null;
+           }
+        });
+    }
 
     // Thêm sản phẩm vào giỏ hàng
     public boolean addToCart(int userId, int couponId, int quantity, double unitPrice, int productDetailId) {
