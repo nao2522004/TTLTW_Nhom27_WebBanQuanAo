@@ -17,10 +17,70 @@ public class CartDAO {
         conn = new JDBIConnector();
     }
 
+    // Lấy ra các sản phẩm trong giỏ hàng
+    public List<Product> getAllProducts(int userId) {
+        String sql = "SELECT" +
+                "    p.id AS productId," +
+                "    p.typeId," +
+                "    p.categoryId," +
+                "    p.supplierId," +
+                "    p.productName," +
+                "    p.description," +
+                "    p.releaseDate," +
+                "    p.unitSold," +
+                "    p.unitPrice," +
+                "    p.status," +
+                "    pd.id AS productDetailId," +
+                "    pd.size," +
+                "    pd.stock," +
+                "    pd.image," +
+                "    pd.color " +
+                "FROM cart c " +
+                "JOIN cartdetail cd ON c.id = cd.cartId " +
+                "JOIN product_details pd ON cd.productDetailsId = pd.id " +
+                "JOIN products p ON pd.productId = p.id " +
+                "WHERE c.userId = ?";
+        List<Product> products = new ArrayList<>();
+
+        return conn.get().withHandle(h -> {
+            try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+                stmt.setInt(1, userId);
+                try(ResultSet resultSet = stmt.executeQuery()) {
+                    Product p = new Product();
+                    while (resultSet.next()) {
+                        p.setId(resultSet.getInt("productId"));
+                        p.setTypeId(resultSet.getInt("typeId"));
+                        p.setCategoryId(resultSet.getInt("categoryId"));
+                        p.setSupplierId(resultSet.getInt("supplierId"));
+                        p.setProductName(resultSet.getString("productName"));
+                        p.setDescription(resultSet.getString("description"));
+                        p.setReleaseDate(resultSet.getDate("releaseDate"));
+                        p.setUnitSold(resultSet.getInt("unitSold"));
+                        p.setUnitPrice(resultSet.getDouble("unitPrice"));
+                        p.setStatus(resultSet.getInt("status"));
+
+                        ProductDetail detail = new ProductDetail();
+                        detail.setId(resultSet.getInt("productDetailId"));
+                        detail.setProductId(p.getId());
+                        detail.setSize(resultSet.getString("size"));
+                        detail.setStock(resultSet.getInt("stock"));
+                        detail.setImage(resultSet.getString("image"));
+                        detail.setColor(resultSet.getString("color"));
+                        p.getDetails().add(detail);
+                    }
+                    products.add(p);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return products;
+        });
+    }
+
     // Thêm sản phẩm vào giỏ hàng
     public boolean addToCart(int userId, int couponId, int quantity, double unitPrice, int productDetailId) {
         int cartId = createCart(userId);
-        return add(cartId, couponId, quantity, unitPrice, productDetailId);
+        return add(userId, cartId, couponId, quantity, unitPrice, productDetailId);
     }
 
     // Lấy id giỏ hàng của user hoặc tạo mới giỏ hàng
@@ -59,11 +119,11 @@ public class CartDAO {
     }
 
     // Thêm sản phẩm vào chi tiết giỏ hàng
-    public boolean add(int cartId, int couponId, int quantity, double unitPrice, int productDetailId) {
-        query = "INSERT INTO cartdetail (cartId, couponId, quantity, unitPrice, productDetailsId) VALUES (?, ?, ?, ?, ?)";
+    public boolean add(int userId, int cartId, int couponId, int quantity, double unitPrice, int productDetailId) {
+        String sql = "INSERT INTO cartdetail (cartId, couponId, quantity, unitPrice, productDetailsId) VALUES (?, ?, ?, ?, ?)";
 
         return conn.get().withHandle(h -> {
-            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
                 stmt.setInt(1, cartId);
                 stmt.setInt(2, couponId);
                 stmt.setInt(3, quantity);
@@ -76,6 +136,29 @@ public class CartDAO {
                 e.printStackTrace();
                 return false;
             }
+        });
+    }
+
+    // Kiểm tra xem sản phẩm này đã tồn tại trong giỏ hàng chưa
+    // Nếu có, trả về id của cartDetail, nếu không trả về -1
+    public int hasProduct(int userId, int productDetailId) {
+        String sql = "SELECT cd.id FROM cart c " +
+                "JOIN cartdetail cd ON c.id = cd.cartId " +
+                "WHERE c.userId = ? AND cd.productDetailsId = ?";
+
+        return conn.get().withHandle(h -> {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+                stmt.setInt(1, userId);
+                stmt.setInt(2, productDetailId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return -1;
         });
     }
 
@@ -92,6 +175,29 @@ public class CartDAO {
                 e.printStackTrace();
                 return false;
             }
+        });
+    }
+
+    // Lấy ra quantity của một sản phẩm trong giỏ hàng
+    // Trả về -1 nếu không tìm thấy hoặc có lỗi
+    public int getQuantityOfProduct(int userId, int productDetailId) {
+        String sql = "SELECT cd.quantity FROM cart c " +
+                "JOIN cartdetail cd ON c.id = cd.cartId " +
+                "WHERE c.userId = ? AND cd.productDetailsId = ?";
+
+        return conn.get().withHandle(h -> {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+                stmt.setInt(1, userId);
+                stmt.setInt(2, productDetailId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("quantity");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return -1;
         });
     }
 

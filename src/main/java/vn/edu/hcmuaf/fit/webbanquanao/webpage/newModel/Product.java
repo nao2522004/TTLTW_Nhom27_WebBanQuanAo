@@ -17,7 +17,9 @@ public class Product {
     private int status;
     private List<ProductDetail> details;
 
-    public Product() {}
+    public Product() {
+        this.details = new ArrayList<>();
+    }
 
     // deep copy
     public Product(Product otherProduct) {
