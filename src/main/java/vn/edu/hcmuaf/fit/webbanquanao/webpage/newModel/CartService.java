@@ -13,7 +13,8 @@ public class CartService {
 
     // Lấy toàn bộ sản phẩm từ giỏ hàng
     public List<Product> getCart(int userId) {
-        return cartDAO.getAllProducts(userId);
+        List<Product> re = new ArrayList<>();
+        return re;
     }
 
     // Thêm sản phẩm vào giỏ hàng
