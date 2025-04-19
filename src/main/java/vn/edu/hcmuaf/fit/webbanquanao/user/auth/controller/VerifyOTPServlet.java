@@ -22,7 +22,8 @@ public class VerifyOTPServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String otpInput = request.getParameter("otp");
         HttpSession session = request.getSession();
         User tempUser = (User) session.getAttribute("tempUser");
@@ -35,24 +36,36 @@ public class VerifyOTPServlet extends HttpServlet {
 
         String storedOTP = OTPStorage.getOTP(tempUser.getEmail());
 
-        if (storedOTP == null || !storedOTP.equals(otpInput)) {
-            session.setAttribute("otpError", "Mã OTP không chính xác!");
-            response.sendRedirect("verify.jsp");
-        } else {
-            // OTP hợp lệ -> Lưu user vào database
-            boolean isSuccess = userDao.registerUser(tempUser);
-            if (isSuccess) {
-                OTPStorage.removeOTP(tempUser.getEmail());
-                session.setAttribute("auth", tempUser);
-                response.sendRedirect("homePage");
-            } else {
-                session.setAttribute("otpError", "Lỗi đăng ký tài khoản, vui lòng thử lại.");
-                response.sendRedirect("login.jsp");
-            }
-        }
         System.out.println("Stored OTP: " + storedOTP);
         System.out.println("User input OTP: " + otpInput);
 
+        if (storedOTP == null || !storedOTP.equals(otpInput)) {
+            session.setAttribute("otpError", "Mã OTP không chính xác!");
+            response.sendRedirect("verify.jsp");
+            return;
+        }
+
+        // OTP đúng → tiến hành đăng ký
+        boolean isSuccess = userDao.registerUser(tempUser);
+        if (isSuccess) {
+            // Cập nhật trạng thái kích hoạt
+            userDao.updateUserStatus(tempUser.getEmail(), 1);
+
+            // Xóa OTP
+            OTPStorage.removeOTP(tempUser.getEmail());
+
+            // Load lại user đã cập nhật từ DB để có status = 1
+            User updatedUser = userDao.findByEmail(tempUser.getEmail());
+            System.out.println("User status after update: " + updatedUser.getStatus());
+
+            // Lưu vào session
+            session.setAttribute("auth", updatedUser);
+
+            // Chuyển hướng đến trang chủ
+            response.sendRedirect("homePage");
+        } else {
+            session.setAttribute("otpError", "Lỗi đăng ký tài khoản, vui lòng thử lại.");
+            response.sendRedirect("login.jsp");
+        }
     }
 }
-

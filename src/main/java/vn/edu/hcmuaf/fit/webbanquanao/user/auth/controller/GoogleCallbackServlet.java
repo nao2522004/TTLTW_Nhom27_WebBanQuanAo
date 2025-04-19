@@ -8,6 +8,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.service.GoogleUserInfo;
+import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,13 +17,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
-
 
 @WebServlet("/google-callback")
 public class GoogleCallbackServlet extends HttpServlet {
@@ -84,7 +83,6 @@ public class GoogleCallbackServlet extends HttpServlet {
         String email = userInfo.getEmail(accessToken);
         String fullName = userInfo.getFullName(accessToken);
 
-
         if (email == null || fullName == null) {
             resp.sendRedirect("login.jsp?error=Failed to retrieve user info");
             return;
@@ -119,7 +117,7 @@ public class GoogleCallbackServlet extends HttpServlet {
             user = userDao.getUserByEmail(email);
         }
 
-        // Set user object in session (consistent attribute name)
+        // Set user object in session
         session.setAttribute("auth", user);
 
         // Redirect to home page

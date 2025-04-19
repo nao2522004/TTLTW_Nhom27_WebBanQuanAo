@@ -187,25 +187,6 @@ public class UserDao {
         });
     }
 
-    public int getRoleIdByName(String roleName) {
-        String sql = "SELECT id FROM roles WHERE roleName = ?";
-        return dbConnect.get().withHandle(handle -> {
-            try (Connection conn = handle.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, roleName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("id");
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return -1; // Return -1 if role not found
-        });
-    }
-
-
     private int getRoleId(Connection conn, String roleName) throws SQLException {
         String sql = "SELECT id FROM roles WHERE roleName = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -216,22 +197,37 @@ public class UserDao {
         }
     }
 
-    // Kiểm tra xem email đã tồn tại chưa
-    public boolean isEmailExist(String email) {
-        String sql = "SELECT * FROM users WHERE email = ?";
-
+    public boolean isUsernameExists(String username) {
+        String sql = "SELECT COUNT(*) FROM users WHERE userName = ?";
         return dbConnect.get().withHandle(handle -> {
-            try (Connection conn = handle.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-
-                ps.setString(1, email);
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, username);
                 try (ResultSet rs = ps.executeQuery()) {
-                    return rs.next();
+                    if (rs.next()) {
+                        return rs.getInt(1) > 0;
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
+            return false;
+        });
+    }
+
+    public boolean isEmailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, email);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt(1) > 0;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
         });
     }
 
@@ -362,7 +358,6 @@ public class UserDao {
         });
     }
 
-
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
@@ -385,6 +380,82 @@ public class UserDao {
             } catch (SQLException e) {
                 System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
                 e.printStackTrace(); // In chi tiết lỗi để debug
+            }
+            return null;
+        });
+    }
+
+    public boolean updateUserStatus(String email, int status) {
+        String sql = "UPDATE users SET status = ? WHERE email = ?";
+
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, status);
+                ps.setString(2, email);
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                System.err.println("Lỗi khi cập nhật trạng thái người dùng: " + e.getMessage());
+                return false;
+            }
+        });
+    }
+
+    public User findByEmail(String email) {
+        String sql = "SELECT u.id, u.userName, u.passWord, u.firstName, u.lastName, u.email, " +
+                "       u.avatar, u.address, u.phone, u.createdAt, u.status, " +
+                "       GROUP_CONCAT(DISTINCT r.roleName ORDER BY r.roleName ASC) AS roles, " +
+                "       GROUP_CONCAT(DISTINCT CONCAT(res.resourceName, ':', rr.permission) ORDER BY res.resourceName ASC) AS permissions " +
+                "FROM users u " +
+                "LEFT JOIN user_roles ur ON u.id = ur.userId " +
+                "LEFT JOIN roles r ON ur.roleId = r.id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
+                "LEFT JOIN resource res ON rr.resourceId = res.id " +
+                "WHERE u.email = ? " +
+                "GROUP BY u.id " +
+                "LIMIT 1";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, email);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUserName(rs.getString("userName"));
+                    user.setPassWord(rs.getString("passWord"));
+                    user.setFirstName(rs.getString("firstName"));
+                    user.setLastName(rs.getString("lastName"));
+                    user.setEmail(rs.getString("email"));
+                    user.setAvatar(rs.getString("avatar"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getInt("phone"));
+                    user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                    user.setStatus(rs.getInt("status"));
+
+                    // Roles
+                    user.setRoles(rs.getString("roles") != null ?
+                            new ArrayList<>(Arrays.asList(rs.getString("roles").split(","))) :
+                            new ArrayList<>());
+
+                    // Permissions
+                    Map<String, Integer> permissionsMap = new HashMap<>();
+                    if (rs.getString("permissions") != null) {
+                        String[] permissionsArray = rs.getString("permissions").split(",");
+                        for (String perm : permissionsArray) {
+                            String[] parts = perm.split(":");
+                            if (parts.length == 2) {
+                                permissionsMap.put(parts[0], Integer.parseInt(parts[1]));
+                            }
+                        }
+                    }
+                    user.setPermissions(permissionsMap);
+
+                    return user;
+                }
+            } catch (Exception e) {
+                System.out.println("Lỗi khi tìm user theo email: " + e.getMessage());
             }
             return null;
         });
