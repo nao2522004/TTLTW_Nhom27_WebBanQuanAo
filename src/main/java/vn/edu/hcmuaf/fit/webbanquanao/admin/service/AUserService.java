@@ -3,12 +3,17 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
-
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.util.*;
 
-
 public class AUserService {
+
+    private static final String ADMIN_ROLE = "ADMIN";
+    private static final String USER_ROLE = "USER";
+    private static final String STAFF_ROLE = "STAFF";
+    private static final String MANAGER_ROLE = "MANAGER";
+    private static final Integer IS_DELETED = 4; // Thêm hằng số IS_DELETED cho trạng thái xóa
 
     public Map<String, AUser> showUser() {
         AUserDao uDao = new AUserDao();
@@ -20,35 +25,25 @@ public class AUserService {
         return uDao.update(user, getUserByUsername(userName).getUserName());
     }
 
-//    public boolean createUser(AUser user) {
-//        AUserDao uDao = new AUserDao();
-//        if(uDao.listUser.containsKey(user.getUserName()))
-//            return false;
-//        return uDao.create(user);
-//    }
-
     public AUser getUserByUsername(String username) {
         AUserDao uDao = new AUserDao();
-        if (!uDao.listUser.containsKey(username))
-            return null;
+        if (!uDao.listUser.containsKey(username)) return null;
         return uDao.listUser.get(username);
     }
 
-    public Map<String, AUserRolePermission> getUserRolePermissionByUsername(String username) {
+    public Map<String, AUserRolePermission> getUserRoleByUsername(String username) {
         AUserDao uDao = new AUserDao();
-        if (!uDao.listUser.containsKey(username))
-            return null;
-        return uDao.getRolePermission(username);
+        if (!uDao.listUser.containsKey(username)) return null;
+        return uDao.getUserRolesByUserName(username);
     }
-
 
     public boolean deleteUser(String username) {
         AUserDao uDao = new AUserDao();
         if (!uDao.listUser.containsKey(username)) return false;
         AUser user = uDao.listUser.get(username);
-        if (user.getStatus() == 4) return false;
-        boolean isDeletedInDB = uDao.delete(username, 4);
-        if (isDeletedInDB) user.setStatus(4);
+        if (user.getStatus().equals(IS_DELETED)) return false;
+        boolean isDeletedInDB = uDao.delete(username, IS_DELETED);
+        if (isDeletedInDB) user.setStatus(IS_DELETED);
         return isDeletedInDB;
     }
 
@@ -64,25 +59,25 @@ public class AUserService {
         return uDao.getRoleNameByUserName(username);
     }
 
-    public void ManageUserRolesAndPermissions(String userName, List<String> newRolesName, Map<String, Integer> newPermissions) {
+    public boolean updateUserRolesWithPermissionCheck(User currentUser, String targetUserName, List<String> newRolesName) {
         AUserDao uDao = new AUserDao();
-        if (!uDao.listUser.containsKey(userName)) return;
-        AUser user = uDao.listUser.get(userName);
-        if (user.getStatus() == 4) return;
-
-        ManageUserRoles(userName, newRolesName);
-
-        ManageUserPermissions(userName, newPermissions);
+        if (!uDao.listUser.containsKey(targetUserName)) return false;
+        AUser user = uDao.listUser.get(targetUserName);
+        if (user.getStatus().equals(IS_DELETED)) return false;
+        // Kiểm tra quyền của người dùng hiện tại đối với người cần chỉnh sửa quyền
+        if (!canModifyUserRole(currentUser.getUserName(), targetUserName)) return false;
+        // Quản lý các thay đổi về role
+        ManageUserRoles(targetUserName, newRolesName);
+        return true;
     }
 
-
-    private void ManageUserRoles(String userName, List<String> newRolesName) {
+    public void ManageUserRoles(String userName, List<String> newRolesName) {
         AUserDao uDao = new AUserDao();
 
         // Lấy danh sách role hiện tại từ DB
         List<String> currentRoleNames = uDao.getRoleNameByUserName(userName);
 
-        // Dùng Set để so sánh
+        // Tạo các set để so sánh
         Set<String> currentRolesSet = new HashSet<>(currentRoleNames);
         Set<String> newRolesSet = new HashSet<>(newRolesName);
 
@@ -94,38 +89,43 @@ public class AUserService {
         Set<String> rolesToRemove = new HashSet<>(currentRolesSet);
         rolesToRemove.removeAll(newRolesSet);
 
-        // Convert role name -> role id
+        // Lấy ID của các role cần thêm và cần xóa
         List<Integer> roleIdsToAdd = uDao.getRoleIdByRoleName(new ArrayList<>(rolesToAdd));
         List<Integer> roleIdsToRemove = uDao.getRoleIdByRoleName(new ArrayList<>(rolesToRemove));
 
-        // Thêm và xóa role
+        // Thêm và xóa role từ DB
         uDao.addUserRoles(roleIdsToAdd, userName);
         uDao.removeUserRoles(roleIdsToRemove, userName);
     }
 
-    private void ManageUserPermissions(String userName, Map<String, Integer> newPermissions) {
-       AUserDao uDao = new AUserDao();
-       uDao.updateUserPermissions(userName, newPermissions);
-    }
+    public boolean canModifyUserRole(String currentUserName, String targetUserName) {
+        AUserDao uDao = new AUserDao();
 
+        if (!uDao.listUser.containsKey(targetUserName)) return false;
+        if (currentUserName.equals(targetUserName)) return false;
+
+        List<String> currentUserRoles = uDao.getRoleNameByUserName(currentUserName);
+        List<String> targetUserRoles = uDao.getRoleNameByUserName(targetUserName);
+
+        // Kiểm tra nếu người dùng hiện tại có quyền ADMIN
+        boolean isCurrentUserAdmin = currentUserRoles.contains(ADMIN_ROLE);
+        // Kiểm tra nếu người dùng hiện tại có quyền MANAGER
+        boolean isCurrentUserManager = currentUserRoles.contains(MANAGER_ROLE);
+
+        // ADMIN có thể thao tác với tất cả người dùng
+        if (isCurrentUserAdmin) return true;
+
+        // MANAGER chỉ có thể thay đổi quyền của USER và không thể thay đổi quyền của chính mình hoặc người cùng quyền
+        if (isCurrentUserManager) {
+            return targetUserRoles.contains(USER_ROLE); // Chỉ có thể thay đổi quyền của USER
+        }
+
+        // USER không có quyền thay đổi quyền của ai
+        return false;
+    }
 
     public static void main(String[] args) {
         AUserService userService = new AUserService();
-
-//        System.out.println(userService.showUser());
-//
-//        System.out.println(userService.getUserRolePermissionByUsername("admin"));
-
-//         userService.ManageUserRoles("user1", Arrays.asList("USER", "STAFF"));
-
-        userService.ManageUserPermissions("user1", new HashMap<String, Integer>() {{;
-            put("Admin", 1);
-            put("Cart", 1);
-            put("Order", 1);
-            put("Payment", 1);
-            put("Product", 1);
-            put("User", 1);
-        }});
+        System.out.println(userService.getUserRoleByUsername("user1"));
     }
-
 }

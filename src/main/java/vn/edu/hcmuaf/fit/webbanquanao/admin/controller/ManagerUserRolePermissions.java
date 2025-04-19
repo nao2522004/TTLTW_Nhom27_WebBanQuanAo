@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.AUserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
 
@@ -23,6 +24,7 @@ public class ManagerUserRolePermissions extends HttpServlet {
         super.init();
         userService = new AUserService();
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("userName");
@@ -31,7 +33,7 @@ public class ManagerUserRolePermissions extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         if (username != null && !username.isEmpty()) {
-            Map<String, AUserRolePermission> rolePermMap = userService.getUserRolePermissionByUsername(username);
+            Map<String, AUserRolePermission> rolePermMap = userService.getUserRoleByUsername(username);
 
             if (rolePermMap != null) {
                 List<AUserRolePermission> list = new ArrayList<>(rolePermMap.values());
@@ -61,6 +63,19 @@ public class ManagerUserRolePermissions extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
+            // Lấy người dùng đang đăng nhập từ session
+            HttpSession session = request.getSession(false);
+            User currentUser = (User) session.getAttribute("auth");
+
+            if (currentUser == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("{\"message\": \"Bạn chưa đăng nhập\"}");
+                return;
+            }
+
+            // ✅ Test: In ra userName trong session
+            System.out.println("User dang dang nhap: " + currentUser.getUserName());
+
             // Đọc JSON từ body
             StringBuilder jsonBuffer = new StringBuilder();
             String line;
@@ -80,15 +95,25 @@ public class ManagerUserRolePermissions extends HttpServlet {
                 return;
             }
 
-//            // Gọi Service để cập nhật
-//            userService.updateUserRolesAndPermissions(
-//                    updatedUser.getUserName(),
-//                    updatedUser.getRoles(),
-//                    updatedUser.getPermissions()
-//            );
+            // ✅ Test: In ra userName và danh sách quyền được gửi lên từ client
+            System.out.println("User duoc cap nhap quyen: " + updatedUser.getUserName());
+            System.out.println("Quyen duoc gui len: " + updatedUser.getRoles());
 
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().write("{\"message\": \"Cập nhật thành công\"}");
+            // Gọi service để kiểm tra quyền và cập nhật
+            boolean success = userService.updateUserRolesWithPermissionCheck(
+                    currentUser,
+                    updatedUser.getUserName(),
+                    updatedUser.getRoles()
+            );
+
+            if (success) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\": \"Cập nhật thành công\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("{\"message\": \"Bạn không có quyền thay đổi vai trò người dùng này\"}");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
