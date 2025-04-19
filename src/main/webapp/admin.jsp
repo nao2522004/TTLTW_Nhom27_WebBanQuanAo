@@ -442,7 +442,7 @@
         <!-- Popup vai trò và quyền của user -->
         <div class="overlay overlay-userRolePermissons">
             <div class="recent-orders popup popup-userRolePermissons"
-                 style="position: relative; transform: translate(14%, 40%);">
+                 style="width: 700px;position: relative; transform: translate(62%, 40%);">
                 <span onclick="hideOverlayuserRolePermissons(event)" class="material-icons-sharp close"> close </span>
                 <h2>Quyền hạn người dùng</h2>
                 <form id="userRolePermissons-form">
@@ -452,7 +452,6 @@
                             <th style="width: 125px">Tài khoản</th>
                             <th style="width: 125px">Tên</th>
                             <th style="width: 150px; margin-right: 10px">Vai trò</th>
-                            <th>Quyền hạn</th>
                             <th>Thao tác</th>
                         </tr>
                         </thead>
