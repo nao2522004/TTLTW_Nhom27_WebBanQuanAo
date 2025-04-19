@@ -31,7 +31,7 @@ public class UserDao {
                 "FROM users u " +
                 "LEFT JOIN user_roles ur ON u.id = ur.userId " +
                 "LEFT JOIN roles r ON ur.roleId = r.id " +
-                "LEFT JOIN role_resource rr ON r.id = rr.role_id " +
+                "LEFT JOIN role_resource rr ON r.id = rr.roleId " +
                 "LEFT JOIN resource res ON rr.resourceId = res.id " +
                 "GROUP BY u.id " +
                 "ORDER BY u.id DESC;";
