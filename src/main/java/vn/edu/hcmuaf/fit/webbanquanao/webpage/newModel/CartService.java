@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel;
 
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller.Cart;
+
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +22,19 @@ public class CartService {
     public boolean addToCart(int userId, int couponId, int quantity, double unitPrice, int productDetailId) {
         int cartDetailId = cartDAO.hasProduct(userId, productDetailId);
         if(cartDetailId > 0) {
-            return updateCart(cartDetailId, cartDAO.getQuantityOfProduct(userId, productDetailId) + quantity);
+            return updateCart(userId, productDetailId, cartDAO.getQuantityOfProduct(userId, productDetailId) + quantity);
         } else {
             return cartDAO.addToCart(userId, couponId, quantity, unitPrice, productDetailId);
         }
     }
 
     // Cập nhật số lượng sản phẩm
-    public boolean updateCart(int cartDetailId, int quantity) {
-        return cartDAO.updateCart(cartDetailId, quantity);
+    public boolean updateCart(int userId, int productDetailId, int quantity) {
+        int temp = cartDAO.getQuantityOfProduct(userId, productDetailId) + quantity;
+        if(temp > 0) {
+            return cartDAO.updateCart(userId, productDetailId, temp);
+        }
+        return false;
     }
 
     // Xóa sản phẩm khỏi giỏ hàng

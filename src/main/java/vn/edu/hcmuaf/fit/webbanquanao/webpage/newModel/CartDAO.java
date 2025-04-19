@@ -144,15 +144,20 @@ public class CartDAO {
     }
 
     // Cập nhật lại số lượng của một sản phẩm trong giỏ hàng
-    public boolean updateCart(int cartDetailId, int quantity) {
-        String sql = "UPDATE cartdetail SET quantity = ? WHERE id = ?";
+    public boolean updateCart(int userId, int productDetailId, int quantity) {
+        String sql = "UPDATE cartdetail cd " +
+                "JOIN cart c ON cd.cartId = c.id " +
+                "SET cd.quantity = ? " +
+                "WHERE c.userId = ? AND cd.productDetailsId = ?";
 
         return conn.get().withHandle(h -> {
             try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
                 stmt.setInt(1, quantity);
-                stmt.setInt(2, cartDetailId);
+                stmt.setInt(2, userId);
+                stmt.setInt(3, productDetailId);
+
                 return stmt.executeUpdate() > 0;
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
