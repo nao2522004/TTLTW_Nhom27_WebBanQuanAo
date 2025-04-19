@@ -5,8 +5,8 @@
 <head>
     <%@ include file="assets/includes/head.jsp"%>
     <title>Quên Mật Khẩu</title>
-    <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="stylesheet" href="./assets/css/forgot-password.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/main.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/forgot-password.css">
 </head>
 
 <body>
@@ -49,14 +49,11 @@
 
     <script>
         $(document).ready(function () {
-            // Ẩn thông báo sau 5 giây với hiệu ứng fade out
             setTimeout(function () {
                 $("#alertMessage").fadeOut("slow");
-
-
-
-
-            </div>
+            }, 5000);
+        });
+    </script>
 
     <div>
         <footer id="footer"><%@ include file="assets/includes/footer.jsp"%></footer>

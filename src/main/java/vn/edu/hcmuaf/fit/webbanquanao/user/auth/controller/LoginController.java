@@ -27,6 +27,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("userName");
         String password = request.getParameter("passWord");
+        String redirect = request.getParameter("redirect");
 
         AuthService service = new AuthService();
         User user = service.checkLogin(userName, password);
@@ -36,16 +37,13 @@ public class LoginController extends HttpServlet {
 
             // Lưu thông tin user vào session
             session.setAttribute("auth", user);
-            session.setAttribute("roles", user.getRoles()); // Lưu danh sách roles
-            session.setAttribute("permissions", user.getPermissions()); // Lưu quyền dạng Map
+            session.setAttribute("roles", user.getRoles());
+            session.setAttribute("permissions", user.getPermissions());
 
-            System.out.println("Notify in LoginController:");
-            System.out.println("Login success: " + userName);
-            System.out.println("Roles: " + user.getRoles());
-            System.out.println("Permissions: " + user.getPermissions());
-
-            // Kiểm tra quyền admin
-            if (user.hasRole("ADMIN")) {
+            // Ưu tiên chuyển hướng đến trang redirect nếu có
+            if (redirect != null && !redirect.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + redirect);
+            } else if (user.hasRole("ADMIN")) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/homePage");

@@ -187,24 +187,36 @@ public class UserDao {
         });
     }
 
-    public int getRoleIdByName(String roleName) {
-        String sql = "SELECT id FROM roles WHERE roleName = ?";
+    public User getUserByUserName(String userName) {
+        String sql = "SELECT * FROM users WHERE userName = ?";
+
         return dbConnect.get().withHandle(handle -> {
-            try (Connection conn = handle.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, roleName);
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        return rs.getInt("id");
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUserName(rs.getString("userName"));
+                        user.setPassWord(rs.getString("passWord"));
+                        user.setFirstName(rs.getString("firstName"));
+                        user.setLastName(rs.getString("lastName"));
+                        user.setEmail(rs.getString("email"));
+                        user.setAvatar(rs.getString("avatar"));
+                        user.setPhone(rs.getInt("phone"));
+                        user.setAddress(rs.getString("address"));
+                        user.setStatus(rs.getInt("status"));
+                        user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                        return user;
                     }
                 }
             } catch (SQLException e) {
+                System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
                 e.printStackTrace();
             }
-            return -1; // Return -1 if role not found
+            return null;
         });
     }
-
 
     private int getRoleId(Connection conn, String roleName) throws SQLException {
         String sql = "SELECT id FROM roles WHERE roleName = ?";
