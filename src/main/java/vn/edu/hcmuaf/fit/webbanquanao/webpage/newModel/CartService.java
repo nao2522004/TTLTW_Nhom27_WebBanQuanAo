@@ -32,8 +32,8 @@ public class CartService {
     }
 
     // Xóa sản phẩm khỏi giỏ hàng
-    public void removeFromCart(int productId) {
-        cartDAO.removeItem(productId);
+    public boolean removeFromCart(int cartDetailId) {
+        return cartDAO.removeItem(cartDetailId);
     }
 
     // Tính tổng tiền
@@ -44,16 +44,5 @@ public class CartService {
     // Lấy sản phẩm chi tiết dựa theo size và color
     public ProductDetail getProductDetailBySizeColor(String color, String size) {
         return cartDAO.getProductDetailBySizeColor(color, size);
-    }
-
-    public static void main(String[] args) {
-        CartService cartService = new CartService();
-//        System.out.println(cartService.addToCart(2,1,4,274550.00,1));
-//        System.out.println(cartService.addToCart(2,1,1,274550.00,2));
-//        System.out.println(cartService.addToCart(2,1,1,274550.00,3));
-//        System.out.println(cartService.addToCart(2,1,1,274550.00,4));
-//        System.out.println(cartService.getCart(2));
-
-        System.out.println(cartService.getCart(2));
     }
 }
