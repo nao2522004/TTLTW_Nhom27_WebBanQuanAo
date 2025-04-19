@@ -37,18 +37,18 @@ public class ProductSearch extends HttpServlet {
 
         products = service.searchByName(keyword);
         PrintWriter out = response.getWriter();
-        if (!products.isEmpty()) {
-            for (Product p : products) {
-                out.println("<div class=\"col-md-3 mt-4\">\n" +
-                        "                            <a href=\"productDetail?pid=" + p.getId() + "\" class=\"product-card\">\n" +
-                        "                                <img src=\"assets/product-imgs/" + p.getImages().getFirst() + "\" alt=\"" + p.getName() + "\" class=\"product-image img-fluid\">\n" +
-                        "                                <div class=\"product-title\">" + p.getName() + "</div>\n" +
-                        "                                <div class=\"product-price\" data-price=\"" + p.getUnitPrice() + "\"></div>\n" +
-                        "                            </a>\n" +
-                        "                        </div>");
-            }
-        } else {
-            out.println("<h2 class=\"display-5 mt-5 text-center w-100 no-result\">Không tìm thấy sản phẩm</h2>");
-        }
+//        if (!products.isEmpty()) {
+//            for (Product p : products) {
+//                out.println("<div class=\"col-md-3 mt-4\">\n" +
+//                        "                            <a href=\"productDetail?pid=" + p.getId() + "\" class=\"product-card\">\n" +
+//                        "                                <img src=\"assets/product-imgs/" + p.getImages().getFirst() + "\" alt=\"" + p.getName() + "\" class=\"product-image img-fluid\">\n" +
+//                        "                                <div class=\"product-title\">" + p.getName() + "</div>\n" +
+//                        "                                <div class=\"product-price\" data-price=\"" + p.getUnitPrice() + "\"></div>\n" +
+//                        "                            </a>\n" +
+//                        "                        </div>");
+//            }
+//        } else {
+//            out.println("<h2 class=\"display-5 mt-5 text-center w-100 no-result\">Không tìm thấy sản phẩm</h2>");
+//        }
     }
 }
