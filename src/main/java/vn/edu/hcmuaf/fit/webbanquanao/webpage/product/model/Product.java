@@ -1,108 +1,102 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
-import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class Product implements Serializable {
-    private Integer id;
-    private String type;
-    private String category;
-    private String supplier;
-    private String name;
+public class Product {
+    private int id;
+    private int typeId;
+    private int categoryId;
+    private int supplierId;
+    private String productName;
     private String description;
     private Date releaseDate;
-    private Integer unitSold;
+    private int unitSold;
     private double unitPrice;
-    private boolean status;
-    private List<String> sizes;
-    private Integer stock;
-    private List<String> images;
-    private List<String> colors;
-    private Integer productDetailId;
+    private int status;
+    private List<ProductDetail> details;
 
     public Product() {
-        this.sizes = new ArrayList<String>();
-        this.images = new ArrayList<String>();
-        this.colors = new ArrayList<String>();
+        this.details = new ArrayList<>();
     }
 
-    public Product(Product product) {
-        this.id = product.getId();
-        this.type = product.getType();
-        this.category = product.getCategory();
-        this.supplier = product.getSupplier();
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.releaseDate = product.getReleaseDate();
-        this.unitSold = product.getUnitSold();
-        this.unitPrice = product.getUnitPrice();
-        this.status = product.isStatus();
-        this.sizes = product.getSizes();
-        this.stock = product.getStock();
-        this.images = product.getImages();
-        this.colors = product.getColors();
-        this.productDetailId = product.productDetailId;
+    // deep copy
+    public Product(Product otherProduct) {
+        this.id = otherProduct.id;
+        this.typeId = otherProduct.typeId;
+        this.categoryId = otherProduct.categoryId;
+        this.supplierId = otherProduct.supplierId;
+        this.productName = otherProduct.productName;
+        this.description = otherProduct.description;
+        this.releaseDate = (otherProduct.releaseDate != null) ? new Date(otherProduct.releaseDate.getTime()) : null;
+        this.unitSold = otherProduct.unitSold;
+        this.unitPrice = otherProduct.unitPrice;
+        this.status = otherProduct.status;
+
+        // detail list
+        if (otherProduct.details != null) {
+            this.details = new ArrayList<>();
+            for (ProductDetail detail : otherProduct.details) {
+                this.details.add(new ProductDetail(detail));
+            }
+        } else {
+            this.details = null;
+        }
     }
 
-    public Product(Integer id, String type, String category, String supplier, String name, String description, Date releaseDate, Integer unitSold, double unitPrice, boolean status, List<String> sizes, Integer stock, List<String> imgs, List<String> colors, Integer productDetailId) {
+    public Product(int id, int typeId, int categoryId, int supplierId, String productName, String description, Date releaseDate, int unitSold, double unitPrice, int status, List<ProductDetail> details) {
         this.id = id;
-        this.type = type;
-        this.category = category;
-        this.supplier = supplier;
-        this.name = name;
+        this.typeId = typeId;
+        this.categoryId = categoryId;
+        this.supplierId = supplierId;
+        this.productName = productName;
         this.description = description;
         this.releaseDate = releaseDate;
         this.unitSold = unitSold;
         this.unitPrice = unitPrice;
         this.status = status;
-        this.sizes = sizes;
-        this.stock = stock;
-        this.images = imgs;
-        this.colors = colors;
-        this.productDetailId = productDetailId;
+        this.details = details;
     }
 
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
-    public String getCategory() {
-        return category;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getSupplier() {
-        return supplier;
+    public int getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
+    public void setSupplierId(int supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getDescription() {
@@ -113,19 +107,19 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public java.sql.Date getReleaseDate() {
-        return (java.sql.Date) releaseDate;
+    public Date getReleaseDate() {
+        return releaseDate;
     }
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getUnitSold() {
+    public int getUnitSold() {
         return unitSold;
     }
 
-    public void setUnitSold(Integer unitSold) {
+    public void setUnitSold(int unitSold) {
         this.unitSold = unitSold;
     }
 
@@ -137,60 +131,36 @@ public class Product implements Serializable {
         this.unitPrice = unitPrice;
     }
 
-    public boolean isStatus() {
+    public int getStatus() {
         return status;
     }
 
-
-    public void setStatus(boolean status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public List<String> getSizes() {
-        return sizes;
+    public List<ProductDetail> getDetails() {
+        return details;
     }
 
-    public void setSizes(List<String> sizes) {
-        this.sizes = sizes;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
-    public List<String> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<String> colors) {
-        this.colors = colors;
-    }
-
-    public Integer getProductDetailId() {
-        return productDetailId;
-    }
-
-    public void setProductDetailId(Integer productDetailId) {
-        this.productDetailId = productDetailId;
+    public void setDetails(List<ProductDetail> details) {
+        this.details = details;
     }
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", type='" + type + '\'' + ", category='" + category + '\'' + ", supplier='" + supplier + '\'' + ", name='" + name + '\'' + ", description='" + description + '\'' + ", releaseDate=" + releaseDate + ", unitSold=" + unitSold + ", unitPrice=" + unitPrice + ", status=" + status + ", sizes=" + sizes + ", stock=" + stock + ", imgs=" + images + ", colors=" + colors + "} \n";
+        return "Product{" +
+                "id=" + id +
+                ", typeId=" + typeId +
+                ", categoryId=" + categoryId +
+                ", supplierId=" + supplierId +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", unitSold=" + unitSold +
+                ", unitPrice=" + unitPrice +
+                ", status=" + status +
+                ", details=" + details +
+                "} \n";
     }
-
-
 }

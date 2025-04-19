@@ -1,8 +1,8 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel.Product;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel.ProductDetail;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

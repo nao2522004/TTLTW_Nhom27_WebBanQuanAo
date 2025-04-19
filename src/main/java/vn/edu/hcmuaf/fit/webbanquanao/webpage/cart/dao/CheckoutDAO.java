@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CartDao {
+public class CheckoutDAO {
 
     JDBIConnector conn;
     String query, query2;
 
-    public CartDao() {
+    public CheckoutDAO() {
         conn = new JDBIConnector();
     }
 
@@ -274,7 +274,7 @@ public class CartDao {
     }
 
     public static void main(String[] args) {
-        CartDao dao = new CartDao();
+        CheckoutDAO dao = new CheckoutDAO();
         System.out.println(dao.moveToOrder(13, 1, 20000, 0.0f, 1));
     }
 }

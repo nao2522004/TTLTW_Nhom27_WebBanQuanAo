@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel;
+package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
 public class ProductDetail {
     private int id;

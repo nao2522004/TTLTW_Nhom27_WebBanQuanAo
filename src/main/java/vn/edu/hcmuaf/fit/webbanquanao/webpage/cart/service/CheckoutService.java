@@ -1,11 +1,9 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service;
 
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao.CartDao;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartProduct;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao.CheckoutDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartProductDetail;
 
 import java.util.List;
-import java.util.Map;
 
 public class CheckoutService {
 
@@ -23,7 +21,7 @@ public class CheckoutService {
 
     // checkout
     public boolean checkout(int userId, int paymentId, int couponId) {
-        CartDao dao = new CartDao();
+        CheckoutDAO dao = new CheckoutDAO();
 
         // get products of cart
         List<CartProductDetail> products = dao.getCartByUserId(userId);

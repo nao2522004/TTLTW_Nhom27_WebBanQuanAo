@@ -3,7 +3,9 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.newModel.*;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.io.IOException;
 import java.util.List;
