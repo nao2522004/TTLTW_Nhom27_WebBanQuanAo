@@ -24,20 +24,17 @@
   <div class="group_icons">
     <a href="productSearch"><i class="fa-solid fa-magnifying-glass custom_size"></i></a>
     <%
-      Object authObj = session.getAttribute("auth");
-      User user = null;
-      if (authObj instanceof User) {
-        user = (User) authObj;
-      }
+      // Kiểm tra đối tượng người dùng đã đăng nhập
+      User user = (User) session.getAttribute("auth");  // Chỉ khai báo một lần duy nhất
 
-      if (user != null) {
+      if (user != null && user.getStatus() == 1) {  // Kiểm tra nếu user tồn tại và đã kích hoạt
     %>
-    <!-- Nếu người dùng đã đăng nhập, chuyển đến trang người dùng -->
+    <!-- Nếu người dùng đã đăng nhập và đã kích hoạt, chuyển đến trang người dùng -->
     <a href="user.jsp"><i class="fa-solid fa-user custom_size"></i></a>
     <%
     } else {
     %>
-    <!-- Nếu người dùng chưa đăng nhập, chuyển đến trang đăng nhập -->
+    <!-- Nếu người dùng chưa đăng nhập hoặc chưa kích hoạt, chuyển đến trang đăng nhập -->
     <a href="login.jsp"><i class="fa-solid fa-user custom_size"></i></a>
     <%
       }

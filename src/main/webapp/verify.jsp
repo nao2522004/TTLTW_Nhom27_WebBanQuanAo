@@ -29,7 +29,7 @@
         return;
     }
 
-    String error = (String) session.getAttribute("error");
+    String error = (String) session.getAttribute("otpError");
     if (error != null) {
         session.removeAttribute("error");
     }

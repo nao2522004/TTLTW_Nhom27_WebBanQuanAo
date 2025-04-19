@@ -22,42 +22,50 @@ public class VerifyOTPServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String otpInput = request.getParameter("otp");
         HttpSession session = request.getSession();
         User tempUser = (User) session.getAttribute("tempUser");
 
         if (tempUser == null) {
-            // Nếu không có tempUser, session đã hết hạn, chuyển hướng đến trang đăng ký lại
             session.setAttribute("otpError", "Phiên đã hết hạn. Vui lòng đăng ký lại.");
             response.sendRedirect("register.jsp");
             return;
         }
 
-        // Lấy OTP đã lưu từ bộ nhớ
         String storedOTP = OTPStorage.getOTP(tempUser.getEmail());
 
-        // Kiểm tra xem OTP nhập vào có khớp không
-        if (storedOTP == null || !storedOTP.equals(otpInput)) {
-            session.setAttribute("otpError", "Mã OTP không chính xác!");
-            response.sendRedirect("verify.jsp"); // Nếu không đúng OTP, chuyển lại trang verify
-        } else {
-            // Nếu OTP hợp lệ, đăng ký người dùng
-            boolean isSuccess = userDao.registerUser(tempUser);
-            if (isSuccess) {
-                OTPStorage.removeOTP(tempUser.getEmail()); // Xóa OTP sau khi đăng ký thành công
-                session.setAttribute("auth", tempUser); // Lưu người dùng vào session
-                response.sendRedirect("homePage"); // Chuyển đến trang chủ sau khi đăng ký thành công
-            } else {
-                session.setAttribute("otpError", "Lỗi đăng ký tài khoản, vui lòng thử lại.");
-                response.sendRedirect("login.jsp"); // Nếu lỗi đăng ký, chuyển về trang login
-            }
-        }
-
-        // In thông tin OTP để kiểm tra (debug)
         System.out.println("Stored OTP: " + storedOTP);
         System.out.println("User input OTP: " + otpInput);
+
+        if (storedOTP == null || !storedOTP.equals(otpInput)) {
+            session.setAttribute("otpError", "Mã OTP không chính xác!");
+            response.sendRedirect("verify.jsp");
+            return;
+        }
+
+        // OTP đúng → tiến hành đăng ký
+        boolean isSuccess = userDao.registerUser(tempUser);
+        if (isSuccess) {
+            // Cập nhật trạng thái kích hoạt
+            userDao.updateUserStatus(tempUser.getEmail(), 1);
+
+            // Xóa OTP
+            OTPStorage.removeOTP(tempUser.getEmail());
+
+            // Load lại user đã cập nhật từ DB để có status = 1
+            User updatedUser = userDao.findByEmail(tempUser.getEmail());
+            System.out.println("User status after update: " + updatedUser.getStatus());
+
+            // Lưu vào session
+            session.setAttribute("auth", updatedUser);
+
+            // Chuyển hướng đến trang chủ
+            response.sendRedirect("homePage");
+        } else {
+            session.setAttribute("otpError", "Lỗi đăng ký tài khoản, vui lòng thử lại.");
+            response.sendRedirect("login.jsp");
+        }
     }
 }
-
-
