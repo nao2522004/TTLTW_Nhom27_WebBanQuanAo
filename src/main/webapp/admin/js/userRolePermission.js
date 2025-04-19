@@ -136,7 +136,7 @@ function saveUserRolePermission(event) {
         }
 
         if (checkbox.checked) {
-            switch (permissionType.toLowerCase()) {
+            switch (permissionType) {
                 case 'Read': permissions[resource] |= 1; break;
                 case 'Write': permissions[resource] |= 2; break;
                 case 'Execute': permissions[resource] |= 4; break;

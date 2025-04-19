@@ -1,4 +1,5 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
+
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
@@ -52,6 +53,108 @@ public class AUserDao {
             return users;
         });
     }
+
+    public int getUserIdByUserName(String userName) {
+        String sql = "SELECT id FROM users WHERE userName = ?";
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Lỗi khi lấy ID của user: " + e.getMessage());
+            }
+            return -1; // Trả về -1 nếu không tìm thấy
+        });
+    }
+
+    public boolean create(Object obj) {
+        AUser user = (AUser) obj;
+        listUser.put(user.getUserName(), user);
+
+        String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, user.getUserName());
+                ps.setString(2, user.getPassWord());
+                ps.setString(3, user.getFirstName());
+                ps.setString(4, user.getLastName());
+                ps.setString(5, user.getEmail());
+                ps.setString(6, user.getAvatar());
+                ps.setString(7, user.getAddress());
+                ps.setString(8, user.getPhone());
+                ps.setInt(9, user.getStatus());
+
+                int affectedRows = ps.executeUpdate();
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int newId = generatedKeys.getInt(1);
+                            user.setId(newId); // Lưu ID mới vào đối tượng User
+                        }
+                    }
+                    return true;
+                }
+            } catch (Exception e) {
+                System.out.println("Lỗi khi tạo user: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
+
+    public boolean update(Object obj, String userName) {
+        return JDBIConnector.get().withHandle(handle -> {
+            AUser user = (AUser) obj;
+            listUser.replace(userName, user);
+
+            // 1️⃣ Chỉ cập nhật thông tin user trong bảng `users`
+            String updateUserSQL = "UPDATE users SET id=?, userName=?, firstName=?, lastName=?, email=?, avatar=?, address=?, phone=?, status=?, createdAt=? WHERE userName=?";
+
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(updateUserSQL)) {
+                ps.setInt(1, user.getId());
+                ps.setString(2, user.getUserName());
+                ps.setString(3, user.getFirstName());
+                ps.setString(4, user.getLastName());
+                ps.setString(5, user.getEmail());
+                ps.setString(6, user.getAvatar());
+                ps.setString(7, user.getAddress());
+                ps.setString(8, user.getPhone());
+                ps.setInt(9, user.getStatus());
+                ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
+                ps.setString(11, userName);
+
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu cập nhật thành công ít nhất 1 dòng
+            } catch (SQLException e) {
+                System.out.println("Lỗi khi cập nhật user: " + e.getMessage());
+                return false;
+            }
+        });
+    }
+
+
+    public boolean delete(String userName, Integer status) {
+        return JDBIConnector.get().withHandle(handle -> {
+            String sql = "UPDATE users SET status = ? WHERE userName = ?";
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setInt(1, status);
+                ps.setString(2, userName);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                System.out.println("Lỗi khi khóa user: " + e.getMessage());
+            }
+            return false;
+        });
+    }
+
+    /*===========================================================================*/
+    /*---------------------Dao for Role Permission User--------------------------*/
+    /*===========================================================================*/
 
     public Map<String, AUserRolePermission> getRolePermission(String username) {
         Map<String, AUserRolePermission> result = new HashMap<>();
@@ -134,85 +237,96 @@ public class AUserDao {
         return roleNames;
     }
 
+    public List<Integer> getRoleIdByRoleName(List<String> roles) {
+        List<Integer> roleIds = new ArrayList<>();
+        String sql = "SELECT id FROM roles WHERE roleName = ?";
 
-    public boolean create(Object obj) {
-        AUser user = (AUser) obj;
-        listUser.put(user.getUserName(), user);
-
-        String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        return JDBIConnector.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setString(1, user.getUserName());
-                ps.setString(2, user.getPassWord());
-                ps.setString(3, user.getFirstName());
-                ps.setString(4, user.getLastName());
-                ps.setString(5, user.getEmail());
-                ps.setString(6, user.getAvatar());
-                ps.setString(7, user.getAddress());
-                ps.setString(8, user.getPhone());
-                ps.setInt(9, user.getStatus());
-
-                int affectedRows = ps.executeUpdate();
-                if (affectedRows > 0) {
-                    try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                        if (generatedKeys.next()) {
-                            int newId = generatedKeys.getInt(1);
-                            user.setId(newId); // Lưu ID mới vào đối tượng User
+        JDBIConnector.get().useHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                for (String role : roles) {
+                    ps.setString(1, role);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            roleIds.add(rs.getInt("id"));
                         }
                     }
-                    return true;
                 }
             } catch (Exception e) {
-                System.out.println("Lỗi khi tạo user: " + e.getMessage());
-            }
-            return false;
-        });
-    }
-
-
-    public boolean update(Object obj, String userName) {
-        return JDBIConnector.get().withHandle(handle -> {
-            AUser user = (AUser) obj;
-            listUser.replace(userName, user);
-
-            // 1️⃣ Chỉ cập nhật thông tin user trong bảng `users`
-            String updateUserSQL = "UPDATE users SET id=?, userName=?, firstName=?, lastName=?, email=?, avatar=?, address=?, phone=?, status=?, createdAt=? WHERE userName=?";
-
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(updateUserSQL)) {
-                ps.setInt(1, user.getId());
-                ps.setString(2, user.getUserName());
-                ps.setString(3, user.getFirstName());
-                ps.setString(4, user.getLastName());
-                ps.setString(5, user.getEmail());
-                ps.setString(6, user.getAvatar());
-                ps.setString(7, user.getAddress());
-                ps.setString(8, user.getPhone());
-                ps.setInt(9, user.getStatus());
-                ps.setDate(10, java.sql.Date.valueOf(user.getCreatedAt().toLocalDate()));
-                ps.setString(11, userName);
-
-                int rowsAffected = ps.executeUpdate();
-                return rowsAffected > 0; // Trả về true nếu cập nhật thành công ít nhất 1 dòng
-            } catch (SQLException e) {
-                System.out.println("Lỗi khi cập nhật user: " + e.getMessage());
-                return false;
+                System.out.println("ServerD: Loi khi lay danh sach id quyen: " + e.getMessage());
             }
         });
+        return roleIds;
     }
 
+    public List<Integer> getRoleIdsByUserName(String username) {
+        List<Integer> roleIds = new ArrayList<>();
+        String sql = "SELECT r.id FROM users u " +
+                "JOIN user_roles ur ON u.id = ur.userId " +
+                "JOIN roles r ON ur.roleId = r.id " +
+                "WHERE u.userName = ?";
 
-    public boolean delete(String userName, Integer status) {
-        return JDBIConnector.get().withHandle(handle -> {
-            String sql = "UPDATE users SET status = ? WHERE userName = ?";
+        JDBIConnector.get().useHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, status);
-                ps.setString(2, userName);
-                return ps.executeUpdate() > 0;
+                ps.setString(1, username);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        roleIds.add(rs.getInt("id"));
+                    }
+                }
             } catch (Exception e) {
-                System.out.println("Lỗi khi khóa user: " + e.getMessage());
+                System.out.println("ServerD: Loi khi lay danh sach id quyen: " + e.getMessage());
             }
-            return false;
+        });
+        return roleIds;
+    }
+
+    public void addUserRoles(List<Integer> roleIds, String userName) {
+        String sql = "INSERT INTO user_roles (userId, roleId) VALUES (?, ?)";
+        JDBIConnector.get().useHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                for (Integer roleId : roleIds) {
+                    ps.setInt(1, getUserIdByUserName(userName));
+                    ps.setInt(2, roleId);
+                    ps.executeUpdate();
+                }
+            } catch (SQLException e) {
+                System.out.println("ServerD: Loi khi them quyen cho User: " + e.getMessage());
+            }
+        });
+    }
+
+    public void removeUserRoles(List<Integer> roleIds, String userName) {
+        String sql = "DELETE FROM user_roles WHERE userId = ? AND roleId = ?";
+        JDBIConnector.get().useHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                for (Integer roleId : roleIds) {
+                    ps.setInt(1, getUserIdByUserName(userName));
+                    ps.setInt(2, roleId);
+                    ps.executeUpdate();
+                }
+            } catch (SQLException e) {
+                System.out.println("ServerD: Loi khi xoa quyen cho User: " + e.getMessage());
+            }
+        });
+    }
+
+    public void updateUserPermissions(String userName, Map<String, Integer> newPermissions) {
+        String sql = "UPDATE role_resource SET permission = ? WHERE roleId = ? AND resourceId = (SELECT id FROM resource WHERE resourceName = ?)";
+        List<Integer> roleIds = getRoleIdsByUserName(userName); // gọi hàm mới
+
+        JDBIConnector.get().useHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                for (Integer roleId : roleIds) {
+                    for (Map.Entry<String, Integer> entry : newPermissions.entrySet()) {
+                        ps.setInt(1, entry.getValue());
+                        ps.setInt(2, roleId);
+                        ps.setString(3, entry.getKey());
+                        ps.executeUpdate();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("ServerD: Lỗi khi cập nhật quyền cho User: " + e.getMessage());
+            }
         });
     }
 
