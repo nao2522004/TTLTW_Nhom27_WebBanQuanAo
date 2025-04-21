@@ -291,6 +291,9 @@
             </button>
         </div>
 
+<%------/*==============================*/--%>
+<%------/*-------- Add User Form -------*/--%>
+<%------/*==============================*/--%>
         <section class="overlay-addUser">
             <form id="add-user-form">
                 <div class="form-group">
@@ -321,7 +324,7 @@
                         <input type="email" id="addEmailUser" name="email" placeholder="Nhập email." required>
                     </div>
                     <div class="form-group--items">
-                        <label for="addAvatarUser">Email</label>
+                        <label for="addAvatarUser">Avatar</label>
                         <input type="text" id="addAvatarUser" name="avatar" placeholder="Nhập avatar." required>
                     </div>
                 </div>
@@ -335,25 +338,18 @@
                         <input type="tel" id="addPhoneUser" name="phone" placeholder="Nhập số điện thoại." required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="form-group--items">
-                        <label for="addStatusUser">Trạng Thái</label>
-                        <select id="addStatusUser" name="status" required>
-                            <option type="number" value="0">Chưa kích hoạt</option>
-                            <option type="number" value="1">Hoạt Động</option>
-                            <option type="number" value="2">Bị khóa</option>
-                            <option type="number" value="3">Bị cấm</option>
-                            <option type="number" value="4">Đã xóa</option>
-                        </select>
-                    </div>
-                    <div class="form-group--items">
-                        <label for="addRoleIdUser">Quyền</label>
-                        <select id="addRoleIdUser" name="roleId" required>
-                            <option type="number" value="1">Admin</option>
-                            <option type="number" value="2">User</option>
-                        </select>
-                    </div>
-                </div>
+<%--                <div class="form-group">--%>
+<%--                    <div class="form-group--items">--%>
+<%--                        <label for="addStatusUser">Trạng Thái</label>--%>
+<%--                        <select id="addStatusUser" name="status" required>--%>
+<%--                            <option type="number" value="0">Chưa kích hoạt</option>--%>
+<%--                            <option type="number" value="1">Hoạt Động</option>--%>
+<%--                            <option type="number" value="2">Bị khóa</option>--%>
+<%--                            <option type="number" value="3">Bị cấm</option>--%>
+<%--                            <option type="number" value="4">Đã xóa</option>--%>
+<%--                        </select>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <button type="submit" onclick="createUser(event)" class="btn-primary">
                     <span class="material-icons-sharp"> add </span>
                     <h3>Thêm Người Dùng</h3>

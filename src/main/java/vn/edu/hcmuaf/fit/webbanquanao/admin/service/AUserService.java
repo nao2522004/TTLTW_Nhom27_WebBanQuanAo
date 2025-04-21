@@ -20,6 +20,12 @@ public class AUserService {
         return uDao.listUser;
     }
 
+    public boolean addUser(AUser user) {
+        AUserDao uDao = new AUserDao();
+        if (uDao.listUser.containsKey(user.getUserName())) return false;
+        return uDao.create(user);
+    }
+
     public boolean updateUser(AUser user, String userName) {
         AUserDao uDao = new AUserDao();
         return uDao.update(user, getUserByUsername(userName).getUserName());

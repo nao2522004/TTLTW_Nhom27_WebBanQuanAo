@@ -68,59 +68,59 @@ public class ManagerUsers extends HttpServlet {
         }
     }
 
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//
-//        try {
-//            // Đọc dữ liệu JSON từ client
-//            StringBuilder jsonBuffer = new StringBuilder();
-//            String line;
-//            try (BufferedReader reader = request.getReader()) {
-//                while ((line = reader.readLine()) != null) {
-//                    jsonBuffer.append(line);
-//                }
-//            }
-//            String json = jsonBuffer.toString();
-//
-//            // Parse JSON thành đối tượng User
-//            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
-//            AUser user = gson.fromJson(json, AUser.class);
-//
-//            // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
-//            if (user.getUserName() == null || user.getPassWord() == null) {
-//                throw new IllegalArgumentException("Tài khoản và mật khẩu không được để trống");
-//            }
-//
-//            // Gọi service để tạo user
-//            AUserService userService = new AUserService();
-//            boolean isCreated = userService.createUser(user);
-//
-//            // Phản hồi
-//            JsonObject jsonResponse = new JsonObject();
-//            if (isCreated) {
-//                jsonResponse.addProperty("message", "Người dùng đã được tạo thành công!");
-//                response.setStatus(HttpServletResponse.SC_CREATED);
-//            } else {
-//                jsonResponse.addProperty("message", "Không thể tạo người dùng. Tên đăng nhập đã tồn tại.");
-//                response.setStatus(HttpServletResponse.SC_CONFLICT);
-//            }
-//            response.getWriter().write(gson.toJson(jsonResponse));
-//        } catch (JsonSyntaxException e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            response.getWriter().write("{\"message\": \"Dữ liệu JSON không hợp lệ\"}");
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//            response.getWriter().write("{\"message\": \"" + e.getMessage() + "\"}");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
-//        }
-//    }
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            // Đọc dữ liệu JSON từ client
+            StringBuilder jsonBuffer = new StringBuilder();
+            String line;
+            try (BufferedReader reader = request.getReader()) {
+                while ((line = reader.readLine()) != null) {
+                    jsonBuffer.append(line);
+                }
+            }
+            String json = jsonBuffer.toString();
+
+            // Parse JSON thành đối tượng User
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+            AUser user = gson.fromJson(json, AUser.class);
+
+            // Kiểm tra các trường dữ liệu, đảm bảo không có giá trị null
+            if (user.getUserName() == null || user.getPassWord() == null) {
+                throw new IllegalArgumentException("Tài khoản và mật khẩu không được để trống");
+            }
+
+            // Gọi service để tạo user
+            AUserService userService = new AUserService();
+            boolean isCreated = userService.addUser(user);
+
+            // Phản hồi
+            JsonObject jsonResponse = new JsonObject();
+            if (isCreated) {
+                jsonResponse.addProperty("message", "Người dùng đã được tạo thành công!");
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } else {
+                jsonResponse.addProperty("message", "Không thể tạo người dùng. Tên đăng nhập đã tồn tại.");
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
+            response.getWriter().write(gson.toJson(jsonResponse));
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"Dữ liệu JSON không hợp lệ\"}");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"message\": \"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"message\": \"Đã xảy ra lỗi trong quá trình xử lý yêu cầu: " + e.getMessage() + "\"}");
+        }
+    }
 
 
     @Override
