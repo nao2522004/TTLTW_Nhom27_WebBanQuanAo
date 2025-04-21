@@ -23,7 +23,7 @@ public class AuthorizationFilter implements Filter {
     private static final Set<String> PUBLIC_URLS = Set.of(
             "/forgotPassword", "/forgot-password.jsp", // Cập nhật forgot-password.jsp
             "/verifyOTP", "/verify.jsp",               // Cập nhật verify.jsp
-            "/google-callback", "/google-login", "/logout", "/login", "/register", "/ResetPassword",
+            "/google-callback", "/google-login", "/logout", "/login","/login.jsp", "/register", "/ResetPassword",
             "/hello-servlet", "/homePage", "/navController", "/productDetail", "/productFilter",
             "/productPagination", "/productSearch"
     );
