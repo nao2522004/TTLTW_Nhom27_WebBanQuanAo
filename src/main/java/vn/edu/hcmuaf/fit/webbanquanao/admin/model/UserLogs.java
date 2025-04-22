@@ -1,31 +1,45 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class UserLog {
+public class UserLogs implements Serializable {
     private int id;
-    private String username;
     private String level;
+    private String username;
+    private List<String> roles;
     private String action;
     private String ipAddress;
     private LocalDateTime createdAt;
 
-    // Constructor
-    public UserLog(String username, String level, String action, String ipAddress) {
-        this.username = username;
-        this.level = level;
-        this.action = action;
-        this.ipAddress = ipAddress;
-        this.createdAt = LocalDateTime.now(); // Set current timestamp
+    public UserLogs() {
     }
 
-    // Getters and Setters
+    public UserLogs(int id, String level, String username, List<String> roles, String action, String ipAddress, LocalDateTime createdAt) {
+        this.id = id;
+        this.level = level;
+        this.username = username;
+        this.roles = roles;
+        this.action = action;
+        this.ipAddress = ipAddress;
+        this.createdAt = createdAt;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getUsername() {
@@ -36,12 +50,12 @@ public class UserLog {
         this.username = username;
     }
 
-    public String getLevel() {
-        return level;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public String getAction() {
@@ -70,10 +84,11 @@ public class UserLog {
 
     @Override
     public String toString() {
-        return "UserLog{" +
+        return "UserLogs{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
                 ", level='" + level + '\'' +
+                ", username='" + username + '\'' +
+                ", roles=" + roles +
                 ", action='" + action + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", createdAt=" + createdAt +
