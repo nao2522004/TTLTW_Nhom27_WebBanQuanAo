@@ -39,10 +39,14 @@ public class LoginController extends HttpServlet {
             session.setAttribute("roles", user.getRoles()); // Lưu danh sách roles
             session.setAttribute("permissions", user.getPermissions()); // Lưu quyền dạng Map
 
+            System.out.println();
+            System.out.println();
             System.out.println("Notify in LoginController:");
             System.out.println("Login success: " + userName);
             System.out.println("Roles: " + user.getRoles());
             System.out.println("Permissions: " + user.getPermissions());
+            System.out.println();
+            System.out.println();
 
             // Kiểm tra quyền admin
             if (user.hasRole("ADMIN")) {

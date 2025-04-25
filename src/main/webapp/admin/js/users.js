@@ -240,6 +240,7 @@ function createUser(event) {
         })
         .catch(err => {
             console.error('Error:', err);
+            console.log(JSON.stringify(userData));
             alert(err.message || 'Không thể tạo người dùng. Vui lòng thử lại.');
         });
 }

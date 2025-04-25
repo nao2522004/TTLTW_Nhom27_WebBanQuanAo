@@ -75,7 +75,7 @@ public class AUserDao {
         AUser user = (AUser) obj;
         listUser.put(user.getUserName(), user);
 
-        String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (userName, password, firstName, lastName, email, avatar, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -87,7 +87,6 @@ public class AUserDao {
                 ps.setString(6, user.getAvatar());
                 ps.setString(7, user.getAddress());
                 ps.setString(8, user.getPhone());
-                ps.setInt(9, user.getStatus());
 
                 int affectedRows = ps.executeUpdate();
                 if (affectedRows > 0) {
