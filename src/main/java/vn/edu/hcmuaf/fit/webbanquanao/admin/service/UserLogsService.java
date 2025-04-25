@@ -7,19 +7,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class UserLogsService {
+    private static final UserLogsService instance = new UserLogsService(); // Singleton instance
+
+    // Trả về instance duy nhất
+    public static UserLogsService getInstance() {
+        return instance;
+    }
+
     private final UserLogsDao userLogsDao;
 
-    // Khởi tạo DAO để ghi log
     public UserLogsService() {
         this.userLogsDao = new UserLogsDao();
     }
 
     // Điểm vào chung để ghi log với các thông tin cơ bản
-    private boolean logAction(String username,
-                              String level,
+    public boolean logAction(String level,
+                              String username,
+                              List<String> roles,
                               String action,
-                              String ipAddress,
-                              List<String> roles) {
+                              String ipAddress
+    ) {
         if (!isValidLogLevel(level)) {
             System.err.println("Cấp độ log không hợp lệ: " + level);
             return false;
@@ -33,8 +40,9 @@ public class UserLogsService {
         return userLogsDao.logUserAction(log);
     }
 
+
     // Kiểm tra cấp độ log hợp lệ
-    private boolean isValidLogLevel(String level) {
+    public boolean isValidLogLevel(String level) {
         return level.equals("DEBUG")
                 || level.equals("INFO")
                 || level.equals("WARN")
@@ -45,156 +53,148 @@ public class UserLogsService {
     // 1. Ghi log khi user chưa đăng nhập cố gắng truy cập tài nguyên bảo vệ
     public boolean logAnonymousAccessAttempt(String path, String ipAddress) {
         return logAction(
-                "ANONYMOUS",
                 "WARN",
+                "ANONYMOUS",
+                Collections.emptyList(),
                 "User ẩn danh cố truy cập đường dẫn: " + path,
-                ipAddress,
-                Collections.emptyList()
+                ipAddress
         );
     }
 
     // 2. Ghi log thông tin người dùng và roles (chỉ một lần sau khi load session)
     public boolean logLoadedUserInfo(String username, List<String> roles, String ipAddress) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 "Đã load thông tin user với roles: " + roles,
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 3. Ghi log khi chặn login do tài khoản chưa kích hoạt hoặc thiếu auth
     public boolean logBlockedLogin(String username, String ipAddress) {
         return logAction(
-                username,
                 "WARN",
+                username,
+                Collections.emptyList(),
                 "Chặn đăng nhập do tài khoản chưa kích hoạt hoặc thiếu xác thực",
-                ipAddress,
-                Collections.emptyList()
+                ipAddress
         );
     }
 
     // 4. Ghi log khi truy cập không đủ quyền
-    public boolean logUnauthorizedAccess(String username,
-                                         String path,
-                                         String resource,
-                                         Integer permission,
-                                         String ipAddress,
-                                         List<String> roles) {
+    public boolean logUnauthorizedAccess(String username, String path, String resource, Integer permission, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "WARN",
-                String.format("Cố truy cập không đủ quyền: đường dẫn=%s, resource=%s, quyền=%s", path, resource, permission),
-                ipAddress,
-                roles
+                username,
+                roles,
+                String.format("Không có quyền truy cập : đường dẫn=%s, resource=%s, quyền=%s", path, resource, permission),
+                ipAddress
         );
     }
 
     // 5. Ghi log khi truy cập được phép
-    public boolean logAccessGranted(String username,
-                                    String path,
-                                    String resource,
-                                    Integer permission,
-                                    String ipAddress,
-                                    List<String> roles) {
+    public boolean logAccessGranted(String username, String path, String resource, Integer permission, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 String.format("Truy cập thành công: đường dẫn=%s, resource=%s, quyền=%s", path, resource, permission),
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 6. Ghi log đăng nhập thành công
     public boolean logLoginSuccess(String username, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 "Đăng nhập thành công",
-                ipAddress,
-                roles
+                ipAddress
+        );
+    }
+
+    // 6.1. Ghi log đăng nhập thành công
+    public boolean logLogoutSuccess(String username, String ipAddress, List<String> roles) {
+        return logAction(
+                "INFO",
+                username,
+                roles,
+                "Đăng xuất thành công",
+                ipAddress
         );
     }
 
     // 7. Ghi log đăng nhập thất bại
     public boolean logLoginFailure(String username, String ipAddress) {
         return logAction(
-                username,
                 "ERROR",
+                username,
+                Collections.emptyList(),
                 "Đăng nhập thất bại",
-                ipAddress,
-                Collections.emptyList()
+                ipAddress
         );
     }
 
     // 8. Ghi log tạo mới đối tượng (add)
-    public boolean logCreateEntity(String username,
-                                   String entityName,
-                                   String entityId,
-                                   String ipAddress,
-                                   List<String> roles) {
+    public boolean logCreateEntity(String username, String entityName, String entityId, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 String.format("Tạo mới %s thành công: %s", entityName, entityId),
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 9. Ghi log cập nhật đối tượng (update)
-    public boolean logUpdateEntity(String username,
-                                   String entityName,
-                                   String entityId,
-                                   String ipAddress,
-                                   List<String> roles) {
+    public boolean logUpdateEntity(String username, String entityName, String entityId, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 String.format("Cập nhật %s: %s", entityName, entityId),
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 10. Ghi log xóa đối tượng (delete)
-    public boolean logDeleteEntity(String username,
-                                   String entityName,
-                                   String entityId,
-                                   String ipAddress,
-                                   List<String> roles) {
+    public boolean logDeleteEntity(String username, String entityName, String entityId, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "WARN",
+                username,
+                roles,
                 String.format("Xóa %s: %s", entityName, entityId),
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 11. Ghi log phân vai trò cho user
-    public boolean logAssignRoles(String username,
-                                  String targetUser,
-                                  List<String> newRoles,
-                                  String ipAddress,
-                                  List<String> roles) {
+    public boolean logAssignRoles(String username, String targetUser, List<String> newRoles, String ipAddress, List<String> roles) {
         return logAction(
-                username,
                 "INFO",
+                username,
+                roles,
                 String.format("Phân roles %s cho user: %s", newRoles, targetUser),
-                ipAddress,
-                roles
+                ipAddress
         );
     }
 
     // 12. Ghi log hành động tùy chỉnh
-    public boolean logCustom(String username,
-                             String level,
-                             String action,
-                             String ipAddress,
-                             List<String> roles) {
-        return logAction(username, level, action, ipAddress, roles);
+    public boolean logCustom(String username, String level, String action, String ipAddress, List<String> roles) {
+        return logAction(level, username, roles, action, ipAddress);
+    }
+
+    // 13. Ghi log khi truy cập bị từ chối do thiếu quyền
+    public boolean logAccessDenied(String username, String path, String resource, String ipAddress, List<String> roles) {
+        return logAction(
+                "ERROR",
+                username,
+                roles,
+                String.format("Truy cập bị từ chối: đường dẫn=%s, resource=%s", path, resource),
+                ipAddress
+        );
     }
 }

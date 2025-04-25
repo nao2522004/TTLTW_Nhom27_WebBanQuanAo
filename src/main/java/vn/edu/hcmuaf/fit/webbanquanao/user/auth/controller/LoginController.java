@@ -39,8 +39,6 @@ public class LoginController extends HttpServlet {
             session.setAttribute("roles", user.getRoles()); // Lưu danh sách roles
             session.setAttribute("permissions", user.getPermissions()); // Lưu quyền dạng Map
 
-            session.setAttribute("hasLoggedUserInfo", true);
-
             System.out.println();
             System.out.println();
             System.out.println("Notify in LoginController:");

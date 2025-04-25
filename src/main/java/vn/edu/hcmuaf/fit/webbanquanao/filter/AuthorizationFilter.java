@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.Mapper.ResourceMapper;
+import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.IOException;
@@ -19,19 +20,20 @@ public class AuthorizationFilter implements Filter {
     public static final int WRITE = 2;
     public static final int READ = 4;
 
-    // Các URL công khai không cần kiểm tra quyền
-    private static final Set<String> PUBLIC_URLS = Set.of(
-            "/forgotPassword", "/forgot-password.jsp", // Cập nhật forgot-password.jsp
-            "/verifyOTP", "/verify.jsp",               // Cập nhật verify.jsp
-            "/google-callback", "/google-login", "/logout", "/login","/login.jsp", "/register", "/ResetPassword",
-            "/hello-servlet", "/homePage", "/navController", "/productDetail", "/productFilter",
-            "/productPagination", "/productSearch"
+    private static final Set<String> PUBLIC_PATHS = Set.of(
+            "/login", "/login.jsp", "/login-facebook", "/google-login", "/register", "/register.jsp",
+            "/forgotPassword", "/forgot-password.jsp", "/ResetPassword", "/reset-password.jsp",
+            "/verify", "/verify.jsp", "/verifyOTP", "/resend-otp",
+            "/css/", "/js/", "/images/", "/assets/", "/homePage", "/productDetail",
+            "/productSearch", "/productFilter", "/productPagination"
     );
 
-    // Các URL admin cần kiểm tra quyền
-    private static final Set<String> ADMIN_URLS = Set.of("/admin.jsp");
+    private static final Set<String> ADMIN_PATHS = Set.of("/admin.jsp");
 
-    // Ánh xạ phương thức HTTP -> quyền truy cập
+    private static final Set<String> STATIC_EXTENSIONS = Set.of(
+            "css", "js", "jpg", "jpeg", "png", "gif", "ico", "woff", "woff2", "ttf", "svg", "map", "webp"
+    );
+
     private static final Map<String, Integer> METHOD_TO_PERMISSION = Map.of(
             "GET", READ,
             "POST", WRITE,
@@ -39,119 +41,116 @@ public class AuthorizationFilter implements Filter {
             "DELETE", EXECUTE
     );
 
-    // Các phần mở rộng tệp tĩnh cần bỏ qua
-    private static final Set<String> STATIC_EXTENSIONS = Set.of("css", "js", "jpg", "jpeg", "png", "gif", "ico", "woff", "woff2", "ttf", "svg", "map", "webp");
-
-    private FilterConfig filterConfig;
+    private UserLogsService userLogsService;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
+    public void init(FilterConfig filterConfig) {
+        // Inject singleton của UserLogsService
+        this.userLogsService = UserLogsService.getInstance();
         filterConfig.getServletContext().log("AuthorizationFilter initialized");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = httpRequest.getSession(false);
 
-        String contextPath = httpRequest.getContextPath();
-        String path = httpRequest.getRequestURI().substring(contextPath.length());
+        String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         String method = httpRequest.getMethod().toUpperCase();
+        String resource = ResourceMapper.getResource(path);
 
-        // Bỏ qua các URL công khai và các tài nguyên tĩnh
-        if (isPublicUrl(path) || isStaticResource(path)) {
+        // Bỏ qua các file tĩnh
+        if (isStaticResource(path)) {
             chain.doFilter(request, response);
             return;
         }
 
-        HttpSession session = httpRequest.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        Map<String, Integer> permissions = session != null ?
-                (Map<String, Integer>) session.getAttribute("permissions") : null;
-        List<String> roles = session != null ?
-                (List<String>) session.getAttribute("roles") : null;
-
-        // Kiểm tra quyền cho admin URLs
-        if (isAdminUrl(path)) {
-            if (user == null) {
-                redirectToLogin(httpRequest, httpResponse);
-                return;
-            }
-            if (!roles.contains("ADMIN")) {
-                showAccessDenied(httpRequest, httpResponse);
-                return;
-            }
-        }
-
-        // Kiểm tra quyền cho các URL khác
-        if (user != null) {
-            String resource = ResourceMapper.getResource(path);
-            int requiredPermission = determineRequiredPermission(method);
-
-            if (!hasPermission(permissions, resource, requiredPermission)) {
-                showAccessDenied(httpRequest, httpResponse);
-                return;
-            }
-        } else {
-            redirectToLogin(httpRequest, httpResponse);
+        // Public path → cho qua
+        if (isPublicPath(path)) {
+            chain.doFilter(request, response);
             return;
         }
 
-        // Tiến hành chuỗi lọc tiếp theo
+        User user = session != null ? (User) session.getAttribute("auth") : null;
+
+        // Chưa đăng nhập
+        if (user == null) {
+            String redirectUrl = httpRequest.getContextPath() + "/login.jsp?redirect=" +
+                    URLEncoder.encode(httpRequest.getRequestURI(), "UTF-8");
+            httpResponse.sendRedirect(redirectUrl);
+            return;
+        }
+
+        // Chưa kích hoạt tài khoản
+        if (user.getStatus() == null || user.getStatus() == 0) {
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
+            return;
+        }
+
+
+        // Log thông tin user duy nhất 1 lần
+        if (session.getAttribute("hasLoggedUserInfo") == null) {
+            System.out.println("[AuthorizationFilter Notify] : " + "Login Success!");
+
+            // Ghi log khi người dùng đã đăng nhập thành công
+            userLogsService.logLoginSuccess(user.getUserName(), httpRequest.getRemoteAddr(), user.getRoles());
+
+            session.setAttribute("hasLoggedUserInfo", true);
+        }
+
+        // Admin path → cần quyền ADMIN
+        if (ADMIN_PATHS.contains(path) && (user.getRoles() == null ||
+                !(user.getRoles().contains("ADMIN") || user.getRoles().contains("MANAGER")))) {
+            httpRequest.setAttribute("errorMessage", "Ban khong co quyen truy cap vao trang admin");
+
+            // Ghi log khi người dùng không có quyền truy cập trang admin
+            userLogsService.logUnauthorizedAccess(user.getUserName(), path, resource, READ, httpRequest.getRemoteAddr(), user.getRoles());
+
+            httpRequest.getRequestDispatcher("/error.jsp").forward(request, response);
+            return;
+        }
+
+        // Kiểm tra quyền truy cập vào resource
+        int requiredPermission = METHOD_TO_PERMISSION.getOrDefault(method, READ);
+
+        Integer userPermission = user.getPermissions() != null ? user.getPermissions().getOrDefault(resource, 0) : 0;
+        if (!"default".equals(resource) && (userPermission & requiredPermission) != requiredPermission) {
+
+            // Ghi log khi người dùng không có quyền truy cập trang admin
+            userLogsService.logUnauthorizedAccess(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
+
+            System.out.println("[AuthorizationFilter] ❌ Khong du quyen vao resource: " + resource);
+            httpRequest.setAttribute("errorMessage", "Ban khong du quyen truy cap vao chuc nang nay");
+            httpRequest.getRequestDispatcher("/error.jsp").forward(request, response);
+            return;
+        }
+
+        // Log khi truy cập được phép
+        userLogsService.logAccessGranted(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
+
+        // Nếu hợp lệ → tiếp tục
         chain.doFilter(request, response);
+    }
+
+    private boolean isPublicPath(String path) {
+        for (String publicPath : PUBLIC_PATHS) {
+            if (path.contains(publicPath)) return true;
+        }
+        return false;
+    }
+
+    private boolean isStaticResource(String path) {
+        int dotIndex = path.lastIndexOf('.');
+        if (dotIndex == -1) return false;
+        String ext = path.substring(dotIndex + 1).toLowerCase();
+        return STATIC_EXTENSIONS.contains(ext);
     }
 
     @Override
     public void destroy() {
-        filterConfig.getServletContext().log("AuthorizationFilter destroyed");
-    }
-
-    // Kiểm tra URL công khai
-    private boolean isPublicUrl(String path) {
-        return PUBLIC_URLS.contains(path);
-    }
-
-    // Kiểm tra URL admin
-    private boolean isAdminUrl(String path) {
-        return ADMIN_URLS.contains(path);
-    }
-
-    // Kiểm tra tài nguyên tĩnh (CSS, JS, ảnh...)
-    private boolean isStaticResource(String path) {
-        int lastDot = path.lastIndexOf('.');
-        if (lastDot == -1) return false; // Không có dấu "." => không phải file tĩnh
-        String extension = path.substring(lastDot + 1).toLowerCase();
-        return STATIC_EXTENSIONS.contains(extension);
-    }
-
-    // Xác định quyền cần thiết theo phương thức HTTP
-    private int determineRequiredPermission(String method) {
-        return METHOD_TO_PERMISSION.getOrDefault(method, READ);
-    }
-
-    // Kiểm tra quyền của người dùng
-    private boolean hasPermission(Map<String, Integer> permissions, String resource, int requiredPermission) {
-        if (permissions == null) return false;
-        int resourcePermission = permissions.getOrDefault(resource, 0);
-        return (resourcePermission & requiredPermission) == requiredPermission;
-    }
-
-    // Chuyển hướng đến trang đăng nhập nếu không có session hoặc quyền
-    private void redirectToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String redirectUrl = request.getContextPath() + "/login?redirect=" +
-                URLEncoder.encode(request.getRequestURI(), "UTF-8");
-        response.sendRedirect(redirectUrl);
-    }
-
-    // Hiển thị thông báo lỗi 403 (Forbidden)
-    private void showAccessDenied(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Thêm thông báo vào request attribute để hiển thị trên trang
-        request.setAttribute("errorMessage", "Bạn không có quyền hạn để truy cập trang này");
-
-        // Chuyển hướng đến trang thông báo
-        request.getRequestDispatcher("/error.jsp").forward(request, response);
+        System.out.println("AuthorizationFilter destroyed");
     }
 }
