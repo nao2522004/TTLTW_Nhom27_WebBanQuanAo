@@ -28,7 +28,7 @@
 
     <!-- Bootstrap 4.6.2 CSS -->
     <link rel="stylesheet" href="./assets/bootstrap-4.6.2/css/bootstrap.min.css">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -63,6 +63,10 @@
                 </div>
                 <input type="hidden" name="redirect" value="<%= request.getParameter("redirect") %>" />
                 <button type="submit" class="btn btn-primary btn-lg ">Đăng Nhập</button>
+                <!-- Google reCAPTCHA -->
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LcIsA4rAAAAAKTypNS-94XJI8a-Hq34isJYFdDQ"></div>
+                </div>
                 <p style="color: red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %></p>
                 <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
@@ -70,7 +74,6 @@
                     <a href="${pageContext.request.contextPath}/google-login">
                         <i class="fa-brands fa-google"></i>
                     </a>
-
                     <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
                 </div>
@@ -127,6 +130,10 @@
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
+                <!-- Google reCAPTCHA -->
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LcIsA4rAAAAAKTypNS-94XJI8a-Hq34isJYFdDQ"></div>
+                </div>
                 <button type="submit" class="btn btn-primary btn-lg">Đăng Ký</button>
                 <p>hoặc đăng ký bằng tài khoản mạng xã hội</p>
                 <div class="social-icons">
@@ -137,8 +144,6 @@
                 </div>
             </form>
         </div>
-
-
 
         <div class="toggle-box">
             <div class="toggle-panel toggle-left">
