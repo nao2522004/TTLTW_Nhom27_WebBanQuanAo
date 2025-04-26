@@ -11,6 +11,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.OTPStorage;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import org.mindrot.jbcrypt.BCrypt;
+import vn.edu.hcmuaf.fit.webbanquanao.user.util.CapchaUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +35,13 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         HttpSession session = request.getSession(true);
+
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+        if (!CapchaUtil.verifyRecaptcha(gRecaptchaResponse)) {
+            session.setAttribute("error", "Xác minh CAPTCHA thất bại!");
+            response.sendRedirect("login.jsp#signup-form");
+            return;
+        }
 
         // Validate dữ liệu nhập vào
         if (username == null || username.trim().isEmpty()) {
