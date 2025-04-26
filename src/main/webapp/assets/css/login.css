@@ -318,6 +318,23 @@ form {
     padding: 12px; /* Giữ padding đồng đều */
 }
 
+.recaptcha-wrapper {
+    display: flex;
+    justify-content: center; /* căn giữa ngang */
+    margin-top: 20px;
+}
+
+.g-recaptcha {
+    transform: scale(0.9); /* thu nhỏ captcha lại 90% */
+    transform-origin: 0 0; /* để scale từ góc trên bên trái */
+}
+
+@media (max-width: 600px) {
+    .g-recaptcha {
+        transform: scale(0.8); /* mobile thì thu nhỏ hơn */
+        transform-origin: 0 0;
+    }
+}
 
 
 
