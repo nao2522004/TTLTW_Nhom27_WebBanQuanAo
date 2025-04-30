@@ -1,10 +1,13 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private int id;
     private int typeId;
     private int categoryId;

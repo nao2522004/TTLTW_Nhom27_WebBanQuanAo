@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
-public class ProductDetail {
+import java.io.Serializable;
+
+public class ProductDetail implements Serializable {
     private int id;
     private int productId;
     private String size;

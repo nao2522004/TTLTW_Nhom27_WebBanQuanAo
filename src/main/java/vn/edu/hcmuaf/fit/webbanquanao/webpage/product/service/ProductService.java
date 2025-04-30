@@ -15,27 +15,27 @@ public class ProductService {
     // Get all products
     public List<Product> getAllProducts() {
         List<Product> re = new ArrayList<>();
-        dao.getAllProducts().forEach((key, value) -> {
-            re.add(value);
-        });
+//        dao.getAllProducts().forEach((key, value) -> {
+//            re.add(value);
+//        });
         return re;
     }
 
     // Get sale products
     public List<Product> getSaleProducts() {
         List<Product> list = new ArrayList<>();
-        dao.getSaleProducts().forEach((key, value) -> {
-            list.add(value);
-        });
+//        dao.getSaleProducts().forEach((key, value) -> {
+//            list.add(value);
+//        });
         return list;
     }
 
     // Get best-selling products
     public List<Product> getBestSellingProducts() {
         List<Product> list = new ArrayList<>();
-        dao.getBestSellingProducts().forEach((key, value) -> {
-            list.add(value);
-        });
+//        dao.getBestSellingProducts().forEach((key, value) -> {
+//            list.add(value);
+//        });
         return list;
     }
 
@@ -44,9 +44,9 @@ public class ProductService {
         category = transformCategory(category);
 
         List<Product> list = new ArrayList<>();
-        dao.getProductsByCategory(category).forEach((key, value) -> {
-            list.add(value);
-        });
+//        dao.getProductsByCategory(category).forEach((key, value) -> {
+//            list.add(value);
+//        });
         return list;
     }
 
@@ -54,9 +54,9 @@ public class ProductService {
     public List<Product> getFilteredProducts(String category, String[] type, String[] size, Double priceMin, Double priceMax, String sortPrice) {
         category = transformCategory(category);
         List<Product> list = new ArrayList<>();
-        dao.getFilteredProducts(category, type, size, priceMin, priceMax).forEach((key, value) -> {
-            list.add(value);
-        });
+//        dao.getFilteredProducts(category, type, size, priceMin, priceMax).forEach((key, value) -> {
+//            list.add(value);
+//        });
         if("asc".equals(sortPrice)){
             list.sort(Comparator.comparingDouble(Product::getUnitPrice));
         } else if("desc".equals(sortPrice)){
@@ -78,9 +78,9 @@ public class ProductService {
     // Search product by name
     public List<Product> searchByName(String name) {
         List<Product> list = new ArrayList<>();
-        dao.searchByName(name).forEach((key, value) -> {
-            list.add(value);
-        });
+//        dao.searchByName(name).forEach((key, value) -> {
+//            list.add(value);
+//        });
         return list;
     }
 
@@ -96,11 +96,12 @@ public class ProductService {
 
     // Get product by id
     public Product getDetail(int id){
-        try {
-            return dao.getById(id);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+//        try {
+//            return dao.getById(id);
+//        } catch (NumberFormatException e) {
+//            return null;
+//        }
+        return new Product();
     }
 
     public static void main(String[] args) {
