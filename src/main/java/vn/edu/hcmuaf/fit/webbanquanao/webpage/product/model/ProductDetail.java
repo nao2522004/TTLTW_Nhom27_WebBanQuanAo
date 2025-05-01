@@ -90,4 +90,17 @@ public class ProductDetail implements Serializable {
                 ", color='" + color + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDetail that = (ProductDetail) o;
+        return this.id == that.id &&
+                this.productId == that.productId &&
+                this.size.equals(that.size) &&
+                this.stock == that.stock &&
+                this.image.equals(that.image) &&
+                this.color.equals(that.color);
+    }
 }

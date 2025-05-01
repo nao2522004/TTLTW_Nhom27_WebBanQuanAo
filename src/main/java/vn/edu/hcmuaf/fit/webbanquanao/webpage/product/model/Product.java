@@ -150,6 +150,14 @@ public class Product implements Serializable {
         this.details = details;
     }
 
+    public void addDetails(List<ProductDetail> oDetails) {
+        for(ProductDetail o : oDetails) {
+            if (!details.contains(o)) {
+                details.add(o);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -165,5 +173,12 @@ public class Product implements Serializable {
                 ", status=" + status +
                 ", details=" + details +
                 "} \n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        return this.id == ((Product) o).id;
     }
 }
