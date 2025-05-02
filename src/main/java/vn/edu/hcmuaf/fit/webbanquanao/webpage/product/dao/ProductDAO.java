@@ -140,7 +140,7 @@ public class ProductDAO {
                 "   image," +
                 "   color " +
                 "FROM product_details " +
-                "WHERE id = ?";
+                "WHERE productId = ?";
 
         return getProductsByQuery(query, query2, category);
     }
@@ -343,6 +343,6 @@ public class ProductDAO {
         ProductDAO dao = new ProductDAO();
 //        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, null));
 //        System.out.println(dao.searchByName("Quần tây PEALO form cạp cao có xếp li"));
-        System.out.println(dao.getById(12));
+        System.out.println(dao.getProductsByCategory("Nữ"));
     }
 }
