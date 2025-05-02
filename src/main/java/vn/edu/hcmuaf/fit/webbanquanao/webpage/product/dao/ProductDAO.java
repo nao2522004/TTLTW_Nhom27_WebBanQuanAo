@@ -171,7 +171,8 @@ public class ProductDAO {
                 "FROM product_details " +
                 "WHERE productId = ?";
 
-        return getProductsByQuery(query, query2, name);
+        String searchPattern = (name != null && !name.isEmpty()) ? "%" + name + "%" : "%%";
+        return getProductsByQuery(query, query2, searchPattern);
     }
 
     // Get products by query
