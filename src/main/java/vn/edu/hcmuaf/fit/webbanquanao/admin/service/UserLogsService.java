@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.dao.UserLogsDao;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.UserLogs;
 
@@ -7,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class UserLogsService {
+    private static final Logger logger = LoggerFactory.getLogger(UserLogsService.class);
     private static final UserLogsService instance = new UserLogsService(); // Singleton instance
 
     // Trả về instance duy nhất

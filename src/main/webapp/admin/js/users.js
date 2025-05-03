@@ -92,9 +92,13 @@ const buildTableUser = (users) => {
     return `<tbody>${userContent}</tbody>`;
 };
 
-// Khi DOM load, gọi fetchUsers để tải dữ liệu và khởi tạo DataTables
-document.addEventListener('DOMContentLoaded', fetchUsers);
-
+// Khi DOM load, gọi fetchUsers chỉ khi phần tử 'admin/manager-users' cần hiển thị
+document.addEventListener('DOMContentLoaded', function () {
+    const userSection = document.getElementById("admin/manager-products");
+    if (userSection && userSection.classList.contains("block")) {
+        fetchUsers();
+    }
+});
 
 
 // Hàm xóa user

@@ -112,8 +112,13 @@ const buildTableProduct = (products) => {
     return tbody;
 };
 
-// Khi DOM load, gọi fetchProducts để tải dữ liệu và khởi tạo DataTables
-document.addEventListener('DOMContentLoaded', fetchProducts);
+// Khi DOM load, gọi fetchProducts chỉ khi phần tử 'admin/manager-products' cần hiển thị
+document.addEventListener('DOMContentLoaded', function () {
+    const productSection = document.getElementById("admin/manager-products");
+    if (productSection && productSection.classList.contains("block")) {
+        fetchProducts();
+    }
+});
 
 // Hàm xóa sản phẩm
 function deleteProduct(event) {

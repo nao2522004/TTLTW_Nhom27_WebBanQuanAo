@@ -38,7 +38,7 @@
         </div>
 
         <div class="sidebar">
-            <a class="active" href="/admin" onclick="showMain(event, 'dashboard')">
+            <a class="active" href="admin/manager-orders" onclick="showMain(event, 'admin/manager-orders')">
                 <span class="material-icons-sharp"> dashboard </span>
                 <h3>Bảng thông tin</h3>
             </a>
@@ -46,18 +46,10 @@
                 <span class="material-icons-sharp"> person_outline </span>
                 <h3>Người dùng</h3>
             </a>
-            <a href="/admin/manager-products" onclick="showMain(event, '/admin/manager-products')">
+            <a href="admin/manager-products" onclick="showMain(event, 'admin/manager-products')">
                 <span class="material-icons-sharp"> inventory </span>
                 <h3>Sản phẩm</h3>
             </a>
-            <%--            <a href="#" onclick="showMain(event, 'manager_others')">--%>
-            <%--                <span class="material-icons-sharp"> inventory </span>--%>
-            <%--                <h3>Khác</h3>--%>
-            <%--            </a>--%>
-            <%--            <a href="" onclick="showMain(event, 'add_others')">--%>
-            <%--                <span class="material-icons-sharp"> add </span>--%>
-            <%--                <h3>Thêm Khác</h3>--%>
-            <%--            </a>--%>
             <a href="#">
                 <span class="material-icons-sharp"> settings </span>
                 <h3>Settings</h3>
@@ -76,23 +68,13 @@
 
 ---------------------------------------------------------
 ---------------------------------------------------------->
-    <main id="dashboard">
+    <main id="admin/manager-orders">
         <h1>Bảng Thông Tin</h1>
 
         <div class="dash-top">
             <div class="date">
                 <input type="date"/>
             </div>
-            <%--                    <div class="search-card">--%>
-            <%--                        <form id="search-form">--%>
-            <%--                            <div class="search-group">--%>
-            <%--                                <input type="text" id="search-input" name="search" placeholder="Nhập từ khóa..." required>--%>
-            <%--                                <button type="submit" class="search-button">--%>
-            <%--                                    <span class="material-icons-sharp">search</span>--%>
-            <%--                                </button>--%>
-            <%--                            </div>--%>
-            <%--                        </form>--%>
-            <%--                    </div>--%>
         </div>
 
         <div class="insights">
@@ -469,7 +451,7 @@
 
 ---------------------------------------------------------
 ---------------------------------------------------------->
-    <main id="/admin/manager-products">
+    <main id="admin/manager-products">
         <h1>Quản lý sản phẩm</h1>
 
         <div class="dash-top">
