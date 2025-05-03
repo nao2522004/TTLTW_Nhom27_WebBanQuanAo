@@ -16,6 +16,7 @@ public class AUser implements Serializable {
     private Integer status;
     private LocalDateTime createdAt;
 
+
     public AUser() {
     }
 

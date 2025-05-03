@@ -108,7 +108,11 @@ function deleteOrder(event) {
             data: JSON.stringify({id: orderId}), // Gửi ID đơn hàng dưới dạng JSON
             cache: false,
             success: function (response) {
-                alert(response.message || "Xóa đơn hàng thành công!");
+                // Ghi log chỉ khi xóa thành công
+                if (response.message.includes("Xóa mềm đơn hàng thành công")) {
+                    console.log("Đã xóa đơn hàng thành công, bắt đầu ghi log.");
+                    alert(response.message || "Xóa đơn hàng thành công!");
+                }
                 fetchOrders(); // Refresh danh sách đơn hàng sau khi xóa
             },
             error: function (xhr, status, error) {
