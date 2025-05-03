@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
-public class ProductDetail {
+import java.io.Serializable;
+
+public class ProductDetail implements Serializable {
     private int id;
     private int productId;
     private String size;
@@ -87,5 +89,18 @@ public class ProductDetail {
                 ", image='" + image + '\'' +
                 ", color='" + color + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDetail that = (ProductDetail) o;
+        return this.id == that.id &&
+                this.productId == that.productId &&
+                this.size.equals(that.size) &&
+                this.stock == that.stock &&
+                this.image.equals(that.image) &&
+                this.color.equals(that.color);
     }
 }

@@ -1,10 +1,13 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private int id;
     private int typeId;
     private int categoryId;
@@ -147,6 +150,14 @@ public class Product {
         this.details = details;
     }
 
+    public void addDetails(List<ProductDetail> oDetails) {
+        for(ProductDetail o : oDetails) {
+            if (!details.contains(o)) {
+                details.add(o);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -162,5 +173,12 @@ public class Product {
                 ", status=" + status +
                 ", details=" + details +
                 "} \n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        return this.id == ((Product) o).id;
     }
 }

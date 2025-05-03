@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "Cart", value = "/Cart")
-public class Cart extends HttpServlet {
+public class CartServlet extends HttpServlet {
     private CartService cartService;
 
     @Override

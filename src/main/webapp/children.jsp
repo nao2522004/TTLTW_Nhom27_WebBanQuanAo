@@ -95,9 +95,9 @@
                             <div class="col-md-3 mt-4">
                                 <a href="${pageContext.request.contextPath}/productDetail?pid=${p.id}"
                                    class="product-card">
-                                    <img src="assets/product-imgs/${p.images[0]}" alt="${p.name}"
+                                    <img src="assets/product-imgs/${p.details[0].image}" alt="${p.productName}"
                                          class="product-image img-fluid">
-                                    <div class="product-title">${p.name}</div>
+                                    <div class="product-title">${p.productName}</div>
                                     <div class="product-price" data-price="${p.unitPrice}"></div>
                                 </a>
                             </div>
