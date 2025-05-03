@@ -5,6 +5,14 @@
 
 ---------------------------------------------------------
 ----------------------------------------------------------*/
+// // Khi DOM load, gọi fetchOrders chỉ khi phần tử 'admin/manager-orders' cần hiển thị
+// document.addEventListener('DOMContentLoaded', function () {
+//     const  renderListOders = document.getElementById("admin/manager-orders");
+//     if (renderListOders && renderListOders.classList.contains("block")) {
+//         fetchOrders();
+//     }
+// });
+// Hàm  fetchOrders khi load được gọi ở trong admin.js rôi
 
 // ===============Recent_order_data===============//
 // Lấy danh sách đơn hàng từ server và khởi tạo DataTables
@@ -39,6 +47,9 @@ function fetchOrders() {
                 pageLength: 5, // Số bản ghi mỗi trang
                 lengthChange: true, // Kích hoạt thay đổi số lượng bản ghi mỗi trang
             });
+
+            // Đánh dấu là đã tải dữ liệu
+            targetMain.classList.add("data-loaded");
         },
         error: function (xhr, status, error) {
             console.error('Error fetching orders:', error);
@@ -83,9 +94,6 @@ const buildTableOrders = (orders) => {
     }
     return `<tbody>${orderContent}</tbody>`;
 };
-
-// Khi DOM load, gọi fetchOrders để tải dữ liệu và khởi tạo DataTables
-document.addEventListener('DOMContentLoaded', fetchOrders);
 
 // Hàm xóa đơn hàng
 function deleteOrder(event) {
