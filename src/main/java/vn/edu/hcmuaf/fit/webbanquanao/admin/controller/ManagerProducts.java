@@ -4,6 +4,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import com.google.gson.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AProductService;
 
@@ -19,7 +21,7 @@ import java.sql.Date;
 
 @WebServlet(name = "ManagerProducts", value = "/admin/manager-products")
 public class ManagerProducts extends HttpServlet {
-
+    private static final Logger logger = LoggerFactory.getLogger(ManagerOrders.class);
     private AProductService productService;
 
     @Override
