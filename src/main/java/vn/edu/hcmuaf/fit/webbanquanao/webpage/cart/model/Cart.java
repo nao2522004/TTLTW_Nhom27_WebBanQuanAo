@@ -1,21 +1,24 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Cart {
     private int id;
     private int userId;
     private Date createdDate;
     private Date updatedDate;
+    private List<CartDetail> details;
 
     public Cart() {
     }
 
-    public Cart(int id, int userId, Date createdDate, Date updatedDate) {
+    public Cart(int id, int userId, Date createdDate, Date updatedDate, List<CartDetail> details) {
         this.id = id;
         this.userId = userId;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.details = details;
     }
 
     public int getId() {
@@ -50,6 +53,14 @@ public class Cart {
         this.updatedDate = updatedDate;
     }
 
+    public List<CartDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<CartDetail> details) {
+        this.details = details;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -57,6 +68,7 @@ public class Cart {
                 ", userId=" + userId +
                 ", createdDate=" + createdDate +
                 ", updatedDate=" + updatedDate +
+                ", details=" + details +
                 "}\n";
     }
 }

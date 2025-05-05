@@ -185,17 +185,7 @@ public class ProductDAO {
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
                     while(rs.next()) {
-                        Product p = new Product();
-                        p.setId(rs.getInt("id"));
-                        p.setTypeId(rs.getInt("typeId"));
-                        p.setCategoryId(rs.getInt("categoryId"));
-                        p.setSupplierId(rs.getInt("supplierId"));
-                        p.setProductName(rs.getString("productname"));
-                        p.setDescription(rs.getString("description"));
-                        p.setReleaseDate(rs.getDate("releaseDate"));
-                        p.setUnitSold(rs.getInt("unitSold"));
-                        p.setUnitPrice(rs.getInt("unitPrice"));
-                        p.setStatus(rs.getInt("status"));
+                        Product p = mapResultSetToProduct(rs);
 
                         try (PreparedStatement stmt2 = h.getConnection().prepareStatement(sql2)) {
                             stmt2.setInt(1, rs.getInt("parameter"));
@@ -273,17 +263,7 @@ public class ProductDAO {
 
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
-                        Product p = new Product();
-                        p.setId(rs.getInt("id"));
-                        p.setTypeId(rs.getInt("typeId"));
-                        p.setCategoryId(rs.getInt("categoryId"));
-                        p.setSupplierId(rs.getInt("supplierId"));
-                        p.setProductName(rs.getString("productname"));
-                        p.setDescription(rs.getString("description"));
-                        p.setReleaseDate(rs.getDate("releaseDate"));
-                        p.setUnitSold(rs.getInt("unitSold"));
-                        p.setUnitPrice(rs.getDouble("unitPrice"));
-                        p.setStatus(rs.getInt("status"));
+                        Product p = mapResultSetToProduct(rs);
 
                         try (PreparedStatement stmt2 = h.getConnection().prepareStatement(query2)) {
                             stmt2.setInt(1, p.getId());
@@ -311,7 +291,9 @@ public class ProductDAO {
         });
 
         if (sizeF != null && sizeF.length > 0) {
-            for (Product product : re) {
+            Iterator<Product> iterator = re.iterator();
+            while (iterator.hasNext()) {
+                Product product = iterator.next();
                 boolean hasSize = false;
 
                 sizeLoop:
@@ -325,10 +307,11 @@ public class ProductDAO {
                 }
 
                 if (!hasSize) {
-                    re.remove(product);
+                    iterator.remove();
                 }
             }
         }
+
         if (priceMin != null) {
             re.removeIf(product -> product.getUnitPrice() < priceMin);
         }
@@ -339,10 +322,28 @@ public class ProductDAO {
         return re;
     }
 
+    public Product mapResultSetToProduct(ResultSet rs) throws SQLException {
+        Product p = new Product();
+        p.setId(rs.getInt("id"));
+        p.setTypeId(rs.getInt("typeId"));
+        p.setCategoryId(rs.getInt("categoryId"));
+        p.setSupplierId(rs.getInt("supplierId"));
+        p.setProductName(rs.getString("productname"));
+        p.setDescription(rs.getString("description"));
+        p.setReleaseDate(rs.getDate("releaseDate"));
+        p.setUnitSold(rs.getInt("unitSold"));
+        p.setUnitPrice(rs.getDouble("unitPrice"));
+        p.setStatus(rs.getInt("status"));
+        return p;
+    }
+
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-//        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, null));
-//        System.out.println(dao.searchByName("Quần tây PEALO form cạp cao có xếp li"));
-        System.out.println(dao.getProductsByCategory("Nữ"));
+//        System.out.println(dao.getAllProducts());
+//        System.out.println(dao.getSaleProducts());
+//        System.out.println(dao.getBestSellingProducts());
+//        System.out.println(dao.getProductsByCategory("Nữ"));
+//        System.out.println(dao.searchByName("Quần tây"));
+        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, 150000.00));
     }
 }

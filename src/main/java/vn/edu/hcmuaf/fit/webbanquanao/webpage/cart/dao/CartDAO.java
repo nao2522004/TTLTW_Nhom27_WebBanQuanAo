@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao;
 
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.Cart;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.Product;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartDAO {
-    private String query, query2;
+    private String query, query2, query3;
     private JDBIConnector conn;
 
     public CartDAO() {
@@ -249,13 +250,5 @@ public class CartDAO {
            }
            return 0.0;
         });
-    }
-
-    private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
-        Product product = new Product();
-//        product.setId(rs.getInt("id"));
-//        product.setName(rs.getString("name"));
-//        product.setPrice(rs.getDouble("price"));
-        return product;
     }
 }
