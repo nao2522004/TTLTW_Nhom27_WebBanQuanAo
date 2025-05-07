@@ -11,19 +11,19 @@ public class CartDetail {
     private int quantity;
     private double unitPrice;
     private int productDetailsId;
-    private List<ProductDetail> productDetails;
+    private ProductDetail productDetail;
 
     public CartDetail() {
     }
 
-    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId, List<ProductDetail> productDetails) {
+    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId, ProductDetail productDetail) {
         this.id = id;
         this.cartId = cartId;
         this.couponId = couponId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.productDetailsId = productDetailsId;
-        this.productDetails = productDetails;
+        this.productDetail = productDetail;
     }
 
     public int getId() {
@@ -74,12 +74,12 @@ public class CartDetail {
         this.productDetailsId = productDetailsId;
     }
 
-    public List<ProductDetail> getProductDetails() {
-        return productDetails;
+    public ProductDetail getProductDetail() {
+        return productDetail;
     }
 
-    public void setProductDetails(List<ProductDetail> productDetails) {
-        this.productDetails = productDetails;
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
     }
 
     @Override
@@ -91,6 +91,7 @@ public class CartDetail {
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 ", productDetailsId=" + productDetailsId +
-                '}';
+                ", productDetail=" + productDetail +
+                "}\n";
     }
 }

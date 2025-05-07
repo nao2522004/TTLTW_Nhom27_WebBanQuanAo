@@ -22,43 +22,59 @@ public class CartDAO {
     }
 
     // Lấy ra tất cả các sản phẩm trong giỏ hàng
-    public List<CartItem> getAllCartItems(int userId) {
-        String sql = "SELECT cd.id, cd.cartId, cd.couponId, cd.quantity, cd.unitPrice, "
-                + "pd.productId, pd.size, pd.stock, pd.image, pd.color, "
-                + "p.productName as name "
-                + "FROM cart c "
-                + "JOIN cartdetail cd ON c.id = cd.cartId "
-                + "JOIN product_details pd ON cd.productDetailsId = pd.id "
-                + "JOIN products p ON pd.productId = p.id "
-                + "WHERE c.userId = ?";
+    public List<CartDetail> getAllCartItems(int userId) {
+        query = "SELECT " +
+                "cd.id," +
+                "cd.cartId," +
+                "cd.couponId," +
+                "cd.quantity," +
+                "cd.unitPrice," +
+                "cd.productDetailsId," +
+                "pd.id AS pd_id," +
+                "pd.productId," +
+                "pd.size," +
+                "pd.stock," +
+                "pd.image," +
+                "pd.color," +
+                "p.productName as name " +
+                "FROM cart c " +
+                "JOIN cartdetail cd ON c.id = cd.cartId " +
+                "JOIN product_details pd ON cd.productDetailsId = pd.id " +
+                "JOIN products p ON pd.productId = p.id " +
+                "WHERE c.userId = ?";
 
         return conn.get().withHandle(h -> {
-           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
-               stmt.setInt(1, userId);
-               try(ResultSet rs = stmt.executeQuery()) {
-                   List<CartItem> cartItems = new ArrayList<>();
-                   while (rs.next()) {
-                       CartItem item = new CartItem(
-                               rs.getInt("id"),
-                               rs.getInt("cartId"),
-                               rs.getInt("couponId"),
-                               rs.getInt("quantity"),
-                               rs.getDouble("unitPrice"),
-                               rs.getInt("productId"),
-                               rs.getString("size"),
-                               rs.getInt("stock"),
-                               rs.getString("image"),
-                               rs.getString("color"),
-                               rs.getString("name")
-                       );
-                       cartItems.add(item);
-                   }
-                   return cartItems;
-               }
-           } catch (SQLException e) {
-               e.printStackTrace();
-               return null;
-           }
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
+                stmt.setInt(1, userId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    List<CartDetail> cartDetails = new ArrayList<>();
+                    while (rs.next()) {
+                        ProductDetail productDetail = new ProductDetail(
+                                rs.getInt("pd_id"),
+                                rs.getInt("productId"),
+                                rs.getString("size"),
+                                rs.getInt("stock"),
+                                rs.getString("image"),
+                                rs.getString("color")
+                        );
+
+                        CartDetail item = new CartDetail(
+                                rs.getInt("id"),
+                                rs.getInt("cartId"),
+                                rs.getInt("couponId"),
+                                rs.getInt("quantity"),
+                                rs.getDouble("unitPrice"),
+                                rs.getInt("productDetailsId"),
+                                productDetail
+                        );
+                        cartDetails.add(item);
+                    }
+                    return cartDetails;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
         });
     }
 
@@ -250,5 +266,10 @@ public class CartDAO {
            }
            return 0.0;
         });
+    }
+
+    public static void main(String[] args) {
+        CartDAO dao = new CartDAO();
+//        System.out.println(dao.getAllCartItems(2));
     }
 }
