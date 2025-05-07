@@ -121,10 +121,10 @@ public class CartDAO {
 
     // Thêm sản phẩm vào chi tiết giỏ hàng
     public boolean add(int userId, int cartId, int couponId, int quantity, double unitPrice, int productDetailId) {
-        String sql = "INSERT INTO cartdetail (cartId, couponId, quantity, unitPrice, productDetailsId) VALUES (?, ?, ?, ?, ?)";
+        query = "INSERT INTO cartdetail (cartId, couponId, quantity, unitPrice, productDetailsId) VALUES (?, ?, ?, ?, ?)";
 
         return conn.get().withHandle(h -> {
-            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                 stmt.setInt(1, cartId);
                 stmt.setInt(2, couponId);
                 stmt.setInt(3, quantity);
@@ -143,12 +143,12 @@ public class CartDAO {
     // Kiểm tra xem sản phẩm này đã tồn tại trong giỏ hàng chưa
     // Nếu có, trả về id của cartDetail, nếu không trả về -1
     public int hasProduct(int userId, int productDetailId) {
-        String sql = "SELECT cd.id FROM cart c " +
+        query = "SELECT cd.id FROM cart c " +
                 "JOIN cartdetail cd ON c.id = cd.cartId " +
                 "WHERE c.userId = ? AND cd.productDetailsId = ?";
 
         return conn.get().withHandle(h -> {
-            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                 stmt.setInt(1, userId);
                 stmt.setInt(2, productDetailId);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -165,13 +165,13 @@ public class CartDAO {
 
     // Cập nhật lại số lượng của một sản phẩm trong giỏ hàng
     public boolean updateCart(int userId, int productDetailId, int quantity) {
-        String sql = "UPDATE cartdetail cd " +
+        query = "UPDATE cartdetail cd " +
                 "JOIN cart c ON cd.cartId = c.id " +
                 "SET cd.quantity = ? " +
                 "WHERE c.userId = ? AND cd.productDetailsId = ?";
 
         return conn.get().withHandle(h -> {
-            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                 stmt.setInt(1, quantity);
                 stmt.setInt(2, userId);
                 stmt.setInt(3, productDetailId);
@@ -187,12 +187,12 @@ public class CartDAO {
     // Lấy ra quantity của một sản phẩm trong giỏ hàng
     // Trả về -1 nếu không tìm thấy hoặc có lỗi
     public int getQuantityOfProduct(int userId, int productDetailId) {
-        String sql = "SELECT cd.quantity FROM cart c " +
+        query = "SELECT cd.quantity FROM cart c " +
                 "JOIN cartdetail cd ON c.id = cd.cartId " +
                 "WHERE c.userId = ? AND cd.productDetailsId = ?";
 
         return conn.get().withHandle(h -> {
-            try (PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                 stmt.setInt(1, userId);
                 stmt.setInt(2, productDetailId);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -209,10 +209,10 @@ public class CartDAO {
 
     // Xoá một sản phẩm khỏi giỏ hàng
     public boolean removeItem(int cartDetailId) {
-        String sql = "DELETE FROM cartdetail WHERE id = ?";
+        query = "DELETE FROM cartdetail WHERE id = ?";
 
         return conn.get().withHandle(h -> {
-           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                stmt.setInt(1, cartDetailId);
                return stmt.executeUpdate() > 0;
            } catch (SQLException e) {
@@ -224,11 +224,11 @@ public class CartDAO {
 
     // Lấy ra chi tiết sản phẩm theo size và color
     public ProductDetail getProductDetailBySizeColor(String color, String size) {
-        String sql = "SELECT * FROM product_details WHERE color = ? AND size = ?";
+        query = "SELECT * FROM product_details WHERE color = ? AND size = ?";
         ProductDetail productDetail = new ProductDetail();
 
         return conn.get().withHandle(h -> {
-           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                stmt.setString(1, color);
                stmt.setString(2, size);
                ResultSet rs = stmt.executeQuery();
@@ -249,13 +249,13 @@ public class CartDAO {
 
     // Tính tổng tiền của tất cả sản phẩm trong giỏ hàng
     public double getTotalPrice(int userId) {
-        String sql = "SELECT SUM(cd.unitPrice * cd.quantity) AS Total " +
+        query = "SELECT SUM(cd.unitPrice * cd.quantity) AS Total " +
                         "FROM cartdetail cd " +
                         "JOIN cart c ON cd.cartId = c.id " +
                         "WHERE  c.userId = ?";
 
         return conn.get().withHandle(h -> {
-           try(PreparedStatement stmt = h.getConnection().prepareStatement(sql)) {
+           try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
                stmt.setInt(1, userId);
                ResultSet rs = stmt.executeQuery();
                if(rs.next()) {
