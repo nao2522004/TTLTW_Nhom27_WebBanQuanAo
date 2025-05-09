@@ -22,6 +22,7 @@ public class User implements Serializable {
     private List<String> roles; // Danh sách role
     private Map<String, Integer> permissions; // Key: Resource, Value: Quyền (rwx dưới dạng số)
 
+
     public User() {
     }
 
