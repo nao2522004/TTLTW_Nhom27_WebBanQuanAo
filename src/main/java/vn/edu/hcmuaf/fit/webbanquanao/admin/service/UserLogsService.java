@@ -25,15 +25,21 @@ public class UserLogsService {
 
     // Điểm vào chung để ghi log với các thông tin cơ bản
     public boolean logAction(String level,
-                              String username,
-                              List<String> roles,
-                              String action,
-                              String ipAddress
+                             String username,
+                             List<String> roles,
+                             String action,
+                             String ipAddress
     ) {
         if (!isValidLogLevel(level)) {
             System.err.println("Cấp độ log không hợp lệ: " + level);
             return false;
         }
+
+        // Kiểm tra nếu roles là null, thay thế bằng danh sách rỗng
+        if (roles == null) {
+            roles = Collections.emptyList();
+        }
+
         UserLogs log = new UserLogs();
         log.setUsername(username);
         log.setLevel(level);
@@ -42,7 +48,6 @@ public class UserLogsService {
         log.setRoles(roles);
         return userLogsDao.logUserAction(log);
     }
-
 
     // Kiểm tra cấp độ log hợp lệ
     public boolean isValidLogLevel(String level) {
@@ -109,7 +114,20 @@ public class UserLogsService {
     }
 
     // 6. Ghi log đăng nhập thành công
+//    public boolean logLoginSuccess(String username, String ipAddress, List<String> roles) {
+//        return logAction(
+//                "INFO",
+//                username,
+//                roles,
+//                "Đăng nhập thành công",
+//                ipAddress
+//        );
+//    }
     public boolean logLoginSuccess(String username, String ipAddress, List<String> roles) {
+        if (roles == null) {
+            roles = Collections.emptyList();
+        }
+
         return logAction(
                 "INFO",
                 username,
