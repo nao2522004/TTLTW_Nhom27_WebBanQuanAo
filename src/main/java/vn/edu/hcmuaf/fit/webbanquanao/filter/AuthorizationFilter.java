@@ -91,11 +91,11 @@ public class AuthorizationFilter implements Filter {
         }
 
         // Chưa kích hoạt tài khoản
-        if (user.getStatus() == null || user.getStatus() == 0) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
-            logger.warn("Tài khoản người dùng chưa được kích hoạt. Người dùng: {}, IP: {}", user.getUserName(), httpRequest.getRemoteAddr());
-            return;
-        }
+//        if (user.getStatus() == null || user.getStatus() == 0) {
+//            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
+//            logger.warn("Tài khoản người dùng chưa được kích hoạt. Người dùng: {}, IP: {}", user.getUserName(), httpRequest.getRemoteAddr());
+//            return;
+//        }
 
 
         // Log thông tin user duy nhất 1 lần
