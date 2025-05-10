@@ -22,7 +22,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
 public class ManagerUsers extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(ManagerOrders.class);
+    private static final Logger logger = LoggerFactory.getLogger(ManagerUsers.class);
     private static final String ADMIN_ROLE = "ADMIN";
     private static final String USER_ROLE = "USER";
     private static final String STAFF_ROLE = "USER";

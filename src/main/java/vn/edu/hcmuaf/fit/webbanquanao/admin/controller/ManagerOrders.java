@@ -25,12 +25,18 @@ public class ManagerOrders extends HttpServlet {
         String orderIdParam = request.getParameter("id");
         AOrderService orderService = new AOrderService();
 
-        // Lấy thông tin người dùng từ session (tên lưu là "auth")
+        // Lấy session và thông tin người dùng
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute("auth");
         String username = (user != null) ? user.getUserName() : "unknown";
         List<String> roles = (user != null) ? user.getRoles() : new ArrayList<>();
         String ip = request.getRemoteAddr();
+
+        // Xác định đường dẫn hiện tại (bao gồm cả ?id= nếu có)
+        String currentPath = request.getRequestURI() + (orderIdParam != null ? "?id=" + orderIdParam : "");
+        String lastLoggedPath = (String) session.getAttribute("lastLoggedPath");
+
+        boolean shouldLog = !currentPath.equals(lastLoggedPath);
 
         if (orderIdParam != null && !orderIdParam.isEmpty()) {
             try {
@@ -39,20 +45,15 @@ public class ManagerOrders extends HttpServlet {
                 AOrder order = orders.get(orderId);
 
                 if (order != null) {
-                    // Ghi log: xem chi tiết đơn hàng
-                    UserLogsService.getInstance().logAction(
-                            "INFO",
-                            username,
-                            roles,
-                            "Xem chi tiết đơn hàng ID=" + orderId,
-                            ip
-                    );
+                    if (shouldLog) {
+                        UserLogsService.getInstance().logAction(
+                                "INFO", username, roles,
+                                "Xem chi tiết đơn hàng ID=" + orderId, ip
+                        );
+                        logger.info("User: {}, Action: Xem chi tiết đơn hàng ID={}", username, orderId);
+                        session.setAttribute("lastLoggedPath", currentPath);
+                    }
 
-                    // Ghi log ra console bằng SLF4J + Logback
-                    logger.info("User: {}, Action: {}",
-                            username, "Xem chi tiết đơn hàng ID=" + orderId);
-
-                    // Trả về JSON
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                             .create();
@@ -65,34 +66,31 @@ public class ManagerOrders extends HttpServlet {
                 } else {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     response.getWriter().write("{\"message\": \"Không tìm thấy đơn hàng\"}");
-                    logger.warn("User: {},Order not found",username);
+                    logger.warn("User: {}, Order not found", username);
                 }
             } catch (NumberFormatException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"message\": \"orderId không hợp lệ\"}");
-                logger.error("User: {}, Invalid orderId format",username);
+                logger.error("User: {}, Invalid orderId format", username);
             }
         } else {
             Map<Integer, AOrder> orders = orderService.showOrders();
-            List<AOrder> orderList = orders.values().stream().collect(Collectors.toList());
+            List<AOrder> orderList = new ArrayList<>(orders.values());
 
-            // Ghi log: xem tất cả đơn hàng
-            UserLogsService.getInstance().logAction(
-                    "INFO",
-                    username,
-                    roles,
-                    "Xem danh sách tất cả đơn hàng",
-                    ip
-            );
-
-            logger.info("User: {}, Action: View all orders", username);
+            if (shouldLog) {
+                UserLogsService.getInstance().logAction(
+                        "INFO", username, roles,
+                        "Xem danh sách tất cả đơn hàng", ip
+                );
+                logger.info("User: {}, Action: View all orders", username);
+                session.setAttribute("lastLoggedPath", currentPath);
+            }
 
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                     .create();
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-
             PrintWriter out = response.getWriter();
             String json = gson.toJson(orderList);
             out.print(json);
