@@ -1,5 +1,9 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model;
 
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
+
+import java.util.List;
+
 public class CartDetail {
     private int id;
     private int cartId;
@@ -7,17 +11,19 @@ public class CartDetail {
     private int quantity;
     private double unitPrice;
     private int productDetailsId;
+    private ProductDetail productDetail;
 
     public CartDetail() {
     }
 
-    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId) {
+    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId, ProductDetail productDetail) {
         this.id = id;
         this.cartId = cartId;
         this.couponId = couponId;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.productDetailsId = productDetailsId;
+        this.productDetail = productDetail;
     }
 
     public int getId() {
@@ -68,6 +74,14 @@ public class CartDetail {
         this.productDetailsId = productDetailsId;
     }
 
+    public ProductDetail getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(ProductDetail productDetail) {
+        this.productDetail = productDetail;
+    }
+
     @Override
     public String toString() {
         return "CartDetail{" +
@@ -77,6 +91,7 @@ public class CartDetail {
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 ", productDetailsId=" + productDetailsId +
-                '}';
+                ", productDetail=" + productDetail +
+                "}\n";
     }
 }

@@ -139,20 +139,20 @@
     <!-- Product Gallery -->
     <div class="col-md-6 product-gallery">
         <div class="thumbnail-list">
-            <c:forEach var="i" items="${p.images}" end="2">
-                <img src="assets/product-imgs/${i}" alt="Thumbnail">
+            <c:forEach var="i" items="${p.details}" end="2">
+                <img src="assets/product-imgs/${i.image}" alt="Thumbnail">
             </c:forEach>
         </div>
         <div id="mainCarousel" class="carousel slide main-image">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="assets/product-imgs/${p.images[0]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.details[0].image}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/product-imgs/${p.images[1]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.details[1].image}" class="d-block w-100" alt="Main Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/product-imgs/${p.images[2]}" class="d-block w-100" alt="Main Image">
+                    <img src="assets/product-imgs/${p.details[2].image}" class="d-block w-100" alt="Main Image">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
@@ -166,7 +166,7 @@
     <!-- Product Info -->
     <div class="col-md-6 product-info">
 
-        <h1>${p.name}</h1>
+        <h1>${p.productName}</h1>
         <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
 
         <form id="add-cart-form" action="add-cart" method="post" class="mt-5">
@@ -174,10 +174,10 @@
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
-                    <c:forEach var="co" items="${p.colors}">
+                    <c:forEach var="co" items="${p.details}">
                         <label>
-                            <input class="d-none" type="radio" name="color" value="${co}">
-                            <span>${co}</span>
+                            <input class="d-none" type="radio" name="color" value="${co.color}">
+                            <span>${co.color}</span>
                         </label>
                     </c:forEach>
                 </div>
@@ -187,10 +187,10 @@
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
                 <div class="choose_size mt-3">
-                    <c:forEach var="s" items="${p.sizes}">
+                    <c:forEach var="s" items="${p.details}">
                         <label>
-                            <input class="d-none" type="radio" name="size" value="${s}">
-                            <span>${s}</span>
+                            <input class="d-none" type="radio" name="size" value="${s.size}">
+                            <span>${s.size}</span>
                         </label>
                     </c:forEach>
                 </div>

@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao.CartDAO;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
@@ -14,7 +15,7 @@ public class CartService {
     }
 
     // Lấy toàn bộ sản phẩm từ giỏ hàng
-    public List<CartItem> getCart(int userId) {
+    public List<CartDetail> getCart(int userId) {
         return cartDAO.getAllCartItems(userId);
     }
 
@@ -44,11 +45,21 @@ public class CartService {
 
     // Tính tổng tiền
     public double getCartTotal(int userId) {
-        return cartDAO.getTotalPrice(userId);
+        double total = 0;
+        for (CartDetail cd : cartDAO.getAllCartItems(userId)) {
+            total += cd.getUnitPrice();
+        }
+        return total;
     }
 
     // Lấy sản phẩm chi tiết dựa theo size và color
     public ProductDetail getProductDetailBySizeColor(String color, String size) {
         return cartDAO.getProductDetailBySizeColor(color, size);
+    }
+
+    public static void main(String[] args) {
+        CartService service = new CartService();
+//        System.out.println(service.getCartTotal(2));
+        System.out.println(service.getCart(2));
     }
 }

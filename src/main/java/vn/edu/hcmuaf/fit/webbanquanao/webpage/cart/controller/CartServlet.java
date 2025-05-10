@@ -3,6 +3,8 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
@@ -22,10 +24,19 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Hiển thị giỏ hàng
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        List<CartItem> cart = cartService.getCart(userId);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+        int userId = user.getId();
+
+        // All products of cart
+        List<CartDetail> cart = cartService.getCart(userId);
         request.setAttribute("cart", cart);
-        request.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(request, response);
+
+        // Total price
+        double totalPrice = cartService.getCartTotal(userId);
+        request.setAttribute("totalPrice", totalPrice);
+
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     @Override
