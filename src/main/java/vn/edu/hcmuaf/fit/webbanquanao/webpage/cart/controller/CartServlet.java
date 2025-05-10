@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
@@ -28,7 +29,7 @@ public class CartServlet extends HttpServlet {
         int userId = user.getId();
 
         // All products of cart
-        List<CartItem> cart = cartService.getCart(userId);
+        List<CartDetail> cart = cartService.getCart(userId);
         request.setAttribute("cart", cart);
 
         // Total price

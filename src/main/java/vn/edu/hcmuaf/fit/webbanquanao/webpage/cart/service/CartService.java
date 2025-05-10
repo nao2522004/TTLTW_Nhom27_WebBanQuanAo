@@ -15,8 +15,8 @@ public class CartService {
     }
 
     // Lấy toàn bộ sản phẩm từ giỏ hàng
-    public List<CartItem> getCart(int userId) {
-        return null;
+    public List<CartDetail> getCart(int userId) {
+        return cartDAO.getAllCartItems(userId);
     }
 
     // Thêm sản phẩm vào giỏ hàng
@@ -59,6 +59,7 @@ public class CartService {
 
     public static void main(String[] args) {
         CartService service = new CartService();
-        System.out.println(service.getCartTotal(2));
+//        System.out.println(service.getCartTotal(2));
+        System.out.println(service.getCart(2));
     }
 }
