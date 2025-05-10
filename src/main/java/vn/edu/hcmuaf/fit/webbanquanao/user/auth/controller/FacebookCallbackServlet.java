@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.user.auth.controller;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.json.JSONObject;
 import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.FacebookUser;
 import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
@@ -15,9 +16,8 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import org.json.JSONObject;
 
 @WebServlet(name = "facebook-callback", value = "/facebook-callback")
 public class FacebookCallbackServlet extends HttpServlet {
@@ -25,14 +25,14 @@ public class FacebookCallbackServlet extends HttpServlet {
     private static final String CLIENT_SECRET = System.getenv("FACEBOOK_CLIENT_SECRET");
     private static final String REDIRECT_URI = System.getenv("FACEBOOK_REDIRECT_URI");
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String code = request.getParameter("code");
         if (code == null || code.isEmpty()) {
             response.sendRedirect("login.jsp?error=Facebook login failed");
             return;
         }
 
-        // Lấy access token từ Facebook
         String tokenUrl = "https://graph.facebook.com/v18.0/oauth/access_token?"
                 + "client_id=" + CLIENT_ID
                 + "&redirect_uri=" + REDIRECT_URI
@@ -40,62 +40,61 @@ public class FacebookCallbackServlet extends HttpServlet {
                 + "&code=" + code;
 
         String accessToken = getAccessToken(tokenUrl);
-
-        // Lấy thông tin người dùng
         String userInfo = getUserInfo(accessToken);
-
-        // Chuyển đổi JSON response sang Java Object
         FacebookUser fbUser = parseFacebookUser(userInfo);
 
-        // Xử lý đăng nhập hoặc đăng ký tài khoản mới
+        if (fbUser.getEmail() == null || fbUser.getEmail().isEmpty()) {
+            response.sendRedirect("login.jsp?error=Email permission is required");
+            return;
+        }
+
         UserDao userDAO = new UserDao();
         User user = userDAO.getUserByEmail(fbUser.getEmail());
 
         if (user == null) {
-            // Chưa có tài khoản, tạo mới
-            String[] nameParts = fbUser.getName().split(" ");
-            String firstName = nameParts.length > 0 ? nameParts[0] : "";
-            String lastName = nameParts.length > 1 ? nameParts[1] : "";
+            String[] nameParts = fbUser.getName().trim().split("\\s+");
+            String firstName = nameParts[0];
+            String lastName = nameParts.length > 1
+                    ? String.join(" ", Arrays.copyOfRange(nameParts, 1, nameParts.length))
+                    : "";
 
-            // Tạo username từ email (lấy phần trước @)
             String username = fbUser.getEmail().split("@")[0];
+            String hashedPassword = userDAO.hashPassword(generateRandomPassword());
 
-            // Tạo mật khẩu ngẫu nhiên và hash
-            String randomPassword = userDAO.hashPassword(generateRandomPassword());
-
-            // Tạo user mới
             user = new User(
                     username,
                     firstName,
                     lastName,
                     fbUser.getEmail(),
-                    randomPassword
+                    hashedPassword
             );
 
-            // Thiết lập các thông tin khác
-            user.setStatus(1); // 1 = active
+            user.setStatus(1);
             user.setCreatedAt(LocalDateTime.now());
-            user.setRoles(new ArrayList<>(List.of("USER"))); // Mặc định role USER
+            user.setRoles(new ArrayList<>(List.of("USER")));
 
-            // Thêm user vào database
             if (!userDAO.createUser(user)) {
                 response.sendRedirect("login.jsp?error=Failed to create account");
                 return;
             }
 
-            // Lấy lại user từ DB để có đầy đủ thông tin
             user = userDAO.getUserByEmail(fbUser.getEmail());
         } else if (user.getStatus() == 0) {
-            // Tài khoản bị vô hiệu hóa
             response.sendRedirect("login.jsp?error=Account is disabled");
             return;
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("user", user);
+        session.setAttribute("auth", user);
 
-
-        response.sendRedirect("homePage");
+        // Chuyển hướng đến trang trước đó nếu có
+        String redirect = (String) session.getAttribute("redirect_after_login");
+        if (redirect != null) {
+            session.removeAttribute("redirect_after_login");
+            response.sendRedirect(redirect);
+        } else {
+            response.sendRedirect("homePage");
+        }
     }
 
     private String getAccessToken(String tokenUrl) throws IOException {
@@ -142,9 +141,7 @@ public class FacebookCallbackServlet extends HttpServlet {
         JSONObject obj = new JSONObject(json);
         return new FacebookUser(obj.getString("id"), obj.getString("name"), obj.optString("email"));
     }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-    }
     private String generateRandomPassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
@@ -153,5 +150,10 @@ public class FacebookCallbackServlet extends HttpServlet {
             sb.append(chars.charAt(random.nextInt(chars.length())));
         }
         return sb.toString();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // Không xử lý POST
     }
 }
