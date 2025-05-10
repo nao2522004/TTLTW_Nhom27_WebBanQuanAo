@@ -62,7 +62,7 @@
 
             <p>hoặc đăng nhập bằng tài khoản mạng xã hội</p>
             <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="login-facebook"><i class="fa-brands fa-facebook"></i></a>
                 <a href="${pageContext.request.contextPath}/google-login"><i class="fa-brands fa-google"></i></a>
                 <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -113,7 +113,7 @@
 
             <p>hoặc đăng ký bằng tài khoản mạng xã hội</p>
             <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="login-facebook"><i class="fa-brands fa-facebook"></i></a>
                 <a href="google-login"><i class="fa-brands fa-google"></i></a>
                 <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
