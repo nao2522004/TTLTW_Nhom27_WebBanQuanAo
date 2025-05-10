@@ -64,7 +64,6 @@ public class AuthorizationFilter implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        HttpSession session = httpRequest.getSession(false);
 
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
         String method = httpRequest.getMethod().toUpperCase();
@@ -75,6 +74,7 @@ public class AuthorizationFilter implements Filter {
             return;
         }
 
+        HttpSession session = httpRequest.getSession(false);
         User user = session != null ? (User) session.getAttribute("auth") : null;
 
         if (user == null) {
@@ -86,11 +86,19 @@ public class AuthorizationFilter implements Filter {
             return;
         }
 
-        if (user.getStatus() == null || user.getStatus() == 0) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
-            logger.warn("Tài khoản người dùng chưa được kích hoạt. Người dùng: {}, IP: {}", user.getUserName(), httpRequest.getRemoteAddr());
-            return;
-        }
+        // đảm bảo tồn tại session
+        session = httpRequest.getSession();
+//      session.setAttribute("lastLoggedPath", path);
+
+        // 2. Phân biệt AJAX
+        boolean ajax = isAjax(httpRequest);
+
+        // Chưa kích hoạt tài khoản
+//        if (user.getStatus() == null || user.getStatus() == 0) {
+//            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
+//            logger.warn("Tài khoản người dùng chưa được kích hoạt. Người dùng: {}, IP: {}", user.getUserName(), httpRequest.getRemoteAddr());
+//            return;
+//        }
 
         if (session.getAttribute("hasLoggedUserInfo") == null) {
             logger.info("Đăng nhập thành công cho người dùng: {}", user.getUserName());
@@ -118,8 +126,14 @@ public class AuthorizationFilter implements Filter {
             return;
         }
 
-        logger.info("User {} truy cập thành công vào {} -> {}", user.getUserName(), path, resource);
-        userLogsService.logAccessGranted(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
+        String lastPath = (String) session.getAttribute("lastLoggedPath");
+        boolean firstTimeOnPath = !path.equals(lastPath);
+
+        if (!ajax && firstTimeOnPath) {
+            logger.info("User {} truy cập thành công vào {} -> {}", user.getUserName(), path, resource);
+            userLogsService.logAccessGranted(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
+            session.setAttribute("lastLoggedPath", path);
+        }
 
         chain.doFilter(request, response);
     }
@@ -139,6 +153,10 @@ public class AuthorizationFilter implements Filter {
         if (dotIndex == -1) return false;
         String ext = path.substring(dotIndex + 1).toLowerCase();
         return STATIC_EXTENSIONS.contains(ext);
+    }
+
+    private boolean isAjax(HttpServletRequest req) {
+        return "XMLHttpRequest".equals(req.getHeader("X-Requested-With"));
     }
 
     @Override
