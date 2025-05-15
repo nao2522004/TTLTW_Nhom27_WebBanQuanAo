@@ -42,10 +42,13 @@ public class OrdersApi extends HttpServlet {
                 // 1. GET /api/orders → Danh sách tất cả
                 List<AOrder> list = new ArrayList<>(orderService.showOrders().values());
 
-                // Ghi log console
-                logger.info("User: {}, Action: View all orders", username);
-                // Ghi log database
-                logService.logAction("INFO", username, roles, "Xem danh sách tất cả đơn hàng", ip);
+                // Chỉ log lần đầu trong session
+                Boolean viewedAll = (Boolean) session.getAttribute("viewedAllOrders");
+                if (viewedAll == null || !viewedAll) {
+                    logger.info("User: {}, Action: View all orders", username);
+                    logService.logAction("INFO", username, roles, "Xem danh sách tất cả đơn hàng", ip);
+                    session.setAttribute("viewedAllOrders", true);
+                }
 
                 // Trả về JSON
                 String json = gson.toJson(list);
