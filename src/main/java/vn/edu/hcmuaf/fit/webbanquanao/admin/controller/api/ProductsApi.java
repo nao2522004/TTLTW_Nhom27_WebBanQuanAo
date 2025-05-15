@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -23,8 +23,8 @@ import java.time.format.DateTimeParseException;
 import java.sql.Date;
 
 @WebServlet(name = "ManagerProducts", value = "/admin/manager-products")
-public class ManagerProducts extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(ManagerProducts.class);
+public class ProductsApi extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(ProductsApi.class);
     private AProductService productService;
 
     @Override

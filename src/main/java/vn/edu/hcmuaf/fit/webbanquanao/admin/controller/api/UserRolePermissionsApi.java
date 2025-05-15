@@ -1,10 +1,9 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "ManagerUserRolePermissions", value = "/admin/manager-userRolePermissions")
-public class ManagerUserRolePermissions extends HttpServlet {
+public class UserRolePermissionsApi extends HttpServlet {
     private AUserService userService;
 
     @Override
