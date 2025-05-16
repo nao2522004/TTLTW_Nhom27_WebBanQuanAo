@@ -54,9 +54,9 @@ public class CartService {
         return total;
     }
 
-    // Lấy sản phẩm chi tiết dựa theo size và color
-    public ProductDetail getProductDetailBySizeColor(String color, String size) {
-        return cartDAO.getProductDetailBySizeColor(color, size);
+    // Get product detail
+    public ProductDetail getProductDetail(int productId, String color, String size) {
+        return cartDAO.getProductDetail(productId, color, size);
     }
 
     public static void main(String[] args) {

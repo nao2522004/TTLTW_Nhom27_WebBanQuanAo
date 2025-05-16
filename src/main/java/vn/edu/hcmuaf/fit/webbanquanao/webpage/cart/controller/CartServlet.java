@@ -49,19 +49,24 @@ public class CartServlet extends HttpServlet {
                 throw new IllegalArgumentException("Action không được để trống");
             }
 
+            // Get userId
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("auth");
+            int userId = user.getId();
+
             switch (action.toLowerCase()) {
                 case "add":
                     handleAdd(request, response,
                             getIntParameter(request, "productId"),
                             getIntParameter(request, "quantity"),
-                            getIntParameter(request, "userId"));
+                            userId);
                     break;
 
                 case "update":
                     handleUpdate(request, response,
                             getIntParameter(request, "productDetailId"),
                             getIntParameter(request, "quantity"),
-                            getIntParameter(request, "userId"));
+                            userId);
                     break;
 
                 case "remove":
@@ -99,7 +104,8 @@ public class CartServlet extends HttpServlet {
             String couponIdStr = request.getParameter("couponId");
 
             // Kiểm tra các tham số bắt buộc
-            if (color == null || size == null || unitPriceStr == null || couponIdStr == null) {
+            if (color == null || size == null || unitPriceStr == null || couponIdStr == null ||
+                color.isEmpty() || size.isEmpty() || unitPriceStr.isEmpty() || couponIdStr.isEmpty()) {
                 throw new IllegalArgumentException("Thiếu thông tin sản phẩm");
             }
 
@@ -108,13 +114,13 @@ public class CartServlet extends HttpServlet {
             int couponId = Integer.parseInt(couponIdStr);
 
             // Lấy chi tiết sản phẩm và thêm vào giỏ hàng
-            ProductDetail pd = cartService.getProductDetailBySizeColor(color, size);
+            ProductDetail pd = cartService.getProductDetail(productId, color, size);
             boolean result = cartService.addToCart(userId, couponId, quantity, unitPrice, pd.getId());
             request.getSession().setAttribute("message", result ? "Thêm vào giỏ hàng thành công" : "Thêm vào giỏ hàng thất bại");
         } catch (Exception e) {
             request.getSession().setAttribute("message", "Không lấy được dữ liệu sản phẩm");
         } finally {
-            response.sendRedirect(request.getContextPath() + "/productDetail?productId=" + productId);
+            response.sendRedirect(request.getContextPath() + "/productDetail?pid=" + productId);
         }
     }
 
