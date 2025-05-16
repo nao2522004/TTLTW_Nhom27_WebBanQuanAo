@@ -2,22 +2,24 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.dao.CartDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.util.List;
 
 public class CartService {
     private CartDAO cartDAO;
+    private ProductDAO productDAO;
 
     public CartService() {
         this.cartDAO = new CartDAO();
     }
 
-    // Lấy toàn bộ sản phẩm từ giỏ hàng
-    public List<CartDetail> getCart(int userId) {
+    // Get all products from cart
+    public List<CartDetail> getCartItems(int userId) {
         return cartDAO.getAllCartItems(userId);
     }
+
 
     // Thêm sản phẩm vào giỏ hàng
     public boolean addToCart(int userId, int couponId, int quantity, double unitPrice, int productDetailId) {
@@ -60,6 +62,6 @@ public class CartService {
     public static void main(String[] args) {
         CartService service = new CartService();
 //        System.out.println(service.getCartTotal(2));
-        System.out.println(service.getCart(2));
+//        System.out.println(service.getCart(2));
     }
 }

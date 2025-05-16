@@ -35,26 +35,26 @@
                 </div>
             </c:if>
 
-            <c:forEach items="${cart}" var="cp">
+            <c:forEach items="${cart}" var="c">
                 <div class="row border-top-bottom">
                     <div class="row main align-items-center">
-                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.productDetail.image}" alt=""></div>
+                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${c.productDetail.image}" alt=""></div>
                         <div class="col">
-                            <div class="row text-muted">${cp.productName}</div>
+                            <div class="row text-muted">${c.productName}</div>
                             <div class="row text-muted">
-                                ${cp.productDetail.size}
-                                <div class="col text-muted">${cp.productDetail.color}</div>
+                                ${c.productDetail.size}
+                                <div class="col text-muted">${c.productDetail.color}</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="quantity-controls">
-                                <a href="updateCart?pid=${cp.id}&action=down" class="btn-decrease" data-id="${cp.id}">-</a>
-                                <span id="quantity-${cp.id}" class="quantity">${cp.quantity}</span>
-                                <a href="updateCart?pid=${cp.id}&action=up" class="btn-increase" data-id="${cp.id}">+</a>
+                                <a href="updateCart?pid=${c.productDetail.productId}&action=down" class="btn-decrease" data-id="${c.productDetail.productId}">-</a>
+                                <span id="quantity-${c.productDetail.productId}" class="quantity">${c.quantity}</span>
+                                <a href="updateCart?pid=${c.productDetail.productId}&action=up" class="btn-increase" data-id="${c.productDetail.productId}">+</a>
                             </div>
                         </div>
-                        <div class="product-price col" data-price="${cp.unitPrice}"></div>
-                        <a href="del-cart?pid=${cp.id}">
+                        <div class="product-price col" data-price="${c.unitPrice}"></div>
+                        <a href="del-cart?pid=${c.productDetail.productId}">
                             <button class="close col">&#10005;</button>
                         </a>
                     </div>

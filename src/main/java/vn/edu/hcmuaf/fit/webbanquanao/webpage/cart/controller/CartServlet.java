@@ -31,7 +31,7 @@ public class CartServlet extends HttpServlet {
         int userId = user.getId();
 
         // All products of cart
-        List<CartDetail> cart = cartService.getCart(userId);
+        List<CartDetail> cart = cartService.getCartItems(userId);
         request.setAttribute("cart", cart);
 
         // Total price
