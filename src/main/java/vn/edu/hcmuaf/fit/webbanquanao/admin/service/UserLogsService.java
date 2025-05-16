@@ -123,13 +123,13 @@ public class UserLogsService {
 
     public boolean logUpdateEntity(String username, String entityName, String entityId,
                                    String ipAddress, List<String> roles) {
-        String msg = String.format("Cập nhật %s: %s", entityName, entityId);
+        String msg = String.format("Cập nhật thành công %s: Id = %s", entityName, entityId);
         return logAction("INFO", username, roles, msg, ipAddress);
     }
 
     public boolean logDeleteEntity(String username, String entityName, String entityId,
                                    String ipAddress, List<String> roles) {
-        String msg = String.format("Xóa %s: %s", entityName, entityId);
+        String msg = String.format("Xóa thành công %s: Id = %s", entityName, entityId);
         return logAction("WARN", username, roles, msg, ipAddress);
     }
 

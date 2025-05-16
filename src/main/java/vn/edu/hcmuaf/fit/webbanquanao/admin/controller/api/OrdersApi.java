@@ -1,23 +1,22 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import com.google.gson.*;
-import jakarta.servlet.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AOrderService;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@WebServlet(name = "ManagerOrders", value = "/admin/api/orders/*")
+@WebServlet(name = "OrdersApi", urlPatterns = "/admin/api/orders/*")
 public class OrdersApi extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(OrdersApi.class);
+    private static final long serialVersionUID = 1L;
     private final AOrderService orderService = new AOrderService();
     private final UserLogsService logService = UserLogsService.getInstance();
     private final Gson gson = new GsonBuilder()
@@ -26,290 +25,196 @@ public class OrdersApi extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Chuẩn bị: session, user, ip, logger/service
-        HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        String username = user != null ? user.getUserName() : "unknown";
-        List<String> roles = user != null ? user.getRoles() : Collections.emptyList();
-        String ip = req.getRemoteAddr();
+        prepareResponse(resp);
+        ApiContext ctx = new ApiContext(req);
+        String id = extractId(req.getPathInfo());
 
-        String pathInfo = req.getPathInfo(); // null, "/", or "/{id}"
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-
-        try {
-            if (pathInfo == null || "/".equals(pathInfo)) {
-                // 1. GET /api/orders → Danh sách tất cả
-                List<AOrder> list = new ArrayList<>(orderService.showOrders().values());
-
-                // Chỉ log lần đầu trong session
-                Boolean viewedAll = (Boolean) session.getAttribute("viewedAllOrders");
-                if (viewedAll == null || !viewedAll) {
-                    logger.info("User: {}, Action: View all orders", username);
-                    logService.logAction("INFO", username, roles, "Xem danh sách tất cả đơn hàng", ip);
-                    session.setAttribute("viewedAllOrders", true);
-                }
-
-                // Trả về JSON
-                String json = gson.toJson(list);
-                resp.getWriter().write(json);
-
-            } else {
-                // 2. GET /api/orders/{id} → Chi tiết
-                String idStr = pathInfo.substring(1);
-                int orderId = Integer.parseInt(idStr);
-
-                AOrder order = orderService.showOrders().get(orderId);
-                if (order != null) {
-                    // Ghi log console
-                    logger.info("User: {}, Action: View order detail, ID={}", username, orderId);
-                    // Ghi log database
-                    logService.logAction("INFO", username, roles, "Xem chi tiết đơn hàng ID=" + orderId, ip);
-
-                    String json = gson.toJson(order);
-                    resp.getWriter().write(json);
-                } else {
-                    // Không tìm thấy
-                    logger.warn("User: {}, Action: View order detail failed, order not found ID={}", username, orderId);
-                    logService.logAction("WARN", username, roles, "Không tìm thấy đơn hàng ID=" + orderId, ip);
-
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    resp.getWriter().write("{\"message\":\"Không tìm thấy đơn hàng\"}");
-                }
+        if (id == null) {
+            List<AOrder> orders = new ArrayList<>(orderService.showOrders().values());
+            // Chỉ log lần đầu xem tất cả đơn hàng trong session
+            if (!ctx.session.getAttribute("viewAllOrders").equals(Boolean.TRUE)) {
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order", ctx.permissions, ctx.ip, ctx.roles);
+                ctx.session.setAttribute("viewAllOrders", Boolean.TRUE);
             }
-        } catch (NumberFormatException e) {
-            // ID không hợp lệ
-            logger.error("User: {}, Action: Invalid orderId format: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles, "orderId không hợp lệ: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"orderId không hợp lệ\"}");
-
-        } catch (IOException e) {
-            // Lỗi I/O khi viết response
-            logger.error("User: {}, Action: IO error in doGet: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles, "Lỗi IO khi xử lý GET orders: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"message\":\"Lỗi server trong quá trình xử lý yêu cầu\"}");
+            writeJson(resp, orders);
+        } else {
+            handleGetById(id, ctx, req, resp);
         }
     }
 
+    private void handleGetById(String id, ApiContext ctx, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            int orderId = Integer.parseInt(id);
+            AOrder order = orderService.showOrders().get(orderId);
+            if (order != null) {
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order",ctx.permissions, ctx.ip, ctx.roles);
+                writeJson(resp, order);
+            } else {
+                logService.logCustom(ctx.username, "WARN", "Order not found ID=" + orderId, ctx.ip, ctx.roles);
+                sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đơn hàng");
+            }
+        } catch (NumberFormatException e) {
+            logService.logCustom(ctx.username, "ERROR", "Invalid orderId: " + id, ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "orderId không hợp lệ");
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // POST /api/orders       → tạo mới
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-
-        HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        String username = user != null ? user.getUserName() : "unknown";
-        List<String> roles = user != null ? user.getRoles() : Collections.emptyList();
-        String ip = req.getRemoteAddr();
-
+        prepareResponse(resp);
+        ApiContext ctx = new ApiContext(req);
         try {
-            // 1. Đọc toàn bộ body JSON
-            StringBuilder sb = new StringBuilder();
-            try (BufferedReader reader = req.getReader()) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-            }
-            AOrder order = gson.fromJson(sb.toString(), AOrder.class);
+            AOrder order = gson.fromJson(readBody(req), AOrder.class);
+            validateCreate(order);
+            Map<Integer, AOrder> orders = orderService.showOrders();
 
-            // 2. Validate bắt buộc
-            if (order.getId() == null
-                    || order.getFirstName() == null
-                    || order.getOrderDate() == null
-                    || order.getTotalPrice() <= 0) {
-                throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc");
-            }
-
-            // 3. Thực thi tạo
-            Map<Integer,AOrder> all = orderService.showOrders();
-            if (all.containsKey(order.getId())) {
-                // conflict
-                logger.warn("User: {}, Action: Create order failed, ID={} already exists", username, order.getId());
-                logService.logAction("WARN", username, roles,
-                        "Tạo đơn hàng thất bại: đã tồn tại ID=" + order.getId(), ip);
-
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                resp.getWriter().write("{\"message\":\"Đơn hàng đã tồn tại\"}");
+            if (orders.containsKey(order.getId())) {
+                logService.logCreateEntity(ctx.username, "Order", String.valueOf(order.getId()), ctx.ip, ctx.roles);
+                sendError(resp, HttpServletResponse.SC_CONFLICT, "Đơn hàng đã tồn tại");
             } else {
-                all.put(order.getId(), order);
-                logger.info("User: {}, Action: Created order successfully, ID={}", username, order.getId());
-                logService.logAction("INFO", username, roles,
-                        "Tạo đơn hàng mới thành công, ID=" + order.getId(), ip);
-
-                resp.setStatus(HttpServletResponse.SC_CREATED);
-                resp.getWriter().write("{\"message\":\"Tạo đơn hàng thành công\"}");
+                orders.put(order.getId(), order);
+                logService.logCreateEntity(ctx.username, "Order", String.valueOf(order.getId()), ctx.ip, ctx.roles);
+                sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo đơn hàng thành công");
             }
-        } catch (JsonSyntaxException e) {
-            logger.error("User: {}, Action: Invalid JSON format while creating order, Error: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles,
-                    "JSON không hợp lệ khi tạo đơn hàng: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"Dữ liệu JSON không hợp lệ\"}");
-        } catch (IllegalArgumentException e) {
-            logger.warn("User: {}, Action: Missing fields while creating order, Error: {}", username, e.getMessage());
-            logService.logAction("WARN", username, roles,
-                    "Dữ liệu đơn hàng thiếu khi tạo đơn: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"" + e.getMessage() + "\"}");
+        } catch (JsonSyntaxException | IllegalArgumentException e) {
+            logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
-            logger.error("User: {}, Action: Server error while creating order, Error: {}", username, e.getMessage());
-            logService.logAction("FATAL", username, roles,
-                    "Lỗi server khi tạo đơn hàng: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"message\":\"Lỗi server trong quá trình tạo đơn\"}");
+            logService.logCustom(ctx.username, "FATAL", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi tạo đơn hàng");
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // PUT /api/orders/{id}  → cập nhật
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        prepareResponse(resp);
+        ApiContext ctx = new ApiContext(req);
+        String id = extractId(req.getPathInfo());
 
-        HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        String username = user != null ? user.getUserName() : "unknown";
-        List<String> roles = user != null ? user.getRoles() : Collections.emptyList();
-        String ip = req.getRemoteAddr();
-
-        String pathInfo = req.getPathInfo(); // ví dụ "/8"
-        if (pathInfo == null || pathInfo.length() < 2) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"Thiếu ID trong URL\"}");
+        if (id == null) {
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
             return;
         }
 
         try {
-            int orderId = Integer.parseInt(pathInfo.substring(1));
+            int orderId = Integer.parseInt(id);
+            AOrder order = gson.fromJson(readBody(req), AOrder.class);
+            validateUpdate(order);
 
-            // Đọc JSON tương tự
-            StringBuilder sb = new StringBuilder();
-            try (BufferedReader reader = req.getReader()) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-            }
-            AOrder order = gson.fromJson(sb.toString(), AOrder.class);
-
-            // Validate
-            if (order.getFirstName() == null || order.getPaymentId() == null) {
-                throw new IllegalArgumentException("Thiếu trường bắt buộc");
-            }
-
-            // Cập nhật
-            boolean ok = orderService.updateOrder(order, orderId);
-            if (ok) {
-                logger.info("User: {}, Action: Updated order successfully, ID={}", username, orderId);
-                logService.logAction("INFO", username, roles,
-                        "Cập nhật đơn hàng ID=" + orderId + " thành công", ip);
-
-                resp.setStatus(HttpServletResponse.SC_OK);
-                resp.getWriter().write("{\"message\":\"Cập nhật thành công\"}");
+            if (orderService.updateOrder(order, orderId)) {
+                logService.logUpdateEntity(ctx.username, "Order", id, ctx.ip, ctx.roles);
+                sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật thành công");
             } else {
-                logger.error("User: {}, Action: Failed to update order, ID={}", username, orderId);
-                logService.logAction("ERROR", username, roles,
-                        "Cập nhật đơn hàng ID=" + orderId + " thất bại", ip);
-
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                resp.getWriter().write("{\"message\":\"Không tìm thấy đơn hàng\"}");
+                logService.logCustom(ctx.username, "WARN", "Update failed, ID=" + id, ctx.ip, ctx.roles);
+                sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đơn hàng");
             }
         } catch (NumberFormatException e) {
-            logger.error("User: {}, Action: Invalid orderId format: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles,
-                    "orderId không hợp lệ khi cập nhật: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"orderId không hợp lệ\"}");
-        } catch (JsonSyntaxException e) {
-            logger.error("User: {}, Action: Invalid JSON format while updating order, Error: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles,
-                    "JSON không hợp lệ khi cập nhật đơn hàng: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"Dữ liệu JSON không hợp lệ\"}");
-        } catch (IllegalArgumentException e) {
-            logger.warn("User: {}, Action: Missing fields while updating order, Error: {}", username, e.getMessage());
-            logService.logAction("WARN", username, roles,
-                    "Thiếu thông tin khi cập nhật đơn hàng: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"" + e.getMessage() + "\"}");
+            logService.logCustom(ctx.username, "ERROR", "Invalid orderId: " + id, ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "orderId không hợp lệ");
+        } catch (JsonSyntaxException | IllegalArgumentException e) {
+            logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
-            logger.error("User: {}, Action: Server error while updating order, Error: {}", username, e.getMessage());
-            logService.logAction("FATAL", username, roles,
-                    "Lỗi server khi cập nhật đơn hàng: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"message\":\"Lỗi server trong quá trình cập nhật\"}");
+            logService.logCustom(ctx.username, "FATAL", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi cập nhật đơn hàng");
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // DELETE /api/orders/{id} → xóa
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        prepareResponse(resp);
+        ApiContext ctx = new ApiContext(req);
+        String id = extractId(req.getPathInfo());
 
-        HttpSession session = req.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        String username = user != null ? user.getUserName() : "unknown";
-        List<String> roles = user != null ? user.getRoles() : Collections.emptyList();
-        String ip = req.getRemoteAddr();
-
-        String pathInfo = req.getPathInfo(); // "/{id}"
-        if (pathInfo == null || pathInfo.length() < 2) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"Thiếu ID trong URL\"}");
+        if (id == null) {
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
             return;
         }
 
         try {
-            int orderId = Integer.parseInt(pathInfo.substring(1));
-
-            boolean deleted = orderService.deleteOrder(orderId);
-            if (deleted) {
-                logger.info("User: {}, Action: Soft delete order successful, ID={}", username, orderId);
-                logService.logAction("INFO", username, roles,
-                        "Đã xóa mềm đơn hàng ID=" + orderId, ip);
-
-                resp.setStatus(HttpServletResponse.SC_OK);
-                resp.getWriter().write("{\"message\":\"Xóa đơn hàng thành công\"}");
+            int orderId = Integer.parseInt(id);
+            if (orderService.deleteOrder(orderId)) {
+                logService.logDeleteEntity(ctx.username, "Order", id, ctx.ip, ctx.roles);
+                sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa đơn hàng thành công");
             } else {
-                logger.error("User: {}, Action: Order not found for delete, ID={}", username, orderId);
-                logService.logAction("ERROR", username, roles,
-                        "Không tìm thấy đơn hàng để xóa ID=" + orderId, ip);
-
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                resp.getWriter().write("{\"message\":\"Không tìm thấy đơn hàng\"}");
+                logService.logCustom(ctx.username, "ERROR", "Delete failed, ID=" + id, ctx.ip, ctx.roles);
+                sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy đơn hàng");
             }
         } catch (NumberFormatException e) {
-            logger.error("User: {}, Action: Invalid orderId format in delete: {}", username, e.getMessage());
-            logService.logAction("ERROR", username, roles,
-                    "orderId không hợp lệ khi xóa: " + e.getMessage(), ip);
-
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"message\":\"orderId không hợp lệ\"}");
+            logService.logCustom(ctx.username, "ERROR", "Invalid orderId: " + id, ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "orderId không hợp lệ");
         } catch (Exception e) {
-            logger.error("User: {}, Action: Server error while deleting order, Error: {}", username, e.getMessage());
-            logService.logAction("FATAL", username, roles,
-                    "Lỗi server khi xóa đơn hàng: " + e.getMessage(), ip);
+            logService.logCustom(ctx.username, "FATAL", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi xóa đơn hàng");
+        }
+    }
 
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().write("{\"message\":\"Lỗi server trong quá trình xóa\"}");
+    // Validation
+    private void validateCreate(AOrder o) {
+        if (o.getId() == null || o.getFirstName() == null || o.getOrderDate() == null || o.getTotalPrice() <= 0) {
+            throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi tạo Order: ID = " + o.getId());
+        }
+    }
+
+    private void validateUpdate(AOrder o) {
+        if (o.getFirstName() == null || o.getPaymentId() == null) {
+            throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi cập nhật Order: ID = " + o.getId());
+        }
+    }
+
+
+    // Utility methods
+    private void prepareResponse(HttpServletResponse resp) {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+    }
+
+    private String extractId(String pathInfo) {
+        return (pathInfo == null || "/".equals(pathInfo)) ? null : pathInfo.substring(1);
+    }
+
+    private String readBody(HttpServletRequest req) throws IOException {
+        try (BufferedReader reader = req.getReader()) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line);
+            return sb.toString();
+        }
+    }
+
+    private <T> void writeJson(HttpServletResponse resp, T data) throws IOException {
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.getWriter().write(gson.toJson(data));
+    }
+
+    private void sendError(HttpServletResponse resp, int status, String message) throws IOException {
+        resp.setStatus(status);
+        gson.toJson(Map.of("message", message), resp.getWriter());
+    }
+
+    private void sendSuccess(HttpServletResponse resp, int status, String message) throws IOException {
+        sendError(resp, status, message);
+    }
+
+    // Context holder
+    private static class ApiContext {
+        final String username;
+        final Integer permissions;
+        final List<String> roles;
+        final String ip;
+        final HttpSession session;
+
+        ApiContext(HttpServletRequest req) {
+            this.session = req.getSession();
+            User user = (User) session.getAttribute("auth");
+            this.username = (user != null) ? user.getUserName() : "anonymous";
+            this.roles = (user != null) ? user.getRoles() : List.of();
+            this.permissions = (user != null) ? user.getPermissions().get("Order") : 0;
+            this.ip = req.getRemoteAddr();
+            // Initialize session flag
+            if (session.getAttribute("viewAllOrders") == null) {
+                session.setAttribute("viewAllOrders", Boolean.FALSE);
+            }
         }
     }
 }
-
-
-

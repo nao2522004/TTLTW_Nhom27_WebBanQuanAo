@@ -62,11 +62,11 @@ public class AuthorizationFilter implements Filter {
         User user = session != null ? (User) session.getAttribute("auth") : null;
         String ip = request.getRemoteAddr();
 
-//        if (user == null) {
-//            redirectToLogin(request, response);
+        if (user == null) {
+            redirectToLogin(request, response);
 //            logService.logAnonymousAccessAttempt(path, ip);
-//            return;
-//        }
+            return;
+        }
 
         // Log user info once
         if (session.getAttribute("hasLoggedUserInfo") == null) {
