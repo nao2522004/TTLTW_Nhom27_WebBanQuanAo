@@ -19,9 +19,7 @@ public class OrdersApi extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final AOrderService orderService = new AOrderService();
     private final UserLogsService logService = UserLogsService.getInstance();
-    private final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-            .create();
+    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +45,7 @@ public class OrdersApi extends HttpServlet {
             int orderId = Integer.parseInt(id);
             AOrder order = orderService.showOrders().get(orderId);
             if (order != null) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order",ctx.permissions, ctx.ip, ctx.roles);
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order", ctx.permissions, ctx.ip, ctx.roles);
                 writeJson(resp, order);
             } else {
                 logService.logCustom(ctx.username, "WARN", "Order not found ID=" + orderId, ctx.ip, ctx.roles);
@@ -161,7 +159,6 @@ public class OrdersApi extends HttpServlet {
             throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi cập nhật Order: ID = " + o.getId());
         }
     }
-
 
     // Utility methods
     private void prepareResponse(HttpServletResponse resp) {
