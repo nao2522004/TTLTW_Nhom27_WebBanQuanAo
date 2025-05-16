@@ -13,6 +13,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ProductsApi extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final AProductService productService = new AProductService();
     private final UserLogsService logService = UserLogsService.getInstance();
-    private final Gson gson = new GsonBuilder().create();
+    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,7 +49,7 @@ public class ProductsApi extends HttpServlet {
             int pid = Integer.parseInt(id);
             AProduct p = productService.getProductById(pid);
             if (p != null) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Product", ctx.permissions, ctx.ip, ctx.roles);
+//                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Product", ctx.permissions, ctx.ip, ctx.roles);
                 writeJson(resp, p);
             } else {
                 logService.logCustom(ctx.username, "WARN", "Product not found ID=" + pid, ctx.ip, ctx.roles);
@@ -98,7 +99,18 @@ public class ProductsApi extends HttpServlet {
 
         try {
             int pid = Integer.parseInt(id);
-            AProduct p = gson.fromJson(readBody(req), AProduct.class);
+
+            // Tạo Gson mới với định dạng ngày
+            Gson gsonWithDateFormat = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd")
+                    .create();
+
+            // Đọc body
+            String jsonBody = readBody(req);
+
+            // Parse với Gson vừa tạo
+            AProduct p = gsonWithDateFormat.fromJson(jsonBody, AProduct.class);
+
             validateUpdate(p);
 
             if (productService.updateProduct(pid, p)) {

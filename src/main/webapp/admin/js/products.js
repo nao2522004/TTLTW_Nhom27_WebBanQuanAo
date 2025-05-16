@@ -10,33 +10,30 @@
 // Lấy danh sách sản phẩm từ server
 function fetchProducts() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products',
+        url: '/WebBanQuanAo/admin/api/products',
         type: 'GET',
         dataType: 'json',
         success: function (products) {
             const table = $("#products--table");
 
-            // Xóa DataTables nếu đã được khởi tạo trước đó
             if ($.fn.DataTable.isDataTable(table)) {
-                table.DataTable().destroy(); // Hủy DataTables
-                table.find("tbody").empty(); // Xóa dữ liệu cũ
+                table.DataTable().destroy();
+                table.find("tbody").empty();
             }
 
-            // Thêm tbody mới vào bảng
             const tbody = buildTableProduct(products);
             table.append(tbody);
 
-            // Khởi tạo lại DataTables với phân trang và tìm kiếm
             table.DataTable({
-                searching: true, // Kích hoạt tìm kiếm
-                info: true, // Hiển thị thông tin tổng số bản ghi
-                order: [[0, 'asc']], // Sắp xếp mặc định theo cột đầu tiên (Id)
+                searching: true,
+                info: true,
+                order: [[0, 'asc']],
                 language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/vi.json' // Ngôn ngữ Tiếng Việt
+                    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/vi.json'
                 },
-                paging: true, // Kích hoạt phân trang
-                pageLength: 5, // Số bản ghi mỗi trang
-                lengthChange: true, // Kích hoạt thay đổi số lượng bản ghi mỗi trang
+                paging: true,
+                pageLength: 5,
+                lengthChange: true,
             });
         },
         error: function (xhr, status, error) {
@@ -123,23 +120,22 @@ document.addEventListener('DOMContentLoaded', function () {
 // Hàm xóa sản phẩm
 function deleteProduct(event) {
     const productId = parseInt(event.target.getAttribute("data-product-id"), 10); // Chuyển đổi thành int
-    console.log(JSON.stringify({id: productId}));
 
-    if (isNaN(productId)) { // Kiểm tra xem productId có phải là số hợp lệ không
+    if (isNaN(productId)) {
         alert("ID sản phẩm không hợp lệ.");
         return;
     }
 
     if (confirm(`Bạn có chắc chắn muốn xóa sản phẩm ID: ${productId}?`)) {
         $.ajax({
-            url: `/WebBanQuanAo/admin/manager-products?id=${productId}`,
+            url: `/WebBanQuanAo/admin/api/products/${productId}`,
             type: 'DELETE',
-            contentType: 'application/json',
-            data: JSON.stringify({id: productId}), // Gửi ID sản phẩm dưới dạng JSON
             cache: false,
             success: function (response) {
-                alert(response.message || "Xóa sản phẩm thành công!");
-                fetchProducts(); // Refresh danh sách sản phẩm sau khi xóa
+                if (response.message) {
+                    alert(response.message);
+                }
+                fetchProducts();
             },
             error: function (xhr, status, error) {
                 console.error('Lỗi khi xóa sản phẩm:', error);
@@ -158,167 +154,70 @@ function openEditProductPopup(event) {
     const overlay = main.querySelector(".overlay");
     overlay.style.display = "block";
 
-    // Gửi yêu cầu AJAX để lấy dữ liệu sản phẩm theo ID
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products', type: 'GET', data: {id: productId}, success: function (data) {
-            // Điền dữ liệu sản phẩm vào các trường trong form
-            document.getElementById("edit-idProduct").value = data.id;
-            document.getElementById("edit-typeId").value = data.typeId;
-            document.getElementById("edit-categoryId").value = data.categoryId;
-            document.getElementById("edit-supplierId").value = data.supplierId;
-            document.getElementById("edit-name").value = data.name;
-            document.getElementById("edit-description").value = data.description;
+        url: `/WebBanQuanAo/admin/api/products/${productId}`,
+        type: 'GET',
+        cache: false,
+        success: function (data) {
+            $("#edit-idProduct").val(data.id);
+            $("#edit-typeId").val(data.typeId);
+            $("#edit-categoryId").val(data.categoryId);
+            $("#edit-supplierId").val(data.supplierId);
+            $("#edit-name").val(data.name);
+            $("#edit-description").val(data.description);
 
-            // Đoạn mã trong openEditProductPopup
+            // Format ngày yyyy-MM-dd
             const releaseDate = new Date(data.releaseDate);
-            const formattedDate = releaseDate.getFullYear() + '-' + ('0' + (releaseDate.getMonth() + 1)).slice(-2) + '-' + ('0' + releaseDate.getDate()).slice(-2);
+            const formattedDate = releaseDate.toISOString().split('T')[0];
+            $("#edit-releaseDate").val(formattedDate);
 
-            document.getElementById("edit-releaseDate").value = formattedDate;
-
-
-            document.getElementById("edit-unitSold").value = data.unitSold;
-            document.getElementById("edit-unitPrice").value = data.unitPrice;
-            document.getElementById("edit-statusProduct").value = data.status;
-        }, error: function (xhr, status, error) {
+            $("#edit-unitSold").val(data.unitSold);
+            $("#edit-unitPrice").val(data.unitPrice);
+            $("#edit-statusProduct").val(data.status);
+        },
+        error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-            alert("Không thể lấy thông tin sản phẩm. Vui lòng thử lại.");
+            const message = xhr.responseJSON?.message || "Không thể lấy thông tin sản phẩm. Vui lòng thử lại.";
+            alert(message);
         }
     });
 }
 
 function saveProductEdits(event) {
-    // Ngăn hành vi submit mặc định của form
     event.preventDefault();
 
-    // Thu thập dữ liệu từ các trường nhập liệu
     const releaseDateRaw = document.getElementById("edit-releaseDate").value;
-
-    // Chỉ lấy giá trị ngày mà không sử dụng toISOString để tránh lỗi múi giờ
     const releaseDate = releaseDateRaw.split('T')[0]; // Chỉ lấy phần ngày (yyyy-MM-dd)
 
     const product = {
-        id: parseInt(document.getElementById("edit-idProduct").value),
-        typeId: parseInt(document.getElementById("edit-typeId").value),
-        categoryId: parseInt(document.getElementById("edit-categoryId").value),
-        supplierId: parseInt(document.getElementById("edit-supplierId").value),
-        name: document.getElementById("edit-name").value,
-        description: document.getElementById("edit-description").value,
+        id: parseInt($("#edit-idProduct").val()),
+        typeId: parseInt($("#edit-typeId").val()),
+        categoryId: parseInt($("#edit-categoryId").val()),
+        supplierId: parseInt($("#edit-supplierId").val()),
+        name: $("#edit-name").val(),
+        description: $("#edit-description").val(),
         releaseDate: releaseDate, // Gắn giá trị đã định dạng
-        unitSold: parseInt(document.getElementById("edit-unitSold").value),
-        unitPrice: parseFloat(document.getElementById("edit-unitPrice").value).toFixed(2),
-        status: parseInt(document.getElementById("edit-statusProduct").value),
+        unitSold: parseInt($("#edit-unitSold").val()),
+        unitPrice: parseFloat($("#edit-unitPrice").val()),
+        status: parseInt($("#edit-statusProduct").val())
     };
 
-    // Chuyển đổi đối tượng `product` thành JSON
-    const productJson = JSON.stringify(product);
-
-    // Gửi yêu cầu AJAX với JSON
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-products', type: 'PUT', contentType: 'application/json', // Định dạng dữ liệu gửi đi là JSON
-        data: productJson, // Gửi JSON object
-        success: function (response) {
-            alert("Cập nhật thông tin sản phẩm thành công!");
-            fetchProducts(); // Tải lại danh sách sản phẩm
-            hideOverlay(); // Ẩn overlay
-        }, error: function (xhr, status, error) {
-            console.error("Lỗi khi cập nhật thông tin sản phẩm:", error);
-            alert("Không thể cập nhật thông tin sản phẩm. Vui lòng kiểm tra lại dữ liệu và thử lại.");
-        }
-    });
-}
-
-function openProductDetails(event) {
-    const productId = event.target.getAttribute("data-productId-details");
-
-    const main = event.target.closest("main");
-    const overlay = main.querySelector(".overlay-productDetails");
-    overlay.style.display = "block";
-
-    // Gửi yêu cầu AJAX để lấy dữ liệu chi tiết sản phẩm theo productId
-    $.ajax({
-        url: '/WebBanQuanAo/admin/manager-productDetails',
-        type: 'GET',
-        data: {id: productId},
-        success: function (data) {
-            console.log(JSON.stringify(data));  // In ra dữ liệu nhận được từ server
-
-            if (data && data.length > 0) {
-                let productDetailListContent = '';
-
-                // Duyệt qua tất cả các chi tiết sản phẩm và tạo HTML để hiển thị
-                data.forEach(productDetail => {
-                    productDetailListContent += `
-                    <tr>
-                        <td><input type="number" value="${productDetail.id}" data-field="id" disabled></td>
-                        <td><input type="number" value="${productDetail.productId}" data-field="productId" disabled></td>
-                        <td><input type="text" value="${productDetail.size}" class="editable" data-id="${productDetail.id}" data-field="size"></td>
-                        <td><input type="number" value="${productDetail.stock}" class="editable" data-id="${productDetail.id}" data-field="stock"></td>
-                        <td><input type="text" value="${productDetail.image}" class="editable" data-id="${productDetail.id}" data-field="image"></td>
-                        <td><input type="text" value="${productDetail.color}" class="editable" data-id="${productDetail.id}" data-field="color"></td>
-                        <td><span onclick="saveProductDetailEdits(event)" class="primary material-icons-sharp">save</span></td>
-                    </tr>
-                   `;
-
-                });
-
-                // Điền dữ liệu vào phần <tbody> của bảng
-                const tableBody = document.querySelector("#product-details--table tbody");
-                tableBody.innerHTML = productDetailListContent;
-
-                // Thêm sự kiện để chỉnh sửa các trường thông tin
-                const editableFields = document.querySelectorAll(".editable");
-                editableFields.forEach(field => {
-                    field.addEventListener("change", handleFieldChange);
-                });
-            } else {
-                alert("Không có chi tiết sản phẩm nào.");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("Lỗi khi lấy dữ liệu chi tiết sản phẩm:", error);
-            alert("Không thể lấy thông tin chi tiết sản phẩm. Vui lòng thử lại.");
-        }
-    });
-}
-
-
-function saveProductDetailEdits(event) {
-    event.preventDefault()
-
-    // Lấy hàng chứa nút "save" được nhấn
-    const row = event.target.closest("tr");
-
-    // Lấy các giá trị từ các trường trong hàng
-    const productDetail = {
-        id: parseInt(row.querySelector("input[data-field='id']").value),
-        productId: parseInt(row.querySelector("input[data-field='productId']").value),
-        size: row.querySelector("input[data-field='size']").value,
-        stock: parseInt(row.querySelector("input[data-field='stock']").value),
-        image: row.querySelector("input[data-field='image']").value,
-        color: row.querySelector("input[data-field='color']").value
-    };
-
-    console.log(JSON.stringify(productDetail));
-
-    // Kiểm tra các giá trị bắt buộc
-    if (!productDetail.size || !productDetail.color) {
-        alert("Vui lòng điền đầy đủ thông tin kích thước và màu sắc.");
-        return;
-    }
-
-    // Gửi yêu cầu AJAX để lưu chi tiết sản phẩm
-    $.ajax({
-        url: '/WebBanQuanAo/admin/manager-productDetails', // Đảm bảo đường dẫn chính xác
+        url: `/WebBanQuanAo/admin/api/products/${product.id}`, // Gửi id trên URL như orders
         type: 'PUT',
         contentType: 'application/json',
-        data: JSON.stringify(productDetail),
-        success: function (response) {
-            alert("Cập nhật chi tiết sản phẩm thành công!");
-            // Thêm logic cập nhật giao diện nếu cần thiết
+        data: JSON.stringify(product),
+        cache: false,
+        success: function () {
+            alert("Cập nhật thông tin sản phẩm thành công!");
+            fetchProducts(); // Reload bảng sản phẩm
+            hideOverlay(); // Ẩn popup
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi khi cập nhật chi tiết sản phẩm:", error);
-            alert("Không thể cập nhật chi tiết sản phẩm. Vui lòng thử lại.");
+            console.error("Lỗi khi cập nhật sản phẩm:", error);
+            console.log(JSON.stringify(product))
+            const message = xhr.responseJSON?.message || "Không thể cập nhật sản phẩm. Lỗi không xác định từ server.";
+            alert(message);
         }
     });
 }
@@ -401,78 +300,3 @@ document.addEventListener("click", function(event) {
     }
 });
 
-/*--------------------------------------------------------
----------------------------------------------------------
-
-                       Add Product Details
-
----------------------------------------------------------
-----------------------------------------------------------*/
-function showAddProductDetailsForm() {
-    const overlay = document.querySelector(".overlay-addproductDetails");
-    overlay.style.display = "flex"; // Hiển thị lớp phủ
-}
-
-
-function hideAddProductDetailsForm() {
-    const overlay = document.querySelector(".overlay-addproductDetails");
-    const form = document.getElementById("add-productDetails-form");
-    form.reset(); // Xóa dữ liệu trong form
-    overlay.style.display = "none";
-}
-
-
-// Thêm chi tiết sản phẩm mới
-function createProductDetails(event) {
-    event.preventDefault();
-
-    const form = document.getElementById('add-productDetails-form');
-    const formData = new FormData(form);
-
-    const productDetails = Object.fromEntries(formData.entries());
-
-    // Chuyển các giá trị của các input thành đúng kiểu dữ liệu (parseInt, parseFloat, hoặc boolean)
-    productDetails.productId = parseInt(productDetails.productId);
-    productDetails.size = productDetails.size;
-    productDetails.stock = parseInt(productDetails.stock);
-    productDetails.color = productDetails.color;
-    productDetails.image = productDetails.image.trim();
-
-    console.log(JSON.stringify(productDetails));
-
-    fetch('/WebBanQuanAo/admin/manager-productDetails', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(productDetails)
-    })
-        .then(response => {
-            if (response.ok) return response.json();
-            return response.json().then(err => Promise.reject(err));
-        })
-        .then(data => {
-            alert(data.message || 'Chi tiết sản phẩm đã được tạo thành công!');
-            fetchProducts()
-            hideAddProductDetailsForm()
-        })
-        .catch(err => {
-            console.error('Lỗi:', err);
-            alert(err.message || 'Không thể tạo chi tiết sản phẩm. Vui lòng thử lại.');
-        });
-}
-
-window.addEventListener("DOMContentLoaded", hideAddProductDetailsForm);
-
-// Xử lý sự kiện click ra ngoài form để ẩn form
-document.addEventListener("click", function(event) {
-    const overlay = document.querySelector(".overlay-addproductDetails");
-    const form = document.getElementById("add-productDetails-form");
-
-    // Kiểm tra nếu form đang hiển thị và click không nằm trong form hoặc nút hiển thị form
-    if (overlay.style.display === "flex" &&
-        !form.contains(event.target) &&
-        !event.target.closest("button")) {
-        hideAddProductDetailsForm();
-    }
-});
