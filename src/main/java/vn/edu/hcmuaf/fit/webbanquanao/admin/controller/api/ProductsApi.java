@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.sql.Date;
 
-@WebServlet(name = "ManagerProducts", value = "/admin/manager-products")
+@WebServlet(name = "ManagerProducts", value = "/admin/api/products/*")
 public class ProductsApi extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(ProductsApi.class);
     private AProductService productService;

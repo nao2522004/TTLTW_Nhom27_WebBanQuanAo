@@ -6,8 +6,8 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "ManagerOrdersView", urlPatterns = "/admin/manager-orders")
-public class OrdersView extends HttpServlet {
+@WebServlet(name = "AdminView", urlPatterns = {"/admin/manager-orders", "/admin/manager-users, ", "/admin/manager-products"})
+public class AdminView extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
