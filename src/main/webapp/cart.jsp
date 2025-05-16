@@ -27,7 +27,7 @@
                 </div>
             </div>
             <!-- Kiểm tra nếu giỏ hàng trống -->
-            <c:if test="${empty sessionScope.cart.list}">
+            <c:if test="${empty cart}">
                 <div class="row mt-4" style="height: 300px;">
                     <div class="col d-flex justify-content-center align-items-center text-muted">
                         Giỏ hàng của bạn đang không có sản phẩm nào.
@@ -35,20 +35,15 @@
                 </div>
             </c:if>
 
-            <c:forEach items="${sessionScope.cart.list}" var="cp">
+            <c:forEach items="${cart}" var="cp">
                 <div class="row border-top-bottom">
                     <div class="row main align-items-center">
-                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.images[0]}" alt=""></div>
+                        <div class="col"><img class="img-fluid" src="assets/product-imgs/${cp.productDetail.image}" alt=""></div>
                         <div class="col">
-                            <div class="row text-muted">${cp.name}</div>
+                            <div class="row text-muted">${cp.productName}</div>
                             <div class="row text-muted">
-                                <c:forEach var="s" items="${cp.sizes}">
-                                    ${s}
-                                </c:forEach>
-                                <c:forEach var="co" items="${cp.colors}">
-                                    <div class="col text-muted">${co}</div>
-                                </c:forEach>
-
+                                ${cp.productDetail.size}
+                                <div class="col text-muted">${cp.productDetail.color}</div>
                             </div>
                         </div>
                         <div class="col">
@@ -70,15 +65,15 @@
             </div>
         </div>
         <div class="col-md-4 summary">
-            <c:if test="${empty sessionScope.cart.list}">
+            <c:if test="${empty cart}">
             </c:if>
-            <c:if test="${not empty sessionScope.cart.list}">
+            <c:if test="${not empty cart}">
                 <div>
                     <h5>Hóa Đơn</h5>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col" style="padding-left: 12px;">${sessionScope.cart.totalQuantity} SẢN PHẨM</div>
+                    <div class="col" style="padding-left: 12px;">${totalPrice} SẢN PHẨM</div>
                 </div>
                 <form>
                     <p>VẬN CHUYỂN</p>
@@ -93,15 +88,15 @@
                         <p>TỔNG TIỀN:</p>
                     </div>
                     <div class="col text-right">
-                        <p id="total-price" data-price="${sessionScope.cart.total}}">
-                                ${sessionScope.cart.total}
+                        <p id="total-price" data-price="${totalPrice}}">
+                                ${totalPrice}
                         </p>
                     </div>
                 </div>
-                <c:set var="totalPrice" value="0" />
-                <c:forEach items="${sessionScope.cart.list}" var="cp">
-                    <c:set var="totalPrice" value="${totalPrice + cp.unitPrice}" />
-                </c:forEach>
+<%--                <c:set var="totalPrice" value="0" />--%>
+<%--                <c:forEach items="${cart}" var="cp">--%>
+<%--                    <c:set var="totalPrice" value="${totalPrice + cp.unitPrice}" />--%>
+<%--                </c:forEach>--%>
                 <!-- Thông báo yêu cầu đăng nhập -->
 
                 <!-- Thông báo yêu cầu đăng nhập -->

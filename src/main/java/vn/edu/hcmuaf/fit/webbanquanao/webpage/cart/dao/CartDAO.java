@@ -56,14 +56,15 @@ public class CartDAO {
                                 rs.getString("color")
                         );
 
-                        CartDetail item = new CartDetail(
+                        CartDetail item = new CartDetail (
                                 rs.getInt("id"),
                                 rs.getInt("cartId"),
                                 rs.getInt("couponId"),
                                 rs.getInt("quantity"),
                                 rs.getDouble("unitPrice"),
                                 rs.getInt("productDetailsId"),
-                                productDetail
+                                productDetail,
+                                rs.getString("name")
                         );
                         cartDetails.add(item);
                     }

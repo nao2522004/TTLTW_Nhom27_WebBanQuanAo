@@ -1,18 +1,20 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "Cart", value = "/Cart")
+@WebServlet(name = "Cart", value = "/cart")
 public class CartServlet extends HttpServlet {
     private CartService cartService;
 
