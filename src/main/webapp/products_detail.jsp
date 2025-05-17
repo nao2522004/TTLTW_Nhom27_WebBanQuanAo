@@ -175,10 +175,10 @@
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
-                    <c:forEach var="co" items="${p.details}">
+                    <c:forEach var="color" items="${uniqueColors}">
                         <label>
-                            <input class="d-none" type="radio" name="color" value="${co.color}">
-                            <span>${co.color}</span>
+                            <input class="d-none" type="radio" name="color" value="${color}">
+                            <span>${color}</span>
                         </label>
                     </c:forEach>
                 </div>
@@ -188,10 +188,10 @@
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
                 <div class="choose_size mt-3">
-                    <c:forEach var="s" items="${p.details}">
+                    <c:forEach var="size" items="${uniqueSizes}">
                         <label>
-                            <input class="d-none" type="radio" name="size" value="${s.size}">
-                            <span>${s.size}</span>
+                            <input class="d-none" type="radio" name="size" value="${size}">
+                            <span>${size}</span>
                         </label>
                     </c:forEach>
                 </div>
@@ -382,7 +382,7 @@
             setTimeout(() => {
                 popup.remove();
                 if (overlay) overlay.remove();
-            }, 1500);
+            }, 500);
         }
     });
 
