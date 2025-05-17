@@ -33,9 +33,8 @@ public class CartService {
 
     // Cập nhật số lượng sản phẩm
     public boolean updateCart(int userId, int productDetailId, int quantity) {
-        int temp = cartDAO.getQuantityOfProduct(userId, productDetailId) + quantity;
-        if(temp > 0) {
-            return cartDAO.updateCart(userId, productDetailId, temp);
+        if(quantity > 0) {
+            return cartDAO.updateCart(userId, productDetailId, quantity);
         }
         return false;
     }

@@ -48,9 +48,35 @@
                         </div>
                         <div class="col">
                             <div class="quantity-controls">
-                                <a href="updateCart?pid=${c.productDetail.productId}&action=down" class="btn-decrease" data-id="${c.productDetail.productId}">-</a>
-                                <span id="quantity-${c.productDetail.productId}" class="quantity">${c.quantity}</span>
-                                <a href="updateCart?pid=${c.productDetail.productId}&action=up" class="btn-increase" data-id="${c.productDetail.productId}">+</a>
+<%--                                <a href="updateCart?pid=${c.productDetail.productId}&action=down" class="btn-decrease" data-id="${c.productDetail.productId}">-</a>--%>
+<%--                                <span id="quantity-${c.productDetail.productId}" class="quantity">${c.quantity}</span>--%>
+<%--                                <a href="updateCart?pid=${c.productDetail.productId}&action=up" class="btn-increase" data-id="${c.productDetail.productId}">+</a>--%>
+<%--                                <form method="post" action="cart" class="inline-form">--%>
+<%--                                    <input type="hidden" name="action" value="update">--%>
+<%--                                    <input type="hidden" name="productDetailId" value="${c.productDetail.id}">--%>
+<%--                                    <input type="hidden" name="quantity" value="${c.quantity - 1}">--%>
+<%--                                    <button type="submit" class="btn-decrease">-</button>--%>
+<%--                                </form>--%>
+
+<%--                                <span class="quantity">${c.quantity}</span>--%>
+
+<%--                                <form method="post" action="cart" class="inline-form">--%>
+<%--                                    <input type="hidden" name="action" value="update">--%>
+<%--                                    <input type="hidden" name="productDetailId" value="${c.productDetail.id}">--%>
+<%--                                    <input type="hidden" name="quantity" value="${c.quantity + 1}">--%>
+<%--                                    <button type="submit" class="btn-increase">+</button>--%>
+<%--                                </form>--%>
+                                <a href="#"
+                                   class="btn-decrease"
+                                   data-id="${c.productDetail.id}"
+                                   data-quantity="${c.quantity - 1}">-</a>
+
+                                <span class="quantity" id="quantity-${c.productDetail.id}">${c.quantity}</span>
+
+                                <a href="#"
+                                   class="btn-increase"
+                                   data-id="${c.productDetail.id}"
+                                   data-quantity="${c.quantity + 1}">+</a>
                             </div>
                         </div>
                         <div class="product-price col" data-price="${c.unitPrice}"></div>
@@ -139,60 +165,60 @@
         }).format(price);
     }
 
-    // Function to get cart data from localStorage
-    function getCartData() {
-        let cartData = localStorage.getItem("cart");
-        return cartData ? JSON.parse(cartData) : [];
-    }
+    // // Function to get cart data from localStorage
+    // function getCartData() {
+    //     let cartData = localStorage.getItem("cart");
+    //     return cartData ? JSON.parse(cartData) : [];
+    // }
+    //
+    // // Function to update cart data in localStorage
+    // function saveCartData(cartData) {
+    //     console.log('Saving cart data:', cartData); // Debugging log
+    //     localStorage.setItem("cart", JSON.stringify(cartData));
+    // }
 
-    // Function to update cart data in localStorage
-    function saveCartData(cartData) {
-        console.log('Saving cart data:', cartData); // Debugging log
-        localStorage.setItem("cart", JSON.stringify(cartData));
-    }
 
-
-    // Function to update the total price
-    function updateTotalPrice() {
-        let totalPrice = 0;
-
-        // Loop through each product to calculate total
-        document.querySelectorAll('.product-price').forEach((priceElement) => {
-            let productPrice = parseFloat(priceElement.getAttribute('data-price'));
-            totalPrice += productPrice;
-        });
-
-        // Update the total price display
-        const totalPriceElement = document.getElementById('total-price');
-        totalPriceElement.setAttribute('data-price', totalPrice);
-        totalPriceElement.textContent = formatPrice(totalPrice);
-    }
+    // // Function to update the total price
+    // function updateTotalPrice() {
+    //     let totalPrice = 0;
+    //
+    //     // Loop through each product to calculate total
+    //     document.querySelectorAll('.product-price').forEach((priceElement) => {
+    //         let productPrice = parseFloat(priceElement.getAttribute('data-price'));
+    //         totalPrice += productPrice;
+    //     });
+    //
+    //     // Update the total price display
+    //     const totalPriceElement = document.getElementById('total-price');
+    //     totalPriceElement.setAttribute('data-price', totalPrice);
+    //     totalPriceElement.textContent = formatPrice(totalPrice);
+    // }
 
     // Function to load cart data from localStorage and populate quantities
-    function loadCartData() {
-        const cartData = getCartData(); // Get the cart data from localStorage
-        console.log('Loading cart data:', cartData); // Debugging log
+    <%--function loadCartData() {--%>
+    <%--    const cartData = getCartData(); // Get the cart data from localStorage--%>
+    <%--    console.log('Loading cart data:', cartData); // Debugging log--%>
 
-        cartData.forEach((product) => {
-            const quantityDisplay = document.getElementById(`quantity-${product.id}`);
-            const priceDisplay = document.getElementById(`price-${product.id}`);
-            if (quantityDisplay && priceDisplay) {
-                quantityDisplay.textContent = product.quantity;
-                priceDisplay.setAttribute('data-price', product.unitPrice * product.quantity);
-                priceDisplay.textContent = formatPrice(product.unitPrice * product.quantity);
-            }
-        });
+    <%--    cartData.forEach((product) => {--%>
+    <%--        const quantityDisplay = document.getElementById(`quantity-${product.id}`);--%>
+    <%--        const priceDisplay = document.getElementById(`price-${product.id}`);--%>
+    <%--        if (quantityDisplay && priceDisplay) {--%>
+    <%--            quantityDisplay.textContent = product.quantity;--%>
+    <%--            priceDisplay.setAttribute('data-price', product.unitPrice * product.quantity);--%>
+    <%--            priceDisplay.textContent = formatPrice(product.unitPrice * product.quantity);--%>
+    <%--        }--%>
+    <%--    });--%>
 
-        // Update the total price
-        updateTotalPrice();
-    }
+    <%--    // Update the total price--%>
+    <%--    updateTotalPrice();--%>
+    <%--}--%>
 
 
-    // Event listeners for quantity change
-    const decreaseBtns = document.querySelectorAll('.btn-decrease');
-    const increaseBtns = document.querySelectorAll('.btn-increase');
-    const quantityDisplays = document.querySelectorAll('.quantity');
-    const priceDisplays = document.querySelectorAll('.product-price');
+    // // Event listeners for quantity change
+    // const decreaseBtns = document.querySelectorAll('.btn-decrease');
+    // const increaseBtns = document.querySelectorAll('.btn-increase');
+    // const quantityDisplays = document.querySelectorAll('.quantity');
+    // const priceDisplays = document.querySelectorAll('.product-price');
 
     <%--decreaseBtns.forEach((btn, index) => {--%>
     <%--    btn.addEventListener('click', () => {--%>
@@ -252,9 +278,49 @@
     // });
 
     // Load cart data when the page is loaded
-    document.addEventListener("DOMContentLoaded", loadCartData);
+    // document.addEventListener("DOMContentLoaded", loadCartData);
 </script>
+<script>
+    document.querySelectorAll('.btn-increase, .btn-decrease').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
 
+            const productDetailId = this.getAttribute('data-id');
+            const quantity = this.getAttribute('data-quantity');
+
+            console.log("Gửi:", productDetailId, quantity); // Debug client-side
+
+            if (!productDetailId || !quantity) {
+                console.error("Thiếu dữ liệu!");
+                return;
+            }
+
+            // Tạo đối tượng URLSearchParams để mã hóa đúng định dạng
+            const formData = new URLSearchParams();
+            formData.append("action", "update");
+            formData.append("productDetailId", productDetailId);
+            formData.append("quantity", quantity);
+
+            fetch('cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Lỗi phản hồi từ server");
+                    return res.text();
+                })
+                .then(data => {
+                    console.log("Server trả về:", data);
+                    // Reload lại trang để cập nhật giỏ hàng
+                    location.reload();
+                })
+                .catch(err => console.error("Lỗi:", err));
+        });
+    });
+</script>
 
 <!-- base js -->
 <script src="./assets/js/base.js"></script>
