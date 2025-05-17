@@ -98,20 +98,15 @@ form {
 }
 .toggle-password {
     position: absolute;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
+    font-size: 18px;
+    color: #888;
     cursor: pointer;
-    font-size: 16px;
-    color: #666;
-    outline: none;
+    z-index: 2;
 }
 
-.toggle-password i {
-    font-size: 18px;
-    cursor: pointer;
-}
 .forgot-link{
     margin: -15px 0 15px ;
 }
@@ -336,6 +331,25 @@ form {
     }
 }
 
+#password-requirements {
+    font-size: 1rem;
+    margin-top: 5px;
+    padding-left: 10px;
+    line-height: 1.2;
+}
+
+#password-requirements p {
+    margin: 3px 0;
+    font-weight: 500;
+}
+
+#password-requirements .valid {
+    color: green;
+}
+
+#password-requirements .invalid {
+    color: red;
+}
 
 
 
