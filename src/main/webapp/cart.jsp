@@ -80,8 +80,8 @@
                             </div>
                         </div>
                         <div class="product-price col" data-price="${c.unitPrice}"></div>
-                        <a href="del-cart?pid=${c.productDetail.productId}">
-                            <button class="close col">&#10005;</button>
+                        <a>
+                            <button class="btn-remove close col" data-cart-detail-id="${c.id}">&#10005;</button>
                         </a>
                     </div>
                 </div>
@@ -318,6 +318,41 @@
                     location.reload();
                 })
                 .catch(err => console.error("Lỗi:", err));
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('.btn-remove').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const cartDetailId = this.getAttribute('data-cart-detail-id');
+
+            if (!cartDetailId) {
+                console.error("Thiếu cartDetailId!");
+                return;
+            }
+
+            const formData = new URLSearchParams();
+            formData.append("action", "remove");
+            formData.append("cartDetailId", cartDetailId);
+
+            fetch('cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Server trả lỗi");
+                    return res.text();
+                })
+                .then(data => {
+                    console.log("Đã xóa khỏi giỏ hàng");
+                    location.reload();
+                })
+                .catch(err => console.error("Lỗi xóa sản phẩm:", err));
         });
     });
 </script>
