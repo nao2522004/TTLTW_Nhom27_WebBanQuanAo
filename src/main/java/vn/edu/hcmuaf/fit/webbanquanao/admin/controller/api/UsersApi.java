@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import com.google.gson.*;
 import jakarta.servlet.*;
@@ -21,8 +21,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 @WebServlet(name = "AdminUserController", value = "/admin/manager-users")
-public class ManagerUsers extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(ManagerUsers.class);
+public class UsersApi extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(UsersApi.class);
     private static final String ADMIN_ROLE = "ADMIN";
     private static final String USER_ROLE = "USER";
     private static final String STAFF_ROLE = "USER";
@@ -102,7 +102,7 @@ public class ManagerUsers extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Logger logger = LoggerFactory.getLogger(ManagerUsers.class);
+        Logger logger = LoggerFactory.getLogger(UsersApi.class);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -174,7 +174,7 @@ public class ManagerUsers extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Logger logger = LoggerFactory.getLogger(ManagerUsers.class);
+        Logger logger = LoggerFactory.getLogger(UsersApi.class);
         // Lấy thông tin người thao tác
         HttpSession session = request.getSession(false);
         User authUser = (session != null) ? (User) session.getAttribute("auth") : null;
@@ -245,7 +245,7 @@ public class ManagerUsers extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Logger logger = LoggerFactory.getLogger(ManagerUsers.class);
+        Logger logger = LoggerFactory.getLogger(UsersApi.class);
         // Lấy thông tin người thao tác
         HttpSession session = request.getSession(false);
         User authUser = (session != null) ? (User) session.getAttribute("auth") : null;

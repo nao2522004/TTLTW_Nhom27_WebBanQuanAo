@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import com.google.gson.*;
 import jakarta.servlet.*;
@@ -15,8 +15,8 @@ import java.io.*;
 import java.util.*;
 
 @WebServlet(name = "ManagerProductDetails", value = "/admin/manager-productDetails")
-public class ManagerProductDetails extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(ManagerProductDetails.class);
+public class ProductDetailsApi extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(ProductDetailsApi.class);
     private AProductService productService;
     private UserLogsService userLogsService;
 
