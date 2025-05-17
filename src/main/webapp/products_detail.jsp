@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,15 +170,15 @@
         <h1>${p.productName}</h1>
         <div class="price"><f:formatNumber value="${p.unitPrice}"/> đ</div>
 
-        <form id="add-cart-form" action="add-cart" method="post" class="mt-5">
+        <form id="add-cart-form" action="cart" method="post" class="mt-5">
             <!-- Color options -->
             <div class="color-options">
                 <h5>Choose color:</h5>
                 <div class="choose_color mt-3">
-                    <c:forEach var="co" items="${p.details}">
+                    <c:forEach var="color" items="${uniqueColors}">
                         <label>
-                            <input class="d-none" type="radio" name="color" value="${co.color}">
-                            <span>${co.color}</span>
+                            <input class="d-none" type="radio" name="color" value="${color}">
+                            <span>${color}</span>
                         </label>
                     </c:forEach>
                 </div>
@@ -187,10 +188,10 @@
             <div class="size-options mt-4">
                 <h5>Choose size:</h5>
                 <div class="choose_size mt-3">
-                    <c:forEach var="s" items="${p.details}">
+                    <c:forEach var="size" items="${uniqueSizes}">
                         <label>
-                            <input class="d-none" type="radio" name="size" value="${s.size}">
-                            <span>${s.size}</span>
+                            <input class="d-none" type="radio" name="size" value="${size}">
+                            <span>${size}</span>
                         </label>
                     </c:forEach>
                 </div>
@@ -207,8 +208,11 @@
             <!-- Alert Message -->
             <h4 id="alert-message" class="d-none mt-3" style="color: red">Vui lòng chọn màu và kích cỡ</h4>
 
-            <!-- Hidden input for product ID -->
-            <input type="hidden" name="pid" value="${p.id}">
+            <!-- Hidden input -->
+            <input type="hidden" name="action" value="add">
+            <input type="hidden" name="productId" value="${p.id}">
+            <input type="hidden" name="unitPrice" value="${p.unitPrice}">
+            <input type="hidden" name="couponId" value="1">
 
             <!-- Buttons -->
             <div class="mt-5">
@@ -216,13 +220,22 @@
             </div>
         </form>
 
+        <%
+            String message = (String) session.getAttribute("message");
+            if (message != null) {
+        %>
         <!-- Popup overlay -->
         <div class="addOk-overlay"></div>
         <!-- Popup content -->
-        <div class="addOk" id="addToCartPopup">
+        <div class="addOk" id="addToCartPopup" data-message="<%= message %>">
             <img alt="green-tick" src="assets/imgs/Green-Tick.png">
-            <h3 class="mt-3">Sản phẩm đã được thêm vào giỏ hàng của bạn.</h3>
+            <h3 class="mt-3"><%= message %></h3>
         </div>
+        <%
+                session.removeAttribute("message");
+            }
+        %>
+
     </div>
 </section>
 
@@ -357,6 +370,22 @@
 <!-- Javascript Native -->
 <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
 <script>
+    // Alert add to cart
+    window.addEventListener('DOMContentLoaded', function () {
+        const popup = document.getElementById('addToCartPopup');
+        const overlay = document.querySelector('.addOk-overlay');
+
+        if (popup && popup.dataset.message && popup.dataset.message.trim() !== "") {
+            popup.classList.add('show');
+            if (overlay) overlay.classList.add('show');
+
+            setTimeout(() => {
+                popup.remove();
+                if (overlay) overlay.remove();
+            }, 500);
+        }
+    });
+
     // Transition for Header
     window.addEventListener("scroll", () => {
         if (window.scrollY > 50) {
@@ -366,22 +395,22 @@
         }
     });
 
-    // Get the current URL
-    const urlParams = new URLSearchParams(window.location.search);
-    // Check if 'addCart=ok' is in the URL
-    if (urlParams.get('addCart') === 'ok') {
-        // Show the popup
-        const popup = document.getElementById('addToCartPopup');
-        const overlay = document.querySelector('.addOk-overlay');
-        popup.classList.add('show');
-        overlay.classList.add('show');
-
-        // Auto-close popup after 3 seconds
-        setTimeout(() => {
-            popup.classList.remove('show');
-            overlay.classList.remove('show');
-        }, 1500);
-    }
+    // // Get the current URL
+    // const urlParams = new URLSearchParams(window.location.search);
+    // // Check if 'addCart=ok' is in the URL
+    // if (urlParams.get('addCart') === 'ok') {
+    //     // Show the popup
+    //     const popup = document.getElementById('addToCartPopup');
+    //     const overlay = document.querySelector('.addOk-overlay');
+    //     popup.classList.add('show');
+    //     overlay.classList.add('show');
+    //
+    //     // Auto-close popup after 3 seconds
+    //     setTimeout(() => {
+    //         popup.classList.remove('show');
+    //         overlay.classList.remove('show');
+    //     }, 1500);
+    // }
 
     // Alert if user didn't choose color or size
     document.getElementById('add-cart-form').addEventListener('submit', function (event) {
@@ -417,6 +446,32 @@
         const fileName = this.files[0] ? this.files[0].name : "Chưa có tệp nào được chọn";
         document.getElementById('file-name').textContent = fileName;
     });
+
+    // Alert add to cart
+    <%--window.addEventListener('DOMContentLoaded', function () {--%>
+    <%--    // Lấy thông báo từ session thông qua JSP EL--%>
+    <%--    const message = '<c:out value="${sessionScope.message}" default=""/>';--%>
+
+    <%--    // Nếu có thông báo thì hiển thị popup hoặc alert--%>
+    <%--    if (message) {--%>
+    <%--        // Hiển thị popup "Sản phẩm đã được thêm vào giỏ hàng"--%>
+    <%--        const popup = document.getElementById('addToCartPopup');--%>
+    <%--        const overlay = document.querySelector('.addOk-overlay');--%>
+    <%--        if (popup && overlay) {--%>
+    <%--            popup.classList.add('show'); // bạn cần style .show { display: block; hoặc opacity: 1; }--%>
+    <%--            overlay.classList.add('show');--%>
+
+    <%--            // Ẩn sau vài giây--%>
+    <%--            setTimeout(() => {--%>
+    <%--                popup.classList.remove('show');--%>
+    <%--                overlay.classList.remove('show');--%>
+    <%--            }, 1500);--%>
+    <%--        } else {--%>
+    <%--            // Hoặc fallback: alert đơn giản--%>
+    <%--            alert(message);--%>
+    <%--        }--%>
+    <%--    }--%>
+    <%--});--%>
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/products_detail.js"></script>
 </body>

@@ -339,11 +339,11 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-//        System.out.println(dao.getAllProducts());
+        System.out.println(dao.getAllProducts());
 //        System.out.println(dao.getSaleProducts());
 //        System.out.println(dao.getBestSellingProducts());
 //        System.out.println(dao.getProductsByCategory("Nữ"));
 //        System.out.println(dao.searchByName("Quần tây"));
-        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, 150000.00));
+//        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, 150000.00));
     }
 }
