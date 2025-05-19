@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(246, 241, 235);
+    background-color: rgb(246, 241, 235) !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,18 +38,23 @@ input {
     font-size: 16px;
 }
 
-button {
+button,
+.btn,
+.btn-primary {
     width: 100%;
     padding: 10px;
-    background-color: #335d4a;
-    color: white;
+    background-color: #335d4a !important;
+    color: white !important;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #2b4d3e;
+button:hover,
+.btn:hover,
+.btn-primary:hover {
+    background-color: #2b4d3e !important;
 }

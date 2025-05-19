@@ -98,11 +98,19 @@
             </div>
 
             <div class="input-box">
-                <input type="password" id="password" name="password" placeholder="Mật Khẩu" required>
-                <button type="button" class="toggle-password" onclick="togglePassword(this)">
-                    <i class="fa-solid fa-eye"></i>
-                </button>
+                <input type="password" id="password" name="password" placeholder="Mật Khẩu"
+                       required oninput="checkPasswordStrength(this.value); validatePassword(this.value)">
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+                <small id="password-strength-text" style="color: red; font-size: 1rem;"></small>
             </div>
+
+            <small id="password-requirements" class="password-rules" style="display: none; line-height: 1.3; font-size: 0.9rem; color: red;">
+                <small id="length" class="invalid" style="display: block;">Ít nhất 8 ký tự</small>
+                <small id="uppercase" class="invalid" style="display: block;">Chứa chữ in hoa</small>
+                <small id="lowercase" class="invalid" style="display: block;">Chứa chữ thường</small>
+                <small id="number" class="invalid" style="display: block;">Chứa số</small>
+                <small id="special" class="invalid" style="display: block;">Ký tự đặc biệt (!@#$...)</small>
+            </small>
 
             <!-- Google reCAPTCHA -->
             <div class="recaptcha-wrapper">
@@ -157,6 +165,72 @@
         <% session.removeAttribute("error"); %>
         <% } %>
     };
+</script>
+
+<script>
+    function checkPasswordStrength(password) {
+        const strengthText = document.getElementById('password-strength-text');
+
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+        if (password.length === 0) {
+            strengthText.textContent = '';
+        } else if (strength <= 2) {
+            strengthText.textContent = 'Mật khẩu yếu';
+            strengthText.style.color = 'red';
+        } else if (strength === 3 || strength === 4) {
+            strengthText.textContent = 'Mật khẩu trung bình';
+            strengthText.style.color = 'orange';
+        } else if (strength === 5) {
+            strengthText.textContent = 'Mật khẩu mạnh';
+            strengthText.style.color = 'green';
+        }
+    }
+</script>
+
+<script>
+    function validatePassword(password) {
+        const rulesDiv = document.getElementById("password-requirements");
+
+        // Hiện khối khi bắt đầu nhập
+        if (password.length > 0) {
+            rulesDiv.style.display = "block";
+        } else {
+            rulesDiv.style.display = "none";
+        }
+
+        // Điều kiện
+        const length = password.length >= 8;
+        const uppercase = /[A-Z]/.test(password);
+        const lowercase = /[a-z]/.test(password);
+        const number = /[0-9]/.test(password);
+        const special = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        // Cập nhật class
+        document.getElementById("length").className = length ? "valid" : "invalid";
+        document.getElementById("uppercase").className = uppercase ? "valid" : "invalid";
+        document.getElementById("lowercase").className = lowercase ? "valid" : "invalid";
+        document.getElementById("number").className = number ? "valid" : "invalid";
+        document.getElementById("special").className = special ? "valid" : "invalid";
+
+        // Nếu tất cả điều kiện đúng => ẩn khối
+        if (length && uppercase && lowercase && number && special) {
+            rulesDiv.style.display = "none";
+        }
+    }
+
+    function togglePassword(icon) {
+        const input = icon.previousElementSibling;
+        const type = input.getAttribute("type") === "password" ? "text" : "password";
+        input.setAttribute("type", type);
+        icon.classList.toggle("fa-eye");
+        icon.classList.toggle("fa-eye-slash");
+    }
 </script>
 </body>
 </html>

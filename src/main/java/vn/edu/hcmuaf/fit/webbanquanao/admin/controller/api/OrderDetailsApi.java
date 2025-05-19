@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.admin.controller;
+package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
 import com.google.gson.*;
 import jakarta.servlet.*;
@@ -12,13 +12,12 @@ import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @WebServlet(name = "ManagerOrderDetails", value = "/admin/manager-orderDetails")
-public class ManagerOrderDetails extends HttpServlet {
+public class OrderDetailsApi extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(ManagerOrderDetails.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderDetailsApi.class);
     private AOrderService orderItemService;
     private UserLogsService userLogsService;
 

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/header-footer.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/main.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/bootstrap-4.6.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/assets/css/verify.css">
 </head>
 <body>
 <%
@@ -29,9 +30,16 @@
         return;
     }
 
+    // Lấy thông báo lỗi OTP
     String error = (String) session.getAttribute("otpError");
     if (error != null) {
-        session.removeAttribute("error");
+        session.removeAttribute("otpError");
+    }
+
+    // Lấy thông báo khi gửi lại mã OTP
+    String otpResentMessage = (String) session.getAttribute("otpResentMessage");
+    if (otpResentMessage != null) {
+        session.removeAttribute("otpResentMessage");
     }
 %>
 <div class="verify-container">
@@ -44,16 +52,22 @@
     </div>
     <% } %>
 
+    <% if (otpResentMessage != null) { %>
+    <div class="alert alert-success text-center">
+        <%= otpResentMessage %>
+    </div>
+    <% } %>
+
     <form action="verifyOTP" method="POST" class="text-center">
         <div class="input-box mb-3">
-            <input type="text" name="otp" placeholder="Nhập mã OTP" required class="form-control" />
+            <input type="text" name="otp" placeholder="Nhập mã OTP" required class="form-control" autocomplete="off" />
         </div>
         <button type="submit" class="btn btn-primary">Xác minh</button>
     </form>
 
     <p class="text-center mt-3">
         Không nhận được mã?
-        <a href="resend-otp">Gửi lại mã</a>
+        <a href="resendOTP">Gửi lại mã</a>
     </p>
 </div>
 </body>

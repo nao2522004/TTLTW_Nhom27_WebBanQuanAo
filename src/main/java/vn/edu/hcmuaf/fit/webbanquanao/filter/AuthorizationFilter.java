@@ -5,25 +5,17 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.Mapper.ResourceMapper;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
-
-    private static final Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class);
-
-    public static final int EXECUTE = 1;
-    public static final int WRITE = 2;
-    public static final int READ = 4;
-
     private static final Set<String> PUBLIC_PATHS = Set.of(
             "/login", "/login.jsp", "/login-facebook", "/google-login", "/google-callback",
             "/register", "/register.jsp", "/forgotPassword", "/forgot-password.jsp",
@@ -33,134 +25,109 @@ public class AuthorizationFilter implements Filter {
             "/facebook-callback"
     );
 
-    private static final Set<String> STATIC_FOLDERS = Set.of(
-            "/css/", "/js/", "/images/", "/assets/"
+    private static final Set<String> STATIC_EXTENSIONS = Set.of(
+            "css", "js", "jpg", "jpeg", "png", "gif", "ico",
+            "woff", "woff2", "ttf", "svg", "map", "webp"
     );
 
     private static final Set<String> ADMIN_PATHS = Set.of("/admin.jsp");
 
-    private static final Set<String> STATIC_EXTENSIONS = Set.of(
-            "css", "js", "jpg", "jpeg", "png", "gif", "ico", "woff", "woff2", "ttf", "svg", "map", "webp"
+    private static final Map<String, Integer> METHOD_PERM = Map.of(
+            "GET", 4,
+            "POST", 2,
+            "PUT", 2,
+            "DELETE", 1
     );
 
-    private static final Map<String, Integer> METHOD_TO_PERMISSION = Map.of(
-            "GET", READ,
-            "POST", WRITE,
-            "PUT", WRITE,
-            "DELETE", EXECUTE
-    );
-
-    private UserLogsService userLogsService;
+    private UserLogsService logService;
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        this.userLogsService = UserLogsService.getInstance();
-        filterConfig.getServletContext().log("AuthorizationFilter initialized");
+    public void init(FilterConfig config) {
+        logService = UserLogsService.getInstance();
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+        HttpServletRequest  request  = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        String path = request.getRequestURI().substring(request.getContextPath().length());
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
-        String method = httpRequest.getMethod().toUpperCase();
-        String resource = ResourceMapper.getResource(path);
-
-        if (isStaticResource(path) || isPublicPath(path)) {
-            chain.doFilter(request, response);
+        if (isPublicOrStatic(path)) {
+            chain.doFilter(req, res);
             return;
         }
 
-        HttpSession session = httpRequest.getSession(false);
+        HttpSession session = request.getSession(false);
         User user = session != null ? (User) session.getAttribute("auth") : null;
+        String ip = request.getRemoteAddr();
 
         if (user == null) {
-            String redirectUrl = httpRequest.getContextPath() + "/login.jsp?redirect=" +
-                    URLEncoder.encode(httpRequest.getRequestURI(), "UTF-8");
-            httpResponse.sendRedirect(redirectUrl);
-
-            logger.warn("Người dùng chưa đăng nhập từ IP: {} truy cập vào path: {}", httpRequest.getRemoteAddr(), path);
+            redirectToLogin(request, response);
+//            logService.logAnonymousAccessAttempt(path, ip);
             return;
         }
 
-        // đảm bảo tồn tại session
-        session = httpRequest.getSession();
-//      session.setAttribute("lastLoggedPath", path);
-
-        // 2. Phân biệt AJAX
-        boolean ajax = isAjax(httpRequest);
-
-        // Chưa kích hoạt tài khoản
-//        if (user.getStatus() == null || user.getStatus() == 0) {
-//            httpResponse.sendRedirect(httpRequest.getContextPath() + "/activate-account.jsp");
-//            logger.warn("Tài khoản người dùng chưa được kích hoạt. Người dùng: {}, IP: {}", user.getUserName(), httpRequest.getRemoteAddr());
-//            return;
-//        }
-
+        // Log user info once
         if (session.getAttribute("hasLoggedUserInfo") == null) {
-            logger.info("Đăng nhập thành công cho người dùng: {}", user.getUserName());
-            userLogsService.logLoginSuccess(user.getUserName(), httpRequest.getRemoteAddr(), user.getRoles());
+            logService.logLoginSuccess(user.getUserName(), ip, user.getRoles());
             session.setAttribute("hasLoggedUserInfo", true);
         }
 
-        if (ADMIN_PATHS.contains(path) && (user.getRoles() == null ||
-                !(user.getRoles().contains("ADMIN") || user.getRoles().contains("MANAGER")))) {
-            httpRequest.setAttribute("errorMessage", "Bạn Không Có Quyền Truy Cập Vào Trang Này");
-            userLogsService.logUnauthorizedAccess(user.getUserName(), path, resource, READ, httpRequest.getRemoteAddr(), user.getRoles());
-            logger.warn("Người dùng: {} không có quyền truy cập vào trang quản trị: {}. IP: {}", user.getUserName(), path, httpRequest.getRemoteAddr());
-            httpRequest.getRequestDispatcher("/error.jsp").forward(request, response);
+        // Admin page check
+        if (ADMIN_PATHS.contains(path) && !hasAnyRole(user, Set.of("ADMIN", "MANAGER"))) {
+            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), METHOD_PERM.get("GET"), ip, user.getRoles());
+            forwardError(request, response, "Bạn không có quyền truy cập trang này");
             return;
         }
 
-        int requiredPermission = METHOD_TO_PERMISSION.getOrDefault(method, READ);
-        Integer userPermission = user.getPermissions() != null ? user.getPermissions().getOrDefault(resource, 0) : 0;
-
-        if (!"default".equals(resource) && (userPermission & requiredPermission) != requiredPermission) {
-            userLogsService.logUnauthorizedAccess(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
-            logger.warn("Người dùng: {} không có quyền truy cập vào resource: {}. Cần quyền: {}. IP: {}", user.getUserName(), resource, requiredPermission, httpRequest.getRemoteAddr());
-            httpRequest.setAttribute("errorMessage", "Bạn không đủ quyền truy cập vào chức năng này");
-            httpRequest.getRequestDispatcher("/error.jsp").forward(request, response);
+        // Permission check
+        int required = METHOD_PERM.getOrDefault(request.getMethod(), 4);
+        int userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
+                .getOrDefault(ResourceMapper.getResource(path), 0);
+        if (!ResourceMapper.getResource(path).equals("default") && (userPerm & required) != required) {
+            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
+            forwardError(request, response, "Bạn không đủ quyền truy cập chức năng này");
             return;
         }
 
-        String lastPath = (String) session.getAttribute("lastLoggedPath");
-        boolean firstTimeOnPath = !path.equals(lastPath);
-
-        if (!ajax && firstTimeOnPath) {
-            logger.info("User {} truy cập thành công vào {} -> {}", user.getUserName(), path, resource);
-            userLogsService.logAccessGranted(user.getUserName(), path, resource, requiredPermission, httpRequest.getRemoteAddr(), user.getRoles());
+        // Page-view log
+        if (!isAjax(request)
+                && !path.equals(session.getAttribute("lastLoggedPath"))
+                && !path.startsWith("/admin/api/")) {
+            logService.logAccessGranted(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
             session.setAttribute("lastLoggedPath", path);
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(req, res);
     }
 
-    private boolean isPublicPath(String path) {
-        for (String publicPath : PUBLIC_PATHS) {
-            if (path.equals(publicPath) || path.startsWith(publicPath + "/")) return true;
-        }
-        for (String folder : STATIC_FOLDERS) {
-            if (path.startsWith(folder)) return true;
-        }
-        return false;
+    @Override
+    public void destroy() {}
+
+    private boolean isPublicOrStatic(String path) {
+        if (PUBLIC_PATHS.stream().anyMatch(p -> path.equals(p) || path.startsWith(p + '/'))) return true;
+        int idx = path.lastIndexOf('.');
+        return idx >= 0 && STATIC_EXTENSIONS.contains(path.substring(idx + 1).toLowerCase());
     }
 
-    private boolean isStaticResource(String path) {
-        int dotIndex = path.lastIndexOf('.');
-        if (dotIndex == -1) return false;
-        String ext = path.substring(dotIndex + 1).toLowerCase();
-        return STATIC_EXTENSIONS.contains(ext);
+    private void redirectToLogin(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        String uri = URLEncoder.encode(req.getRequestURI(), StandardCharsets.UTF_8);
+        res.sendRedirect(req.getContextPath() + "/login.jsp?redirect=" + uri);
+    }
+
+    private void forwardError(HttpServletRequest req, HttpServletResponse res, String msg)
+            throws ServletException, IOException {
+        req.setAttribute("errorMessage", msg);
+        req.getRequestDispatcher("/error.jsp").forward(req, res);
     }
 
     private boolean isAjax(HttpServletRequest req) {
         return "XMLHttpRequest".equals(req.getHeader("X-Requested-With"));
     }
 
-    @Override
-    public void destroy() {
-        System.out.println("AuthorizationFilter destroyed");
+    private boolean hasAnyRole(User user, Set<String> roles) {
+        return Optional.ofNullable(user.getRoles()).orElse(List.of())
+                .stream().anyMatch(roles::contains);
     }
 }
