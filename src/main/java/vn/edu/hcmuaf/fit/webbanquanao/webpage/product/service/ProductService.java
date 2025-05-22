@@ -90,6 +90,11 @@ public class ProductService {
         return product;
     }
 
+    // Get ProductDetail by productDetailId
+    public ProductDetail getProductDetailByProductId(int productDetailId) {
+        return dao.getProductDetailById(productDetailId);
+    }
+
     public static void main(String[] args) {
         ProductService service = new ProductService();
 //        System.out.println(service.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M","L"}, null, null, "desc"));

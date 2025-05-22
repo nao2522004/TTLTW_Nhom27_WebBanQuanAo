@@ -11,10 +11,8 @@ public class OrderItem {
     private float discount;
     private int productDetailId;
 
-    // Constructors
     public OrderItem() {}
 
-    // Getters & Setters
     public int getId() {
         return id;
     }

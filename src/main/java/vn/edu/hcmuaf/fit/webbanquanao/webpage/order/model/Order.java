@@ -7,16 +7,14 @@ public class Order {
     private int id;
     private int userId;
     private int paymentId;
-    private Integer couponId; // Có thể null
+    private Integer couponId;
     private Timestamp orderDate;
     private BigDecimal totalPrice;
     private int status;
     private String cancelReason;
 
-    // Constructors
     public Order() {}
 
-    // Getters & Setters
     public int getId() {
         return id;
     }
