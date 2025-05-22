@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webbanquanao.webpage.product.service;
 
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.Product;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.util.*;
 
@@ -75,10 +76,25 @@ public class ProductService {
         return dao.getById(id);
     }
 
+    // Get product by productDetailId
+    public Product getProductByProductDetailId(int productDetailId) {
+        ProductDetail detail = dao.getProductDetailById(productDetailId);
+        if (detail == null) return null;
+
+        Product product = dao.getProductById(detail.getProductId());
+        if (product == null) return null;
+
+        List<ProductDetail> details = dao.getProductDetailsByProductId(detail.getProductId());
+        product.setDetails(details);
+
+        return product;
+    }
+
     public static void main(String[] args) {
         ProductService service = new ProductService();
 //        System.out.println(service.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M","L"}, null, null, "desc"));
 //        System.out.println(service.searchByName("quan tay"));
 //        System.out.println(service.getProductsByPagination(1, 4, service.getAllProducts()));
+//        System.out.println(service.getProductByProductDetailId(101));
     }
 }
