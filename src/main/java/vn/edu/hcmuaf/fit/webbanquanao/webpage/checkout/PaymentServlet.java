@@ -22,11 +22,22 @@ public class PaymentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String bankCode = request.getParameter("bankCode");
+        if(request.getParameter("totalBill") == null) {
+            response.sendRedirect("cart");
+            return;
+        }
+        double amountDouble = Double.parseDouble(request.getParameter("totalBill"));
+
+        // Create Order
+
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
+
         long amount = Integer.parseInt(request.getParameter("amount"))*100;
-        String bankCode = request.getParameter("bankCode");
+//        String bankCode = request.getParameter("bankCode");
 
         String vnp_TxnRef = Config.getRandomNumber(8);
         String vnp_IpAddr = Config.getIpAddress(request);
