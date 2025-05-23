@@ -1,11 +1,9 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.order.service;
 
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.Order;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.OrderItem;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,19 +19,12 @@ public class OrderService {
     }
 
     // Add Order
-    public int addOrder(int userId) {
+    public int addOrder(int userId, double totalPrice) {
         // create order
-        BigDecimal totalPrice = BigDecimal.valueOf(cartService.getCartTotal(userId));
-        int orderId = orderDAO.createOrder(userId, 2, 1, totalPrice, 1);
+        int orderId = orderDAO.createOrder(userId, 2, 1, BigDecimal.valueOf(totalPrice), 1);
 
         // add order item
-        List<CartDetail> cartDetails = cartService.getCartItems(userId);
-        for (CartDetail cd : cartDetails) {
-            orderDAO.addOrderItem(orderId, cd.getProductId(), cd.getQuantity(), BigDecimal.valueOf(cd.getUnitPrice()), 0.0f, cd.getProductDetailsId());
-
-            // remove this product from cart
-            cartService.removeFromCart(cd.getId());
-        }
+        cartService.getCartItems(userId).forEach(cd -> orderDAO.addOrderItem(orderId, cd.getProductId(), cd.getQuantity(), BigDecimal.valueOf(cd.getUnitPrice()), 0.0f, cd.getProductDetailsId()));
 
         return orderId;
     }
@@ -59,12 +50,15 @@ public class OrderService {
     }
 
     // Update Order's status
-    public void updateOrderStatus(int orderId, int status) {
+    public void updateOrderStatus(int orderId, int status, int userId) {
         orderDAO.updateOrderStatus(orderId, status);
+
+        // remove this product from cart
+        cartService.getCartItems(userId).forEach(cd -> cartService.removeFromCart(cd.getId()));
     }
 
     public static void main(String[] args) {
         OrderService orderService = new OrderService();
-        System.out.println(orderService.addOrder(2));
+//        System.out.println(orderService.addOrder(2, 274550.0));
     }
 }

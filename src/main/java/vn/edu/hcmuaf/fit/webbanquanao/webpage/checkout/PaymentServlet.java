@@ -1,10 +1,14 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.checkout;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.service.OrderService;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -14,32 +18,46 @@ import java.util.*;
 
 @WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
 public class PaymentServlet extends HttpServlet {
+    private OrderService orderService;
+    private CartService cartService;
+
+    @Override
+    public void init() throws ServletException {
+        orderService = new OrderService();
+        cartService = new CartService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // Get userId
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+        int userId = user.getId();
+
         String bankCode = request.getParameter("bankCode");
-        if(request.getParameter("totalBill") == null) {
+        double amountDouble = cartService.getCartTotal(userId);
+
+        // Insert order
+        int orderId = orderService.addOrder(userId, amountDouble);
+
+        // Insert order failed
+        if (orderId < 1) {
             response.sendRedirect("cart");
             return;
         }
-        double amountDouble = Double.parseDouble(request.getParameter("totalBill"));
-
-        // Create Order
-
 
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
 
-        long amount = Integer.parseInt(request.getParameter("amount"))*100;
-//        String bankCode = request.getParameter("bankCode");
-
-        String vnp_TxnRef = Config.getRandomNumber(8);
+        long amount = (long) (amountDouble * 100);
+        String vnp_TxnRef = orderId+"";
         String vnp_IpAddr = Config.getIpAddress(request);
 
         String vnp_TmnCode = Config.vnp_TmnCode;
@@ -103,11 +121,12 @@ public class PaymentServlet extends HttpServlet {
         String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
-        com.google.gson.JsonObject job = new JsonObject();
-        job.addProperty("code", "00");
-        job.addProperty("message", "success");
-        job.addProperty("data", paymentUrl);
-        Gson gson = new Gson();
-        response.getWriter().write(gson.toJson(job));
+//        com.google.gson.JsonObject job = new JsonObject();
+//        job.addProperty("code", "00");
+//        job.addProperty("message", "success");
+//        job.addProperty("data", paymentUrl);
+//        Gson gson = new Gson();
+//        response.getWriter().write(gson.toJson(job));
+        response.sendRedirect(paymentUrl);
     }
 }

@@ -280,7 +280,7 @@
 
                     <button class="btn btn-primary btn-lg btn-block" type="submit">THANH TOÁN</button>
                 </form>
-                <div class="back-to-shop text-muted"><a href="cart.jsp">&leftarrow; Trở về giỏ hàng</a>
+                <div class="back-to-shop text-muted"><a href="cart">&leftarrow; Trở về giỏ hàng</a>
                 </div>
             </div>
         </div>
