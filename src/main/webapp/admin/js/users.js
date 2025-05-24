@@ -1,7 +1,7 @@
 // Lấy danh sách người dùng từ server và khởi tạo DataTables
 function fetchUsers() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/api/users',
+        url: `/WebBanQuanAo/admin/api/users`,
         type: 'GET',
         dataType: 'json',
         success: function (users) {
