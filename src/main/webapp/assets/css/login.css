@@ -45,7 +45,7 @@ body {
 /* Khi chuyển sang đăng ký, mở rộng container */
 .container.active {
     width: 950px !important;
-    height: 700px !important;
+    height: 750px !important;
 }
 .container.active .form-box {
     right: 50%;
