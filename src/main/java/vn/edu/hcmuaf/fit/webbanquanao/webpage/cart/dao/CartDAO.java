@@ -34,7 +34,8 @@ public class CartDAO {
                 "pd.stock," +
                 "pd.image," +
                 "pd.color," +
-                "p.productName as name " +
+                "p.productName as name," +
+                "p.id as productId " +
                 "FROM cart c " +
                 "JOIN cartdetail cd ON c.id = cd.cartId " +
                 "JOIN product_details pd ON cd.productDetailsId = pd.id " +
@@ -64,7 +65,8 @@ public class CartDAO {
                                 rs.getDouble("unitPrice"),
                                 rs.getInt("productDetailsId"),
                                 productDetail,
-                                rs.getString("name")
+                                rs.getString("name"),
+                                rs.getInt("productId")
                         );
                         cartDetails.add(item);
                     }
@@ -270,6 +272,6 @@ public class CartDAO {
 
     public static void main(String[] args) {
         CartDAO dao = new CartDAO();
-        System.out.println(dao.getProductDetail(1, "Nâu dạ", "M"));
+//        System.out.println(dao.getProductDetail(1, "Nâu dạ", "M"));
     }
 }

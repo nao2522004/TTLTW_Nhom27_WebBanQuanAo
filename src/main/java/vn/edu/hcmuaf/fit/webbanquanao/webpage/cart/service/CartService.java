@@ -48,7 +48,7 @@ public class CartService {
     public double getCartTotal(int userId) {
         double total = 0;
         for (CartDetail cd : cartDAO.getAllCartItems(userId)) {
-            total += cd.getUnitPrice();
+            total += cd.getUnitPrice() * cd.getQuantity();
         }
         return total;
     }
