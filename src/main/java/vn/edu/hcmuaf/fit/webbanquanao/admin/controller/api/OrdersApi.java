@@ -7,7 +7,6 @@ import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrder;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AOrderService;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,13 +23,14 @@ public class OrdersApi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = new ApiContext(req, "Order");
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
             List<AOrder> orders = new ArrayList<>(orderService.showOrders().values());
-            // Chỉ log lần đầu xem tất cả đơn hàng trong session
-            if (!ctx.session.getAttribute("viewAllOrders").equals(Boolean.TRUE)) {
+
+            Object viewedFlag = ctx.session.getAttribute("viewAllOrders");
+            if (!Boolean.TRUE.equals(viewedFlag)) {
                 logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order", ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllOrders", Boolean.TRUE);
             }
@@ -60,7 +60,7 @@ public class OrdersApi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = new ApiContext(req, "Order");
         try {
             AOrder order = gson.fromJson(readBody(req), AOrder.class);
             validateCreate(order);
@@ -86,7 +86,7 @@ public class OrdersApi extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = new ApiContext(req, "Order");
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -121,7 +121,7 @@ public class OrdersApi extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = new ApiContext(req, "Order");
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -191,27 +191,5 @@ public class OrdersApi extends HttpServlet {
 
     private void sendSuccess(HttpServletResponse resp, int status, String message) throws IOException {
         sendError(resp, status, message);
-    }
-
-    // Context holder
-    private static class ApiContext {
-        final String username;
-        final Integer permissions;
-        final List<String> roles;
-        final String ip;
-        final HttpSession session;
-
-        ApiContext(HttpServletRequest req) {
-            this.session = req.getSession();
-            User user = (User) session.getAttribute("auth");
-            this.username = (user != null) ? user.getUserName() : "anonymous";
-            this.roles = (user != null) ? user.getRoles() : List.of();
-            this.permissions = (user != null) ? user.getPermissions().get("Order") : 0;
-            this.ip = req.getRemoteAddr();
-            // Initialize session flag
-            if (session.getAttribute("viewAllOrders") == null) {
-                session.setAttribute("viewAllOrders", Boolean.FALSE);
-            }
-        }
     }
 }
