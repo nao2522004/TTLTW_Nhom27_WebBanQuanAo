@@ -724,6 +724,7 @@
 <script src="admin/js/users.js"></script>
 <script src="admin/js/userRolePermission.js"></script>
 <script src="admin/js/products.js"></script>
+<script src="admin/js/productDetails.js"></script>
 
 
 <!-- jQuery -->

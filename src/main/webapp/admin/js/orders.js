@@ -97,7 +97,7 @@ function deleteOrder(event) {
             type: 'DELETE',
             cache: false,
             success: function (response) {
-                if (response.message?.includes("Xóa mềm đơn hàng thành công")) {
+                if (response.message) {
                     alert(response.message);
                 }
                 fetchOrders();
