@@ -25,10 +25,10 @@
 
 <div class="container active no-padding">
   <div class="form-box">
-    <form action="ResetPassword" method="POST" id="updatePasswordForm" onsubmit="return validateForm();">
+    <form action="/change-password" method="POST" id="updatePasswordForm" onsubmit="return validateForm();">
       <h1>Thay Đổi Mật Khẩu</h1>
       <div class="form-group">
-        <label for="currentPassword">Mật khẩu cũ</label>
+        <label for="currentPassword"></label>
         <div class="input-box">
           <input type="password" class="form-control" id="currentPassword" name="currentPassword"
                  placeholder="Nhập mật khẩu cũ." required>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="form-group">
-        <label for="newPassword">Mật khẩu mới</label>
+        <label for="newPassword"></label>
         <div class="input-box">
           <input type="password" class="form-control" id="newPassword" name="newPassword"
                  placeholder="Nhập mật khẩu mới." required>
@@ -58,7 +58,7 @@
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Nhập lại mật khẩu</label>
+        <label for="confirmPassword"></label>
         <div class="input-box">
           <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
                  placeholder="Xác nhận lại mật khẩu." required>
@@ -69,10 +69,14 @@
         <small id="confirmPasswordMsg" style="font-weight: 600; display: block; margin-top: 8px;"></small>
       </div>
 
+      <!-- Thêm input hidden chứa userId nếu bạn đã set userId vào req attribute khi forward -->
+      <input type="hidden" name="userId" value="${userId}">
+
       <button type="submit" class="btn btn-primary btn-lg">Cập Nhật Mật Khẩu</button>
     </form>
   </div>
 </div>
+
 
 <div>
   <footer id="footer"><%@ include file="assets/includes/footer.jsp" %></footer>
@@ -91,11 +95,6 @@
       button.querySelector("i").classList.remove("fa-eye-slash");
       button.querySelector("i").classList.add("fa-eye");
     }
-  }
-
-  function sendOTP() {
-    // Thêm logic gửi OTP bằng AJAX nếu cần
-    alert("Mã xác nhận đã được gửi đến email.");
   }
 
   $(document).ready(function () {
@@ -202,6 +201,7 @@
         }
       });
     });
+  });
 </script>
 
 <script src="./assets/js/base.js"></script>

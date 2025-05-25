@@ -223,7 +223,10 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" class="form-control" id="password" value="************" readonly>
                 </div>
-                <button class="btn btn-second-color" id="openPopup">Đổi mật khẩu</button>
+                <button class="btn btn-second-color" id="open">Đổi mật khẩu</button>
+                <div id="confirmMessage" style="display:none; margin-top: 10px; color: blue; font-weight: 600;">
+                    Vui lòng kiểm tra email để xác nhận thay đổi mật khẩu.
+                </div>
             </div>
         </main>
 
@@ -360,68 +363,59 @@
                 <p>Nội dung thông báo chi tiết, ví dụ: Bạn có voucher giảm giá 10% sắp hết hạn vào ngày 31/12/2024.</p>
             </div>
         </main>
-
     </div>
 
     <!-- Update password -->
     <!-- Popup -->
     <!-- Nút Đóng được thay thế bằng dấu X -->
-    <div class="popup" id="popup">
-        <div class="overlay" id="overlay"></div>
-        <form action="" class="update-password" id="updatePasswordForm">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 style="text-align: center;"> Thay đổi mật khẩu</h4>
-                <div type="button" class="close-button" id="closePopup">
-                    <i class="fas fa-times"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="otpCode">Mã xác nhận</label>
-                <div class="input-box">
-                    <input type="text" class="form-control" id="otpCode" placeholder="Nhập mã xác nhận gửi đến email." required>
-                </div>
-                <small id="otpMessage" style="color: red; display: none;"></small>
-            </div>
-            <button type="button" class="btn btn-outline-primary" onclick="sendOTP()">Gửi mã xác nhận</button>
-            <div class="form-group">
-                <label for="currentPassword">Mật khẩu cũ</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'currentPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Mật khẩu mới</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'newPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-                <div id="passwordRequirements" style="margin-top: 8px; display: none;">
-                    <small id="length" class="invalid">Ít nhất 8 ký tự</small><br />
-                    <small id="uppercase" class="invalid">Chứa chữ in hoa</small><br />
-                    <small id="lowercase" class="invalid">Chứa chữ thường</small><br />
-                    <small id="number" class="invalid">Chứa số</small><br />
-                    <small id="special" class="invalid">Ký tự đặc biệt (!@#$...)</small>
-                </div>
-                <small id="passwordStrength" style="font-weight: 600; display: block; margin-top: 8px;"></small>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Nhập lại mật khẩu</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận lại mật khẩu." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'confirmPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-                <small id="confirmPasswordMsg" style="font-weight: 600; display: block; margin-top: 8px;"></small>
-            </div>
-            <button type="submit" class="btn btn-second-color">Cập nhật</button>
-        </form>
-    </div>
+<%--    <div class="popup" id="popup">--%>
+<%--        <div class="overlay" id="overlay"></div>--%>
+<%--        <form action="" class="update-password" id="updatePasswordForm">--%>
+<%--            <div class="d-flex justify-content-between align-items-center">--%>
+<%--                <h4 style="text-align: center;"> Thay đổi mật khẩu</h4>--%>
+<%--                <div type="button" class="close-button" id="closePopup">--%>
+<%--                    <i class="fas fa-times"></i>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="form-group">--%>
+<%--                <label for="currentPassword">Mật khẩu cũ</label>--%>
+<%--                <div class="input-box">--%>
+<%--                    <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>--%>
+<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'currentPassword')">--%>
+<%--                        <i class="fa-solid fa-eye"></i>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="form-group">--%>
+<%--                <label for="newPassword">Mật khẩu mới</label>--%>
+<%--                <div class="input-box">--%>
+<%--                    <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới." required>--%>
+<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'newPassword')">--%>
+<%--                        <i class="fa-solid fa-eye"></i>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--                <div id="passwordRequirements" style="margin-top: 8px; display: none;">--%>
+<%--                    <small id="length" class="invalid">Ít nhất 8 ký tự</small><br />--%>
+<%--                    <small id="uppercase" class="invalid">Chứa chữ in hoa</small><br />--%>
+<%--                    <small id="lowercase" class="invalid">Chứa chữ thường</small><br />--%>
+<%--                    <small id="number" class="invalid">Chứa số</small><br />--%>
+<%--                    <small id="special" class="invalid">Ký tự đặc biệt (!@#$...)</small>--%>
+<%--                </div>--%>
+<%--                <small id="passwordStrength" style="font-weight: 600; display: block; margin-top: 8px;"></small>--%>
+<%--            </div>--%>
+<%--            <div class="form-group">--%>
+<%--                <label for="confirmPassword">Nhập lại mật khẩu</label>--%>
+<%--                <div class="input-box">--%>
+<%--                    <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận lại mật khẩu." required>--%>
+<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'confirmPassword')">--%>
+<%--                        <i class="fa-solid fa-eye"></i>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--                <small id="confirmPasswordMsg" style="font-weight: 600; display: block; margin-top: 8px;"></small>--%>
+<%--            </div>--%>
+<%--            <button type="submit" class="btn btn-second-color">Cập nhật</button>--%>
+<%--        </form>--%>
+<%--    </div>--%>
 
 </div>
 
@@ -444,119 +438,27 @@
 <script src="./user/js/orders-history.js"></script>
 
 <script>
-    function togglePassword(button) {
-        const input = button.previousElementSibling; // Lấy input trước nút
-        const icon = button.querySelector('i');
+    document.getElementById('open').addEventListener('click', function(e) {
+        e.preventDefault();
 
-        if (input.type === "password") {
-            input.type = "text"; // Hiện mật khẩu
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            input.type = "password"; // Ẩn mật khẩu
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
-
-    // Kiểm tra điều kiện mật khẩu
-    const newPasswordInput = document.getElementById("newPassword");
-    const requirementBox = document.getElementById("passwordRequirements");
-
-    newPasswordInput.addEventListener("input", function () {
-        const password = this.value;
-
-        if(password.length === 0) {
-            requirementBox.style.display = "none";  // Ẩn khi chưa nhập
-            document.getElementById("passwordStrength").textContent = "";
-            return;
-        }
-
-        requirementBox.style.display = "block";  // Hiện khi bắt đầu nhập
-
-        const lengthValid = password.length >= 8;
-        const uppercaseValid = /[A-Z]/.test(password);
-        const lowercaseValid = /[a-z]/.test(password);
-        const numberValid = /[0-9]/.test(password);
-        const specialValid = /[^A-Za-z0-9]/.test(password);
-
-        toggleRequirementClass("length", lengthValid);
-        toggleRequirementClass("uppercase", uppercaseValid);
-        toggleRequirementClass("lowercase", lowercaseValid);
-        toggleRequirementClass("number", numberValid);
-        toggleRequirementClass("special", specialValid);
-
-        const passedConditions = [lengthValid, uppercaseValid, lowercaseValid, numberValid, specialValid].filter(Boolean).length;
-
-        const passwordStrength = document.getElementById("passwordStrength");
-        if (passedConditions === 5) {
-            passwordStrength.textContent = "Mật khẩu mạnh!";
-            passwordStrength.style.color = "green";
-        } else if (passedConditions >= 3) {
-            passwordStrength.textContent = "Mật khẩu trung bình!";
-            passwordStrength.style.color = "orange";
-        } else {
-            passwordStrength.textContent = "Mật khẩu yếu!";
-            passwordStrength.style.color = "red";
-        }
-    });
-
-    function toggleRequirementClass(id, isValid) {
-        const element = document.getElementById(id);
-        if (isValid) {
-            element.classList.add("valid");
-            element.classList.remove("invalid");
-        } else {
-            element.classList.add("invalid");
-            element.classList.remove("valid");
-        }
-    }
-
-    // Kiểm tra mật khẩu xác nhận khớp
-    confirmPasswordInput.addEventListener("input", function () {
-        const newPassword = newPasswordInput.value;
-        const confirmPassword = this.value;
-        const msgElem = document.getElementById("confirmPasswordMsg");
-
-        if(confirmPassword.length === 0){
-            msgElem.textContent = "";
-            return;
-        }
-
-        if (newPassword === confirmPassword) {
-            msgElem.textContent = "Mật khẩu khớp!";
-            msgElem.style.color = "green";
-        } else {
-            msgElem.textContent = "Mật khẩu xác nhận không khớp!";
-            msgElem.style.color = "red";
-        }
-    });
-
-    // Validate form khi submit
-    document.querySelector(".update-password").addEventListener("submit", function (e) {
-        const newPassword = newPasswordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-
-        // Kiểm tra điều kiện mật khẩu mới
-        const lengthValid = newPassword.length >= 8;
-        const uppercaseValid = /[A-Z]/.test(newPassword);
-        const lowercaseValid = /[a-z]/.test(newPassword);
-        const numberValid = /[0-9]/.test(newPassword);
-        const specialValid = /[^A-Za-z0-9]/.test(newPassword);
-
-        if (!(lengthValid && uppercaseValid && lowercaseValid && numberValid && specialValid)) {
-            alert("Mật khẩu chưa đủ điều kiện. Vui lòng kiểm tra lại các yêu cầu mật khẩu.");
-            e.preventDefault();
-            return false;
-        }
-
-        if (newPassword !== confirmPassword) {
-            alert("Mật khẩu xác nhận không khớp! Vui lòng kiểm tra lại.");
-            e.preventDefault();
-            return false;
-        }
-
-        // Có thể thêm kiểm tra mật khẩu cũ nếu muốn
+        fetch('/WebBanQuanAo/sendChangePasswordEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userName: document.getElementById('userName').value })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    document.getElementById('confirmMessage').style.display = 'block';
+                } else {
+                    alert('Gửi email xác nhận thất bại. Vui lòng thử lại.');
+                }
+            })
+            .catch(err => {
+                alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            });
     });
 </script>
 <!-- base js -->

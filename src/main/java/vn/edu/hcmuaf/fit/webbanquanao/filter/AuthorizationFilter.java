@@ -22,7 +22,7 @@ public class AuthorizationFilter implements Filter {
             "/ResetPassword", "/reset-password.jsp", "/verify", "/verify.jsp",
             "/verifyOTP", "/resend-otp", "/homePage", "/productDetail",
             "/productSearch", "/productFilter", "/productPagination",
-            "/facebook-callback"
+            "/facebook-callback", "/sendChangePasswordEmail "
     );
 
     private static final Set<String> STATIC_EXTENSIONS = Set.of(
