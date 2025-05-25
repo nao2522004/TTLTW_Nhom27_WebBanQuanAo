@@ -169,6 +169,33 @@
         $("#confirmPasswordMsg").text(msg).css("color", color);
     }
 
+    // Ngăn copy/dán/kéo-thả vào ô xác nhận mật khẩu
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+
+    confirmPasswordInput.addEventListener("paste", function (e) {
+        e.preventDefault();
+    });
+
+    confirmPasswordInput.addEventListener("copy", function (e) {
+        e.preventDefault();
+    });
+
+    confirmPasswordInput.addEventListener("cut", function (e) {
+        e.preventDefault();
+    });
+
+    confirmPasswordInput.addEventListener("dragover", function (e) {
+        e.preventDefault();
+    });
+
+    confirmPasswordInput.addEventListener("drop", function (e) {
+        e.preventDefault();
+    });
+    const newPasswordInput = document.getElementById("newPassword");
+
+    newPasswordInput.addEventListener("copy", function (e) {
+        e.preventDefault();
+    });
 </script>
 
 <!-- base js -->

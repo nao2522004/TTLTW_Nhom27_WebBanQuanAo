@@ -3,6 +3,10 @@ package vn.edu.hcmuaf.fit.webbanquanao.admin.Mapper;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static vn.edu.hcmuaf.fit.webbanquanao.filter.AuthorizationFilter.PUBLIC_PATHS;
+import static vn.edu.hcmuaf.fit.webbanquanao.filter.AuthorizationFilter.STATIC_EXTENSIONS;
+
+
 public class ResourceMapper {
     private static final Map<Pattern, String> URL_TO_RESOURCE = Map.ofEntries(
             Map.entry(Pattern.compile("^/admin/.*$|^/admin.jsp$"), "Admin"),    // Admin
@@ -21,6 +25,17 @@ public class ResourceMapper {
                 .orElse("default");
 
         return resource;
+    }
+    private boolean isPublicOrStatic(String path) {
+        if (PUBLIC_PATHS.stream().anyMatch(p ->
+                path.equals(p)
+                        || path.startsWith(p + "/")
+                        || path.startsWith(p + "?"))) {
+            return true;
+        }
+
+        int idx = path.lastIndexOf('.');
+        return idx >= 0 && STATIC_EXTENSIONS.contains(path.substring(idx + 1).toLowerCase());
     }
 
 }

@@ -112,6 +112,13 @@
                 <small id="special" class="invalid" style="display: block;">Ký tự đặc biệt (!@#$...)</small>
             </small>
 
+            <div class="input-box">
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận lại mật khẩu" required
+                       oninput="validateConfirmPassword();">
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
+            </div>
+            <small id="confirm-password-text" style="color: red; font-size: 1rem;"></small>
+
             <!-- Google reCAPTCHA -->
             <div class="recaptcha-wrapper">
                 <div class="g-recaptcha" data-sitekey="6LcIsA4rAAAAAKTypNS-94XJI8a-Hq34isJYFdDQ"></div>
