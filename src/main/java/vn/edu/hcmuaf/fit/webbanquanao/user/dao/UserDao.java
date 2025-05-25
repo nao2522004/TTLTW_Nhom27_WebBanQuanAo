@@ -433,25 +433,6 @@ public class UserDao {
         });
     }
 
-    public Integer getUserIdByToken(String token) {
-        String sql = "SELECT userId FROM resetpasswordtokens WHERE token = ? AND expiredAt > NOW()";
-
-        return dbConnect.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setString(1, token);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt("userId");
-                    }
-                }
-            } catch (SQLException e) {
-                System.err.println("Lỗi khi lấy userId theo token: " + e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        });
-    }
-
     public boolean updateUserStatus(String email, int status) {
         String sql = "UPDATE users SET status = ? WHERE email = ?";
 

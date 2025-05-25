@@ -16,16 +16,18 @@ import java.util.*;
 
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
-    private static final Set<String> PUBLIC_PATHS = Set.of(
+
+    public static final Set<String> PUBLIC_PATHS = Set.of(
             "/login", "/login.jsp", "/login-facebook", "/google-login", "/google-callback",
             "/register", "/register.jsp", "/forgotPassword", "/forgot-password.jsp",
             "/ResetPassword", "/reset-password.jsp", "/verify", "/verify.jsp",
             "/verifyOTP", "/resend-otp", "/homePage", "/productDetail",
             "/productSearch", "/productFilter", "/productPagination",
-            "/facebook-callback", "/sendChangePasswordEmail "
+            "/facebook-callback", "/sendChangePasswordEmail", "/change-password.jsp",
+            "/change-password"
     );
 
-    private static final Set<String> STATIC_EXTENSIONS = Set.of(
+    public static final Set<String> STATIC_EXTENSIONS = Set.of(
             "css", "js", "jpg", "jpeg", "png", "gif", "ico",
             "woff", "woff2", "ttf", "svg", "map", "webp"
     );
@@ -51,62 +53,71 @@ public class AuthorizationFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest  request  = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        String path = request.getRequestURI().substring(request.getContextPath().length());
 
-        if (isPublicOrStatic(path)) {
+        try {
+            String requestPath = request.getRequestURI().substring(request.getContextPath().length());
+
+            if (isPublicOrStatic(requestPath)) {
+                chain.doFilter(req, res);
+                return;
+            }
+
+            HttpSession session = request.getSession(false);
+            User user = session != null ? (User) session.getAttribute("auth") : null;
+            String ip = request.getRemoteAddr();
+
+            if (user == null) {
+                logService.logAnonymousAccessAttempt(requestPath, ip);
+                redirectToLogin(request, response);
+                return;
+            }
+
+            if (session.getAttribute("hasLoggedUserInfo") == null) {
+                logService.logLoginSuccess(user.getUserName(), ip, user.getRoles());
+                session.setAttribute("hasLoggedUserInfo", true);
+            }
+
+            if (ADMIN_PATHS.contains(requestPath) && !hasAnyRole(user, Set.of("ADMIN", "MANAGER"))) {
+                logService.logUnauthorizedAccess(user.getUserName(), requestPath, ResourceMapper.getResource(requestPath), METHOD_PERM.get("GET"), ip, user.getRoles());
+                forwardError(request, response, "Bạn không có quyền truy cập trang này");
+                return;
+            }
+
+            int required = METHOD_PERM.getOrDefault(request.getMethod(), 4);
+            int userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
+                    .getOrDefault(ResourceMapper.getResource(requestPath), 0);
+            if (!ResourceMapper.getResource(requestPath).equals("default") && (userPerm & required) != required) {
+                logService.logUnauthorizedAccess(user.getUserName(), requestPath, ResourceMapper.getResource(requestPath), required, ip, user.getRoles());
+                forwardError(request, response, "Bạn không đủ quyền truy cập chức năng này");
+                return;
+            }
+
+            if (!isAjax(request)
+                    && !requestPath.equals(session.getAttribute("lastLoggedPath"))
+                    && !requestPath.startsWith("/admin/api/")) {
+                logService.logAccessGranted(user.getUserName(), requestPath, ResourceMapper.getResource(requestPath), required, ip, user.getRoles());
+                session.setAttribute("lastLoggedPath", requestPath);
+            }
+
             chain.doFilter(req, res);
-            return;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            forwardError((HttpServletRequest) req, (HttpServletResponse) res, "Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau.");
         }
-
-        HttpSession session = request.getSession(false);
-        User user = session != null ? (User) session.getAttribute("auth") : null;
-        String ip = request.getRemoteAddr();
-
-        if (user == null) {
-            redirectToLogin(request, response);
-//            logService.logAnonymousAccessAttempt(path, ip);
-            return;
-        }
-
-        // Log user info once
-        if (session.getAttribute("hasLoggedUserInfo") == null) {
-            logService.logLoginSuccess(user.getUserName(), ip, user.getRoles());
-            session.setAttribute("hasLoggedUserInfo", true);
-        }
-
-        // Admin page check
-        if (ADMIN_PATHS.contains(path) && !hasAnyRole(user, Set.of("ADMIN", "MANAGER"))) {
-            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), METHOD_PERM.get("GET"), ip, user.getRoles());
-            forwardError(request, response, "Bạn không có quyền truy cập trang này");
-            return;
-        }
-
-        // Permission check
-        int required = METHOD_PERM.getOrDefault(request.getMethod(), 4);
-        int userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
-                .getOrDefault(ResourceMapper.getResource(path), 0);
-        if (!ResourceMapper.getResource(path).equals("default") && (userPerm & required) != required) {
-            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
-            forwardError(request, response, "Bạn không đủ quyền truy cập chức năng này");
-            return;
-        }
-
-        // Page-view log
-        if (!isAjax(request)
-                && !path.equals(session.getAttribute("lastLoggedPath"))
-                && !path.startsWith("/admin/api/")) {
-            logService.logAccessGranted(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
-            session.setAttribute("lastLoggedPath", path);
-        }
-
-        chain.doFilter(req, res);
     }
 
     @Override
     public void destroy() {}
 
     private boolean isPublicOrStatic(String path) {
-        if (PUBLIC_PATHS.stream().anyMatch(p -> path.equals(p) || path.startsWith(p + '/'))) return true;
+        // Nếu path trùng hoặc bắt đầu với public path + '/' hoặc public path + '?' thì coi là public
+        if (PUBLIC_PATHS.stream().anyMatch(p ->
+                path.equals(p)
+                        || path.startsWith(p + "/")
+                        || path.startsWith(p + "?"))) {
+            return true;
+        }
+
         int idx = path.lastIndexOf('.');
         return idx >= 0 && STATIC_EXTENSIONS.contains(path.substring(idx + 1).toLowerCase());
     }

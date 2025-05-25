@@ -5,25 +5,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.hcmuaf.fit.webbanquanao.user.dao.UserDao;
+import vn.edu.hcmuaf.fit.webbanquanao.user.auth.dao.TokenForgotDao;
+import vn.edu.hcmuaf.fit.webbanquanao.user.auth.model.TokenForgotPassword;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/change-password")
 public class ConfirmChangePasswordServlet extends HttpServlet {
-    private UserDao userDao = new UserDao();
+    private TokenForgotDao tokenDao = new TokenForgotDao();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String token = req.getParameter("token");
 
-        Integer userId = userDao.getUserIdByToken(token);
+        TokenForgotPassword tokenData = tokenDao.getTokenForgot(token);
 
-        if (userId != null) {
-            // Token hợp lệ, hiển thị trang đổi mật khẩu
-            req.setAttribute("userId", userId);
+        if (tokenData != null && tokenData.getExpiresAt().isAfter(LocalDateTime.now())) {
+            // Token hợp lệ và chưa hết hạn
+            req.setAttribute("userId", tokenData.getUserId());
             req.getRequestDispatcher("/change-password.jsp").forward(req, resp);
         } else {
-            resp.getWriter().write("Link xác nhận không hợp lệ hoặc đã hết hạn.");
+            req.setAttribute("error", "Link xác nhận không hợp lệ hoặc đã hết hạn.");
+            req.getRequestDispatcher("/error.jsp").forward(req, resp);
         }
     }
 }
+
