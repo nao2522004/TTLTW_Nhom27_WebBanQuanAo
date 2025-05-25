@@ -376,6 +376,14 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="otpCode">Mã xác nhận</label>
+                <div class="input-box">
+                    <input type="text" class="form-control" id="otpCode" placeholder="Nhập mã xác nhận gửi đến email." required>
+                </div>
+                <small id="otpMessage" style="color: red; display: none;"></small>
+            </div>
+            <button type="button" class="btn btn-outline-primary" onclick="sendOTP()">Gửi mã xác nhận</button>
+            <div class="form-group">
                 <label for="currentPassword">Mật khẩu cũ</label>
                 <div class="input-box">
                     <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>
