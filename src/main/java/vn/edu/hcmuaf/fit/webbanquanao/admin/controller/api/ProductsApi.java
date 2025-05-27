@@ -9,32 +9,27 @@ import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AProductService;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "ProductsApi", urlPatterns = "/admin/api/products/*")
-public class ProductsApi extends HttpServlet {
+public class ProductsApi extends BaseApiServlet {
     private static final long serialVersionUID = 1L;
     private final AProductService productService = new AProductService();
     private final UserLogsService logService = UserLogsService.getInstance();
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
-
+        ApiContext ctx = initContext(req, resp, "Product");
         String id = extractId(req.getPathInfo());
+
         if (id == null) {
             List<AProduct> products = new ArrayList<>(productService.showProduct().values());
-            // Chỉ log lần đầu xem tất cả sản phẩm trong session
-            if (!ctx.session.getAttribute("viewAllProducts").equals(Boolean.TRUE)) {
+            Object viewedFlag = ctx.session.getAttribute("viewAllProducts");
+            if (!Boolean.TRUE.equals(viewedFlag)) {
                 logService.logAccessGranted(ctx.username, req.getRequestURI(), "Product", ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllProducts", Boolean.TRUE);
             }
@@ -49,7 +44,6 @@ public class ProductsApi extends HttpServlet {
             int pid = Integer.parseInt(id);
             AProduct p = productService.getProductById(pid);
             if (p != null) {
-//                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Product", ctx.permissions, ctx.ip, ctx.roles);
                 writeJson(resp, p);
             } else {
                 logService.logCustom(ctx.username, "WARN", "Product not found ID=" + pid, ctx.ip, ctx.roles);
@@ -63,8 +57,8 @@ public class ProductsApi extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "Product");
+        String id = extractId(req.getPathInfo());
         try {
             AProduct p = gson.fromJson(readBody(req), AProduct.class);
             validateCreate(p);
@@ -89,8 +83,7 @@ public class ProductsApi extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "Product");
         String id = extractId(req.getPathInfo());
         if (id == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
@@ -135,7 +128,7 @@ public class ProductsApi extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = new ApiContext(req, "Order");
         String id = extractId(req.getPathInfo());
         if (id == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
@@ -170,60 +163,6 @@ public class ProductsApi extends HttpServlet {
     private void validateUpdate(AProduct p) {
         if (p.getName() == null || p.getName().isEmpty()) {
             throw new IllegalArgumentException("Tên sản phẩm không được để trống");
-        }
-    }
-
-    // Utility
-    private void prepareResponse(HttpServletResponse resp) {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-    }
-
-    private String extractId(String pathInfo) {
-        return (pathInfo == null || "/".equals(pathInfo)) ? null : pathInfo.substring(1);
-    }
-
-    private String readBody(HttpServletRequest req) throws IOException {
-        try (BufferedReader reader = req.getReader()) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) sb.append(line);
-            return sb.toString();
-        }
-    }
-
-    private <T> void writeJson(HttpServletResponse resp, T data) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write(gson.toJson(data));
-    }
-
-    private void sendError(HttpServletResponse resp, int status, String message) throws IOException {
-        resp.setStatus(status);
-        gson.toJson(Map.of("message", message), resp.getWriter());
-    }
-
-    private void sendSuccess(HttpServletResponse resp, int status, String message) throws IOException {
-        sendError(resp, status, message);
-    }
-
-    // Context holder (giống OrdersApi)
-    private static class ApiContext {
-        final String username;
-        final Integer permissions;
-        final List<String> roles;
-        final String ip;
-        final HttpSession session;
-
-        ApiContext(HttpServletRequest req) {
-            this.session = req.getSession();
-            User u = (User) session.getAttribute("auth");
-            this.username    = (u != null) ? u.getUserName() : "anonymous";
-            this.roles       = (u != null) ? u.getRoles()    : List.of();
-            this.permissions = (u != null) ? u.getPermissions().get("Product") : 0;
-            this.ip          = req.getRemoteAddr();
-            if (session.getAttribute("viewAllProducts") == null) {
-                session.setAttribute("viewAllProducts", Boolean.FALSE);
-            }
         }
     }
 }
