@@ -4,7 +4,8 @@ function fetchUsers() {
         url: `/WebBanQuanAo/admin/api/users`,
         type: 'GET',
         dataType: 'json',
-        success: function (users) {
+        success: function (response) {
+            const users = response.data;
             const table = $("#users--table");
 
             // Xóa DataTables nếu đã được khởi tạo trước đó
@@ -96,6 +97,7 @@ function deleteUser(event) {
         $.ajax({
             url: `/WebBanQuanAo/admin/api/users/${encodeURIComponent(userName)}`,
             type: 'DELETE',
+            dataType: 'json',
             success: function (response) {
                 alert(response.message || "Xóa người dùng thành công!");
                 fetchUsers();
@@ -120,7 +122,8 @@ function openEditPopup(event) {
         url: `/WebBanQuanAo/admin/api/users/${encodeURIComponent(userName)}`,
         type: 'GET',
         dataType: 'json',
-        success: function (data) {
+        success: function (response) {
+            const data = response.data
             document.getElementById("edit-id").value = data.id;
             document.getElementById("edit-username").value = data.userName;
             document.getElementById("edit-lastName").value = data.lastName;
@@ -135,9 +138,10 @@ function openEditPopup(event) {
             const optionStatus = selectStatus.querySelector(`option[value="${data.status}"]`);
             if(optionStatus) optionStatus.selected = true;
         },
-        error: function () {
-            console.error("Lỗi khi lấy dữ liệu người dùng");
-            alert("Không thể lấy thông tin người dùng. Vui lòng thử lại.");
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi lấy dữ liệu người dùng", error);
+            const message = xhr.responseJSON?.message || "Không thể lấy thông tin người dùng. Vui lòng thử lại.";
+            alert(message)
         }
     });
 }
@@ -164,14 +168,16 @@ function saveUserEdits(event) {
         url: `/WebBanQuanAo/admin/api/users/${encodeURIComponent(user.userName)}`,
         type: 'PUT',
         contentType: 'application/json',
+        dataType: 'json',
         data: JSON.stringify(user),
-        success: function () {
-            alert("Cập nhật thông tin người dùng thành công!");
+        success: function (response) {
+            alert(response.message || "Cập nhật thông tin người dùng thành công!");
             fetchUsers();
             hideOverlay();  // giữ nguyên hàm này nếu bạn đã có
         },
-        error: function (xhr) {
-            console.error("Lỗi khi cập nhật thông tin người dùng:", xhr.responseText);
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi cập nhật thông tin người dùng:", error);
+            console.error("Chi tiết lỗi:", xhr.responseText);
             alert(xhr.responseJSON?.message || "Không thể cập nhật người dùng. Vui lòng thử lại.");
         }
     });

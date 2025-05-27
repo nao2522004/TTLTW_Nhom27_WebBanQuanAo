@@ -120,6 +120,7 @@ function openEditOrderPopup(event) {
     $.ajax({
         url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
         type: 'GET',
+        dataType: 'json',
         cache: false,
         success: function (response) {
             const data = response.data;
@@ -171,7 +172,6 @@ function saveOrderEdits(event) {
             hideOverlay();
         },
         error: function (xhr, status, error) {
-            console.log(JSON.stringify(order))
             console.error("Lỗi khi cập nhật thông tin đơn hàng:", error);
             console.error("Chi tiết lỗi:", xhr.responseText);
             const message = xhr.responseJSON?.message || "Không thể cập nhật thông tin đơn hàng. Lỗi không xác định từ server.";

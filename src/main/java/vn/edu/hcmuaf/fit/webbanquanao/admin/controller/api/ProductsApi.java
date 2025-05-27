@@ -17,7 +17,6 @@ import java.util.Map;
 
 @WebServlet(name = "ProductsApi", urlPatterns = "/admin/api/products/*")
 public class ProductsApi extends BaseApiServlet {
-    private static final long serialVersionUID = 1L;
     private final AProductService productService = new AProductService();
     private final UserLogsService logService = UserLogsService.getInstance();
 
