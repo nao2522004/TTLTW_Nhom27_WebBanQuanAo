@@ -142,14 +142,22 @@ public class OrdersApi extends BaseApiServlet {
 
     // Validation
     private void validateCreate(AOrder o) {
-        if (o.getId() == null || o.getFirstName() == null || o.getOrderDate() == null || o.getTotalPrice() <= 0) {
-            throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi tạo Order: ID = " + o.getId());
-        }
+        StringBuilder errors = new StringBuilder();
+        if (o.getId() == null) errors.append("ID bị thiếu. ");
+        if (o.getFirstName() == null || o.getFirstName().trim().isEmpty()) errors.append("Tên người nhận bị thiếu. ");
+        if (o.getOrderDate() == null) errors.append("Ngày đặt hàng bị thiếu. ");
+        if (o.getTotalPrice() <= 0) errors.append("Tổng tiền phải lớn hơn 0. ");
+        if (!errors.isEmpty())
+            throw new IllegalArgumentException("Lỗi khi tạo Order (ID = " + o.getId() + "): " + errors.toString().trim());
     }
 
+
     private void validateUpdate(AOrder o) {
-        if (o.getFirstName() == null || o.getPaymentId() == null) {
-            throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi cập nhật Order: ID = " + o.getId());
-        }
+        StringBuilder errors = new StringBuilder();
+        if (o.getFirstName() == null || o.getFirstName().trim().isEmpty()) errors.append("Tên người nhận bị thiếu. ");
+        if (o.getPaymentId() == null) errors.append("Phương thức thanh toán bị thiếu. ");
+        if (!errors.isEmpty())
+            throw new IllegalArgumentException("Lỗi khi cập nhật Order (ID = " + o.getId() + "): " + errors.toString().trim());
     }
+
 }

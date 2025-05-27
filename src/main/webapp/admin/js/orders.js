@@ -94,6 +94,7 @@ function deleteOrder(event) {
         $.ajax({
             url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
             type: 'DELETE',
+            dataType: 'json',
             cache: false,
             success: function (response) {
                 alert(response.message || "Đã xóa đơn hàng thành công.");
@@ -161,6 +162,7 @@ function saveOrderEdits(event) {
         url: `/WebBanQuanAo/admin/api/orders/${order.id}`,
         type: 'PUT',
         contentType: 'application/json',
+        dataType: 'json',
         data: JSON.stringify(order),
         cache: false,
         success: function (response) {
@@ -169,6 +171,7 @@ function saveOrderEdits(event) {
             hideOverlay();
         },
         error: function (xhr, status, error) {
+            console.log(JSON.stringify(order))
             console.error("Lỗi khi cập nhật thông tin đơn hàng:", error);
             console.error("Chi tiết lỗi:", xhr.responseText);
             const message = xhr.responseJSON?.message || "Không thể cập nhật thông tin đơn hàng. Lỗi không xác định từ server.";

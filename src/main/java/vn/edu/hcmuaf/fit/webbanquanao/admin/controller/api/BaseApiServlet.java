@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BaseApiServlet extends HttpServlet {
@@ -47,11 +48,11 @@ public abstract class BaseApiServlet extends HttpServlet {
 
     protected void sendJson(HttpServletResponse resp, int status, String message, Object data) throws IOException {
         resp.setStatus(status);
-        var responseWrapper = Map.of(
-                "status", status,
-                "message", message,
-                "data", data
-        );
+        // Sử dụng Map cho phép giá trị null mà không gây NPE
+        Map<String, Object> responseWrapper = new HashMap<>();
+        responseWrapper.put("status", status);
+        responseWrapper.put("message", message);
+        responseWrapper.put("data", data);
         resp.getWriter().write(gson.toJson(responseWrapper));
     }
 
