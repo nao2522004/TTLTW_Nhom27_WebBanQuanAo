@@ -13,7 +13,6 @@ import java.util.*;
 
 @WebServlet(name = "OrdersApi", urlPatterns = "/admin/api/orders/*")
 public class OrdersApi extends BaseApiServlet {
-    private static final long serialVersionUID = 1L;
     private final AOrderService orderService = new AOrderService();
     private final UserLogsService logService = UserLogsService.getInstance();
 

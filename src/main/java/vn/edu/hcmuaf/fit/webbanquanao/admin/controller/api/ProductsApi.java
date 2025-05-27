@@ -127,8 +127,7 @@ public class ProductsApi extends BaseApiServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req, "Order");
+        ApiContext ctx = initContext(req, resp, "Product");
         String id = extractId(req.getPathInfo());
         if (id == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
@@ -153,16 +152,32 @@ public class ProductsApi extends BaseApiServlet {
         }
     }
 
-    // Validation
+    // Validation với thông báo chi tiết hơn
     private void validateCreate(AProduct p) {
-        if (p.getId() == null || p.getName() == null || p.getUnitPrice() <= 0) {
-            throw new IllegalArgumentException("Thiếu hoặc sai dữ liệu bắt buộc khi tạo sản phẩm");
-        }
+        StringBuilder errors = new StringBuilder();
+        if (p.getId() == null)
+            errors.append("ID sản phẩm bị thiếu. ");
+        if (p.getName() == null || p.getName().trim().isEmpty())
+            errors.append("Tên sản phẩm không được để trống. ");
+        if (p.getUnitPrice() <= 0)
+            errors.append("Giá sản phẩm phải lớn hơn 0. ");
+        if (errors.length() > 0)
+            throw new IllegalArgumentException("Lỗi khi tạo sản phẩm (ID=" + p.getId() + "): "
+                    + errors.toString().trim());
+
     }
 
     private void validateUpdate(AProduct p) {
-        if (p.getName() == null || p.getName().isEmpty()) {
-            throw new IllegalArgumentException("Tên sản phẩm không được để trống");
-        }
+        StringBuilder errors = new StringBuilder();
+        if (p.getId() == null)
+            errors.append("ID sản phẩm bị thiếu. ");
+        if (p.getName() == null || p.getName().trim().isEmpty())
+            errors.append("Tên sản phẩm không được để trống. ");
+        if (p.getUnitPrice() <= 0)
+            errors.append("Giá sản phẩm phải lớn hơn 0 nếu được cung cấp. ");
+        if (errors.length() > 0)
+            throw new IllegalArgumentException("Lỗi khi cập nhật sản phẩm (ID=" + p.getId() + "): "
+                    + errors.toString().trim());
     }
+
 }
