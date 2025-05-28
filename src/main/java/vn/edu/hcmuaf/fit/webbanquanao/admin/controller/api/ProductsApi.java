@@ -57,19 +57,18 @@ public class ProductsApi extends BaseApiServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ApiContext ctx = initContext(req, resp, "Product");
-        String id = extractId(req.getPathInfo());
+
         try {
             AProduct p = gson.fromJson(readBody(req), AProduct.class);
             validateCreate(p);
-            Map<Integer, AProduct> products = productService.showProduct();
 
-            if (products.containsKey(p.getId())) {
-                logService.logCreateEntity(ctx.username, "Product", String.valueOf(p.getId()), ctx.ip, ctx.roles);
-                sendError(resp, HttpServletResponse.SC_CONFLICT, "Sản phẩm đã tồn tại");
-            } else {
-                products.put(p.getId(), p);
-                logService.logCreateEntity(ctx.username, "Product", String.valueOf(p.getId()), ctx.ip, ctx.roles);
+            boolean success = productService.createProduct(p);
+
+            if (success) {
+                logService.logCreateEntity(ctx.username, "Product", "new", ctx.ip, ctx.roles); // hoặc "new" hoặc bất cứ gì bạn muốn
                 sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo sản phẩm thành công");
+            } else {
+                sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể tạo sản phẩm");
             }
         } catch (JsonSyntaxException | IllegalArgumentException e) {
             logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
@@ -92,16 +91,10 @@ public class ProductsApi extends BaseApiServlet {
         try {
             int pid = Integer.parseInt(id);
 
-            // Tạo Gson mới với định dạng ngày
-            Gson gsonWithDateFormat = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd")
-                    .create();
-
-            // Đọc body
             String jsonBody = readBody(req);
 
             // Parse với Gson vừa tạo
-            AProduct p = gsonWithDateFormat.fromJson(jsonBody, AProduct.class);
+            AProduct p = gson.fromJson(jsonBody, AProduct.class);
 
             validateUpdate(p);
 
@@ -154,8 +147,6 @@ public class ProductsApi extends BaseApiServlet {
     // Validation với thông báo chi tiết hơn
     private void validateCreate(AProduct p) {
         StringBuilder errors = new StringBuilder();
-        if (p.getId() == null)
-            errors.append("ID sản phẩm bị thiếu. ");
         if (p.getName() == null || p.getName().trim().isEmpty())
             errors.append("Tên sản phẩm không được để trống. ");
         if (p.getUnitPrice() <= 0)

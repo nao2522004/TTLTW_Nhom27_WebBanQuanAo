@@ -59,10 +59,10 @@ public class ProductDetailsApi extends BaseApiServlet {
 
             boolean created = productService.createProductDetails(pd);
             if (created) {
-                logService.logCreateEntity(ctx.username, "ProductDetail", String.valueOf(pd.getProductId()), ctx.ip, ctx.roles);
+                logService.logCreateEntity(ctx.username, "ProductDetail", "new", ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo chi tiết sản phẩm thành công");
             } else {
-                logService.logCustom(ctx.username, "WARN", "Tạo chi tiết sản phẩm thất bại cho productId=" + pd.getProductId(), ctx.ip, ctx.roles);
+                logService.logCustom(ctx.username, "WARN", "Tạo chi tiết cho sản phẩm thất bại", ctx.ip, ctx.roles);
                 sendError(resp, HttpServletResponse.SC_CONFLICT, "Không thể tạo chi tiết sản phẩm");
             }
         } catch (JsonSyntaxException | IllegalArgumentException e) {
@@ -140,7 +140,6 @@ public class ProductDetailsApi extends BaseApiServlet {
     // Validation methods
     private void validateCreate(AProductDetails pd) {
         StringBuilder errors = new StringBuilder();
-        if (pd.getProductId() == null) errors.append("ID sản phẩm bị thiếu. ");
         if (pd.getSize() == null || pd.getSize().trim().isEmpty()) errors.append("Kích thước không được để trống. ");
         if (pd.getColor() == null || pd.getColor().trim().isEmpty()) errors.append("Màu sắc không được để trống. ");
         if (pd.getStock() == null || pd.getStock() < 0) errors.append("Số lượng phải >= 0. ");

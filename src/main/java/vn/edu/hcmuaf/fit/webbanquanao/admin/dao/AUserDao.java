@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUserRolePermission;
 import vn.edu.hcmuaf.fit.webbanquanao.database.JDBIConnector;
@@ -79,8 +80,12 @@ public class AUserDao {
 
         return JDBIConnector.get().withHandle(handle -> {
             try (PreparedStatement ps = handle.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+                // Mã hóa mật khẩu trước khi lưu
+                String hashedPassword = BCrypt.hashpw(user.getPassWord(), BCrypt.gensalt());
+
                 ps.setString(1, user.getUserName());
-                ps.setString(2, user.getPassWord());
+                ps.setString(2, hashedPassword);  // Lưu mật khẩu đã mã hóa
                 ps.setString(3, user.getFirstName());
                 ps.setString(4, user.getLastName());
                 ps.setString(5, user.getEmail());
@@ -104,6 +109,7 @@ public class AUserDao {
             return false;
         });
     }
+
 
 
     public boolean update(Object obj, String userName) {
