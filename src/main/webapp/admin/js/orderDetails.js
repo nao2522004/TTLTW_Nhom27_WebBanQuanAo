@@ -91,7 +91,6 @@ function saveOrderItemEdits(event) {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify(orderItemDetail),
-        cache: false,
         success: function (response) {
             alert(response.message || "Cập nhật chi tiết đơn hàng thành công!");
         },

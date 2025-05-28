@@ -34,7 +34,6 @@ public class OrderDetailsApi extends BaseApiServlet {
             Map<Integer, AOrderItem> itemsMap = orderService.showOrderItem(orderId);
             List<AOrderItem> items = new ArrayList<>(itemsMap.values());
 
-            logService.logAccessGranted(ctx.username, req.getRequestURI(), "OrderDetail", ctx.permissions, ctx.ip, ctx.roles);
             writeJson(resp, items);
 
         } catch (NumberFormatException e) {
