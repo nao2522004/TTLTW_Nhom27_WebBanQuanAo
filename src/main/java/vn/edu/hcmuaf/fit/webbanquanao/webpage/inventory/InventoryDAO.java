@@ -12,7 +12,7 @@ public class InventoryDAO {
         this.jdbi = JDBIConnector.get();
     }
 
-    // Lấy toàn bộ tồn kho
+    // Get all products
     public List<ProductDetailInventory> getAllInventory() {
         String sql = "SELECT * FROM product_details";
         return jdbi.withHandle(handle ->
@@ -22,7 +22,7 @@ public class InventoryDAO {
         );
     }
 
-    // Cập nhật tồn kho cụ thể
+    // Update stock
     public boolean updateStock(int productDetailId, int newStock) {
         String sql = "UPDATE product_details SET stock = :stock WHERE id = :id";
         int rows = jdbi.withHandle(handle ->
@@ -34,7 +34,7 @@ public class InventoryDAO {
         return rows > 0;
     }
 
-    // Tăng tồn kho
+    // Increase stock
     public boolean increaseStock(int productDetailId, int amount) {
         String sql = "UPDATE product_details SET stock = stock + :amount WHERE id = :id";
         int rows = jdbi.withHandle(handle ->
@@ -46,7 +46,7 @@ public class InventoryDAO {
         return rows > 0;
     }
 
-    // Giảm tồn kho (có kiểm tra tồn kho không âm)
+    // Decrease stock
     public boolean decreaseStock(int productDetailId, int amount) {
         String sql = "UPDATE product_details SET stock = stock - :amount WHERE id = :id AND stock >= :amount";
         int rows = jdbi.withHandle(handle ->
@@ -58,7 +58,7 @@ public class InventoryDAO {
         return rows > 0;
     }
 
-    // Lấy danh sách sản phẩm tồn kho thấp hơn ngưỡng
+    // Get list of products with stock below threshold
     public List<ProductDetailInventory> getLowStockItems(int threshold) {
         String sql = "SELECT * FROM product_details WHERE stock < :threshold";
         return jdbi.withHandle(handle ->
