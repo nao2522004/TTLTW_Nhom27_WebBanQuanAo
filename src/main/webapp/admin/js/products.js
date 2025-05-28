@@ -157,7 +157,6 @@ function openEditProductPopup(event) {
     $.ajax({
         url: `/WebBanQuanAo/admin/api/products/${productId}`,
         type: 'GET',
-        cache: false,
         success: function (response) {
             const data = response.data;
             $("#edit-idProduct").val(data.id);
