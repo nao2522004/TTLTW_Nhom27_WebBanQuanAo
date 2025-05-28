@@ -127,9 +127,7 @@ function createProductDetails(event) {
     productDetails.color = productDetails.color;
     productDetails.image = productDetails.image.trim();
 
-    console.log(JSON.stringify(productDetails));
-
-    fetch('/WebBanQuanAo/admin/manager-productDetails', {
+    fetch('/WebBanQuanAo/admin/api/product-details', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

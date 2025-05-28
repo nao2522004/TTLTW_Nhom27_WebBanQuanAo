@@ -15,13 +15,18 @@ public class AUserService {
     private static final String MANAGER_ROLE = "MANAGER";
     private static final Integer IS_DELETED = 4; // Thêm hằng số IS_DELETED cho trạng thái xóa
 
+    private final AUserDao uDao;
+
+    public AUserService() {
+        this.uDao = new AUserDao();
+    }
+
     public Map<String, AUser> showUser() {
         AUserDao uDao = new AUserDao();
         return uDao.listUser;
     }
 
     public boolean addUser(AUser user) {
-        AUserDao uDao = new AUserDao();
         if (uDao.listUser.containsKey(user.getUserName())) return false;
         return uDao.create(user);
     }

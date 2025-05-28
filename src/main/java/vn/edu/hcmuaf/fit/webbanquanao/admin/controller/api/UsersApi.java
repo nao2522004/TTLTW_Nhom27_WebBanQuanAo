@@ -50,15 +50,15 @@ public class UsersApi extends BaseApiServlet {
             AUser user = gson.fromJson(readBody(req), AUser.class);
             validateCreate(user);
 
-            Map<String, AUser> users = userService.showUser();
-            if (users.containsKey(user.getUserName())) {
+            boolean created = userService.addUser(user);
+            if (!created) {
                 logService.logCreateEntity(ctx.username, "User", user.getUserName(), ctx.ip, ctx.roles);
-                sendError(resp, HttpServletResponse.SC_CONFLICT, "User đã tồn tại");
-            } else {
-                userService.addUser(user);
-                logService.logCreateEntity(ctx.username, "User", user.getUserName(), ctx.ip, ctx.roles);
-                sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo user thành công");
+                sendError(resp, HttpServletResponse.SC_CONFLICT, "User đã tồn tại hoặc không thể tạo");
+                return;
             }
+
+            logService.logCreateEntity(ctx.username, "User", user.getUserName(), ctx.ip, ctx.roles);
+            sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo user thành công");
         } catch (JsonSyntaxException | IllegalArgumentException e) {
             logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -67,6 +67,7 @@ public class UsersApi extends BaseApiServlet {
             sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi tạo user");
         }
     }
+
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

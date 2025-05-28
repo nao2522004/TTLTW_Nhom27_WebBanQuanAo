@@ -17,6 +17,7 @@ public abstract class BaseApiServlet extends HttpServlet {
 
     protected final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .registerTypeAdapter(java.sql.Date.class, new SqlDateAdapter())
             .create();
 
     protected void prepareResponse(HttpServletResponse resp) {
