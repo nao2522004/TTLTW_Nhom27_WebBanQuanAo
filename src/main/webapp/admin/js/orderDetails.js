@@ -11,16 +11,15 @@ function openOrderItemDetails(event) {
 
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay-orderItemDetails");
-    overlay.style.display = "block";
 
     // Gửi yêu cầu AJAX để lấy dữ liệu chi tiết orderItem theo orderId
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-orderDetails',
+        url: `/WebBanQuanAo/admin/api/order-details/${orderId}`,
         type: 'GET',
-        data: {orderId: orderId},
+        dataType: 'json',
         cache: false,
-        success: function (data) {
-            console.log(JSON.stringify(data)); // In ra dữ liệu nhận được từ server
+        success: function (response) {
+            const data = response.data;
             if (data && data.length > 0) {
                 let orderItemDetailListContent = '';
 
@@ -46,18 +45,16 @@ function openOrderItemDetails(event) {
                 const tableBody = document.querySelector("#orderItem-details--table tbody");
                 tableBody.innerHTML = orderItemDetailListContent;
 
-                // Thêm sự kiện để chỉnh sửa các trường thông tin
-                const editableFields = document.querySelectorAll(".editable");
-                editableFields.forEach(field => {
-                    field.addEventListener("change", handleFieldChange);
-                });
+                // chỉ hiển thị popup nếu có dữ liệu
+                overlay.style.display = "block";
             } else {
-                alert("Không có chi tiết đơn hàng nào.");
+                alert("Đơn hàng ID = " + orderId + " không có chi tiết đơn hàng!");
             }
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi lấy dữ liệu chi tiết đơn hàng:", error);
-            alert("Không thể lấy thông tin chi tiết đơn hàng. Vui lòng thử lại.");
+            const message = xhr.responseJSON?.message || "Không thể lấy thông tin chi tiết đơn hàng. Vui lòng thử lại.";
+            alert(message);
         }
     });
 }
@@ -81,8 +78,6 @@ function saveOrderItemEdits(event) {
         discount: parseFloat(row.querySelector("input[data-field='discount']").value)
     };
 
-    console.log(JSON.stringify(orderItemDetail));
-
     // Kiểm tra các giá trị bắt buộc
     if (orderItemDetail.quantity <= 0 || orderItemDetail.unitPrice <= 0) {
         alert("Vui lòng nhập số lượng và đơn giá hợp lệ.");
@@ -91,18 +86,20 @@ function saveOrderItemEdits(event) {
 
     // Gửi yêu cầu AJAX để lưu chi tiết orderItem
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-orderDetails', // Đảm bảo đường dẫn chính xác
+        url: `/WebBanQuanAo/admin/api/order-details/${orderItemDetail.id}`, // Đảm bảo đường dẫn chính xác
         type: 'PUT',
         contentType: 'application/json',
+        dataType: 'json',
         data: JSON.stringify(orderItemDetail),
         cache: false,
         success: function (response) {
-            alert("Cập nhật chi tiết đơn hàng thành công!");
-            // Thêm logic cập nhật giao diện nếu cần thiết
+            alert(response.message || "Cập nhật chi tiết đơn hàng thành công!");
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi cập nhật chi tiết đơn hàng:", error);
-            alert("Không thể cập nhật chi tiết đơn hàng. Vui lòng thử lại.");
+            console.error("Chi tiết lỗi:", xhr.responseText);
+            const message = xhr.responseJSON?.message || "Không thể cập nhật chi tiết đơn hàng. Vui lòng thử lại.";
+            alert(message);
         }
     });
 }

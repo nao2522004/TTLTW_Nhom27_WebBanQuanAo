@@ -114,7 +114,6 @@ function openEditOrderPopup(event) {
     const orderId = event.target.getAttribute("data-orderId");
     const main = event.target.closest("main");
     const overlay = main.querySelector(".overlay");
-
     overlay.style.display = "block";
 
     $.ajax({

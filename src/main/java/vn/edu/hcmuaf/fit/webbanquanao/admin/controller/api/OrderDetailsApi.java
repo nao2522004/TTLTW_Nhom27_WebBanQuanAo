@@ -34,20 +34,15 @@ public class OrderDetailsApi extends BaseApiServlet {
             Map<Integer, AOrderItem> itemsMap = orderService.showOrderItem(orderId);
             List<AOrderItem> items = new ArrayList<>(itemsMap.values());
 
-            logService.logAccessGranted(
-                    ctx.username, req.getRequestURI(), "OrderDetail", ctx.permissions, ctx.ip, ctx.roles
-            );
+            logService.logAccessGranted(ctx.username, req.getRequestURI(), "OrderDetail", ctx.permissions, ctx.ip, ctx.roles);
             writeJson(resp, items);
 
         } catch (NumberFormatException e) {
-            logService.logCustom(ctx.username, "ERROR",
-                    "Invalid orderId for details: " + id, ctx.ip, ctx.roles);
+            logService.logCustom(ctx.username, "ERROR", "Invalid orderId for details: " + id, ctx.ip, ctx.roles);
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "orderId không hợp lệ");
         } catch (Exception e) {
-            logService.logCustom(ctx.username, "FATAL",
-                    "Lỗi server lấy chi tiết đơn hàng: " + e.getMessage(), ctx.ip, ctx.roles);
-            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Lỗi server khi truy xuất chi tiết đơn hàng");
+            logService.logCustom(ctx.username, "FATAL", "Lỗi server lấy chi tiết đơn hàng: " + e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi truy xuất chi tiết đơn hàng");
         }
     }
 
@@ -66,30 +61,23 @@ public class OrderDetailsApi extends BaseApiServlet {
             AOrderItem item = gson.fromJson(readBody(req), AOrderItem.class);
             validateUpdate(item);
 
-            boolean updated = orderService.updateOrderItem(
-                    item, detailId, item.getOrderId()
-            );
+            boolean updated = orderService.updateOrderItem(item, detailId, item.getOrderId());
             if (updated) {
-                logService.logUpdateEntity(
-                        ctx.username, "OrderDetail", id, ctx.ip, ctx.roles
-                );
+                logService.logUpdateEntity(ctx.username, "OrderDetail", id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật chi tiết đơn hàng thành công");
             } else {
-                logService.logCustom(ctx.username, "WARN",
-                        "Update detail failed, ID=" + id, ctx.ip, ctx.roles);
+                logService.logCustom(ctx.username, "WARN", "Update detail failed, ID=" + id, ctx.ip, ctx.roles);
                 sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy chi tiết đơn hàng");
             }
         } catch (NumberFormatException e) {
-            logService.logCustom(ctx.username, "ERROR",
-                    "Invalid detailId: " + id, ctx.ip, ctx.roles);
+            logService.logCustom(ctx.username, "ERROR", "Invalid detailId: " + id, ctx.ip, ctx.roles);
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "detailId không hợp lệ");
         } catch (JsonSyntaxException | IllegalArgumentException e) {
             logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
             logService.logCustom(ctx.username, "FATAL", e.getMessage(), ctx.ip, ctx.roles);
-            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "Lỗi server khi cập nhật chi tiết đơn hàng");
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi cập nhật chi tiết đơn hàng");
         }
     }
 
