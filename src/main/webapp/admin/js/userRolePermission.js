@@ -7,10 +7,10 @@ function openRolePermissionUser(event) {
     $.ajax({
         url: `/WebBanQuanAo/admin/api/roleUser/${encodeURIComponent(userName)}`,
         type: 'GET',
+        dataType: 'json',
         cache: false,
-        success: function(data) {
-            console.log("Data origin:", JSON.stringify(data));
-
+        success: function (response) {
+            const data = response.data;
             if (data && data.length > 0) {
                 const user = data[0];
                 const tbody = document.querySelector("#userRolePermissons--table tbody");
@@ -25,11 +25,6 @@ function openRolePermissionUser(event) {
                             ${renderRoles(user.roles)}
                         </div>
                     </td>
-                    <!--<td>
-                        <div class="permissions-container">
-                          renderPermissions(user.permissions)
-                        </div>
-                    </td>-->
                     <td>
                         <span onclick="toggleEditRolePermission(event)" class="material-icons-sharp">edit</span>
                         <span onclick="saveUserRolePermission(event)" class="material-icons-sharp" style="display:none">save</span>
@@ -38,15 +33,17 @@ function openRolePermissionUser(event) {
                 `;
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Lỗi khi lấy vai trò/quyền người dùng:", error);
-            alert("Không thể lấy thông tin. Vui lòng thử lại.");
+            console.log("Chi tiết lỗi: ", xhr.responseText);
+            const message = xhr.responseJON?.message || "Không thể lấy thông tin vai trò/quyền người dùng. Vui lòng thử lại.";
+            alert(message);
         }
     });
 }
 
 function renderRoles(roles) {
-    const allRoles = ['ADMIN','MANAGER','STAFF','USER'];
+    const allRoles = ['ADMIN', 'MANAGER', 'STAFF', 'USER'];
 
     let html = '<table class="roles-table">';
     html += '<tr><th>Vai trò</th><th>Chọn</th></tr>';
@@ -97,12 +94,13 @@ function saveUserRolePermission(event) {
         url: `/WebBanQuanAo/admin/api/roleUser/${encodeURIComponent(userName)}`,
         type: 'PUT',
         contentType: 'application/json',
+        dataType: 'json',
         data: JSON.stringify({
             userName: userName,
             roles: roles
         }),
-        success: function () {
-            alert("Cập nhật vai trò thành công!");
+        success: function (response) {
+            alert(response.message || "Cập nhật vai trò thành công!");
             event.target.style.display = 'none';
             row.querySelector("span[onclick='toggleEditRolePermission(event)']").style.display = 'inline';
             // Disable lại các checkbox sau khi lưu
@@ -110,9 +108,9 @@ function saveUserRolePermission(event) {
             console.log("Save success: " + this.data)
         },
         error: function (xhr, status, error) {
-            alert("Cập nhật thất bại: " + error);
-            console.log("Save Failed:" + this.data)
-            console.log("Roles selected:", roles);
+            const err = xhr.responseJSON?.message || "Cập nhật thất bại, vui lòng thử lại.";
+            alert(err);
+            console.error("Error updating roles:", xhr.responseJSON || xhr.responseText);
         }
     });
 }
