@@ -14,6 +14,8 @@ public class UserLogsService {
 
     private final UserLogsDao userLogsDao;
 
+    private boolean enableDatabaseLogging = true;
+
     private UserLogsService() {
         this.userLogsDao = new UserLogsDao();
     }
@@ -67,7 +69,15 @@ public class UserLogsService {
         log.setAction(action);
         log.setIpAddress(ipAddress);
         log.setRoles(roles);
+
+        if (!enableDatabaseLogging) {
+            return true;
+        }
         return userLogsDao.logUserAction(log);
+    }
+
+    public void setEnableDatabaseLogging(boolean enable) {
+        this.enableDatabaseLogging = enable;
     }
 
     private boolean isValidLogLevel(String level) {
