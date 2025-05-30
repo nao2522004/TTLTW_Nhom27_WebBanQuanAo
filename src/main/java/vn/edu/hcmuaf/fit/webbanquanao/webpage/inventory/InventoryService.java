@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.inventory;
 
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
+
 import java.util.List;
 
 public class InventoryService {
@@ -10,8 +12,8 @@ public class InventoryService {
     }
 
     // Get all inventory products
-    public List<ProductDetailInventory> getAllInventory() {
-        return inventoryDAO.getAllInventory();
+    public List<ProductDetail> getAllInventory() {
+        return inventoryDAO.getAllProductDetails();
     }
 
     // Update new inventory quantity
@@ -30,7 +32,17 @@ public class InventoryService {
     }
 
     // Get low stock products list
-    public List<ProductDetailInventory> getLowStockItems(int threshold) {
-        return inventoryDAO.getLowStockItems(threshold);
+//    public List<ProductDetailInventory> getLowStockItems(int threshold) {
+//        return inventoryDAO.getLowStockItems(threshold);
+//    }
+
+    // Add product to inventory
+    public boolean addProductDetail(ProductDetail item) {
+        return inventoryDAO.addProductDetail(item);
+    }
+
+    // Delete product to warehouse
+    public boolean deleteProductDetail(int id) {
+        return inventoryDAO.deleteProductDetail(id);
     }
 }
