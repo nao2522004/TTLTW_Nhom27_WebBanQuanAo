@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery;
+package vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model;
 
 public class ShippingFeeResponse {
     private int total;
@@ -111,5 +111,23 @@ public class ShippingFeeResponse {
 
     public void setCodFailedFee(int codFailedFee) {
         this.codFailedFee = codFailedFee;
+    }
+
+    @Override
+    public String toString() {
+        return "ShippingFeeResponse{" +
+                "total=" + total +
+                ", serviceFee=" + serviceFee +
+                ", insuranceFee=" + insuranceFee +
+                ", pickStationFee=" + pickStationFee +
+                ", couponValue=" + couponValue +
+                ", r2sFee=" + r2sFee +
+                ", documentReturn=" + documentReturn +
+                ", doubleCheck=" + doubleCheck +
+                ", codFee=" + codFee +
+                ", pickRemoteAreasFee=" + pickRemoteAreasFee +
+                ", deliverRemoteAreasFee=" + deliverRemoteAreasFee +
+                ", codFailedFee=" + codFailedFee +
+                '}';
     }
 }

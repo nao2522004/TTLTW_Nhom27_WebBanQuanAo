@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery;
+package vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model;
 
 public class ShippingFeeRequest {
     private int fromDistrictId;
@@ -12,6 +12,20 @@ public class ShippingFeeRequest {
     private int serviceId;
     private int insuranceValue;
     private String coupon;
+
+    public ShippingFeeRequest(int fromDistrictId, String fromWardCode, int toDistrictId, String toWardCode, int weight, int length, int width, int height, int serviceId, int insuranceValue, String coupon) {
+        this.fromDistrictId = fromDistrictId;
+        this.fromWardCode = fromWardCode;
+        this.toDistrictId = toDistrictId;
+        this.toWardCode = toWardCode;
+        this.weight = weight;
+        this.length = length;
+        this.width = width;
+        this.height = height;
+        this.serviceId = serviceId;
+        this.insuranceValue = insuranceValue;
+        this.coupon = coupon;
+    }
 
     public ShippingFeeRequest() {
     }
