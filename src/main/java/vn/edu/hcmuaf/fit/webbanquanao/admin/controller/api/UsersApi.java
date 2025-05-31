@@ -15,21 +15,19 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @WebServlet(name = "UsersApi", urlPatterns = "/admin/api/users/*")
-public class UsersApi extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class UsersApi extends BaseApiServlet {
     private final AUserService userService = new AUserService();
     private final UserLogsService logService = UserLogsService.getInstance();
-    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "User");
         String username = extractId(req.getPathInfo());
 
         if (username == null) {
             List<AUser> users = new ArrayList<>(userService.showUser().values());
-            if (!Boolean.TRUE.equals(ctx.session.getAttribute("viewAllUsers"))) {
+            Object viewedFlag = ctx.session.getAttribute("viewAllUsers");
+            if (!Boolean.TRUE.equals(viewedFlag)) {
                 logService.logAccessGranted(ctx.username, req.getRequestURI(), "User", ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllUsers", Boolean.TRUE);
             }
@@ -37,7 +35,6 @@ public class UsersApi extends HttpServlet {
         } else {
             AUser user = userService.getUserByUsername(username);
             if (user != null) {
-//                logService.logAccessGranted(ctx.username, req.getRequestURI(), "User", ctx.permissions, ctx.ip, ctx.roles);
                 writeJson(resp, user);
             } else {
                 logService.logCustom(ctx.username, "WARN", "User not found: " + username, ctx.ip, ctx.roles);
@@ -48,8 +45,7 @@ public class UsersApi extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "User");
         try {
             AUser user = gson.fromJson(readBody(req), AUser.class);
             validateCreate(user);
@@ -74,8 +70,7 @@ public class UsersApi extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "User");
         String username = extractId(req.getPathInfo());
         if (username == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu username trong URL");
@@ -103,8 +98,7 @@ public class UsersApi extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareResponse(resp);
-        ApiContext ctx = new ApiContext(req);
+        ApiContext ctx = initContext(req, resp, "User");
         String username = extractId(req.getPathInfo());
         if (username == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu username trong URL");
@@ -125,70 +119,27 @@ public class UsersApi extends HttpServlet {
         }
     }
 
-    // Validation methods
+    // Validation methods with detailed error messages
     private void validateCreate(AUser u) {
-        if (u.getUserName() == null || u.getPassWord() == null) {
-            throw new IllegalArgumentException("Thiếu dữ liệu bắt buộc khi tạo User");
-        }
+        StringBuilder errors = new StringBuilder();
+        if (u.getUserName() == null || u.getUserName().trim().isEmpty())
+            errors.append("Tên đăng nhập bị thiếu. ");
+        if (u.getPassWord() == null || u.getPassWord().trim().isEmpty())
+            errors.append("Mật khẩu bị thiếu. ");
+        if (errors.length() > 0)
+            throw new IllegalArgumentException(
+                    "Lỗi khi tạo User: " + errors.toString().trim()
+            );
     }
 
     private void validateUpdate(AUser u) {
-        if (u.getUserName() == null) {
-            throw new IllegalArgumentException("Thiếu dữ liệu bắt buộc khi cập nhật User");
-        }
-    }
-
-    // Utility methods
-    private void prepareResponse(HttpServletResponse resp) {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-    }
-
-    private String extractId(String pathInfo) {
-        return (pathInfo == null || "/".equals(pathInfo)) ? null : pathInfo.substring(1);
-    }
-
-    private String readBody(HttpServletRequest req) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = req.getReader()) {
-            String line;
-            while ((line = reader.readLine()) != null) sb.append(line);
-        }
-        return sb.toString();
-    }
-
-    private <T> void writeJson(HttpServletResponse resp, T data) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write(gson.toJson(data));
-    }
-
-    private void sendError(HttpServletResponse resp, int status, String message) throws IOException {
-        resp.setStatus(status);
-        gson.toJson(Map.of("message", message), resp.getWriter());
-    }
-
-    private void sendSuccess(HttpServletResponse resp, int status, String message) throws IOException {
-        sendError(resp, status, message);
-    }
-
-    // Context holder
-    private static class ApiContext {
-        final String username;
-        final Integer permissions;
-        final List<String> roles;
-        final String ip;
-        final HttpSession session;
-
-        ApiContext(HttpServletRequest req) {
-            this.session = req.getSession();
-            User user = (User) session.getAttribute("auth");
-            this.username = (user != null) ? user.getUserName() : "anonymous";
-            this.roles = (user != null) ? user.getRoles() : List.of();
-            this.permissions = (user != null) ? user.getPermissions().get("User") : 0;
-            this.ip = req.getRemoteAddr();
-            if (session.getAttribute("viewAllUsers") == null) {
-                session.setAttribute("viewAllUsers", Boolean.FALSE);
-            }
-        }
+        StringBuilder errors = new StringBuilder();
+        if (u.getUserName() == null || u.getUserName().trim().isEmpty())
+            errors.append("Tên đăng nhập không được để trống. ");
+        if (errors.length() > 0){
+            throw new IllegalArgumentException(
+                    "Lỗi khi cập nhật User (username=" + u.getUserName() + "): "
+                            + errors.toString().trim()
+            );}
     }
 }

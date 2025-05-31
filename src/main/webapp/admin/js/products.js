@@ -13,7 +13,8 @@ function fetchProducts() {
         url: '/WebBanQuanAo/admin/api/products',
         type: 'GET',
         dataType: 'json',
-        success: function (products) {
+        success: function (response) {
+            const products = response.data;
             const table = $("#products--table");
 
             if ($.fn.DataTable.isDataTable(table)) {
@@ -132,14 +133,13 @@ function deleteProduct(event) {
             type: 'DELETE',
             cache: false,
             success: function (response) {
-                if (response.message) {
-                    alert(response.message);
-                }
+                alert(response.message || "Đã xóa sản phẩm thành công.");
                 fetchProducts();
             },
             error: function (xhr, status, error) {
                 console.error('Lỗi khi xóa sản phẩm:', error);
-                alert(xhr.responseJSON?.message || "Không thể xóa sản phẩm. Vui lòng thử lại sau.");
+                const message = xhr.responseJSON?.message || "Không thể xóa sản phẩm. Vui lòng thử lại sau.";
+                alert(message);
             }
         });
     }
@@ -158,7 +158,8 @@ function openEditProductPopup(event) {
         url: `/WebBanQuanAo/admin/api/products/${productId}`,
         type: 'GET',
         cache: false,
-        success: function (data) {
+        success: function (response) {
+            const data = response.data;
             $("#edit-idProduct").val(data.id);
             $("#edit-typeId").val(data.typeId);
             $("#edit-categoryId").val(data.categoryId);
@@ -208,8 +209,8 @@ function saveProductEdits(event) {
         contentType: 'application/json',
         data: JSON.stringify(product),
         cache: false,
-        success: function () {
-            alert("Cập nhật thông tin sản phẩm thành công!");
+        success: function (response) {
+            alert(response.message ||"Cập nhật thông tin sản phẩm thành công!");
             fetchProducts(); // Reload bảng sản phẩm
             hideOverlay(); // Ẩn popup
         },

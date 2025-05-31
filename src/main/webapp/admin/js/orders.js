@@ -3,11 +3,12 @@
 // ===============Recent_order_data===============//
 function fetchOrders() {
     $.ajax({
-        url: '/WebBanQuanAo/admin/api/orders', // Đổi sang API mới
+        url: '/WebBanQuanAo/admin/api/orders',
         type: 'GET',
         dataType: 'json',
         cache: false,
-        success: function (orders) {
+        success: function (response) {
+            const orders = response.data;
             const table = $("#recent-orders--table");
 
             if ($.fn.DataTable.isDataTable(table)) {
@@ -52,8 +53,6 @@ function getStatusText(status) {
     return statusMap[status] || "Không xác định";
 }
 
-
-// Hàm chuyển paymentId thành text
 function getPaymentMethodText(paymentId) {
     const map = {
         1: 'Tiền mặt',
@@ -71,7 +70,7 @@ const buildTableOrders = (orders) => {
             <tr>
                 <td>${order.id}</td>
                 <td>${order.firstName}</td>
-                <td>${order.paymentMethod}</td>
+                <td>${getPaymentMethodText(order.paymentId)}</td>
                 <td>${order.code}</td>
                 <td>${order.orderDate}</td>
                 <td>${order.totalPrice} VND</td>
@@ -93,18 +92,18 @@ function deleteOrder(event) {
 
     if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng với ID: ${orderId}?`)) {
         $.ajax({
-            url: `/WebBanQuanAo/admin/api/orders/${orderId}`, // Gửi ID trên URL
+            url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
             type: 'DELETE',
+            dataType: 'json',
             cache: false,
             success: function (response) {
-                if (response.message) {
-                    alert(response.message);
-                }
+                alert(response.message || "Đã xóa đơn hàng thành công.");
                 fetchOrders();
             },
             error: function (xhr, status, error) {
                 console.error('Lỗi khi xóa đơn hàng:', error);
-                alert(xhr.responseJSON?.message || "Không thể xóa đơn hàng. Vui lòng thử lại sau.");
+                const message = xhr.responseJSON?.message || "Không thể xóa đơn hàng. Vui lòng thử lại sau.";
+                alert(message);
             }
         });
     }
@@ -119,10 +118,17 @@ function openEditOrderPopup(event) {
     overlay.style.display = "block";
 
     $.ajax({
-        url: `/WebBanQuanAo/admin/api/orders/${orderId}`, // Gửi ID trên URL
+        url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
         type: 'GET',
+        dataType: 'json',
         cache: false,
-        success: function (data) {
+        success: function (response) {
+            const data = response.data;
+            if (!data) {
+                alert("Không tìm thấy đơn hàng.");
+                return;
+            }
+
             $("#edit-idOrder").val(data.id);
             $("#edit-firstNameOrder").val(data.firstName);
             $("#edit-paymentId").val(data.paymentId);
@@ -132,12 +138,10 @@ function openEditOrderPopup(event) {
             $("#edit-statusOrder").val(data.status);
         },
         error: function (xhr, status, error) {
-            console.error('Lỗi khi xóa đơn hàng:', error);
-
-            const message = xhr.responseJSON?.message || "Không thể xóa đơn hàng. Lỗi không xác định từ server.";
+            console.error('Lỗi khi tải đơn hàng:', error);
+            const message = xhr.responseJSON?.message || "Không thể tải đơn hàng. Lỗi không xác định từ server.";
             alert(message);
         }
-
     });
 }
 
@@ -156,23 +160,22 @@ function saveOrderEdits(event) {
     };
 
     $.ajax({
-        url: `/WebBanQuanAo/admin/api/orders/${order.id}`, // Gửi ID trên URL
+        url: `/WebBanQuanAo/admin/api/orders/${order.id}`,
         type: 'PUT',
         contentType: 'application/json',
+        dataType: 'json',
         data: JSON.stringify(order),
         cache: false,
-        success: function () {
-            alert("Cập nhật thông tin đơn hàng thành công!");
+        success: function (response) {
+            alert(response.message || "Cập nhật thông tin đơn hàng thành công!");
             fetchOrders();
             hideOverlay();
         },
         error: function (xhr, status, error) {
             console.error("Lỗi khi cập nhật thông tin đơn hàng:", error);
-
-            // Lấy message từ phản hồi server (nếu có)
+            console.error("Chi tiết lỗi:", xhr.responseText);
             const message = xhr.responseJSON?.message || "Không thể cập nhật thông tin đơn hàng. Lỗi không xác định từ server.";
             alert(message);
         }
-
     });
 }
