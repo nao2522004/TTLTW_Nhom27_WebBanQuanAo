@@ -11,10 +11,14 @@ public class AddressDAO {
         this.jdbi = JDBIConnector.get();
     }
 
-    // Get Address of user
-//    public Address getAddressByUserId(int userId) {
-//        return jdbi.withHandle(handle -> {
-//
-//        });
-//    }
+    // Get user's address
+    public Address getAddressByUserId(int userId) {
+        return jdbi.withHandle(handle ->
+            handle.createQuery("SELECT * FROM addresses WHERE user_id=:userId")
+                    .bind("userId", userId)
+                    .mapToBean(Address.class)
+                    .findOne()
+                    .orElse(null)
+        );
+    }
 }

@@ -105,4 +105,21 @@ public class Address {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", provinceId=" + provinceId +
+                ", provinceName='" + provinceName + '\'' +
+                ", districtId=" + districtId +
+                ", districtName='" + districtName + '\'' +
+                ", wardCode='" + wardCode + '\'' +
+                ", wardName='" + wardName + '\'' +
+                ", streetAddress='" + streetAddress + '\'' +
+                ", isDefault=" + isDefault +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

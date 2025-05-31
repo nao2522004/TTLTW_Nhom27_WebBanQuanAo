@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.AddressService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.GHNApiUtil;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.Address;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.ShippingFeeRequest;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.ShippingFeeResponse;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.service.OrderService;
@@ -23,11 +25,13 @@ import java.util.*;
 public class PaymentServlet extends HttpServlet {
     private OrderService orderService;
     private CartService cartService;
+    private AddressService addressService;
 
     @Override
     public void init() throws ServletException {
         orderService = new OrderService();
         cartService = new CartService();
+        addressService = new AddressService();
     }
 
     @Override
@@ -135,8 +139,6 @@ public class PaymentServlet extends HttpServlet {
     }
 
     public double calculateTotalAmountWithShipping(int userId, HttpServletRequest request) throws IOException {
-        int fromDistrictId = Integer.parseInt(request.getParameter("fromDistrictId"));
-        String fromWardCode = request.getParameter("fromWardCode");
         int toDistrictId = Integer.parseInt(request.getParameter("district"));
         String toWardCode = request.getParameter("ward");
         int weight = 1000;
@@ -144,6 +146,11 @@ public class PaymentServlet extends HttpServlet {
         int width = 15;
         int height = 15;
         int insuranceValue = 500000;
+
+        // Get address of admin
+        Address adminAddress = addressService.getAddressByUserId(1);
+        int fromDistrictId = adminAddress.getDistrictId();
+        String fromWardCode = adminAddress.getWardCode();
 
         // Init shippingFeeRequest object
         ShippingFeeRequest feeReq = new ShippingFeeRequest(fromDistrictId, fromWardCode, toDistrictId, toWardCode, weight, length, width, height, -1, insuranceValue, null);
