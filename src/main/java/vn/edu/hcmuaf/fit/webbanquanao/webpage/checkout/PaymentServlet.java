@@ -8,6 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.AddressService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.GHNApiUtil;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.Address;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.ShippingFeeRequest;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.delivery.model.ShippingFeeResponse;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.service.OrderService;
 
 import java.io.IOException;
@@ -20,11 +25,13 @@ import java.util.*;
 public class PaymentServlet extends HttpServlet {
     private OrderService orderService;
     private CartService cartService;
+    private AddressService addressService;
 
     @Override
     public void init() throws ServletException {
         orderService = new OrderService();
         cartService = new CartService();
+        addressService = new AddressService();
     }
 
     @Override
@@ -40,8 +47,8 @@ public class PaymentServlet extends HttpServlet {
         User user = (User) session.getAttribute("auth");
         int userId = user.getId();
 
-        String bankCode = request.getParameter("bankCode");
-        double amountDouble = cartService.getCartTotal(userId);
+        // Total price
+        double amountDouble = calculateTotalAmountWithShipping(userId, request);
 
         // Insert order
         int orderId = orderService.addOrder(userId, amountDouble);
@@ -52,6 +59,7 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
 
+        String bankCode = request.getParameter("bankCode");
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
@@ -128,5 +136,32 @@ public class PaymentServlet extends HttpServlet {
 //        Gson gson = new Gson();
 //        response.getWriter().write(gson.toJson(job));
         response.sendRedirect(paymentUrl);
+    }
+
+    public double calculateTotalAmountWithShipping(int userId, HttpServletRequest request) throws IOException {
+        int toDistrictId = Integer.parseInt(request.getParameter("district"));
+        String toWardCode = request.getParameter("ward");
+        int weight = 1000;
+        int length = 15;
+        int width = 15;
+        int height = 15;
+        int insuranceValue = 500000;
+
+        // Get address of admin
+        Address adminAddress = addressService.getAddressByUserId(1);
+        int fromDistrictId = adminAddress.getDistrictId();
+        String fromWardCode = adminAddress.getWardCode();
+
+        // Init shippingFeeRequest object
+        ShippingFeeRequest feeReq = new ShippingFeeRequest(fromDistrictId, fromWardCode, toDistrictId, toWardCode, weight, length, width, height, -1, insuranceValue, null);
+
+        // Products price
+        double productTotal = cartService.getCartTotal(userId);
+
+        // Shipping fee
+        ShippingFeeResponse feeRes = GHNApiUtil.calculateShippingFee(feeReq);
+        double shippingFee = feeRes.getTotal();
+
+        return productTotal + shippingFee;
     }
 }
