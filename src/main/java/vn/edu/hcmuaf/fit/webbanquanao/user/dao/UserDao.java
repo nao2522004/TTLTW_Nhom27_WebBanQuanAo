@@ -544,6 +544,21 @@ public class UserDao {
         });
     }
 
+    public boolean changePasswordByUserId(int userId, String hashedPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, hashedPassword);
+                ps.setInt(2, userId);
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                System.err.println("Lỗi khi đổi mật khẩu người dùng: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
 
     public String getPassWordByUserName(String userName) {
         String sql = "SELECT password FROM users WHERE userName = ?";

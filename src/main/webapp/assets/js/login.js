@@ -40,19 +40,18 @@ function validateConfirmPassword() {
 }
 
 
-function togglePassword(button) {
-    const input = button.previousElementSibling;
-    const icon = button.querySelector('i');
-
+function togglePassword(icon) {
+    const input = icon.previousElementSibling;
     if (input.type === "password") {
-        input.type = "text"; // Hiện mật khẩu
+        input.type = "text";
         icon.classList.remove('fa-eye');
         icon.classList.add('fa-eye-slash');
     } else {
-        input.type = "password"; // Ẩn mật khẩu
+        input.type = "password";
         icon.classList.remove('fa-eye-slash');
         icon.classList.add('fa-eye');
     }
 }
+
 
 

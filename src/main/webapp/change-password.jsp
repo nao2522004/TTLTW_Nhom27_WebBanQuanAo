@@ -25,7 +25,7 @@
 
 <div class="container active no-padding">
   <div class="form-box">
-    <form action="/change-password" method="POST" id="updatePasswordForm" onsubmit="return validateForm();">
+    <form action="${pageContext.request.contextPath}/change-password" method="POST" id="updatePasswordForm" onsubmit="return validateForm();">
       <h1>Thay Đổi Mật Khẩu</h1>
       <div class="form-group">
         <label for="currentPassword"></label>

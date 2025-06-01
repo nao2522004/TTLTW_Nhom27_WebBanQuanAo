@@ -42,7 +42,15 @@ public class SendChangePasswordEmailServlet extends HttpServlet {
             String link = "http://localhost:8080/WebBanQuanAo/change-password?token=" + token;
 
             String subject = "Xác nhận đổi mật khẩu";
-            String content = "Bạn vừa yêu cầu đổi mật khẩu. Vui lòng bấm link sau để đổi mật khẩu: " + link;
+            String content = "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; text-align: center;\">"
+                    + "<p style=\"font-size: 16px; color: #555;\">Bạn đã yêu cầu thay đổi mật khẩu. Nhấn vào nút bên dưới để tiếp tục:</p>"
+                    + "<div style=\"margin: 20px 0;\">"
+                    + "<a href=\"" + link + "\" style=\"background-color: #335d4a; color: white; text-decoration: none; padding: 12px 24px; border-radius: 5px; font-size: 16px; display: inline-block;\">Đổi mật khẩu</a>"
+                    + "</div>"
+                    + "<p style=\"font-size: 14px; color: #777;\">Nếu bạn không yêu cầu hành động này, vui lòng bỏ qua email này.</p>"
+                    + "<hr style=\"border: none; border-top: 1px solid #ddd;\">"
+                    + "<p style=\"font-size: 12px; color: #999;\">© 2025 LASMANATE. Mọi quyền được bảo lưu.</p>"
+                    + "</div>";
 
             try {
                 EmailUtil.sendEmail(user.getEmail(), subject, content);
