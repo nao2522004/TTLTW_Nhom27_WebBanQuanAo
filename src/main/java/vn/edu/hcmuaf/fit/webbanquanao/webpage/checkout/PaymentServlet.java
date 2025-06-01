@@ -48,7 +48,8 @@ public class PaymentServlet extends HttpServlet {
         int userId = user.getId();
 
         // Total price
-        double amountDouble = calculateTotalAmountWithShipping(userId, request);
+//        double amountDouble = calculateTotalAmountWithShipping(userId, request);
+        double amountDouble = cartService.getCartTotal(userId);
 
         // Insert order
         int orderId = orderService.addOrder(userId, amountDouble);
