@@ -45,9 +45,7 @@
             </div>
             <div class="input-box">
                 <input type="password" placeholder="Mật Khẩu" name="passWord" required>
-                <button type="button" class="toggle-password" onclick="togglePassword(this)">
-                    <i class="fa-solid fa-eye"></i>
-                </button>
+                <i class="fa-solid fa-eye toggle-password" onclick="togglePassword(this)"></i>
             </div>
             <div class="forgot-link">
                 <a href="forgot-password.jsp">Quên mật khẩu?</a>

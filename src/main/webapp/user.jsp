@@ -365,58 +365,6 @@
         </main>
     </div>
 
-    <!-- Update password -->
-    <!-- Popup -->
-    <!-- Nút Đóng được thay thế bằng dấu X -->
-<%--    <div class="popup" id="popup">--%>
-<%--        <div class="overlay" id="overlay"></div>--%>
-<%--        <form action="" class="update-password" id="updatePasswordForm">--%>
-<%--            <div class="d-flex justify-content-between align-items-center">--%>
-<%--                <h4 style="text-align: center;"> Thay đổi mật khẩu</h4>--%>
-<%--                <div type="button" class="close-button" id="closePopup">--%>
-<%--                    <i class="fas fa-times"></i>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div class="form-group">--%>
-<%--                <label for="currentPassword">Mật khẩu cũ</label>--%>
-<%--                <div class="input-box">--%>
-<%--                    <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>--%>
-<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'currentPassword')">--%>
-<%--                        <i class="fa-solid fa-eye"></i>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div class="form-group">--%>
-<%--                <label for="newPassword">Mật khẩu mới</label>--%>
-<%--                <div class="input-box">--%>
-<%--                    <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới." required>--%>
-<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'newPassword')">--%>
-<%--                        <i class="fa-solid fa-eye"></i>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--                <div id="passwordRequirements" style="margin-top: 8px; display: none;">--%>
-<%--                    <small id="length" class="invalid">Ít nhất 8 ký tự</small><br />--%>
-<%--                    <small id="uppercase" class="invalid">Chứa chữ in hoa</small><br />--%>
-<%--                    <small id="lowercase" class="invalid">Chứa chữ thường</small><br />--%>
-<%--                    <small id="number" class="invalid">Chứa số</small><br />--%>
-<%--                    <small id="special" class="invalid">Ký tự đặc biệt (!@#$...)</small>--%>
-<%--                </div>--%>
-<%--                <small id="passwordStrength" style="font-weight: 600; display: block; margin-top: 8px;"></small>--%>
-<%--            </div>--%>
-<%--            <div class="form-group">--%>
-<%--                <label for="confirmPassword">Nhập lại mật khẩu</label>--%>
-<%--                <div class="input-box">--%>
-<%--                    <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận lại mật khẩu." required>--%>
-<%--                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'confirmPassword')">--%>
-<%--                        <i class="fa-solid fa-eye"></i>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--                <small id="confirmPasswordMsg" style="font-weight: 600; display: block; margin-top: 8px;"></small>--%>
-<%--            </div>--%>
-<%--            <button type="submit" class="btn btn-second-color">Cập nhật</button>--%>
-<%--        </form>--%>
-<%--    </div>--%>
-
 </div>
 
 <!-- Order history -->
@@ -441,6 +389,10 @@
     document.getElementById('open').addEventListener('click', function(e) {
         e.preventDefault();
 
+        const messageEl = document.getElementById('confirmMessage');
+        messageEl.style.display = 'block';
+        messageEl.textContent = 'Vui lòng kiểm tra email để xác nhận thay đổi mật khẩu.';
+
         fetch('/WebBanQuanAo/sendChangePasswordEmail', {
             method: 'POST',
             headers: {
@@ -450,13 +402,13 @@
         })
             .then(res => res.json())
             .then(data => {
-                if(data.success) {
-                    document.getElementById('confirmMessage').style.display = 'block';
-                } else {
+                if (!data.success) {
+                    messageEl.textContent = '';
                     alert('Gửi email xác nhận thất bại. Vui lòng thử lại.');
                 }
             })
             .catch(err => {
+                messageEl.textContent = '';
                 alert('Có lỗi xảy ra. Vui lòng thử lại.');
             });
     });
