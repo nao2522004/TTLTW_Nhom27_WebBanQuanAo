@@ -138,7 +138,7 @@
                     <button class="btn btn-lg btn-block mt-4" type="button" disabled>THANH TOÁN</button>
                 </c:if>
                 <c:if test="${not empty sessionScope.auth}">
-                    <a href="payments?totalPrice=${totalPrice}">
+                    <a href="checkout.jsp">
                         <button class="btn btn-lg btn-block mt-4">THANH TOÁN</button>
                     </a>
                 </c:if>

@@ -5,9 +5,8 @@ function openRolePermissionUser(event) {
     overlay.style.display = "block";
 
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-userRolePermissions',
+        url: `/WebBanQuanAo/admin/api/roleUser/${encodeURIComponent(userName)}`,
         type: 'GET',
-        data: { userName: userName },
         cache: false,
         success: function(data) {
             console.log("Data origin:", JSON.stringify(data));
@@ -95,7 +94,7 @@ function saveUserRolePermission(event) {
         .map(cb => cb.value);
 
     $.ajax({
-        url: '/WebBanQuanAo/admin/manager-userRolePermissions',
+        url: `/WebBanQuanAo/admin/api/roleUser/${encodeURIComponent(userName)}`,
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify({

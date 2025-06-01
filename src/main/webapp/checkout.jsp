@@ -54,7 +54,7 @@
             <%--            </div>--%>
             <div class="col-md-8 order-md-1 mx-auto">
                 <h4 class="mb-3 header-text" style=" color: #335d4a !important">Địa Chỉ Thanh Toán</h4>
-                <form class="needs-validation" novalidate method="post" action="${pageContext.request.contextPath}/Checkout">
+                <form class="needs-validation" novalidate method="post" action="PaymentServlet">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName"><i class="fa-solid fa-id-card"></i> Họ</label>
@@ -96,81 +96,44 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="state" class="lb-text">Tỉnh/Thành phố</label>
-                            <select class="custom-select d-block w-100 large-select" id="state" required>
-                                <option value="">Thành Phố Hồ Chí Minh</option>
-                                <option>Tỉnh An Giang</option>
-                                <option>Tỉnh Bà Rịa - Vũng Tàu</option>
-                                <option>Tỉnh Bắc Giang</option>
-                                <option>Tỉnh Bắc Kạn</option>
-                                <option>Tỉnh Bạc Liêu</option>
-                                <option>Tỉnh Bắc Ninh</option>
-                                <option>Tỉnh Bến Tre</option>
-                                <option>Tỉnh Bình Định</option>
-                                <option>Tỉnh Bình Dương</option>
-                                <option>Tỉnh Bình Phước</option>
-                                <option>Tỉnh Bình Thuận</option>
-                                <option>Tỉnh Cà Mau</option>
-                                <option>Tỉnh Cao Bằng</option>
-                                <option>Tỉnh Đắk Lắk</option>
-                                <option>Tỉnh Đắk Nông</option>
-                                <option>Tỉnh Điện Biên</option>
-                                <option>Tỉnh Đồng Nai</option>
-                                <option>Tỉnh Đồng Tháp</option>
-                                <option>Tỉnh Gia Lai</option>
-                                <option>Tỉnh Hà Giang</option>
-                                <option>Tỉnh Hà Nam</option>
-                                <option>Tỉnh Hà Tĩnh</option>
-                                <option>Tỉnh Hải Dương</option>
-                                <option>Thành phố Hải Phòng</option>
-                                <option>Tỉnh Hậu Giang</option>
-                                <option>Tỉnh Hòa Bình</option>
-                                <option>Tỉnh Hưng Yên</option>
-                                <option>Tỉnh Khánh Hòa</option>
-                                <option>Tỉnh Kiên Giang</option>
-                                <option>Tỉnh Kon Tum</option>
-                                <option>Tỉnh Lai Châu</option>
-                                <option>Tỉnh Lâm Đồng</option>
-                                <option>Tỉnh Lạng Sơn</option>
-                                <option>Tỉnh Lào Cai</option>
-                                <option>Tỉnh Long An</option>
-                                <option>Tỉnh Nam Định</option>
-                                <option>Tỉnh Nghệ An</option>
-                                <option>Tỉnh Ninh Bình</option>
-                                <option>Tỉnh Ninh Thuận</option>
-                                <option>Tỉnh Phú Thọ</option>
-                                <option>Tỉnh Quảng Bình</option>
-                                <option>Tỉnh Quảng Nam</option>
-                                <option>Tỉnh Quảng Ngãi</option>
-                                <option>Tỉnh Quảng Ninh</option>
-                                <option>Tỉnh Quảng Trị</option>
-                                <option>Tỉnh Sóc Trăng</option>
-                                <option>Tỉnh Sơn La</option>
-                                <option>Tỉnh Tây Ninh</option>
-                                <option>Tỉnh Thái Bình</option>
-                                <option>Tỉnh Thái Nguyên</option>
-                                <option>Tỉnh Thanh Hóa</option>
-                                <option>Tỉnh Thừa Thiên Huế</option>
-                                <option>Tỉnh Tiền Giang</option>
-                                <option>Tỉnh Trà Vinh</option>
-                                <option>Tỉnh Tuyên Quang</option>
-                                <option>Tỉnh Vĩnh Long</option>
-                                <option>Tỉnh Vĩnh Phúc</option>
-                                <option>Tỉnh Yên Bái</option>
-                                <option>Thành phố Cần Thơ</option>
-                                <option>Thành phố Đà Nẵng</option>
+                            <label for="province" class="lb-text">Tỉnh/Thành phố</label>
+                            <select class="custom-select d-block w-100 large-select" id="province" name="province" required>
+                                <option value="">-- Chọn Tỉnh/Thành --</option>
                             </select>
                             <div class="invalid-feedback">
                                 Vui lòng chọn Tỉnh/Thành Phố của bạn
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-3">
-                            <label for="address2" class="lb-text">Địa chỉ bổ sung <small class="text-muted">(Không
-                                bắt
-                                buộc)</small></label>
-                            <input type="text" class="form-control" id="address2" placeholder="Số căn hộ/phòng ">
+                            <label for="district" class="lb-text">Quận/Huyện</label>
+                            <select class="custom-select d-block w-100 large-select" id="district" name="district" required>
+                                <option value="">-- Chọn Quận/Huyện --</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Vui lòng chọn Quận/Huyện của bạn
+                            </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ward" class="lb-text">Phường/Xã</label>
+                            <select class="custom-select d-block w-100 large-select" id="ward" name="ward" required>
+                                <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Vui lòng chọn Phường/Xã của bạn
+                            </div>
+                        </div>
+<%--                        <div class="col-md-6 mb-3">--%>
+<%--                            <label for="address2" class="lb-text">Địa chỉ bổ sung <small class="text-muted">(Không--%>
+<%--                                bắt--%>
+<%--                                buộc)</small></label>--%>
+<%--                            <input type="text" class="form-control" id="address2" placeholder="Số căn hộ/phòng ">--%>
+<%--                        </div>--%>
+                    </div>
+
                     <%--                    <hr class="mb-4">--%>
                     <%--                    <div class="custom-control custom-checkbox">--%>
                     <%--                        <input type="checkbox" class="custom-control-input" id="same-address">--%>
@@ -280,7 +243,7 @@
 
                     <button class="btn btn-primary btn-lg btn-block" type="submit">THANH TOÁN</button>
                 </form>
-                <div class="back-to-shop text-muted"><a href="cart.jsp">&leftarrow; Trở về giỏ hàng</a>
+                <div class="back-to-shop text-muted"><a href="cart">&leftarrow; Trở về giỏ hàng</a>
                 </div>
             </div>
         </div>
@@ -394,6 +357,111 @@
 
 <!-- base js -->
 <script src="./assets/js/base.js"></script>
+<%-- Javascript --%>
+<script>
+    const GHN_TOKEN = "750c9e8a-3d3f-11f0-9b81-222185cb68c8";
+
+    fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province", {
+        method: "GET",
+        headers: {
+            "Token": GHN_TOKEN
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Không thể gọi API");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const provinceSelect = document.getElementById("province");
+            data.data.forEach(province => {
+                const option = document.createElement("option");
+                option.value = province.ProvinceID;
+                option.textContent = province.ProvinceName;
+                provinceSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            alert("Lỗi khi gọi API GHN: " + error.message);
+            console.error(error);
+        });
+
+    // After selecting the province, load district
+    document.getElementById("province").addEventListener("change", function () {
+        const provinceId = this.value;
+        const districtSelect = document.getElementById("district");
+
+        // Clear
+        districtSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+
+        if (!provinceId) return;
+
+        fetch("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Token": GHN_TOKEN
+            },
+            body: JSON.stringify({
+                province_id: parseInt(provinceId)
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                data.data.forEach(district => {
+                    const option = document.createElement("option");
+                    option.value = district.DistrictID;
+                    option.textContent = district.DistrictName;
+                    districtSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Lỗi khi load quận/huyện:", error);
+                alert("Không thể tải danh sách quận/huyện.");
+            });
+    });
+
+    // After selecting the district, load ward
+    document.getElementById("district").addEventListener("change", function () {
+        const districtId = this.value;
+        const wardSelect = document.getElementById("ward");
+
+        // Clear
+        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+
+        if (!districtId) return;
+
+        fetch(`https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Token": GHN_TOKEN
+            },
+            body: JSON.stringify({
+                district_id: parseInt(districtId)
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Không thể gọi API");
+                }
+                return response.json();
+            })
+            .then(data => {
+                data.data.forEach(ward => {
+                    const option = document.createElement("option");
+                    option.value = ward.WardCode;
+                    option.textContent = ward.WardName;
+                    wardSelect.appendChild(option);
+                })
+            })
+            .catch(error => {
+                console.error("Lỗi khi load Phường/Xã:", error);
+                alert("Không thể tải danh sách Phường/Xã.");
+            });
+    });
+</script>
 </body>
 
 </html>
