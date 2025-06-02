@@ -12,11 +12,13 @@ public class CartDetail {
     private double unitPrice;
     private int productDetailsId;
     private ProductDetail productDetail;
+    private String productName;
+    private int productId;
 
     public CartDetail() {
     }
 
-    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId, ProductDetail productDetail) {
+    public CartDetail(int id, int cartId, int couponId, int quantity, double unitPrice, int productDetailsId, ProductDetail productDetail, String productName, int productId) {
         this.id = id;
         this.cartId = cartId;
         this.couponId = couponId;
@@ -24,6 +26,8 @@ public class CartDetail {
         this.unitPrice = unitPrice;
         this.productDetailsId = productDetailsId;
         this.productDetail = productDetail;
+        this.productName = productName;
+        this.productId = productId;
     }
 
     public int getId() {
@@ -82,6 +86,22 @@ public class CartDetail {
         this.productDetail = productDetail;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
     @Override
     public String toString() {
         return "CartDetail{" +
@@ -92,6 +112,7 @@ public class CartDetail {
                 ", unitPrice=" + unitPrice +
                 ", productDetailsId=" + productDetailsId +
                 ", productDetail=" + productDetail +
+                ", productName='" + productName + '\'' +
                 "}\n";
     }
 }

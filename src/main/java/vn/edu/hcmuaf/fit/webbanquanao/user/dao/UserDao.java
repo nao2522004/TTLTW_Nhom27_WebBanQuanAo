@@ -326,6 +326,23 @@ public class UserDao {
         });
     }
 
+    public String getEmailByUserName(String userName) {
+        String sql = "SELECT email FROM users WHERE userName = ?";
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getString("email");
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("Lỗi khi lấy email theo username: " + e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        });
+    }
 
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
@@ -380,6 +397,37 @@ public class UserDao {
             } catch (SQLException e) {
                 System.err.println("Lỗi khi lấy thông tin người dùng: " + e.getMessage());
                 e.printStackTrace(); // In chi tiết lỗi để debug
+            }
+            return null;
+        });
+    }
+    public User getUserByUserName(String userName) {
+        String sql = "SELECT * FROM users WHERE userName = ?";
+
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, userName);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setUserName(rs.getString("userName"));
+                        user.setPassWord(rs.getString("passWord"));
+                        user.setFirstName(rs.getString("firstName"));
+                        user.setLastName(rs.getString("lastName"));
+                        user.setEmail(rs.getString("email"));
+                        user.setAvatar(rs.getString("avatar"));
+                        user.setPhone(rs.getInt("phone"));
+                        user.setAddress(rs.getString("address"));
+                        user.setStatus(rs.getInt("status"));
+                        // user.setRoleId(rs.getInt("roleId")); // nếu có trường roleId
+                        user.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                        return user;
+                    }
+                }
+            } catch (SQLException e) {
+                System.err.println("Lỗi khi lấy thông tin người dùng theo userName: " + e.getMessage());
+                e.printStackTrace();
             }
             return null;
         });
@@ -496,6 +544,21 @@ public class UserDao {
         });
     }
 
+    public boolean changePasswordByUserId(int userId, String hashedPassword) {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        return dbConnect.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, hashedPassword);
+                ps.setInt(2, userId);
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
+            } catch (SQLException e) {
+                System.err.println("Lỗi khi đổi mật khẩu người dùng: " + e.getMessage());
+                e.printStackTrace();
+                return false;
+            }
+        });
+    }
 
     public String getPassWordByUserName(String userName) {
         String sql = "SELECT password FROM users WHERE userName = ?";
