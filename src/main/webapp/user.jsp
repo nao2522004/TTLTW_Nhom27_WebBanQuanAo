@@ -29,7 +29,7 @@
     <style>
         <%--css cho thanh search cua datable--%>
 
-        #order-table_filter{
+        #order-table_filter {
             display: flex;
             justify-content: end;
             position: relative;
@@ -62,7 +62,7 @@
         }
 
         /* Css cho chon so luong hien thi */
-        #order-table_length{
+        #order-table_length {
             margin-top: 2.5rem;
         }
 
@@ -88,8 +88,8 @@
         /* Tùy chỉnh phần label */
         #order-table_length label {
             font-size: 1.4rem !important;
-            font-weight: bold !important; /
-            color: #333 !important;
+            font-weight: bold !important;
+        / color: #333 !important;
             display: flex !important;
             align-items: center !important;
             gap: 1rem !important;
@@ -103,6 +103,7 @@
         .input-box {
             position: relative;
         }
+
         .input-box i {
             position: absolute;
             right: 20px;
@@ -183,34 +184,40 @@
         <main id="profile-info" class="col-md-9 p-4 bg-white rounded">
             <h4 class="font-weight-bold mb-4 text-second-color">Thông tin tài khoản</h4>
             <form method="post" action="updateProfileServlet">
+                <%
+                    User authUser = (User) session.getAttribute("auth");
+                    if (authUser == null) {
+                        response.sendRedirect("login.jsp");
+                        return;
+                    }
+                %>
+
                 <div class="form-group">
                     <label for="name">Họ và tên</label>
                     <input type="text" class="form-control" id="name" name="name"
-                           value="<%= ((User) session.getAttribute("auth")).getLastName() + ' ' + ((User) session.getAttribute("auth")).getFirstName() %>"
-                           required>
+                           value="<%= authUser.getLastName() + " " + authUser.getFirstName() %>" required>
                 </div>
+
                 <div class="form-group">
                     <label for="gmail">Email</label>
-                    <input type="text" class="form-control" id="gmail" name="gmail"
-                           value="<%= ((User) session.getAttribute("auth")).getEmail() %>" required>
+                    <input type="email" class="form-control" id="gmail" name="gmail"
+                           value="<%= authUser.getEmail() %>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Số điện thoại</label>
                     <input type="text" class="form-control" id="phone" name="phone"
-                           value="<%= ((User) session.getAttribute("auth")).getPhone() %>" required>
+                           value="<%= authUser.getPhone() %>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Địa chỉ</label>
                     <input type="text" class="form-control" id="address" name="address"
-                           value="<%= ((User) session.getAttribute("auth")).getAddress() %>" required>
+                           value="<%= authUser.getAddress() %>" required>
                 </div>
-
 
                 <button type="submit" class="btn btn-second-color">Cập nhật</button>
             </form>
-
             <!-- Login Info -->
             <h4 class="font-weight-bold mt-5 mb-4 text-second-color">Thông tin đăng nhập</h4>
             <div class="inform-login">
@@ -229,7 +236,6 @@
                 </div>
             </div>
         </main>
-
 
         <!-- Lịch sử đơn hàng -->
         <main id="order-container" class="col-md-9 p-4 bg-white rounded">
@@ -386,7 +392,7 @@
 <script src="./user/js/orders-history.js"></script>
 
 <script>
-    document.getElementById('open').addEventListener('click', function(e) {
+    document.getElementById('open').addEventListener('click', function (e) {
         e.preventDefault();
 
         const messageEl = document.getElementById('confirmMessage');
@@ -398,7 +404,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userName: document.getElementById('userName').value })
+            body: JSON.stringify({userName: document.getElementById('userName').value})
         })
             .then(res => res.json())
             .then(data => {

@@ -168,6 +168,26 @@ public class UserDao {
         });
     }
 
+    public boolean updateUser(User user) {
+        String sql = "UPDATE users SET firstName = ?, lastName = ?, email = ?, phone = ?, address = ? WHERE id = ?";
+
+        return JDBIConnector.get().withHandle(handle -> {
+            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
+                ps.setString(1, user.getFirstName());
+                ps.setString(2, user.getLastName());
+                ps.setString(3, user.getEmail());
+                ps.setInt(4, user.getPhone());
+                ps.setString(5, user.getAddress());
+                ps.setInt(6, user.getId());
+
+                int rowsAffected = ps.executeUpdate();
+                return rowsAffected > 0;
+            } catch (Exception e) {
+                System.out.println("Lỗi khi cập nhật user: " + e.getMessage());
+                return false;
+            }
+        });
+    }
 
     public String getRoleNameById(int roleId) {
         String sql = "SELECT roleName FROM roles WHERE id = ?";

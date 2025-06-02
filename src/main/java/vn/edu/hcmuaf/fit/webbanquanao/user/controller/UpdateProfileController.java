@@ -17,9 +17,14 @@ import java.util.Arrays;
 @WebServlet("/updateProfileServlet")
 public class UpdateProfileController extends HttpServlet {
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
         // Lấy thông tin từ form
-        String name = request.getParameter("name");
+        String fullName = request.getParameter("name");
+        String email = request.getParameter("gmail");
+        String address = request.getParameter("address");
 
         // Lấy thông tin người dùng hiện tại từ session
         User user = (User) request.getSession().getAttribute("auth");
@@ -27,50 +32,47 @@ public class UpdateProfileController extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+
+        // Xử lý số điện thoại
         int phone = 0;
         try {
             String phoneInput = request.getParameter("phone");
-
             long phoneLong = Long.parseLong(phoneInput);
             if (phoneLong > Integer.MAX_VALUE || phoneLong < Integer.MIN_VALUE) {
-                throw new IllegalArgumentException("Giá trị số điện thoại vượt quá phạm vi kiểu int.");
+                throw new IllegalArgumentException("Phone number value exceeds integer range.");
             }
             phone = (int) phoneLong;
-
-            user.setPhone(phone);
-
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Số điện thoại không hợp lệ.");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid phone number format.");
+            return;
         } catch (IllegalArgumentException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+            return;
         }
 
-        // Cập nhật thông tin người dùng
-        String fullName = request.getParameter("name");
+        // Tách họ tên
         String[] nameParts = fullName.trim().split("\\s+");
-
         String firstName = nameParts[nameParts.length - 1];
         String lastName = String.join(" ", Arrays.copyOfRange(nameParts, 0, nameParts.length - 1));
 
+        // Cập nhật thông tin người dùng
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setPhone(phone);
+        user.setEmail(email);
+        user.setAddress(address);
 
-//        // Lưu vào cơ sở dữ liệu
-//        UserDao userDao = new UserDao();
-//        boolean updateSuccess = userDao.updateUser(user);
-//
-//        if (updateSuccess) {
-//            // Cập nhật lại thông tin người dùng trong session
-//            request.getSession().setAttribute("auth", user);
-//            response.sendRedirect("user.jsp");
-//        } else {
-//            response.getWriter().write("Cập nhật thất bại!");
-//        }
-    }
+        // Lưu vào cơ sở dữ liệu
+        UserDao userDao = new UserDao();
+        boolean updateSuccess = userDao.updateUser(user);
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        if (updateSuccess) {
+            // Cập nhật lại thông tin người dùng trong session
+            request.getSession().setAttribute("auth", user);
+            response.sendRedirect("user.jsp");
+        } else {
+            response.getWriter().write("Cập nhật thất bại!");
+        }
     }
 
     @Override
@@ -133,10 +135,15 @@ public class UpdateProfileController extends HttpServlet {
         }
     }
 
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Tùy mở rộng để hiển thị thông tin user, hoặc chỉ redirect về form
+        response.sendRedirect("user.jsp");
+    }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Có thể xử lý xóa tài khoản trong tương lai nếu cần
+        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "DELETE method not supported yet.");
     }
 }
