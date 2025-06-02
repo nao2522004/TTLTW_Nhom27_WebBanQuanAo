@@ -1,169 +1,96 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
-import com.google.gson.*;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.gson.JsonSyntaxException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AOrderItem;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AOrderService;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-@WebServlet(name = "ManagerOrderDetails", value = "/admin/manager-orderDetails")
-public class OrderDetailsApi extends HttpServlet {
-
-    private static final Logger logger = LoggerFactory.getLogger(OrderDetailsApi.class);
-    private AOrderService orderItemService;
-    private UserLogsService userLogsService;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        orderItemService  = new AOrderService();
-        userLogsService   = UserLogsService.getInstance();
-    }
+@WebServlet(name = "OrderDetailsApi", urlPatterns = "/admin/api/order-details/*")
+public class OrderDetailsApi extends BaseApiServlet {
+    private final AOrderService orderService = new AOrderService();
+    private final UserLogsService logService = UserLogsService.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ApiContext ctx = initContext(req, resp, "OrderDetail");
+        String id = extractId(req.getPathInfo());
 
-        // Lấy session và user
-        HttpSession session = request.getSession(false);
-        User user           = session != null ? (User) session.getAttribute("auth") : null;
-        String username     = user != null ? user.getUserName() : "unknown";
-        List<String> roles  = user != null ? user.getRoles()    : Collections.emptyList();
-        String ip           = request.getRemoteAddr();
-
-        String orderid = request.getParameter("orderId");
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        if (orderid == null || orderid.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"message\":\"Thiếu ID đơn hàng\"}");
+        if (id == null) {
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID đơn hàng");
             return;
         }
 
         try {
-            int orderId = Integer.parseInt(orderid);
-            Map<Integer, AOrderItem> itemMap = orderItemService.showOrderItem(orderId);
-            List<AOrderItem> items = new ArrayList<>(itemMap.values());
+            int orderId = Integer.parseInt(id);
+            Map<Integer, AOrderItem> itemsMap = orderService.showOrderItem(orderId);
+            List<AOrderItem> items = new ArrayList<>(itemsMap.values());
 
-            // Ghi log view chi tiết order
-            userLogsService.logAction(
-                    "INFO", username, roles,
-                    "Xem chi tiết đơn hàng ID=" + orderId, ip
-            );
-            logger.info("User: {}, Action: Xem chi tiết đơn hàng ID={}", username, orderId);
+            writeJson(resp, items);
 
-            // Trả về JSON
-            String json = new Gson().toJson(items);
-            response.getWriter().write(json);
-
-        } catch (NumberFormatException ex) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"message\":\"ID không hợp lệ\"}");
-
-            logger.error("User: {}, Invalid orderId format: {}", username, orderid);
-            userLogsService.logAction(
-                    "ERROR", username, roles,
-                    "Xem chi tiết thất bại, orderId không hợp lệ: " + orderid, ip
-            );
+        } catch (NumberFormatException e) {
+            logService.logCustom(ctx.username, "ERROR", "Invalid orderId for details: " + id, ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "orderId không hợp lệ");
+        } catch (Exception e) {
+            logService.logCustom(ctx.username, "FATAL", "Lỗi server lấy chi tiết đơn hàng: " + e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi truy xuất chi tiết đơn hàng");
         }
     }
 
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ApiContext ctx = initContext(req, resp, "OrderDetail");
+        String id = extractId(req.getPathInfo());
 
-        // Lấy session và user
-        HttpSession session = request.getSession(false);
-        User user           = session != null ? (User) session.getAttribute("auth") : null;
-        String username     = user != null ? user.getUserName() : "unknown";
-        List<String> roles  = user != null ? user.getRoles()    : Collections.emptyList();
-        String ip           = request.getRemoteAddr();
+        if (id == null) {
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID chi tiết đơn hàng trong URL");
+            return;
+        }
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+        try {
+            int detailId = Integer.parseInt(id);
+            AOrderItem item = gson.fromJson(readBody(req), AOrderItem.class);
+            validateUpdate(item);
 
-        try (BufferedReader reader = request.getReader()) {
-            StringBuilder buf = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) buf.append(line);
-            AOrderItem orderItem = new Gson().fromJson(buf.toString(), AOrderItem.class);
-
-            // Validation
-            if (orderItem.getId() == null || orderItem.getId() <= 0)
-                throw new IllegalArgumentException("ID chi tiết đơn hàng không hợp lệ");
-            if (orderItem.getOrderId() == null || orderItem.getOrderId() <= 0)
-                throw new IllegalArgumentException("ID đơn hàng không hợp lệ");
-            if (orderItem.getProductName() == null || orderItem.getProductName().isBlank())
-                throw new IllegalArgumentException("Tên sản phẩm không được để trống");
-            if (orderItem.getQuantity() == null || orderItem.getQuantity() < 0)
-                throw new IllegalArgumentException("Số lượng phải >= 0");
-            if (orderItem.getUnitPrice() < 0)
-                throw new IllegalArgumentException("Giá đơn vị phải >= 0");
-            if (orderItem.getDiscount() < 0)
-                throw new IllegalArgumentException("Giảm giá phải >= 0");
-
-            boolean updated = orderItemService.updateOrderItem(
-                    orderItem, orderItem.getId(), orderItem.getOrderId()
-            );
-
-            JsonObject resp = new JsonObject();
+            boolean updated = orderService.updateOrderItem(item, detailId, item.getOrderId());
             if (updated) {
-                resp.addProperty("message", "Cập nhật chi tiết đơn hàng thành công");
-                response.setStatus(HttpServletResponse.SC_OK);
-
-                // Log success
-                userLogsService.logAction(
-                        "INFO", username, roles,
-                        "Cập nhật chi tiết đơn hàng ID=" + orderItem.getId() +
-                                " (orderId=" + orderItem.getOrderId() + ")", ip
-                );
-                logger.info("User: {}, Action: Updated orderDetail ID={} for orderId={}",
-                        username, orderItem.getId(), orderItem.getOrderId());
-
+                logService.logUpdateEntity(ctx.username, "OrderDetail", id, ctx.ip, ctx.roles);
+                sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật chi tiết đơn hàng thành công");
             } else {
-                resp.addProperty("message", "Cập nhật chi tiết không thành công");
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-
-                // Log failure
-                userLogsService.logAction(
-                        "ERROR", username, roles,
-                        "Cập nhật chi tiết đơn hàng ID=" + orderItem.getId() + " thất bại", ip
-                );
-                logger.error("User: {}, Action: Failed update orderDetail ID={}",
-                        username, orderItem.getId());
+                logService.logCustom(ctx.username, "WARN", "Update detail failed, ID=" + id, ctx.ip, ctx.roles);
+                sendError(resp, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy chi tiết đơn hàng");
             }
-            response.getWriter().write(resp.toString());
+        } catch (NumberFormatException e) {
+            logService.logCustom(ctx.username, "ERROR", "Invalid detailId: " + id, ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "detailId không hợp lệ");
+        } catch (JsonSyntaxException | IllegalArgumentException e) {
+            logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            logService.logCustom(ctx.username, "FATAL", e.getMessage(), ctx.ip, ctx.roles);
+            sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi server khi cập nhật chi tiết đơn hàng");
+        }
+    }
 
-        } catch (JsonParseException | IllegalArgumentException ex) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"message\":\"" + ex.getMessage() + "\"}");
-
-            logger.warn("User: {}, Action: Invalid input for orderDetail update: {}",
-                    username, ex.getMessage());
-            userLogsService.logAction(
-                    "WARN", username, roles,
-                    "Dữ liệu không hợp lệ khi cập nhật chi tiết đơn hàng: " + ex.getMessage(), ip
-            );
-
-        } catch (Exception ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"message\":\"Lỗi server: " + ex.getMessage() + "\"}");
-
-            logger.error("User: {}, Action: Server error updating orderDetail: {}",
-                    username, ex.getMessage());
-            userLogsService.logAction(
-                    "FATAL", username, roles,
-                    "Lỗi server khi cập nhật chi tiết đơn hàng: " + ex.getMessage(), ip
-            );
+    // Validation giống OrdersApi
+    private void validateUpdate(AOrderItem o) {
+        StringBuilder errors = new StringBuilder();
+        if (o.getId() == null || o.getId() <= 0) errors.append("ID chi tiết đơn hàng không hợp lệ. ");
+        if (o.getOrderId() == null || o.getOrderId() <= 0) errors.append("ID đơn hàng không hợp lệ. ");
+        if (o.getProductName() == null || o.getProductName().trim().isEmpty()) errors.append("Tên sản phẩm bị thiếu. ");
+        if (o.getQuantity() == null || o.getQuantity() < 0) errors.append("Số lượng phải >= 0. ");
+        if (o.getUnitPrice() < 0) errors.append("Giá đơn vị phải >= 0. ");
+        if (o.getDiscount() < 0) errors.append("Giảm giá phải >= 0. ");
+        if (errors.length() > 0) {
+            throw new IllegalArgumentException("Lỗi khi cập nhật OrderDetail (ID = " + o.getId() + "): " + errors.toString().trim());
         }
     }
 }

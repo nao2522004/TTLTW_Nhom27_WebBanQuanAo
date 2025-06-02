@@ -25,17 +25,18 @@ public class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
 
     @Override
     public LocalDateTime read(JsonReader in) throws IOException {
-        String value = in.nextString();
-
+        String value = in.nextString();          // VD: "2025-05-17T00:00:00.000Z"
         if (value == null || value.isEmpty()) {
             return null;
         }
-
+        // Cách 1: cắt Z
+        if (value.endsWith("Z")) {
+            value = value.substring(0, value.length() - 1);
+        }
         try {
-            // Parse ISO-8601 thành LocalDateTime
-            return LocalDateTime.parse(value, formatter);
+            return LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
         } catch (DateTimeParseException e) {
-            throw new IOException("Invalid ISO-8601 date format: " + value, e);
+            throw new IOException("Invalid ISO date format: " + value, e);
         }
     }
 }

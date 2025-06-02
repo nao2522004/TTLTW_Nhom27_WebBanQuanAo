@@ -157,7 +157,6 @@ function openEditProductPopup(event) {
     $.ajax({
         url: `/WebBanQuanAo/admin/api/products/${productId}`,
         type: 'GET',
-        cache: false,
         success: function (response) {
             const data = response.data;
             $("#edit-idProduct").val(data.id);
@@ -254,17 +253,41 @@ function createProduct(event) {
 
     const productData = Object.fromEntries(formData.entries());
 
+    // Đảm bảo rằng releaseDate đúng định dạng
+    productData.releaseDate = new Date(productData.releaseDate).toISOString().split('T')[0]; // yyyy-MM-dd
+
     // Chuyển các giá trị của các select thành số (parseInt)
     productData.typeId = parseInt(productData.typeId);
     productData.categoryId = parseInt(productData.categoryId);
     productData.supplierId = parseInt(productData.supplierId);
     productData.unitSold = parseInt(productData.unitSold);
     productData.unitPrice = parseFloat(productData.unitPrice);
-    productData.status = productData.status === 'true'; // Trạng thái là boolean
 
+    // Chuyển status từ chuỗi thành số
+    productData.status = parseInt(productData.status);
+
+    // Chuyển status thành text
+    let statusText = "";
+    switch (productData.status) {
+        case 0:
+            statusText = "Đã xóa";
+            break;
+        case 1:
+            statusText = "Còn hàng";
+            break;
+        case 2:
+            statusText = "Hết hàng";
+            break;
+        default:
+            statusText = "Không xác định"; // Nếu không phải 0, 1, 2 thì gán mặc định
+            break;
+    }
+
+    console.log("Status text:", statusText);
     console.log(JSON.stringify(productData));
 
-    fetch('/WebBanQuanAo/admin/manager-products', {
+    // Gửi dữ liệu qua fetch
+    fetch('/WebBanQuanAo/admin/api/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -278,7 +301,7 @@ function createProduct(event) {
         .then(data => {
             alert(data.message || 'Sản phẩm đã được tạo thành công!');
             fetchProducts();
-            hideAddProductForm()
+            hideAddProductForm();
         })
         .catch(err => {
             console.error('Lỗi:', err);
