@@ -5,17 +5,14 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.CommentProduct;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.Product;
-import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.service.CommentService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.service.ProductService;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @WebServlet(name = "ProductDetail", value = "/productDetail")
-public class ProductDetailController extends HttpServlet {
+public class ProductDetail extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,20 +27,10 @@ public class ProductDetailController extends HttpServlet {
             pid = (int) request.getAttribute("pid");
         }
 
-        Product p = productService.getDetail(pid);
+        Product detail = productService.getDetail(pid);
         List<CommentProduct> comments = commentService.getCommentByProductId(pid);
 
-        // Unique color and size
-        Set<String> colorSet = new LinkedHashSet<>();
-        Set<String> sizeSet = new LinkedHashSet<>();
-        for (ProductDetail d : p.getDetails()) {
-            colorSet.add(d.getColor());
-            sizeSet.add(d.getSize());
-        }
-        request.setAttribute("uniqueColors", colorSet);
-        request.setAttribute("uniqueSizes", sizeSet);
-
-        request.setAttribute("p", p);
+        request.setAttribute("p", detail);
         request.setAttribute("comments", comments);
         request.getRequestDispatcher("products_detail.jsp").forward(request, response);
     }

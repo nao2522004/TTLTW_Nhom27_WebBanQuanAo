@@ -34,8 +34,7 @@ public class CartDAO {
                 "pd.stock," +
                 "pd.image," +
                 "pd.color," +
-                "p.productName as name," +
-                "p.id as productId " +
+                "p.productName as name " +
                 "FROM cart c " +
                 "JOIN cartdetail cd ON c.id = cd.cartId " +
                 "JOIN product_details pd ON cd.productDetailsId = pd.id " +
@@ -57,16 +56,14 @@ public class CartDAO {
                                 rs.getString("color")
                         );
 
-                        CartDetail item = new CartDetail (
+                        CartDetail item = new CartDetail(
                                 rs.getInt("id"),
                                 rs.getInt("cartId"),
                                 rs.getInt("couponId"),
                                 rs.getInt("quantity"),
                                 rs.getDouble("unitPrice"),
                                 rs.getInt("productDetailsId"),
-                                productDetail,
-                                rs.getString("name"),
-                                rs.getInt("productId")
+                                productDetail
                         );
                         cartDetails.add(item);
                     }
@@ -223,16 +220,15 @@ public class CartDAO {
         });
     }
 
-    // Get product detail
-    public ProductDetail getProductDetail(int productId, String color, String size) {
-        query = "SELECT * FROM product_details WHERE productId = ? AND color = ? AND size = ?";
+    // Lấy ra chi tiết sản phẩm theo size và color
+    public ProductDetail getProductDetailBySizeColor(String color, String size) {
+        query = "SELECT * FROM product_details WHERE color = ? AND size = ?";
         ProductDetail productDetail = new ProductDetail();
 
         return conn.get().withHandle(h -> {
            try(PreparedStatement stmt = h.getConnection().prepareStatement(query)) {
-               stmt.setInt(1, productId);
-               stmt.setString(2, color);
-               stmt.setString(3, size);
+               stmt.setString(1, color);
+               stmt.setString(2, size);
                ResultSet rs = stmt.executeQuery();
                while(rs.next()) {
                    productDetail.setId(rs.getInt("id"));
@@ -272,6 +268,6 @@ public class CartDAO {
 
     public static void main(String[] args) {
         CartDAO dao = new CartDAO();
-//        System.out.println(dao.getProductDetail(1, "Nâu dạ", "M"));
+//        System.out.println(dao.getAllCartItems(2));
     }
 }

@@ -186,9 +186,9 @@
                             <td><input type="text" name="firstName" id="edit-firstNameOrder" required></td>
                             <td>
                                 <select name="paymentId" id="edit-paymentId"
-                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        style="align-items: center; text-align-last: center;"
                                         required>
-                                    <option value="1">Tiền mặt</option>
+                                    <option >Tiền mặt</option>
                                     <option value="2">Chuyển khoản</option>
                                     <option value="3">Thẻ tín dụng</option>
                                 </select>
@@ -199,7 +199,7 @@
                             <td><input type="number" name="totalPrice" id="edit-totalPrice" required></td>
                             <td>
                                 <select name="status" id="edit-statusOrder"
-                                        style="display: flex !important; align-items: center !important; justify-content: center !important;"
+                                        style="text-align: center; text-align-last: center;"
                                         required>
                                     <option value="0">Đã Hủy</option>
                                     <option value="1">Đang xử lý</option>

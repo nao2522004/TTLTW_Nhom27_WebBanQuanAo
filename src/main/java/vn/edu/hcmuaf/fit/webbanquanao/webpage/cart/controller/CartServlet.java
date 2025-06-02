@@ -1,20 +1,18 @@
 package vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartDetail;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.model.CartItem;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.product.model.ProductDetail;
 
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "Cart", value = "/cart")
+@WebServlet(name = "Cart", value = "/Cart")
 public class CartServlet extends HttpServlet {
     private CartService cartService;
 
@@ -31,7 +29,7 @@ public class CartServlet extends HttpServlet {
         int userId = user.getId();
 
         // All products of cart
-        List<CartDetail> cart = cartService.getCartItems(userId);
+        List<CartDetail> cart = cartService.getCart(userId);
         request.setAttribute("cart", cart);
 
         // Total price
@@ -49,24 +47,19 @@ public class CartServlet extends HttpServlet {
                 throw new IllegalArgumentException("Action không được để trống");
             }
 
-            // Get userId
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("auth");
-            int userId = user.getId();
-
             switch (action.toLowerCase()) {
                 case "add":
                     handleAdd(request, response,
                             getIntParameter(request, "productId"),
                             getIntParameter(request, "quantity"),
-                            userId);
+                            getIntParameter(request, "userId"));
                     break;
 
                 case "update":
                     handleUpdate(request, response,
                             getIntParameter(request, "productDetailId"),
                             getIntParameter(request, "quantity"),
-                            userId);
+                            getIntParameter(request, "userId"));
                     break;
 
                 case "remove":
@@ -104,8 +97,7 @@ public class CartServlet extends HttpServlet {
             String couponIdStr = request.getParameter("couponId");
 
             // Kiểm tra các tham số bắt buộc
-            if (color == null || size == null || unitPriceStr == null || couponIdStr == null ||
-                color.isEmpty() || size.isEmpty() || unitPriceStr.isEmpty() || couponIdStr.isEmpty()) {
+            if (color == null || size == null || unitPriceStr == null || couponIdStr == null) {
                 throw new IllegalArgumentException("Thiếu thông tin sản phẩm");
             }
 
@@ -114,13 +106,13 @@ public class CartServlet extends HttpServlet {
             int couponId = Integer.parseInt(couponIdStr);
 
             // Lấy chi tiết sản phẩm và thêm vào giỏ hàng
-            ProductDetail pd = cartService.getProductDetail(productId, color, size);
+            ProductDetail pd = cartService.getProductDetailBySizeColor(color, size);
             boolean result = cartService.addToCart(userId, couponId, quantity, unitPrice, pd.getId());
             request.getSession().setAttribute("message", result ? "Thêm vào giỏ hàng thành công" : "Thêm vào giỏ hàng thất bại");
         } catch (Exception e) {
             request.getSession().setAttribute("message", "Không lấy được dữ liệu sản phẩm");
         } finally {
-            response.sendRedirect(request.getContextPath() + "/productDetail?pid=" + productId);
+            response.sendRedirect(request.getContextPath() + "/productDetail?productId=" + productId);
         }
     }
 

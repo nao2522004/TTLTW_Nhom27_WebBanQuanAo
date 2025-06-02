@@ -1,7 +1,5 @@
 package vn.edu.hcmuaf.fit.webbanquanao.admin.controller.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +11,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import vn.edu.hcmuaf.fit.webbanquanao.util.ResourceNames;
 
 @WebServlet(name = "ProductsApi", urlPatterns = "/admin/api/products/*")
 public class ProductsApi extends BaseApiServlet {
@@ -22,14 +21,15 @@ public class ProductsApi extends BaseApiServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Product");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
             List<AProduct> products = new ArrayList<>(productService.showProduct().values());
+
             Object viewedFlag = ctx.session.getAttribute("viewAllProducts");
             if (!Boolean.TRUE.equals(viewedFlag)) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Product", ctx.permissions, ctx.ip, ctx.roles);
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), ResourceNames.ADMIN_API_PRODUCT_MANAGE, ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllProducts", Boolean.TRUE);
             }
             writeJson(resp, products);
@@ -56,7 +56,7 @@ public class ProductsApi extends BaseApiServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Product");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
 
         try {
             AProduct p = gson.fromJson(readBody(req), AProduct.class);
@@ -65,7 +65,7 @@ public class ProductsApi extends BaseApiServlet {
             boolean success = productService.createProduct(p);
 
             if (success) {
-                logService.logCreateEntity(ctx.username, "Product", "new", ctx.ip, ctx.roles); // hoặc "new" hoặc bất cứ gì bạn muốn
+                logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, "new", ctx.ip, ctx.roles); // hoặc "new" hoặc bất cứ gì bạn muốn
                 sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo sản phẩm thành công");
             } else {
                 sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể tạo sản phẩm");
@@ -81,7 +81,7 @@ public class ProductsApi extends BaseApiServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Product");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
         if (id == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
@@ -99,7 +99,7 @@ public class ProductsApi extends BaseApiServlet {
             validateUpdate(p);
 
             if (productService.updateProduct(pid, p)) {
-                logService.logUpdateEntity(ctx.username, "Product", id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed, ID=" + id, ctx.ip, ctx.roles);
@@ -119,7 +119,7 @@ public class ProductsApi extends BaseApiServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Product");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
         if (id == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu ID trong URL");
@@ -129,7 +129,7 @@ public class ProductsApi extends BaseApiServlet {
         try {
             int pid = Integer.parseInt(id);
             if (productService.delete(pid)) {
-                logService.logDeleteEntity(ctx.username, "Product", id, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa sản phẩm thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed, ID=" + id, ctx.ip, ctx.roles);

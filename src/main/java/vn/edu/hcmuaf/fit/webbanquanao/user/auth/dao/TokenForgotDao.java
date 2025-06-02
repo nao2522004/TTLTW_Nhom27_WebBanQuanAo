@@ -63,18 +63,4 @@ public class TokenForgotDao {
             return null; // Trả về null nếu không tìm thấy token
         });
     }
-
-    public void deleteTokenByUserId(int userId) {
-        String sql = "DELETE FROM password_reset_tokens WHERE user_id = ?";
-        conn.get().withHandle(handle -> {
-            try (PreparedStatement ps = handle.getConnection().prepareStatement(sql)) {
-                ps.setInt(1, userId);
-                ps.executeUpdate();
-            } catch (SQLException e) {
-                System.err.println("Lỗi khi xóa token đặt lại mật khẩu: " + e.getMessage());
-                e.printStackTrace();
-            }
-            return null;
-        });
-    }
 }
