@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.webbanquanao.webpage.cart.service.CartService;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.dao.OrderDAO;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.Order;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.OrderItem;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +22,7 @@ public class OrderService {
     // Add Order
     public int addOrder(int userId, double totalPrice) {
         // create order
-        int orderId = orderDAO.createOrder(userId, 2, 1, BigDecimal.valueOf(totalPrice), 1);
+        int orderId = orderDAO.createOrder(userId, 2, 1, BigDecimal.valueOf(totalPrice), OrderStatus.PENDING);
 
         // add order item
         cartService.getCartItems(userId).forEach(cd -> orderDAO.addOrderItem(orderId, cd.getProductId(), cd.getQuantity(), BigDecimal.valueOf(cd.getUnitPrice()), 0.0f, cd.getProductDetailsId()));

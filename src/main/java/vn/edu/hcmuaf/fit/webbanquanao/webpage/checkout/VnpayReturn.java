@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
+import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.model.OrderStatus;
 import vn.edu.hcmuaf.fit.webbanquanao.webpage.order.service.OrderService;
 
 import java.io.IOException;
@@ -58,10 +59,10 @@ public class VnpayReturn extends HttpServlet {
                 boolean transSuccess = false;
                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                     //update banking system
-                    orderService.updateOrderStatus(Integer.parseInt(orderId), 2, userId);
+                    orderService.updateOrderStatus(Integer.parseInt(orderId), OrderStatus.SHIPPING, userId);
                     transSuccess = true;
                 } else {
-                    orderService.updateOrderStatus(Integer.parseInt(orderId), 3, userId);
+                    orderService.updateOrderStatus(Integer.parseInt(orderId), OrderStatus.DELETED, userId);
                 }
                 request.setAttribute("transResult", transSuccess);
                 request.getRequestDispatcher("paymentResult.jsp").forward(request, response);
