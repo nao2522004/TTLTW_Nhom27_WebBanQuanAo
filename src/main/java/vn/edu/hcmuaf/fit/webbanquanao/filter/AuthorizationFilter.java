@@ -33,10 +33,10 @@ public class AuthorizationFilter implements Filter {
     private static final Set<String> ADMIN_PATHS = Set.of("/admin.jsp");
 
     private static final Map<String, Integer> METHOD_PERM = Map.of(
-            "GET", 4,
-            "POST", 2,
-            "PUT", 2,
-            "DELETE", 1
+            "GET",    4,   // chỉ cần READ
+            "POST",   6,   // cần cả READ + WRITE
+            "PUT",    6,   // cần cả READ + WRITE
+            "DELETE", 7    // cần READ + WRITE + DELETE
     );
 
     private UserLogsService logService;
@@ -82,10 +82,19 @@ public class AuthorizationFilter implements Filter {
         }
 
         // Permission check
-        int required = METHOD_PERM.getOrDefault(request.getMethod(), 4);
+        Integer required = METHOD_PERM.get(request.getMethod());
+        if (required == null) {
+            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), 0, ip, user.getRoles());
+            forwardError(request, response, "HTTP method not allowed");
+            return;
+        }
+
+
+        String resource = ResourceMapper.getResource(path);
         int userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
-                .getOrDefault(ResourceMapper.getResource(path), 0);
-        if (!ResourceMapper.getResource(path).equals("default") && (userPerm & required) != required) {
+                .getOrDefault(resource, 0);
+
+        if (!"default".equals(resource) && (userPerm & required) != required) {
             logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
             forwardError(request, response, "Bạn không đủ quyền truy cập chức năng này");
             return;
