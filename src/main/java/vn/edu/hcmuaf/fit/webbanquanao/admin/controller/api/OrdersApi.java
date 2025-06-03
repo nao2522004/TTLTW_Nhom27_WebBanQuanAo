@@ -11,6 +11,8 @@ import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
 import java.io.IOException;
 import java.util.*;
 
+import vn.edu.hcmuaf.fit.webbanquanao.util.ResourceNames;
+
 @WebServlet(name = "OrdersApi", urlPatterns = "/admin/api/orders/*")
 public class OrdersApi extends BaseApiServlet {
     private final AOrderService orderService = new AOrderService();
@@ -18,7 +20,7 @@ public class OrdersApi extends BaseApiServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Order");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -26,7 +28,7 @@ public class OrdersApi extends BaseApiServlet {
 
             Object viewedFlag = ctx.session.getAttribute("viewAllOrders");
             if (!Boolean.TRUE.equals(viewedFlag)) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order", ctx.permissions, ctx.ip, ctx.roles);
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), ResourceNames.ADMIN_API_ORDER_MANAGE, ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllOrders", Boolean.TRUE);
             }
             writeJson(resp, orders);
@@ -40,7 +42,6 @@ public class OrdersApi extends BaseApiServlet {
             int orderId = Integer.parseInt(id);
             AOrder order = orderService.showOrders().get(orderId);
             if (order != null) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "Order", ctx.permissions, ctx.ip, ctx.roles);
                 writeJson(resp, order);
             } else {
                 logService.logCustom(ctx.username, "WARN", "Order not found ID=" + orderId, ctx.ip, ctx.roles);
@@ -54,18 +55,18 @@ public class OrdersApi extends BaseApiServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Order");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         try {
             AOrder order = gson.fromJson(readBody(req), AOrder.class);
             validateCreate(order);
             Map<Integer, AOrder> orders = orderService.showOrders();
 
             if (orders.containsKey(order.getId())) {
-                logService.logCreateEntity(ctx.username, "Order", String.valueOf(order.getId()), ctx.ip, ctx.roles);
+                logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_ORDER_MANAGE, String.valueOf(order.getId()), ctx.ip, ctx.roles);
                 sendError(resp, HttpServletResponse.SC_CONFLICT, "Đơn hàng đã tồn tại");
             } else {
                 orders.put(order.getId(), order);
-                logService.logCreateEntity(ctx.username, "Order", String.valueOf(order.getId()), ctx.ip, ctx.roles);
+                logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_ORDER_MANAGE, String.valueOf(order.getId()), ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo đơn hàng thành công");
             }
         } catch (JsonSyntaxException | IllegalArgumentException e) {
@@ -79,7 +80,7 @@ public class OrdersApi extends BaseApiServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Order");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -93,7 +94,7 @@ public class OrdersApi extends BaseApiServlet {
             validateUpdate(order);
 
             if (orderService.updateOrder(order, orderId)) {
-                logService.logUpdateEntity(ctx.username, "Order", id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.ORDER, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed, ID=" + id, ctx.ip, ctx.roles);
@@ -113,7 +114,7 @@ public class OrdersApi extends BaseApiServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "Order");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -124,7 +125,7 @@ public class OrdersApi extends BaseApiServlet {
         try {
             int orderId = Integer.parseInt(id);
             if (orderService.deleteOrder(orderId)) {
-                logService.logDeleteEntity(ctx.username, "Order", id, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.ORDER, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa đơn hàng thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed, ID=" + id, ctx.ip, ctx.roles);

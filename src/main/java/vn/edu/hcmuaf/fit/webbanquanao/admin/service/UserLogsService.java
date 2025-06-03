@@ -103,13 +103,13 @@ public class UserLogsService {
 
     public boolean logUnauthorizedAccess(String username, String path, String resource, Integer permission,
                                          String ipAddress, List<String> roles) {
-        String msg = String.format("Không có quyền truy cập: đường dẫn=%s, resource=%s, quyền=%s", path, resource, permission);
+        String msg = String.format("Không có quyền truy cập: đường dẫn=%s, resource=%s, currentRolesUser=%s", path, resource, permission);
         return logAction("WARN", username, roles, msg, ipAddress);
     }
 
     public boolean logAccessGranted(String username, String path, String resource, Integer permission,
                                     String ipAddress, List<String> roles) {
-        String msg = String.format("Truy cập thành công: đường dẫn=%s, resource=%s, quyền=%s", path, resource, permission);
+        String msg = String.format("Truy cập thành công: đường dẫn=%s, resource=%s, currentRolesUser=%s", path, resource, permission);
         return logAction("INFO", username, roles, msg, ipAddress);
     }
 
@@ -159,4 +159,11 @@ public class UserLogsService {
         String msg = String.format("Truy cập bị từ chối: đường dẫn=%s, resource=%s", path, resource);
         return logAction("ERROR", username, roles, msg, ipAddress);
     }
+
+    public boolean logForbiddenAction(String username, String path, String resource, Integer permission,
+                                      String ipAddress, List<String> roles) {
+        String msg = String.format("Không đủ quyền thực hiện chức năng: đường dẫn=%s, resource=%s, currentRoles=%s", path, resource, permission);
+        return logAction("WARN", username, roles, msg, ipAddress);
+    }
+
 }

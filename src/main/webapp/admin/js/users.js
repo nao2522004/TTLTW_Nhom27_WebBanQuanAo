@@ -85,9 +85,12 @@ const buildTableUser = (users) => {
     return `<tbody>${userContent}</tbody>`;
 };
 
-// Khi DOM load, gọi fetchUsers
+// Khi DOM load, gọi fetchProducts chỉ khi phần tử 'admin/manager-products' cần hiển thị
 document.addEventListener('DOMContentLoaded', function () {
-    fetchUsers();
+    const productSection = document.getElementById("admin/manager-users");
+    if (productSection && productSection.classList.contains("block")) {
+        fetchProducts();
+    }
 });
 
 // Hàm xóa user

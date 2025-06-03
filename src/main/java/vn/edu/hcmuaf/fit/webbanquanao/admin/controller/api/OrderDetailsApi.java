@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import vn.edu.hcmuaf.fit.webbanquanao.util.ResourceNames;
+
 @WebServlet(name = "OrderDetailsApi", urlPatterns = "/admin/api/order-details/*")
 public class OrderDetailsApi extends BaseApiServlet {
     private final AOrderService orderService = new AOrderService();
@@ -21,7 +23,7 @@ public class OrderDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "OrderDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -47,7 +49,7 @@ public class OrderDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "OrderDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_ORDER_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -62,7 +64,7 @@ public class OrderDetailsApi extends BaseApiServlet {
 
             boolean updated = orderService.updateOrderItem(item, detailId, item.getOrderId());
             if (updated) {
-                logService.logUpdateEntity(ctx.username, "OrderDetail", id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.ORDER_DETAIL, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật chi tiết đơn hàng thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update detail failed, ID=" + id, ctx.ip, ctx.roles);

@@ -7,12 +7,11 @@ import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.model.AUser;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.AUserService;
 import vn.edu.hcmuaf.fit.webbanquanao.admin.service.UserLogsService;
-import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
+
+import vn.edu.hcmuaf.fit.webbanquanao.util.ResourceNames;
 
 @WebServlet(name = "UsersApi", urlPatterns = "/admin/api/users/*")
 public class UsersApi extends BaseApiServlet {
@@ -21,14 +20,15 @@ public class UsersApi extends BaseApiServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "User");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_USER_MANAGE);
         String username = extractId(req.getPathInfo());
 
         if (username == null) {
             List<AUser> users = new ArrayList<>(userService.showUser().values());
+
             Object viewedFlag = ctx.session.getAttribute("viewAllUsers");
             if (!Boolean.TRUE.equals(viewedFlag)) {
-                logService.logAccessGranted(ctx.username, req.getRequestURI(), "User", ctx.permissions, ctx.ip, ctx.roles);
+                logService.logAccessGranted(ctx.username, req.getRequestURI(), ResourceNames.ADMIN_API_USER_MANAGE, ctx.permissions, ctx.ip, ctx.roles);
                 ctx.session.setAttribute("viewAllUsers", Boolean.TRUE);
             }
             writeJson(resp, users);
@@ -45,19 +45,19 @@ public class UsersApi extends BaseApiServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "User");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_USER_MANAGE);
         try {
             AUser user = gson.fromJson(readBody(req), AUser.class);
             validateCreate(user);
 
             boolean created = userService.addUser(user);
             if (!created) {
-                logService.logCreateEntity(ctx.username, "User", user.getUserName(), ctx.ip, ctx.roles);
+                logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_USER_MANAGE, user.getUserName(), ctx.ip, ctx.roles);
                 sendError(resp, HttpServletResponse.SC_CONFLICT, "User đã tồn tại hoặc không thể tạo");
                 return;
             }
 
-            logService.logCreateEntity(ctx.username, "User", user.getUserName(), ctx.ip, ctx.roles);
+            logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_USER_MANAGE, user.getUserName(), ctx.ip, ctx.roles);
             sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo user thành công");
         } catch (JsonSyntaxException | IllegalArgumentException e) {
             logService.logCustom(ctx.username, "ERROR", e.getMessage(), ctx.ip, ctx.roles);
@@ -71,7 +71,7 @@ public class UsersApi extends BaseApiServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "User");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_USER_MANAGE);
         String username = extractId(req.getPathInfo());
         if (username == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu username trong URL");
@@ -82,7 +82,7 @@ public class UsersApi extends BaseApiServlet {
             validateUpdate(user);
             boolean updated = userService.updateUser(user, username);
             if (updated) {
-                logService.logUpdateEntity(ctx.username, "User", username, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.USER, username, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật user thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed: " + username, ctx.ip, ctx.roles);
@@ -99,7 +99,7 @@ public class UsersApi extends BaseApiServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "User");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_USER_MANAGE);
         String username = extractId(req.getPathInfo());
         if (username == null) {
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, "Thiếu username trong URL");
@@ -108,7 +108,7 @@ public class UsersApi extends BaseApiServlet {
         try {
             boolean deleted = userService.deleteUser(username);
             if (deleted) {
-                logService.logDeleteEntity(ctx.username, "User", username, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.USER, username, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa user thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed: " + username, ctx.ip, ctx.roles);

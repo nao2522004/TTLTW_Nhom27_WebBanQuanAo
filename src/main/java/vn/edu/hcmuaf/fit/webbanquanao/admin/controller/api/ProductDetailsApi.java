@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import vn.edu.hcmuaf.fit.webbanquanao.util.ResourceNames;
+
 @WebServlet(name = "ProductDetailsApi", urlPatterns = "/admin/api/product-details/*")
 public class ProductDetailsApi extends BaseApiServlet {
     private final AProductService productService = new AProductService();
@@ -21,7 +23,7 @@ public class ProductDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "ProductDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -52,14 +54,14 @@ public class ProductDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "ProductDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         try {
             AProductDetails pd = gson.fromJson(readBody(req), AProductDetails.class);
             validateCreate(pd);
 
             boolean created = productService.createProductDetails(pd);
             if (created) {
-                logService.logCreateEntity(ctx.username, "ProductDetail", "new", ctx.ip, ctx.roles);
+                logService.logCreateEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, "new", ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_CREATED, "Tạo chi tiết sản phẩm thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Tạo chi tiết cho sản phẩm thất bại", ctx.ip, ctx.roles);
@@ -76,7 +78,7 @@ public class ProductDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "ProductDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -91,7 +93,7 @@ public class ProductDetailsApi extends BaseApiServlet {
 
             boolean updated = productService.updateProductDetails(pd, detailId, pd.getProductId());
             if (updated) {
-                logService.logUpdateEntity(ctx.username, "ProductDetail", id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.PRODUCT_DETAIL, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật chi tiết sản phẩm thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Cập nhật thất bại cho chi tiết ID=" + id, ctx.ip, ctx.roles);
@@ -111,7 +113,7 @@ public class ProductDetailsApi extends BaseApiServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ApiContext ctx = initContext(req, resp, "ProductDetail");
+        ApiContext ctx = initContext(req, resp, ResourceNames.ADMIN_API_PRODUCT_MANAGE);
         String id = extractId(req.getPathInfo());
 
         if (id == null) {
@@ -122,7 +124,7 @@ public class ProductDetailsApi extends BaseApiServlet {
         try {
             int detailId = Integer.parseInt(id);
             if (productService.delete(detailId)) {
-                logService.logDeleteEntity(ctx.username, "ProductDetail", id, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.PRODUCT_DETAIL, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa chi tiết sản phẩm thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Xóa thất bại chi tiết ID=" + id, ctx.ip, ctx.roles);

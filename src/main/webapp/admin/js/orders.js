@@ -53,13 +53,22 @@ function getStatusText(status) {
     return statusMap[status] || "Không xác định";
 }
 
+function mapPaymentMethodToId(paymentMethod) {
+    const map = {
+        "Tiền mặt": 1,
+        "Chuyển khoản": 2,
+        "Thẻ tín dụng": 3,
+    };
+    return map[paymentMethod] || null;
+}
+
 function getPaymentMethodText(paymentId) {
     const map = {
-        1: 'Tiền mặt',
-        2: 'Chuyển khoản',
-        3: 'Thẻ tín dụng',
+        1: "Tiền mặt",
+        2: "Chuyển khoản",
+        3: "Thẻ tín dụng",
     };
-    return map[paymentId] || 'Không xác định';
+    return map[paymentId] || "Không xác định";
 }
 
 // =============== Build Table Body ================//
@@ -86,29 +95,6 @@ const buildTableOrders = (orders) => {
     return `<tbody>${orderContent}</tbody>`;
 };
 
-// =================== Delete Order ====================
-function deleteOrder(event) {
-    const orderId = event.target.getAttribute("data-orderId");
-
-    if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng với ID: ${orderId}?`)) {
-        $.ajax({
-            url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
-            type: 'DELETE',
-            dataType: 'json',
-            cache: false,
-            success: function (response) {
-                alert(response.message || "Đã xóa đơn hàng thành công.");
-                fetchOrders();
-            },
-            error: function (xhr, status, error) {
-                console.error('Lỗi khi xóa đơn hàng:', error);
-                const message = xhr.responseJSON?.message || "Không thể xóa đơn hàng. Vui lòng thử lại sau.";
-                alert(message);
-            }
-        });
-    }
-}
-
 // ================ Open Edit Popup ===================
 function openEditOrderPopup(event) {
     const orderId = event.target.getAttribute("data-orderId");
@@ -130,11 +116,19 @@ function openEditOrderPopup(event) {
 
             $("#edit-idOrder").val(data.id);
             $("#edit-firstNameOrder").val(data.firstName);
-            $("#edit-paymentId").val(data.paymentId);
+            const paymentId = mapPaymentMethodToId(data.paymentMethod);
+            if (paymentId !== null) {
+                $("#edit-paymentId").val(String(paymentId)).change();
+            } else {
+                console.warn("Không tìm thấy paymentId cho phương thức:", data.paymentMethod);
+            }
             $("#edit-code").val(data.code);
             $("#edit-orderDate").val(data.orderDate);
             $("#edit-totalPrice").val(data.totalPrice);
             $("#edit-statusOrder").val(data.status);
+
+            console.log("paymentId từ server:", data.paymentId);
+            console.log("Kiểu:", typeof data.paymentId);
         },
         error: function (xhr, status, error) {
             console.error('Lỗi khi tải đơn hàng:', error);
@@ -142,6 +136,29 @@ function openEditOrderPopup(event) {
             alert(message);
         }
     });
+}
+
+// =================== Delete Order ====================
+function deleteOrder(event) {
+    const orderId = event.target.getAttribute("data-orderId");
+
+    if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng với ID: ${orderId}?`)) {
+        $.ajax({
+            url: `/WebBanQuanAo/admin/api/orders/${orderId}`,
+            type: 'DELETE',
+            dataType: 'json',
+            cache: false,
+            success: function (response) {
+                alert(response.message || "Đã xóa đơn hàng thành công.");
+                fetchOrders();
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi xóa đơn hàng:', error);
+                const message = xhr.responseJSON?.message || "Không thể xóa đơn hàng. Vui lòng thử lại sau.";
+                alert(message);
+            }
+        });
+    }
 }
 
 // =================== Save Edits ====================
