@@ -99,7 +99,7 @@ public class ProductsApi extends BaseApiServlet {
             validateUpdate(p);
 
             if (productService.updateProduct(pid, p)) {
-                logService.logUpdateEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.PRODUCT, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed, ID=" + id, ctx.ip, ctx.roles);
@@ -129,7 +129,7 @@ public class ProductsApi extends BaseApiServlet {
         try {
             int pid = Integer.parseInt(id);
             if (productService.delete(pid)) {
-                logService.logDeleteEntity(ctx.username, ResourceNames.ADMIN_API_PRODUCT_MANAGE, id, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.PRODUCT, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa sản phẩm thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed, ID=" + id, ctx.ip, ctx.roles);

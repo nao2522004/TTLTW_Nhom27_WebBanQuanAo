@@ -94,7 +94,7 @@ public class OrdersApi extends BaseApiServlet {
             validateUpdate(order);
 
             if (orderService.updateOrder(order, orderId)) {
-                logService.logUpdateEntity(ctx.username, ResourceNames.ADMIN_API_ORDER_MANAGE, id, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.ORDER, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed, ID=" + id, ctx.ip, ctx.roles);
@@ -125,7 +125,7 @@ public class OrdersApi extends BaseApiServlet {
         try {
             int orderId = Integer.parseInt(id);
             if (orderService.deleteOrder(orderId)) {
-                logService.logDeleteEntity(ctx.username, ResourceNames.ADMIN_API_ORDER_MANAGE, id, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.ORDER, id, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa đơn hàng thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed, ID=" + id, ctx.ip, ctx.roles);

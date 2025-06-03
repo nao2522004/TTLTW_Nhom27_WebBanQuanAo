@@ -82,7 +82,7 @@ public class UsersApi extends BaseApiServlet {
             validateUpdate(user);
             boolean updated = userService.updateUser(user, username);
             if (updated) {
-                logService.logUpdateEntity(ctx.username, ResourceNames.ADMIN_API_USER_MANAGE, username, ctx.ip, ctx.roles);
+                logService.logUpdateEntity(ctx.username, ResourceNames.USER, username, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Cập nhật user thành công");
             } else {
                 logService.logCustom(ctx.username, "WARN", "Update failed: " + username, ctx.ip, ctx.roles);
@@ -108,7 +108,7 @@ public class UsersApi extends BaseApiServlet {
         try {
             boolean deleted = userService.deleteUser(username);
             if (deleted) {
-                logService.logDeleteEntity(ctx.username, ResourceNames.ADMIN_API_USER_MANAGE, username, ctx.ip, ctx.roles);
+                logService.logDeleteEntity(ctx.username, ResourceNames.USER, username, ctx.ip, ctx.roles);
                 sendSuccess(resp, HttpServletResponse.SC_OK, "Xóa user thành công");
             } else {
                 logService.logCustom(ctx.username, "ERROR", "Delete failed: " + username, ctx.ip, ctx.roles);
