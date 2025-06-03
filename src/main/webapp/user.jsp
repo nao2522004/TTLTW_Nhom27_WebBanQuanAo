@@ -29,7 +29,7 @@
     <style>
         <%--css cho thanh search cua datable--%>
 
-        #order-table_filter{
+        #order-table_filter {
             display: flex;
             justify-content: end;
             position: relative;
@@ -62,7 +62,7 @@
         }
 
         /* Css cho chon so luong hien thi */
-        #order-table_length{
+        #order-table_length {
             margin-top: 2.5rem;
         }
 
@@ -88,8 +88,8 @@
         /* Tùy chỉnh phần label */
         #order-table_length label {
             font-size: 1.4rem !important;
-            font-weight: bold !important; /
-            color: #333 !important;
+            font-weight: bold !important;
+        / color: #333 !important;
             display: flex !important;
             align-items: center !important;
             gap: 1rem !important;
@@ -103,6 +103,7 @@
         .input-box {
             position: relative;
         }
+
         .input-box i {
             position: absolute;
             right: 20px;
@@ -129,6 +130,14 @@
             cursor: pointer;
         }
 
+        /* Các style cho điều kiện mật khẩu */
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
     </style>
 </head>
 
@@ -175,34 +184,40 @@
         <main id="profile-info" class="col-md-9 p-4 bg-white rounded">
             <h4 class="font-weight-bold mb-4 text-second-color">Thông tin tài khoản</h4>
             <form method="post" action="updateProfileServlet">
+                <%
+                    User authUser = (User) session.getAttribute("auth");
+                    if (authUser == null) {
+                        response.sendRedirect("login.jsp");
+                        return;
+                    }
+                %>
+
                 <div class="form-group">
                     <label for="name">Họ và tên</label>
                     <input type="text" class="form-control" id="name" name="name"
-                           value="<%= ((User) session.getAttribute("auth")).getLastName() + ' ' + ((User) session.getAttribute("auth")).getFirstName() %>"
-                           required>
+                           value="<%= authUser.getLastName() + " " + authUser.getFirstName() %>" required>
                 </div>
+
                 <div class="form-group">
                     <label for="gmail">Email</label>
-                    <input type="text" class="form-control" id="gmail" name="gmail"
-                           value="<%= ((User) session.getAttribute("auth")).getEmail() %>" required>
+                    <input type="email" class="form-control" id="gmail" name="gmail"
+                           value="<%= authUser.getEmail() %>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Số điện thoại</label>
                     <input type="text" class="form-control" id="phone" name="phone"
-                           value="<%= ((User) session.getAttribute("auth")).getPhone() %>" required>
+                           value="<%= authUser.getPhone() %>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Địa chỉ</label>
                     <input type="text" class="form-control" id="address" name="address"
-                           value="<%= ((User) session.getAttribute("auth")).getAddress() %>" required>
+                           value="<%= authUser.getAddress() %>" required>
                 </div>
-
 
                 <button type="submit" class="btn btn-second-color">Cập nhật</button>
             </form>
-
             <!-- Login Info -->
             <h4 class="font-weight-bold mt-5 mb-4 text-second-color">Thông tin đăng nhập</h4>
             <div class="inform-login">
@@ -215,10 +230,12 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" class="form-control" id="password" value="************" readonly>
                 </div>
-                <button class="btn btn-second-color" id="openPopup">Đổi mật khẩu</button>
+                <button class="btn btn-second-color" id="open">Đổi mật khẩu</button>
+                <div id="confirmMessage" style="display:none; margin-top: 10px; color: blue; font-weight: 600;">
+                    Vui lòng kiểm tra email để xác nhận thay đổi mật khẩu.
+                </div>
             </div>
         </main>
-
 
         <!-- Lịch sử đơn hàng -->
         <main id="order-container" class="col-md-9 p-4 bg-white rounded">
@@ -352,50 +369,6 @@
                 <p>Nội dung thông báo chi tiết, ví dụ: Bạn có voucher giảm giá 10% sắp hết hạn vào ngày 31/12/2024.</p>
             </div>
         </main>
-
-    </div>
-
-    <!-- Update password -->
-    <!-- Popup -->
-    <!-- Nút Đóng được thay thế bằng dấu X -->
-    <div class="popup" id="popup">
-        <div class="overlay" id="overlay"></div>
-        <form action="" class="update-password">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 style="text-align: center;"> Thay đổi mật khẩu</h4>
-                <div type="button" class="close-button" id="closePopup">
-                    <i class="fas fa-times"></i>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="currentPassword">Mật khẩu cũ</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu cũ." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'currentPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Mật khẩu mới</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'newPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Nhập lại mật khẩu</label>
-                <div class="input-box">
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Xác nhận lại mật khẩu." required>
-                    <button type="button" class="toggle-password" onclick="togglePassword(this, 'confirmPassword')">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-second-color">Cập nhật</button>
-        </form>
     </div>
 
 </div>
@@ -419,20 +392,32 @@
 <script src="./user/js/orders-history.js"></script>
 
 <script>
-    function togglePassword(button) {
-        const input = button.previousElementSibling; // Lấy input trước nút
-        const icon = button.querySelector('i');
+    document.getElementById('open').addEventListener('click', function (e) {
+        e.preventDefault();
 
-        if (input.type === "password") {
-            input.type = "text"; // Hiện mật khẩu
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            input.type = "password"; // Ẩn mật khẩu
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
-        }
-    }
+        const messageEl = document.getElementById('confirmMessage');
+        messageEl.style.display = 'block';
+        messageEl.textContent = 'Vui lòng kiểm tra email để xác nhận thay đổi mật khẩu.';
+
+        fetch('/WebBanQuanAo/sendChangePasswordEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({userName: document.getElementById('userName').value})
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    messageEl.textContent = '';
+                    alert('Gửi email xác nhận thất bại. Vui lòng thử lại.');
+                }
+            })
+            .catch(err => {
+                messageEl.textContent = '';
+                alert('Có lỗi xảy ra. Vui lòng thử lại.');
+            });
+    });
 </script>
 <!-- base js -->
 <script src="./assets/js/base.js"></script>

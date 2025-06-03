@@ -337,13 +337,45 @@ public class ProductDAO {
         return p;
     }
 
+    // Get ProductDetail by productDetailId
+    public ProductDetail getProductDetailById(int id) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT * FROM product_details WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(ProductDetail.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    // Get Product by productId
+    public Product getProductById(int id) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT * FROM products WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(Product.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    // Get ProductDetails by productId
+    public List<ProductDetail> getProductDetailsByProductId(int productId) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT * FROM product_details WHERE productId = :productId")
+                        .bind("productId", productId)
+                        .mapToBean(ProductDetail.class)
+                        .list()
+        );
+    }
+
     public static void main(String[] args) {
         ProductDAO dao = new ProductDAO();
-//        System.out.println(dao.getAllProducts());
+        System.out.println(dao.getAllProducts());
 //        System.out.println(dao.getSaleProducts());
 //        System.out.println(dao.getBestSellingProducts());
 //        System.out.println(dao.getProductsByCategory("Nữ"));
 //        System.out.println(dao.searchByName("Quần tây"));
-        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, 150000.00));
+//        System.out.println(dao.getFilteredProducts("Nam", new String[]{"Quần"}, new String[]{"M"}, null, 150000.00));
     }
 }
