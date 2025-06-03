@@ -11,9 +11,10 @@ public class ResourceMapper {
             Map.entry(Pattern.compile("^/admin.jsp$"), ResourceNames.ADMIN_PANEL),
 
             // === Admin API (split for manager control) ===
-            Map.entry(Pattern.compile("^/admin/api/orders/.*$"), ResourceNames.ADMIN_API_ORDER_MANAGE),
-            Map.entry(Pattern.compile("^/admin/api/products/.*$"), ResourceNames.ADMIN_API_PRODUCT_MANAGE),
+            Map.entry(Pattern.compile("^/admin/api/orders/.*$|^/admin/api/order-details/*$"), ResourceNames.ADMIN_API_ORDER_MANAGE),
+            Map.entry(Pattern.compile("^/admin/api/products/.*$|^/admin/api/product-details/*$"), ResourceNames.ADMIN_API_PRODUCT_MANAGE),
             Map.entry(Pattern.compile("^/admin/api/users/.*$"), ResourceNames.ADMIN_API_USER_MANAGE),
+            Map.entry(Pattern.compile("^/admin/api/roleUser/*$"), ResourceNames.ADMIN_API_USER_MANAGE),
 
             // === Cart ===
             Map.entry(Pattern.compile("^/Cart/.*$|^/add-cart$|^/del-cart$|^/updateCart$|^/ShowCart$|^/Checkout$"), ResourceNames.CART_MANAGE),

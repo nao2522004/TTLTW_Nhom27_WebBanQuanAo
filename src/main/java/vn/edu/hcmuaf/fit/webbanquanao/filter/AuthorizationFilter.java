@@ -68,6 +68,10 @@ public class AuthorizationFilter implements Filter {
             return;
         }
 
+        String resource = ResourceMapper.getResource(path);
+        Integer userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
+                .getOrDefault(resource, 0);
+
         // Log user info once
         if (session.getAttribute("hasLoggedUserInfo") == null) {
             logService.logLoginSuccess(user.getUserName(), ip, user.getRoles());
@@ -76,8 +80,8 @@ public class AuthorizationFilter implements Filter {
 
         // Admin page check
         if (ADMIN_PATHS.contains(path) && !hasAnyRole(user, Set.of("ADMIN", "MANAGER"))) {
-            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), METHOD_PERM.get("GET"), ip, user.getRoles());
-            forwardError(request, response, "Bạn không có quyền truy cập trang này");
+            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), userPerm, ip, user.getRoles());
+            sendErrorMessageAndRedirect(request, response, "Bạn không có quyền truy cập trang này");
             return;
         }
 
@@ -89,15 +93,12 @@ public class AuthorizationFilter implements Filter {
             return;
         }
 
-
-        String resource = ResourceMapper.getResource(path);
-        int userPerm = Optional.ofNullable(user.getPermissions()).orElse(Map.of())
-                .getOrDefault(resource, 0);
-
-        if (!"default".equals(resource) && (userPerm & required) != required) {
-            logService.logUnauthorizedAccess(user.getUserName(), path, ResourceMapper.getResource(path), required, ip, user.getRoles());
-            forwardError(request, response, "Bạn không đủ quyền truy cập chức năng này");
-            return;
+        if (!"default".equals(resource)) {
+            if (userPerm == null || userPerm == 0 || (userPerm & required) != required) {
+                logService.logForbiddenAction(user.getUserName(), path, ResourceMapper.getResource(path), userPerm, ip, user.getRoles());
+                forwardError(request, response, "Bạn không đủ quyền để thực hiện chức năng này");
+                return;
+            }
         }
 
         // Page-view log
@@ -125,10 +126,21 @@ public class AuthorizationFilter implements Filter {
         res.sendRedirect(req.getContextPath() + "/login.jsp?redirect=" + uri);
     }
 
-    private void forwardError(HttpServletRequest req, HttpServletResponse res, String msg)
-            throws ServletException, IOException {
-        req.setAttribute("errorMessage", msg);
-        req.getRequestDispatcher("/error.jsp").forward(req, res);
+    protected void forwardError(HttpServletRequest req, HttpServletResponse res, String msg) throws IOException {
+        res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        res.setContentType("application/json;charset=UTF-8");
+        String json = "{\"error\":true,\"message\":\"" + escapeJson(msg) + "\"}";
+        res.getWriter().write(json);
+        res.getWriter().flush();
+    }
+
+    private String escapeJson(String msg) {
+        return msg.replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "");
+    }
+
+    protected void sendErrorMessageAndRedirect(HttpServletRequest req, HttpServletResponse res, String msg) throws IOException {
+        req.getSession().setAttribute("errorMessage", msg);
+        res.sendRedirect(req.getContextPath() + "/homePage");
     }
 
     private boolean isAjax(HttpServletRequest req) {

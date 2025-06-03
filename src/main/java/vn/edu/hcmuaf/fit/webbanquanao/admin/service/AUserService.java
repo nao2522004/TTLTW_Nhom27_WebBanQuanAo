@@ -7,12 +7,11 @@ import vn.edu.hcmuaf.fit.webbanquanao.user.model.User;
 
 import java.util.*;
 
+import vn.edu.hcmuaf.fit.webbanquanao.util.RoleNames;
+
 public class AUserService {
 
-    private static final String ADMIN_ROLE = "ADMIN";
-    private static final String USER_ROLE = "USER";
-    private static final String STAFF_ROLE = "STAFF";
-    private static final String MANAGER_ROLE = "MANAGER";
+
     private static final Integer IS_DELETED = 4; // Thêm hằng số IS_DELETED cho trạng thái xóa
 
     private final AUserDao uDao;
@@ -119,16 +118,16 @@ public class AUserService {
         List<String> targetUserRoles = uDao.getRoleNameByUserName(targetUserName);
 
         // Kiểm tra nếu người dùng hiện tại có quyền ADMIN
-        boolean isCurrentUserAdmin = currentUserRoles.contains(ADMIN_ROLE);
+        boolean isCurrentUserAdmin = currentUserRoles.contains(RoleNames.ADMIN_ROLE);
         // Kiểm tra nếu người dùng hiện tại có quyền MANAGER
-        boolean isCurrentUserManager = currentUserRoles.contains(MANAGER_ROLE);
+        boolean isCurrentUserManager = currentUserRoles.contains(RoleNames.MANAGER_ROLE);
 
         // ADMIN có thể thao tác với tất cả người dùng
         if (isCurrentUserAdmin) return true;
 
         // MANAGER chỉ có thể thay đổi quyền của USER và không thể thay đổi quyền của chính mình hoặc người cùng quyền
         if (isCurrentUserManager) {
-            return targetUserRoles.contains(USER_ROLE); // Chỉ có thể thay đổi quyền của USER
+            return targetUserRoles.contains(RoleNames.USER_ROLE); // Chỉ có thể thay đổi quyền của USER
         }
 
         // USER không có quyền thay đổi quyền của ai

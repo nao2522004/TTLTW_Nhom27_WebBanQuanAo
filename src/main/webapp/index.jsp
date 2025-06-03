@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page import="vn.edu.hcmuaf.fit.webbanquanao.webpage.product.service.ProductService" %>
@@ -17,6 +18,15 @@
 </head>
 
 <body>
+
+<c:if test="${not empty sessionScope.errorMessage}">
+    <script>
+        alert('${sessionScope.errorMessage}');
+    </script>
+    <%-- Xóa message sau khi hiển thị để không show lại khi reload --%>
+    <c:remove var="errorMessage" scope="session" />
+</c:if>
+
     <header id="header"><%@ include file="assets/includes/header.jsp"%></header>
     <!-- Make a space to split the other out of header -->
     <div style="height: 12rem;"></div>
